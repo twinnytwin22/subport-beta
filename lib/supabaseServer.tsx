@@ -1,0 +1,3 @@
+
+export const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+export const supaKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNzZnRndWlka3d3dHlibHN5cmpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY4NzgzMDgsImV4cCI6MTk5MjQ1NDMwOH0.j8oUBJyL1zf7ylNhzlvPOVh9Zp3XMCBcwQI0pduVvFU'

@@ -3,7 +3,7 @@ export default function Head() {
     <>
       <title>DSP NFT Gate</title>
       <meta content="width=device-width, initial-scale=1" name="viewport" />
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/favi.png" />
     </>
   )
 }
