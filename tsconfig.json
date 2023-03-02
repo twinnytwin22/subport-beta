@@ -29,6 +29,6 @@
       ] // this mapping is relative to "baseUrl"
     },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/supabaseClient.js", "lib/supabaseClient.js", "lib/supabaseClient.js"],
   "exclude": ["node_modules"]
 }

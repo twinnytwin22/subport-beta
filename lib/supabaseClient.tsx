@@ -1,6 +1,15 @@
-'use client'
-import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+interface Global {
+  supabase: SupabaseClient;
+}
+
+declare const global: Global;
+
+export const supabase =
+  global.supabase ||
+  createClient(process.env.NEXT_PUBLIC_SUPABASE_URL as string, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string);
+
+if (process.env.NODE_ENV !== 'production') {
+  global.supabase = supabase;
+}
