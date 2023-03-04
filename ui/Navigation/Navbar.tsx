@@ -11,8 +11,8 @@ function Navbar() {
   console.log(session, "session2");
   return (
     <div className="fixed top-0 right-0 left-0 max-w-screen w-full">
-        <div className="bg-white border-zinc-200 px-4 lg:px-6 py-2.5 dark:bg-black">
-          <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+        <div className="bg-white border-zinc-200 px-4 lg:px-6 py-2.5 dark:bg-black w-fi;;">
+          <div className="flex flex-wrap justify-between items-center mx-auto md:max-w-7xl w-full">
             <Link href="/" className="flex items-center">
               <img
                 src="/subport.png"
