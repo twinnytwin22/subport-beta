@@ -1,5 +1,7 @@
 import NextAuth, { DefaultSession } from "next-auth"
+import type { User } from "@prisma/client"
 
+export type UserData = User
 declare module "next-auth" {
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
@@ -13,3 +15,5 @@ declare module "next-auth" {
     } & DefaultSession["user"]
   }
 }
+
+

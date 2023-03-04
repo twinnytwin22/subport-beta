@@ -34,6 +34,7 @@ export default async function RootLayout({
           <Providers>
             <Theme>
               <Navbar />
+              <div className='mb-16'/>
               {children}
               <MobileMenu/>
             </Theme>

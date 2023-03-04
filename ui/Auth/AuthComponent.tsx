@@ -2,104 +2,57 @@
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useSupabase } from "lib/supabase-provider";
+import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
+import { ConnectToSubport } from "ui/Buttons/ConnectButton";
+
 
 // Supabase auth needs to be triggered client-side
 export default function LoginCard() {
+  
   return (
     <>
      
            
-            <div className="px-6 py-4 border-b rounded-t dark:border-gray-600 relative">
-              <h3 className="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
+            <div className="px-6 py-4 border-b rounded-t dark:border-zinc-600 relative">
+              <h3 className="text-base font-semibold text-zinc-900 lg:text-xl dark:text-white">
                 Sign in
               </h3>
             </div>
             <div className="p-6">
-              <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-normal text-zinc-600 dark:text-zinc-400">
                 Connect with one of our available wallet providers or create a
                 new one.
               </p>
               <ul className="my-4 space-y-3">
                 
-                <li>
+                <li onClick={signInWithSpotify}>
                   <a
                     href="#"
-                    className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+                    className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-lg bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
                   >
-                    <svg
-                      aria-hidden="true"
-                      className="h-5"
-                      viewBox="0 0 292 292"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M145.7 291.66C226.146 291.66 291.36 226.446 291.36 146C291.36 65.5541 226.146 0.339844 145.7 0.339844C65.2542 0.339844 0.0400391 65.5541 0.0400391 146C0.0400391 226.446 65.2542 291.66 145.7 291.66Z"
-                        fill="#3259A5"
-                      />
-                      <path
-                        d="M195.94 155.5C191.49 179.08 170.8 196.91 145.93 196.91C117.81 196.91 95.0204 174.12 95.0204 146C95.0204 117.88 117.81 95.0897 145.93 95.0897C170.8 95.0897 191.49 112.93 195.94 136.5H247.31C242.52 84.7197 198.96 44.1797 145.93 44.1797C89.6904 44.1797 44.1104 89.7697 44.1104 146C44.1104 202.24 89.7004 247.82 145.93 247.82C198.96 247.82 242.52 207.28 247.31 155.5H195.94Z"
-                        fill="white"
-                      />
-                    </svg>
+                    <img className="w-5" src='/spotify.png'/>
                     <span className="flex-1 ml-3 whitespace-nowrap">
-                      Apple
+                      Spotify
                     </span>
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="#"
-                    className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+                <li onClick={signInWithGoogle}>
+                  <div
+
+                    className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-lg bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
                   >
-                    <svg
-                      aria-hidden="true"
-                      className="h-5"
-                      viewBox="0 0 75.591 75.591"
-                      xmlns="http://www.w3.org/2000/svg"
-                      xmlnsXlink="http://www.w3.org/1999/xlink"
-                    >
-                      <linearGradient
-                        id="a"
-                        gradientTransform="matrix(0 -54.944 -54.944 0 23.62 79.474)"
-                        gradientUnits="userSpaceOnUse"
-                        x2="1"
-                      >
-                        <stop offset="0" stopColor="#ff1b2d" />
-                        <stop offset=".3" stopColor="#ff1b2d" />
-                        <stop offset=".614" stopColor="#ff1b2d" />
-                        <stop offset="1" stopColor="#a70014" />
-                      </linearGradient>
-                      <linearGradient
-                        id="b"
-                        gradientTransform="matrix(0 -48.595 -48.595 0 37.854 76.235)"
-                        gradientUnits="userSpaceOnUse"
-                        x2="1"
-                      >
-                        <stop offset="0" stopColor="#9c0000" />
-                        <stop offset=".7" stopColor="#ff4b4b" />
-                        <stop offset="1" stopColor="#ff4b4b" />
-                      </linearGradient>
-                      <g transform="matrix(1.3333 0 0 -1.3333 0 107.2)">
-                        <path
-                          d="m28.346 80.398c-15.655 0-28.346-12.691-28.346-28.346 0-15.202 11.968-27.609 26.996-28.313.44848-.02115.89766-.03314 1.3504-.03314 7.2574 0 13.876 2.7289 18.891 7.2137-3.3227-2.2036-7.2074-3.4715-11.359-3.4715-6.7504 0-12.796 3.3488-16.862 8.6297-3.1344 3.6999-5.1645 9.1691-5.3028 15.307v1.3349c.13821 6.1377 2.1683 11.608 5.302 15.307 4.0666 5.2809 10.112 8.6297 16.862 8.6297 4.1526 0 8.038-1.2679 11.361-3.4729-4.9904 4.4643-11.569 7.1876-18.786 7.2144-.03596 0-.07122.0014-.10718.0014z"
-                          fill="url(#a)"
-                        />
-                        <path
-                          d="m19.016 68.025c2.6013 3.0709 5.9607 4.9227 9.631 4.9227 8.2524 0 14.941-9.356 14.941-20.897s-6.6891-20.897-14.941-20.897c-3.6703 0-7.0297 1.851-9.6303 4.922 4.0659-5.2809 10.111-8.6297 16.862-8.6297 4.1519 0 8.0366 1.2679 11.359 3.4715 5.802 5.1906 9.4554 12.735 9.4554 21.133 0 8.397-3.6527 15.941-9.4533 21.131-3.3234 2.205-7.2088 3.4729-11.361 3.4729-6.7504 0-12.796-3.3488-16.862-8.6297"
-                          fill="url(#b)"
-                        />
-                      </g>
-                    </svg>
+               
+                    <img className="w-5" src="/icons8-google-96.png"/>
                     <span className="flex-1 ml-3 whitespace-nowrap">
                       Google
                     </span>
-                  </a>
+                  </div>
                 </li>
                 <li>
                   <a
                     href="#"
-                    className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
+                    className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-lg bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
                   >
                     <svg
                       aria-hidden="true"
@@ -154,54 +107,10 @@ export default function LoginCard() {
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      className="h-4"
-                      viewBox="0 0 96 96"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M72.0998 0.600098H48.3998H24.5998H0.799805V24.4001V48.2001V49.7001V71.8001V71.9001V95.5001H24.5998V72.0001V71.9001V49.8001V48.3001V24.5001H48.3998H72.1998H95.9998V0.700104H72.0998V0.600098Z"
-                        fill="#617BFF"
-                      />
-                      <path
-                        d="M48.5 71.8002H72.1V95.6002H73C79.1 95.6002 84.9 93.2002 89.2 88.9002C93.5 84.6002 95.9 78.8002 95.9 72.7002V48.2002H48.5V71.8002Z"
-                        fill="#617BFF"
-                      />
-                    </svg>
-                    <span className="flex-1 ml-3 whitespace-nowrap">
-                   <ConnectButton />
-                    </span>
-                  </a>
+                  <ConnectToSubport/>
                 </li>
               </ul>
               <div>
-                <a
-                  href="#"
-                  className="inline-flex items-center text-xs font-normal text-gray-500 hover:underline dark:text-gray-400"
-                >
-                  <svg
-                    aria-hidden="true"
-                    className="w-3 h-3 mr-2"
-                    focusable="false"
-                    data-prefix="far"
-                    data-icon="question-circle"
-                    role="img"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512 512"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
-                    ></path>
-                  </svg>
-                  Why do I need to connect with my wallet?
-                </a>
               </div>
             </div>
     
@@ -209,3 +118,18 @@ export default function LoginCard() {
     </>
   );
 }
+const signInWithGoogle = () => {
+  toast.loading('Redirecting...');
+  // Perform sign in
+  signIn('google', {
+    callbackUrl: window.location.href,
+  });
+};
+const signInWithSpotify = () => {
+  toast.loading('Redirecting...');
+  // Perform sign in
+  signIn('spotify', {
+    callbackUrl: window.location.href,
+  });
+};
+//...

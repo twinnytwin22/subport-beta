@@ -9,9 +9,9 @@ const width = 8
   return (
       <>
           <div className="block md:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0">
-            <div className="grid grid-cols-3 text-gray-800 dark:text-gray-400 justify-items-center pt-3">
+            <div className="grid grid-cols-3 text-zinc-800 dark:text-zinc-400 justify-items-center pt-3">
                 <div className="flex group ">
-                    <Link href="/" className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-red-500 border-b-2 border-transparent group-hover:border-red-500">
+                    <Link href="/" className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
                         <span className="px-1 flex flex-col items-center">
                             <div className="w-6">
                             <svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -24,7 +24,7 @@ const width = 8
                     </Link>
                 </div>
                 <div className="flex flex-row group items-center ">
-                    <Link href="/explore" className="flex items-end justify-center text-center mx-auto px-4 w-full text-gray-400 group-hover:text-red-500 border-b-2 border-transparent group-hover:border-red-500">
+                    <Link href="/explore" className="flex items-end justify-center text-center mx-auto px-4 w-full text-zinc-400 group-hover:text-white border-b-2 border-transparent group-hover:border-white">
                         <div className="px-1 flex flex-col items-center">
                         <div className="w-6 items-center">
                             <svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -36,7 +36,7 @@ const width = 8
                     </Link>
                 </div>
                 <div className="flex group">
-                    <Link href="/holder" className="flex items-end justify-center text-center mx-auto px-4 w-full text-gray-400 group-hover:text-red-500 border-b-2 border-transparent group-hover:border-red-500">
+                    <Link href="/holder" className="flex items-end justify-center text-center mx-auto px-4 w-full text-zinc-400 group-hover:text-white border-b-2 border-transparent group-hover:border-white">
                         <span className="px-1 flex flex-col items-center">
                         <div className="w-6">
                             <svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

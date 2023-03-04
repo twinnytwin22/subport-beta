@@ -1,20 +1,27 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import NextAuth, { NextAuthOptions } from "next-auth";
+import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
+import NextAuth, { getServerSession, NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { getCsrfToken } from "next-auth/react";
+import { getCsrfToken, signIn } from "next-auth/react";
 import { SiweMessage } from "siwe";
+import SpotifyProvider from "next-auth/providers/spotify";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { prisma } from "../prisma";
+import { prisma } from "utils/prisma";
 
-export function getAuthOptions(req: any): NextAuthOptions {
-  const adapter = PrismaAdapter(prisma)
+
+
+
+export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
+  ////const adapter = PrismaAdapter(prisma)
   const providers = [
     GoogleProvider({
-      clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET as string
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
     }),
-
+    SpotifyProvider({
+      clientId: process.env.SPOTIFY_CLIENT_ID as string,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET as string
+    }),
     CredentialsProvider({
       async authorize(credentials) {
         try {
@@ -59,15 +66,24 @@ export function getAuthOptions(req: any): NextAuthOptions {
   return {
     callbacks: {
       async session({ session, token }: any) {
-        session.address = token.sub;
+        session.address = token?.sub;
         session.user = {
-          name: token.sub,
+          wallet: token.sub.startsWith("0x") === true && token.sub,
+          email: session?.user?.email,
+          name: session?.user?.name
+       
         };
         return session;
       },
+      async signIn({ account, profile }: any) {
+        if (account.provider === "google") {
+          return profile.email_verified && profile.email.endsWith("@gmail.com")
+        }
+        return true // Do different verification for other providers that don't have `email_verified`
+      },
+      
     },
-    // https://next-auth.js.org/configuration/providers/oauth
-    adapter,
+   //// adapter,
     providers,
     secret: process.env.NEXTAUTH_SECRET,
     session: {

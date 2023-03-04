@@ -25,8 +25,8 @@ export async function getServerSideProps(context: any) {
 function UploadForm() {
     const createLink = (data: any) => axios.post('/api/nft', data)
   return (
-    <div>
-      <section className="bg-white dark:bg-black">
+
+      <div className="bg-white dark:bg-black">
         <div className="max-w-2xl px-4 py-8 mx-auto lg:py-16">
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
             Create Pre-save Page
@@ -56,7 +56,7 @@ function UploadForm() {
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      stroke-width="2"
+                      strokeWidth="2"
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                     ></path>
                   </svg>
@@ -180,9 +180,9 @@ function UploadForm() {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   ></path>
                 </svg>
                 Cancel
@@ -190,8 +190,8 @@ function UploadForm() {
             </div>
           </form>
         </div>
-      </section>
-    </div>
+      </div>
+
   );
 }
 

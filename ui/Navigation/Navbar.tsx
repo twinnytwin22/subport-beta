@@ -10,18 +10,18 @@ function Navbar() {
   const { data: session, status } = useSession();
   console.log(session, "session2");
   return (
-    <div>
+    <div className="fixed top-0 right-0 left-0">
       <header>
         <nav className="bg-white border-zinc-200 px-4 lg:px-6 py-2.5 dark:bg-black">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
             <a href="/" className="flex items-center">
               <img
-                src="https://flowbite.com/docs/images/logo.svg"
+                src="/subport.png"
                 className="mr-3 h-6 sm:h-9"
-                alt="Sonic Logo"
+                alt="Subport Logo"
               />
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                Sonic
+                Subport
               </span>
             </a>
             <div className="flex space-x-6 items-center lg:order-2">

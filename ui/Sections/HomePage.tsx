@@ -5,7 +5,7 @@ import CollectCard from 'ui/Cards/CollectCard'
 
 function HomePage() {
   return (
-    <div className='max-w-5xl h-screen w-full mx-auto mt-8'>
+    <div className='max-w-5xl h-screen w-full mx-auto mt-20'>
         <div className='grid grid-cols-10  justify-center justify-items-center gap-16'>
    
     <div className='w-full hidden md:block col-span-4 bg-black'>
