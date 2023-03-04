@@ -90,7 +90,8 @@ function CollectCard() {
         <div className="flex h-8 mb-2 justify-between items-center">
             <div className="block">
         <p className="text-[10px] pl-3">Created by</p>
-          <p className="font-bold text-sm pl-3">@djtwinnytwin</p></div>
+        <Link href='/user'>
+          <p className="font-bold text-sm pl-3">@djtwinnytwin</p></Link></div>
           <div className="flex h-8 pr-3 hover:scale-110">
             <MenuDots />
           </div>

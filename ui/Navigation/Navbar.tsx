@@ -45,7 +45,7 @@ function Navbar() {
               <div className="hidden md:flex h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105">
                 <svg
                   fill="none"
-                  stroke="currentColor"
+                  stroke="white"
                   strokeWidth={1.5}
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +84,7 @@ function Navbar() {
               
               <UserAvatar/>
               </>)}
-              <div className="flex h-8 md:hidden">
+              <div className="flex md:hidden h-8">
                 <svg
                  
                   stroke="white"
