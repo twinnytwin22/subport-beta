@@ -11,7 +11,7 @@ export default function LoginCard() {
     <>
      
            
-            <div className="px-6 py-4 border-b rounded-t dark:border-zinc-600 relative">
+            <div className="flex flex-col px-6 py-4 border-b rounded-t dark:border-zinc-600 relative w-sm md:w-full">
               <h3 className="text-base font-semibold text-zinc-900 lg:text-xl dark:text-white">
                 Sign in
               </h3>
