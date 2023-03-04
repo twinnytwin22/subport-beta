@@ -11,10 +11,9 @@ function Navbar() {
   console.log(session, "session2");
   return (
     <div className="fixed top-0 right-0 left-0 max-w-screen w-full">
-      <header>
-        <nav className="bg-white border-zinc-200 px-4 lg:px-6 py-2.5 dark:bg-black">
+        <div className="bg-white border-zinc-200 px-4 lg:px-6 py-2.5 dark:bg-black">
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-            <a href="/" className="flex items-center">
+            <Link href="/" className="flex items-center">
               <img
                 src="/subport.png"
                 className="mr-3 h-6 sm:h-9"
@@ -23,7 +22,7 @@ function Navbar() {
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                 Subport
               </span>
-            </a>
+            </Link>
             <div className="flex space-x-6 items-center lg:order-2">
               {status === 'authenticated' && (
               <Link href='/upload'>
@@ -87,8 +86,8 @@ function Navbar() {
               </>)}
               <div className="flex h-8 md:hidden">
                 <svg
-                  fill="none"
-                  stroke="currentColor"
+                 
+                  stroke="white"
                   strokeWidth={1.5}
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
@@ -103,8 +102,7 @@ function Navbar() {
               </div>
             </div>
           </div>
-        </nav>
-      </header>
+        </div>
     </div>
   );
 }
