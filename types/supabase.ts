@@ -51,4 +51,4 @@ export interface Database {
   }
 }
 
-export {}
+export {};
