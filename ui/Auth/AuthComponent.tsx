@@ -1,7 +1,6 @@
 "use client";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useSupabase } from "lib/supabase-provider";
 import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
 import { ConnectToSubport } from "ui/Buttons/ConnectButton";
