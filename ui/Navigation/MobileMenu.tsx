@@ -9,7 +9,7 @@ const width = 8
   return (
       <>
           <div className="block md:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0">
-            <div className="grid grid-cols-3 text-zinc-800 dark:text-zinc-400 justify-items-center pt-3">
+            <div className="grid grid-cols-5 text-zinc-800 dark:text-zinc-400 justify-items-center pt-3">
                 <div className="flex group ">
                     <Link href="/" className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
                         <span className="px-1 flex flex-col items-center">
@@ -20,6 +20,32 @@ const width = 8
                             </div>
                             
                             <span className="block text-xs pb-1">Home</span>
+                        </span>
+                    </Link>
+                </div>
+                <div className="flex group ">
+                    <Link href="/" className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
+                        <span className="px-1 flex flex-col items-center">
+                            <div className="w-6">
+                            <svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path>
+                            </svg>
+                            </div>
+                            
+                            <span className="block text-xs pb-1">Home</span>
+                        </span>
+                    </Link>
+                </div>
+                <div className="flex group ">
+                    <Link href="/" className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
+                        <span className="px-1 flex flex-col items-center">
+                            <div className="w-6">
+                            <svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path>
+                            </svg>
+                            </div>
+                            
+                            <span className="block text-xs pb-1">Create</span>
                         </span>
                     </Link>
                 </div>
