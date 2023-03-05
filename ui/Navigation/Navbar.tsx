@@ -19,7 +19,7 @@ function Navbar() {
               Subport
             </span>
           </Link>
-          <div className="flex group space-x-6 items-center lg:order-2">
+          <div className="flex group space-x-6 items-center lg:order-2 w-sm">
             {status == "authenticated" && (
               <Link href="/upload">
                 <div className="hidden md:flex w-10 rounded-full shadow-zinc-200 hover:shadow-sm hover:scale-110">
@@ -39,7 +39,7 @@ function Navbar() {
               </Link>
             )}
             <Link href="/trending">
-              <div className="hidden md:flex group w-12 rounded-full bg-zinc-900 hover:bg-zinc-800 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105">
+              <div className="hidden md:block group w-12 rounded-full bg-zinc-900 hover:bg-zinc-800 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105">
                 <svg
                   fill="none"
                   stroke="white"
@@ -64,7 +64,7 @@ function Navbar() {
 
             {status == "authenticated" && (
               <>
-                <div className="hidden md:flex group w-8 rounded-full hover:scale-105">
+                <div className="hidden md:block group w-8 rounded-full hover:scale-105">
                   <svg
                     fill="none"
                     stroke="currentColor"

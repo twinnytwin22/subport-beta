@@ -13,7 +13,7 @@ function UserAvatar() {
     alt="Rounded avatar"
   /></div>
   {isOpen && 
-  <div className='absolute top-16 right-5 max-w-8xl'>
+  <div className='hidden md:block absolute top-16 right-5 max-w-8xl'>
   <UserMenu/></div>
   }
   </>
