@@ -7,13 +7,14 @@ function UserAvatar() {
     console.log(isOpen, 'open:')
   return (
     <>
-    <div onClick={() => setIsOpen(true)}><img
+    <div onMouseEnter={() => setIsOpen(true)}
+         onMouseLeave={() => setIsOpen(false)}><img
     className="flex w-10 rounded-full"
     src="/avatar.jpg"
     alt="Rounded avatar"
   /></div>
   {isOpen && 
-  <div className='hidden md:block absolute top-16 right-5 max-w-8xl'>
+  <div className='absolute z-50 top-16 right-5 max-w-8xl'>
   <UserMenu/></div>
   }
   </>
