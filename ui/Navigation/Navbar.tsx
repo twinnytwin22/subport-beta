@@ -16,7 +16,7 @@ function Navbar() {
             <Link href="/" className="flex items-center">
               <img
                 src="/subport.png"
-                className="mr-3 h-6 sm:h-9"
+                className="mr-3 w-6 sm:h-9"
                 alt="Subport Logo"
               />
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
@@ -26,7 +26,7 @@ function Navbar() {
             <div className="flex group space-x-6 items-center lg:order-2">
               {status == 'authenticated' && (
               <Link href='/upload'>
-                <div className="hidden md:flex h-10 rounded-full  shadow-zinc-200 hover:shadow-sm hover:scale-110">
+                <div className="hidden md:flex w-10 rounded-full  shadow-zinc-200 hover:shadow-sm hover:scale-110">
                   <svg
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -42,7 +42,7 @@ function Navbar() {
                 </div>
               </Link>)}
               <Link href="/trending">
-              <div className="hidden md:flex group h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105">
+              <div className="hidden md:flex group w-12 rounded-full bg-zinc-900 hover:bg-zinc-800 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105">
                 <svg
                   fill="none"
                   stroke="white"
@@ -65,7 +65,7 @@ function Navbar() {
                 </>
               )}
              
-             {status == "authenticated" && ( <><div className="hidden md:flex group h-8 rounded-full hover:scale-105">
+             {status == "authenticated" && ( <><div className="hidden md:flex group w-8 rounded-full hover:scale-105">
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -84,7 +84,7 @@ function Navbar() {
               
               <UserAvatar/>
               </>)}
-              <div className="flex group md:hidden h-8">
+              <div className="flex group md:hidden w-8">
                 <svg
                  
                   stroke="white"
