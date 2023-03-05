@@ -8,7 +8,8 @@ function UserAvatar() {
   return (
     <>
     <div onMouseEnter={() => setIsOpen(true)}
-         onMouseLeave={() => setIsOpen(false)}><img
+         onClick={() => setIsOpen(false)}>
+        <img
     className="flex w-10 rounded-full"
     src="/avatar.jpg"
     alt="Rounded avatar"
