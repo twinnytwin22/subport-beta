@@ -4,9 +4,9 @@ import avatar from "../../public/avatar.jpg";
 function Profile() {
   return (
     <div className="">
-      <div className="relative block h-[300px] bg-black z-[-51]">
+      <div className="relative block h-[300px] bg-black z-[-99]">
         <div
-          className="absolute top-0 w-full h-full bg-center bg-blue-900 opacity-50 bg-cover bg-fixed z-[-50]"
+          className="absolute top-0 w-full h-full bg-center bg-blue-900 opacity-50 bg-cover bg-fixed z-[-98]"
           style={{
             backgroundImage: `url(/coverBanner.png)`,
             backgroundPosition: "center",
