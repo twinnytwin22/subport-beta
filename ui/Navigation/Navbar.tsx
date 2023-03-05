@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useSession } from "next-auth/react";
 import React from "react";
 import { SignInModal } from "ui/Buttons/SignIn";
@@ -12,7 +12,7 @@ function Navbar() {
   return (
     <div className="fixed top-0 right-0 left-0 max-w-screen w-full">
         <div className="bg-white border-zinc-200 px-4 lg:px-6 py-2.5 dark:bg-black w-fi;;">
-          <div className="flex flex-wrap justify-between items-center mx-auto md:max-w-7xl w-full">
+          <div className="flex justify-between items-center mx-auto max-w-sm md:max-w-7xl w-full">
             <Link href="/" className="flex items-center">
               <img
                 src="/subport.png"
@@ -81,8 +81,8 @@ function Navbar() {
                   />
                 </svg>
               </div>
-              
-              <UserAvatar/>
+              <div className="hidden md:block">
+              <UserAvatar/></div>
               </>)}
               <div className="flex group md:hidden w-8">
                 <svg
