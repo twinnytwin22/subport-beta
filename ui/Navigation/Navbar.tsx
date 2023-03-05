@@ -24,7 +24,7 @@ function Navbar() {
               </span>
             </Link>
             <div className="flex space-x-6 items-center lg:order-2">
-              {status === 'authenticated' && (
+              {status == 'authenticated' && (
               <Link href='/upload'>
                 <div className="hidden md:flex h-10 rounded-full  shadow-zinc-200 hover:shadow-sm hover:scale-110">
                   <svg
@@ -59,13 +59,13 @@ function Navbar() {
                 </svg>
               </div>
               </Link>
-              {status === "unauthenticated" && (
+              {status == "unauthenticated" && (
                 <>
                   <SignInModal />
                 </>
               )}
              
-             {status === "authenticated" && ( <><div className="hidden md:flex h-8 rounded-full hover:scale-105">
+             {status == "authenticated" && ( <><div className="hidden md:flex h-8 rounded-full hover:scale-105">
                 <svg
                   fill="none"
                   stroke="currentColor"
