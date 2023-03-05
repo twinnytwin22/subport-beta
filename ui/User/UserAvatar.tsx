@@ -8,7 +8,7 @@ function UserAvatar() {
   return (
     <>
     <div onClick={() => setIsOpen(true)}><img
-    className="block w-10 rounded-full"
+    className="flex w-10 rounded-full"
     src="/avatar.jpg"
     alt="Rounded avatar"
   /></div>

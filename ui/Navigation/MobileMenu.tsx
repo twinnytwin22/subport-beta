@@ -14,7 +14,7 @@ const width = 8
                 <div className="flex group">
                     <Link href="/" className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
                         <span className="px-1 flex flex-col items-center">
-                            <div className="w-10 pb-2">
+                            <div className="w-8 pb-2">
                             <svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"></path>
                             </svg>
@@ -24,9 +24,9 @@ const width = 8
                     </Link>
                 </div>
                 <div className="flex group">
-                    <Link href="/" className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
+                    <Link href="/trending" className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
                         <span className="px-1 flex flex-col items-center">
-                            <div className="w-10 pb-2">
+                            <div className="w-8 pb-2">
                             <svg
                   fill="none"
                   stroke="currentColor"
@@ -50,7 +50,7 @@ const width = 8
                 <div className="flex group ">
                     <Link href="/upload" className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
                         <span className="px-1 flex flex-col items-center">
-                            <div className="w-12">
+                            <div className="w-10">
                             <svg
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -72,7 +72,7 @@ const width = 8
                 <div className="flex flex-row group items-center ">
                     <Link href="/explore" className="flex items-end justify-center text-center mx-auto px-4 w-full text-zinc-400 group-hover:text-white border-b-2 border-transparent group-hover:border-white">
                         <div className="px-1 flex flex-col items-center">
-                        <div className="w-10 pb-1">
+                        <div className="w-8 pb-1">
                         <svg
                   fill="none"
                   stroke="currentColor"
@@ -92,7 +92,7 @@ const width = 8
                         </div>
                     </Link>
                 </div>
-                <div className='flex items-center pb-2'>
+                <div className='flex w-8 items-center pb-2'>
                     <UserAvatar/></div>
             </div>
             </div>
