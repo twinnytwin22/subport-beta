@@ -97,12 +97,12 @@ function CollectCard() {
           </div>
         </div>
         <a href="#">
-          <img className="" src="/Exhausted.jpeg" alt="" />
+          <img className="" src="/gravitron.png" alt="" />
         </a>
         <div className="p-5">
           <a href="#">
             <h5 className="mb-2 text-lg font-bold tracking-tight text-zinc-900 dark:text-white">
-              Exhausted
+             Gravitrion
             </h5>
           </a>
           <div className="flex justify-between items-center mb-2">
@@ -127,7 +127,7 @@ function CollectCard() {
              
             </Link>
           </div>
-          <p className="text-xs">Collected by names, names, 67 more</p>
+          <p className="text-xs">Collected by You & 67 more</p>
         </div>
       </div>
     </div>
