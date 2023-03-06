@@ -20,7 +20,7 @@ const NFTPage: NextPage = () => {
     <div className="grid mx-auto grid-cols-1 md:grid-cols-3 gap-10 p-10 ">
     
         <div className="lg:flex md:p-4 lg:p-16 mx-auto md:col-span-2">
-            <img className='rounded-2xl shadow-lg w-96 md:w-full' src={upload[0].songCover} alt="Exhausted-Cover"/>
+            <img className='rounded-2xl shadow-lg w-96 md:w-full' src={upload[0].songCover} alt="Song-cover"/>
         </div>                
         <div className="md:col-span-1 md:mt-8 border-l-zinc-600 border-l-2 pl-16">
             <div className='flex flex-col'>

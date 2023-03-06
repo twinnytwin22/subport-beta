@@ -1,10 +1,10 @@
 export const upload = [
     {
-        title: 'Exhausted',
-        artist: 'Miles Ryan Harris', 
-        featuredArtist: 'Scolla',
-        releaseDate: 'March 13th, 2023',
-        songCover: '/Exhausted.jpeg' 
+        title: 'Gravitron',
+        artist: 'Twinny Twin', 
+        featuredArtist: '',
+        releaseDate: 'July 13th, 2020',
+        songCover: '/gravitron.png' 
     }
 ]
 
