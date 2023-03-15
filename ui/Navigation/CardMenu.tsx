@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react'
 function CardMenu() {
   return (
     <div className='hidden md:block'>
@@ -8,8 +9,8 @@ function CardMenu() {
     <li className="w-full px-4 py-2 border-b border-zinc-200 rounded-t-lg dark:border-zinc-600 hover:dark:bg-zinc-700">Profile</li>
     <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-600 hover:dark:bg-zinc-700">Settings</li>
     <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-600 hover:dark:bg-zinc-700">Messages</li>
-    <Link href="/api/auth/signout">
-    <li className="w-full px-4 py-2 rounded-b-lg hover:dark:bg-zinc-700">Sign out</li></Link>
+    <div onClick={() => signOut()}>
+    <li className="w-full px-4 py-2 rounded-b-lg hover:dark:bg-zinc-700">Sign out</li></div>
 </ul>
 
     </div>
