@@ -1,18 +1,15 @@
-import { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from "next";
-import NextAuth, { getServerSession, NextAuthOptions, User } from "next-auth";
+import { NextApiRequest, NextApiResponse } from "next";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { getCsrfToken, signIn } from "next-auth/react";
+import { getCsrfToken } from "next-auth/react";
 import { SiweMessage } from "siwe";
 import SpotifyProvider from "next-auth/providers/spotify";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { prisma } from "utils/prisma";
-
+import { SupabaseAdapter } from '@next-auth/supabase-adapter'
 
 
 
 export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
-  ////const adapter = PrismaAdapter(prisma)
   const providers = [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -63,6 +60,9 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
     }),
   ];
 
+ 
+
+
   return {
     callbacks: {
       async session({ session, token }: any) {
@@ -71,7 +71,6 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
           wallet: token.sub.startsWith("0x") === true && token.sub,
           email: session?.user?.email,
           name: session?.user?.name
-       
         };
         return session;
       },
@@ -81,9 +80,11 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
         }
         return true // Do different verification for other providers that don't have `email_verified`
       },
-      
     },
-   //// adapter,
+    adapter: SupabaseAdapter({
+      url: process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+      secret: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
+    }),
     providers,
     secret: process.env.NEXTAUTH_SECRET,
     session: {
@@ -92,12 +93,11 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
   };
 }
 
-// For more information on each option (and a full list of options) go to
-// https://next-auth.js.org/configuration/options
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   const authOptions = getAuthOptions(req);
 
-  if (!Array.isArray(req.query.nextauth)) {
+  if (!Array.isArray(req.query.nextauth
+)) {
     res.status(400).send("Bad request");
     return;
   }
