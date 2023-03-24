@@ -1,7 +1,10 @@
+'use client'
+import { useSession } from "next-auth/react";
 import React from "react";
 import avatar from "../../public/avatar.jpg";
 
 function Profile() {
+  const {data:session, status} = useSession()
   return (
     <div className="">
       <div className="relative block h-[300px] bg-black">
@@ -20,13 +23,13 @@ function Profile() {
               <div className="relative">
                 <img
                   alt="avatar"
-                  src="/avatar.jpg"
+                  src={session?.user.image as string}
                   className="shadow-xl rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
                 />
               </div>
               <div className="block">
                 <h3 className="relative text-xl md:text-2xl font-bold leading-normal text-center text-zinc-200 pt-24">
-                  Twinny Twin
+                  {session?.user?.name}
                 </h3>
                 <h4 className="relative text-lg md:text-xl leading-normal text-center text-zinc-500">
                   @djtwinnytwin

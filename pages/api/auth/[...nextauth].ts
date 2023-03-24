@@ -66,11 +66,13 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
   return {
     callbacks: {
       async session({ session, token }: any) {
-        session.address = token?.sub;
+        session.id = token?.sub
+        session.address = token?.sub.startsWith("0x") === true && token.sub;
         session.user = {
           wallet: token.sub.startsWith("0x") === true && token.sub,
           email: session?.user?.email,
-          name: session?.user?.name
+          name: session?.user?.name,
+          image: session?.user?.image
         };
         return session;
       },
