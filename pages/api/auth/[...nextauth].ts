@@ -7,8 +7,6 @@ import SpotifyProvider from "next-auth/providers/spotify";
 import GoogleProvider from "next-auth/providers/google";
 import { SupabaseAdapter } from '@next-auth/supabase-adapter'
 
-
-
 export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
   const providers = [
     GoogleProvider({
