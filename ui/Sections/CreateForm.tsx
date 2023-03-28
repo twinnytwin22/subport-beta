@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Collectible from "types/collectible";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 export const GenerateButton = () => {
   const [showCollectible, setShowCollectible] = useState(false);
@@ -31,7 +31,7 @@ export const GenerateButton = () => {
 };
 
 export const CreateForm = ({ handleResetClick }: any) => {
-const [arrayData, setArrayData] = useState<string[]>([]);
+  const [arrayData, setArrayData] = useState<string[]>([]);
 
   const [formData, setFormData] = useState<Collectible>({
     release_name: "",
@@ -42,47 +42,81 @@ const [arrayData, setArrayData] = useState<string[]>([]);
     website: "",
     lyrics: "",
     song_description: "",
-    keywords: [""]
+    keywords: [""],
   });
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
+
     try {
-      const response = await fetch('/api/create', {
-        method: 'POST',
+      const response = await fetch("/api/create", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-  
+
       const json = await response.json();
-  
+
       toast.success(json.message);
-  
+
       setFormData({
-        release_name: '',
-        artist_name: '',
-        release_date: '',
-        genre: 'rock',
+        release_name: "",
+        artist_name: "",
+        release_date: "",
+        genre: "rock",
         total_collectibles: 0,
-        website: '',
-        lyrics: '',
-        song_description: '',
-        keywords: [''],
+        website: "",
+        lyrics: "",
+        song_description: "",
+        keywords: [""],
       });
     } catch (error) {
       console.error(error);
-      toast.error('An error occurred. Please try again.');
+      toast.error("An error occurred. Please try again.");
     }
   };
   const handleKeywordsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const keywords = event.target.value.split(',').map(keyword => keyword.trim());
+    const keywords = event.target.value
+      .split(",")
+      .map((keyword) => keyword.trim());
     setFormData({ ...formData, keywords });
   };
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <div className="flex items-center justify-center w-full mb-2">
+          <label
+            htmlFor="dropzone-file"
+            className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+          >
+            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg
+                aria-hidden="true"
+                className="w-10 h-10 mb-3 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                ></path>
+              </svg>
+              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                <span className="font-semibold">Click to upload</span> or drag
+                and drop
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                 PNG, JPG or GIF (MAX.50MB)
+              </p>
+            </div>
+            <input id="dropzone-file" type="file" className="hidden" />
+          </label>
+        </div>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <div>
             <label
@@ -91,6 +125,7 @@ const [arrayData, setArrayData] = useState<string[]>([]);
             >
               Release Name
             </label>
+
             <input
               value={formData.release_name}
               onChange={(event) =>
@@ -120,6 +155,7 @@ const [arrayData, setArrayData] = useState<string[]>([]);
               }
             />
           </div>
+
           <div>
             <label
               htmlFor="release_date"
@@ -146,10 +182,18 @@ const [arrayData, setArrayData] = useState<string[]>([]);
               Genre
             </label>
             <select
-             value={formData.genre}
-             onChange={(event) =>
-               setFormData({ ...formData, genre: event.target.value as 'rock' | 'pop' | 'hip_hop' | 'electronic' | 'country' })
-             }
+              value={formData.genre}
+              onChange={(event) =>
+                setFormData({
+                  ...formData,
+                  genre: event.target.value as
+                    | "rock"
+                    | "pop"
+                    | "hip_hop"
+                    | "electronic"
+                    | "country",
+                })
+              }
               id="genre"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
@@ -175,7 +219,10 @@ const [arrayData, setArrayData] = useState<string[]>([]);
               pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
               value={formData.total_collectibles}
               onChange={(event) =>
-                setFormData({ ...formData, total_collectibles: parseInt(event.target.value) })
+                setFormData({
+                  ...formData,
+                  total_collectibles: parseInt(event.target.value),
+                })
               }
             />
           </div>
@@ -240,17 +287,16 @@ const [arrayData, setArrayData] = useState<string[]>([]);
             Other Keywords
           </label>
           <input
-  id="keywords"
-  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-  placeholder="Futuristic, Emotional, Synthwave"
-  value={formData.keywords!.join(', ')} // Join the array of keywords into a comma-separated string
-  onChange={handleKeywordsChange}
-/>
-
+            id="keywords"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Futuristic, Emotional, Synthwave"
+            value={formData.keywords!.join(", ")} // Join the array of keywords into a comma-separated string
+            onChange={handleKeywordsChange}
+          />
         </div>
 
         <div className="flex space-x-4">
-          <button 
+          <button
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
