@@ -4,11 +4,8 @@ import "styles/globals.css";
 import Providers from "lib/providers";
 import Navbar from "ui/Navigation/Navbar";
 import { createServerClient } from "lib/supabase-server";
-import type { Database } from "types/supabase";
-import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import MobileMenu from 'ui/Navigation/MobileMenu';
 
-export type TypedSupabaseClient = SupabaseClient<Database>;
 export const revalidate = 0;
 
 export default async function RootLayout({
