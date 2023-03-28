@@ -1,10 +1,9 @@
 import React from 'react'
-import UploadForm from 'ui/Sections/UploadForm'
-
+import { CreateForm } from 'ui/Sections/CreateForm'
 function UploadPage() {
   return (
     <div>
-        <UploadForm/>
+        <CreateForm/>
         </div>
   )
 }

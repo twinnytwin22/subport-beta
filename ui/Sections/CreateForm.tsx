@@ -30,7 +30,7 @@ export const GenerateButton = () => {
   );
 };
 
-const CreateForm = ({ handleResetClick }: any) => {
+export const CreateForm = ({ handleResetClick }: any) => {
 const [arrayData, setArrayData] = useState<string[]>([]);
 
   const [formData, setFormData] = useState<Collectible>({
