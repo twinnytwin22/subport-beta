@@ -10,6 +10,8 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 export const revalidate = 0
 export async function fetchCollectibles(){
    
-    let { data } = await supabase.from('').select('*') 
-    return data
+    let { data: collectibles, error } = await supabase
+    .from('collectibles') 
+    .select('*') 
+        return collectibles
 }
