@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getCsrfToken } from "next-auth/react";
 import { SiweMessage } from "siwe";
@@ -7,7 +7,7 @@ import SpotifyProvider from "next-auth/providers/spotify";
 import GoogleProvider from "next-auth/providers/google";
 import { SupabaseAdapter } from '@next-auth/supabase-adapter'
 
-export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
+export function getAuthOptions(req: any): NextAuthOptions {
   const providers = [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -113,3 +113,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 
   return await NextAuth(req, res, authOptions);
 }
+const handler = NextAuth(getAuthOptions);
+
+export { handler as GET, handler as POST };

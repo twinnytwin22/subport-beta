@@ -38,7 +38,7 @@ const [arrayData, setArrayData] = useState<string[]>([]);
     artist_name: "",
     release_date: "",
     genre: "rock",
-    rollout_duration: 0,
+    total_collectibles: 0,
     website: "",
     lyrics: "",
     song_description: "",
@@ -65,7 +65,7 @@ const [arrayData, setArrayData] = useState<string[]>([]);
         artist_name: '',
         release_date: '',
         genre: 'rock',
-        rollout_duration: 0,
+        total_collectibles: 0,
         website: '',
         lyrics: '',
         song_description: '',
@@ -173,9 +173,9 @@ const [arrayData, setArrayData] = useState<string[]>([]);
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="123-45-678"
               pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-              value={formData.rollout_duration}
+              value={formData.total_collectibles}
               onChange={(event) =>
-                setFormData({ ...formData, rollout_duration: parseInt(event.target.value) })
+                setFormData({ ...formData, total_collectibles: parseInt(event.target.value) })
               }
             />
           </div>

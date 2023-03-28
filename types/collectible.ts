@@ -3,7 +3,7 @@ type Collectible = {
     artist_name: string;
     release_date: string;
     genre: 'rock' | 'pop' | 'hip_hop' | 'electronic' | 'country';
-    rollout_duration: number;
+    total_collectibles: number;
     website?: string;
     lyrics?: string;
     song_description?: string;
