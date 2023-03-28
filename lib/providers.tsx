@@ -22,7 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { GetSiweMessageOptions, RainbowKitSiweNextAuthProvider } from '@rainbow-me/rainbowkit-siwe-next-auth';
 import { SessionProvider as AuthProvider } from "next-auth/react";
 import { getServerSession } from "next-auth/next"
-import { getAuthOptions } from "app/api/auth/[...nextauth]/route";
+import { getAuthOptions } from "pages/api/auth/[...nextauth]";
 
 const ThemeProvider = dynamic(
   () => {
