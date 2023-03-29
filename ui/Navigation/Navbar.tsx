@@ -22,7 +22,7 @@ function Navbar() {
           </Link>
           <div className="flex group space-x-6 items-center lg:order-2 w-sm">
             {status == "authenticated" && (
-              <Link href="/upload">
+              <Link href="/create">
                 <div className="hidden md:flex w-10 rounded-full shadow-zinc-200 hover:shadow-sm hover:scale-110">
                   <svg
                     fill="currentColor"

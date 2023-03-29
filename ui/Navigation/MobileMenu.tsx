@@ -62,7 +62,7 @@ function MobileMenu() {
           </div>
           <div className="flex group ">
             <Link
-              href="/upload"
+              href="/create"
               className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white"
             >
               <span className="px-1 flex flex-col items-center">

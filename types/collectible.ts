@@ -1,12 +1,15 @@
 type Collectible = {
-    release_name: string;
+    image: any;
+    audio: any;
+    name: string;
     artist_name: string;
     release_date: string;
-    genre: 'rock' | 'pop' | 'hip_hop' | 'electronic' | 'country';
+    genre: 'rock' | 'pop' | 'hip_hop' | 'electronic' | 'country' | 'house' | 'rnb';
     total_collectibles: number;
     website?: string;
+    song_uri: string;
     lyrics?: string;
-    song_description?: string;
+    description?: string;
     keywords?: string[];
   };
   
