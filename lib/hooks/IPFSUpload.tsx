@@ -1,4 +1,3 @@
-'use client'
 import { create } from "ipfs-http-client";
 export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
     const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
