@@ -3,35 +3,9 @@ import React, { useState } from "react";
 import Collectible from "types/collectible";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { create, CID } from "ipfs-http-client";
-import { MediaRenderer } from "@thirdweb-dev/react";
+import { uploadToIpfs } from "lib/hooks/IPFSUpload"; 
 import { Media } from "ui/Misc/Media";
 
-const uploadToIpfs = async (imageFile: any, audioFile: any) => {
-  const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
-  const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
-  const auth =
-    "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-  const ipfs =  create({
-    timeout: "2m",
-    host: "ipfs.infura.io",
-    port: 5001,
-    protocol: "https",
-    headers: {
-      authorization: auth,
-    },
-  });
-
-  // Upload image file to IPFS
-  const imageResult = await ipfs.add(imageFile);
-  const imageUrl = `ipfs://${imageResult.path}`;
-
-  // Upload audio file to IPFS
-  const audioResult = await ipfs.add(audioFile);
-  const audioUrl = `ipfs://${audioResult.path}`;
-
-  return { image: imageUrl, audio: audioUrl };
-};
 
 export const CreateForm = () => {
   const [audioUrl, setAudioUrl] = useState();
@@ -95,8 +69,7 @@ export const CreateForm = () => {
     setStep(1);
     reset();
   };
-  const onSubmitStep1 = (formData: Collectible) => {
-    // Handle form submission for step 1 here
+  const onSubmitStep1 = () => {
     setStep(2);
   };
 
@@ -371,31 +344,59 @@ export const CreateForm = () => {
           Step {step} - Confirm.
         </h2>
         <div className="w-full mx-auto">
-          <div className="grid grid-cols-2 p-8 mb-8">
-          <div>
+          <div className="flex flex-col mx-auto content-center md:grid md:grid-cols-2 p-8 mb-8 ">
+          <div className="mx-auto content-center shadow-xl shadow-gray-800">
               <Media audio={audioUrl} image={imageUrl} />
             </div>
-          <div>
-              <div>
-                <p className="w-full text-xl">
-                  Release Name: {watch("name")}
-                </p>
-                <p className=" w-full text-xl">
-                  Artist: {watch("artist_name")}
-                </p>
-                <p className="w-full text-xl">
-                  Release Date: {watch("release_date")}
-                </p>
-                <p className="w-full text-xl">
+          <div className="">
+            <table className="w-full text-md text-left bg-gray-900 p-4 rounded-md shadow-xl shadow-gray-800">
+              <tbody className="p-8">
+               
+           
+                <tr className="border-b border-gray-600">
+                <td className="px-6 py-2 border-r border-gray-800">
+                  Release Name: 
+                </td>
+                <td className="px-6 py-2">
+                {watch("name")}
+                </td>
+              </tr>
+              <tr className="border-b border-gray-600">
+                <td className="px-6 py-2 border-r border-gray-800">
+                  Artist:
+                </td>
+                <td className="px-6 py-2">
+                  {watch("artist_name")}
+                </td></tr>
+                <tr className="border-b border-gray-600">
+                <td className="px-6 py-2 border-r border-gray-800">
+                  Release Date:
+                </td>
+                <td className="px-6 py-2">
+                {watch("release_date")}
+                </td></tr>
+                <tr className="border-b border-gray-600">
+                <td className="px-6 py-2 border-r border-gray-800">
                   Total Collectibles:
+                 
+                </td>
+                <td className="px-6 py-2">
+             
                   {watch("total_collectibles")}
-                </p>
-              </div>
-              <p className=" w-full text-xl">Description:
+                </td></tr>
+                <tr className="border-b border-gray-600">
+              <td className="px-6 py-2 border-r border-gray-800">Description:
+              </td>
+              <td className="px-6 py-2">
                 {watch("description")}
-              </p>
-              <p className="w-full text-xl">Song URI: {watch("song_uri")}</p>
-              <p className="w-full text-xl">Genre: 
+              </td></tr>
+              <tr className="border-b border-gray-600">
+              <td className="px-6 py-2 border-r border-gray-800">Song URI:</td>
+              <td className="px-6 py-2"> {watch("song_uri")}</td></tr>
+              <tr className="border-b border-gray-600">
+              <td className="px-6 py-2 border-r border-gray-800">Genre: </td>
+
+              <td className="px-6 py-2">
                 {watch("genre") === "house" && "House/Dance"}
                 {watch("genre") === "rnb" && "R&B"}
                 {watch("genre") === "hip_hop" && "Hip-Hop/Rap"}
@@ -403,8 +404,14 @@ export const CreateForm = () => {
                 {watch("genre") === "rock" && "Rock"}
                 {watch("genre") === "electronic" && "Electronic"}
                 {watch("genre") === "pop" && "Pop"}
-              </p>
-              <p className="w-full text-xl"> {watch("keywords")}</p>  </div>
+              </td></tr>
+              <tr className="">
+              <td className="px-6 py-2 border-r border-gray-800">Keywords:</td>
+              <td className="px-6 py-2"> {watch("keywords")}</td>  
+  </tr>
+              </tbody>
+              </table>
+              </div>
              
         
         </div>

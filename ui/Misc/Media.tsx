@@ -10,7 +10,7 @@ const testImage = "ipfs://QmUHnUjuKjgoe5N1H5hVnGWEcFXiTNfNoAyvRNZBEp5J3r"
 const testAudio = "ipfs://QmSDprFUJu1q9e14xGdUnibGkFY3fTF5LAzW9j1DxkY6sH"
 
   return (
-    <div className="mx-auto flex content-center">
+    <div className="mx-auto flex content-center ">
     <ThirdwebProvider activeChain="ethereum">
 
     <MediaRenderer src={audioUrl} poster={imageUrl}
