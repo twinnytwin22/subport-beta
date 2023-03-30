@@ -59,7 +59,7 @@ export const CreateForm = () => {
   });
 
   const onSubmit = async (formData: Collectible) => {
-    toast("Submitting");
+    toast.info("Submitting",{autoClose:6500});
     try {
       // Upload the image and audio files to IPFS
       const { image, audio } = await uploadToIpfs(
@@ -101,6 +101,7 @@ export const CreateForm = () => {
   };
 
   const onSubmitStep2 = async (data: any) => {
+    toast.info('Uploading Media to IPFS Storage',{progress: undefined , autoClose: 7500})
     try {
       const { image, audio } = await uploadToIpfs(data.image[0], data.audio[0]);
       const formData = {
