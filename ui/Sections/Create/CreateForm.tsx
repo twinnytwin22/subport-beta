@@ -12,7 +12,7 @@ const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
   const auth =
     "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-  const ipfs = create({
+  const ipfs =  create({
     timeout: "2m",
     host: "ipfs.infura.io",
     port: 5001,
@@ -92,7 +92,7 @@ export const CreateForm = () => {
   };
 
   const handleResetClick = () => {
-    setStep(step - 1);
+    setStep(1);
     reset();
   };
   const onSubmitStep1 = (formData: Collectible) => {

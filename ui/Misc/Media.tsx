@@ -13,7 +13,7 @@ const testAudio = "ipfs://QmSDprFUJu1q9e14xGdUnibGkFY3fTF5LAzW9j1DxkY6sH"
     <div className="mx-auto flex content-center">
     <ThirdwebProvider activeChain="ethereum">
 
-    <MediaRenderer src={testAudio} poster={testImage}
+    <MediaRenderer src={audioUrl} poster={imageUrl}
     requireInteraction={true}/>
     </ThirdwebProvider>
     </div>
