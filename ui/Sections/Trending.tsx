@@ -3,9 +3,7 @@ import CollectCard from 'ui/Cards/CollectCard'
 import SearchInput from 'ui/Misc/SearchInput'
 function Trending() {
   return (
-    <div className='max-w-7xl mx-auto w-full mt-24'>
- <div className='max-w-4xl mx-auto py-8 px-12 md:px-8 '>
-      <SearchInput/></div>
+    <div className='max-w-7xl mx-auto w-full mt-2'>
 <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 mb-8">
     <ul className="flex flex-wrap -mb-px">
         <li className="mr-2">
@@ -21,7 +19,7 @@ function Trending() {
     </ul>
 </div>
 
-        <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
             <CollectCard/>
             <CollectCard/>
             <CollectCard/>

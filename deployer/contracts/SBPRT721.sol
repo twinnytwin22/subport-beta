@@ -16,6 +16,21 @@ contract SBPRT721 is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Acces
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     Counters.Counter private _tokenIdCounter;
 
+    struct SongInfo {
+        string name;
+        string artist_name;
+        string release_date;
+        string genre;
+        uint256 total_collectibles;
+        string website;
+        string song_uri;
+        string lyrics;
+        string description;
+        string[] keywords;
+    }
+
+    mapping (uint256 => SongInfo) private _songInfo;
+
     constructor() ERC721("SBPRT721", "SBPRT") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(PAUSER_ROLE, msg.sender);
@@ -30,11 +45,17 @@ contract SBPRT721 is ERC721, ERC721Enumerable, ERC721URIStorage, Pausable, Acces
         _unpause();
     }
 
-    function safeMint(address to, string memory uri) public onlyRole(MINTER_ROLE) {
-        uint256 tokenId = _tokenIdCounter.current();
-        _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
+    function safeMint(address to, string memory uri, SongInfo memory songInfo) public onlyRole(MINTER_ROLE) {
+    uint256 tokenId = _tokenIdCounter.current();
+    _tokenIdCounter.increment();
+    _safeMint(to, tokenId);
+    _setTokenURI(tokenId, uri);
+    _songInfo[tokenId] = songInfo;
+}
+
+
+    function getSongInfo(uint256 tokenId) public view returns (SongInfo memory) {
+        return _songInfo[tokenId];
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)

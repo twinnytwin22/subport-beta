@@ -8,7 +8,7 @@ function MobileMenu() {
 
   return (
     <>
-      <div className="block md:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0">
+      <div className="block sm:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0">
         <div className="grid grid-cols-5 text-zinc-800 dark:text-zinc-400 justify-items-center pt-3">
           <div className="flex group">
             <Link

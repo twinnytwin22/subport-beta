@@ -8,7 +8,7 @@ async function Main() {
   const collectibles = await fetchCollectibles()
   console.log(collectibles)
   return (
-    <div className='bg-gray-100 dark:bg-black'>
+    <div className='bg-gray-100 dark:bg-black p-8'>
   <HomePage/>
     </div>
   )

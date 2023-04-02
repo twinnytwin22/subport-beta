@@ -127,7 +127,7 @@ export const CreateForm = () => {
 
   const renderStep1 = () => {
     return (
-      <div>
+      <div className="w-full mx-auto max-w-screen">
         <form onSubmit={handleSubmit(onSubmitStep1)}>
           <h2 className="text-center w-full py-4 text-xl">
             Step {step} - Let's get started.
@@ -471,7 +471,7 @@ export const CreateForm = () => {
     );
   };
   return (
-    <div className="mx-auto w-full">
+    <div className="max-w-7xl mx-auto w-full sm:ml-4 lg:ml-0 p-8">
       <h1 className="text-center text-4xl">Create your collectible</h1>
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}
