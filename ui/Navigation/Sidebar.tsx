@@ -90,7 +90,7 @@ function Sidebar({ queries }: any) {
           )}
         </ul>
         {status === "authenticated" && (<>
-        <hr className="hidden md:w-40 border-zinc-600 mt-24 mb-8"/>
+        <hr className="hidden sm:flex md:w-40 border-zinc-600 mt-24 mb-8"/>
     
           <button
             onClick={handleLogout}
