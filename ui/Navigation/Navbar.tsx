@@ -82,7 +82,7 @@ function Navbar() {
                       />
                     </svg>
                   </div> 
-                  <div className="hidden sm:block -ml-4">
+                  <div className="hidden sm:block -ml-4 w-8">
                     <UserAvatar />
                   </div> </>}
                
