@@ -64,7 +64,7 @@ function Navbar() {
             </form>
             <div className={`hidden sm:inline-flex items-center  w-full space-x-2 sm:grid-cols-2 ${status === 'unauthenticated' && "-mr-28"}`}>
           
-              {status === 'unauthenticated' &&
+              {status === 'authenticated' &&
               <>
                   <div className="hidden sm:block group w-8 rounded-full hover:scale-105">
                     <svg className="w-8"
