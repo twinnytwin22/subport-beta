@@ -11,9 +11,9 @@ function Navbar() {
   console.log(session, "session2");
 
   return (
-    <div className="flex flex-grow fixed top-0 z-[300] border-zinc-800 px-4 lg:px-6 py-2.5 border-b max-w-screen w-full bg-black mx-auto ">
-      <div className="flex w-full mx-auto justify-between">
-            <form className="flex mx-auto items-center w-full">
+    <div className="flex fixed top-0 z-[300] border-zinc-800 px-6 py-2.5 border-b w-full bg-black mx-auto">
+      <div className="flex sm:grid sm:grid-cols-8 w-full gap-x-4 sm:pr-28">
+            <form className={`flex mx-auto items-center w-full ml-0 col-span-8 sm:col-span-6 ${status === 'unauthenticated' && "md:col-span-7 lg:col-span-6"}`}>
               <label htmlFor="simple-search" className="sr-only">
                 Search
               </label>
@@ -36,7 +36,7 @@ function Navbar() {
                 <input
                   type="text"
                   id="simple-search"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-zinc-900 dark:border-zinc-700 dark:placeholder-zinc-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Search"
                   required
                 />
@@ -62,16 +62,12 @@ function Navbar() {
                 <span className="sr-only">Search</span>
               </button>
             </form>
-            <div className="hidden sm:flex items-center w-full mr-16">
-              {status == "unauthenticated" && (
-                <>
-                  <SignInModal />
-            </>
-              )}
+            <div className={`hidden sm:inline-flex items-center  w-full space-x-2 sm:grid-cols-2 ${status === 'unauthenticated' && "-mr-28"}`}>
+          
               {status === 'authenticated' &&
               <>
-                  <div className="hidden md:block group w-8 rounded-full hover:scale-105">
-                    <svg
+                  <div className="hidden sm:block group w-8 rounded-full hover:scale-105">
+                    <svg className="w-8"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="1.5"
@@ -86,13 +82,12 @@ function Navbar() {
                       />
                     </svg>
                   </div> 
-                  <div className="hidden md:block">
+                  <div className="hidden sm:block -ml-4">
                     <UserAvatar />
                   </div> </>}
                
              
-            </div></div>
-          </div>
+            </div></div></div>
   );
 }
 

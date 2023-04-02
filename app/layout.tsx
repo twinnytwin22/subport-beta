@@ -31,9 +31,10 @@ export default async function RootLayout({
               <aside className="fixed left-0 hidden sm:block"> 
                 <Sidebar />
               </aside>
-              <div className="sm:ml-24 lg:ml-56 sm:mr-4 sm:p-8 w-full mx-auto flex max-w-screen">
-              <Navbar />
-              {children}</div>
+            <div className="sm:ml-24 lg:ml-56 sm:p-8 w-full mx-auto flex">
+  <Navbar />
+  <div className="max-w-7xl w-full mx-auto">{children}</div>
+</div>
             </div>
             <MobileMenu />
           </Theme>

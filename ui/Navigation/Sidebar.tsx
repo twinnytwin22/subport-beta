@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import SignInModal from "ui/Buttons/SignIn";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { toast } from "react-toastify";
@@ -14,7 +15,7 @@ function Sidebar({ queries }: any) {
     signOut();
   };
   return (
-    <aside className="flex flex-col bg-gray-100 h-screen lg:w-64 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-gray-200 dark:border-gray-800 top-0 fixed mx-auto items-center content-center justify-center">
+    <aside className="flex flex-col bg-gray-100 h-screen w-32 lg:w-64 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-gray-200 dark:border-gray-800 top-0 fixed mx-auto items-center content-center justify-center">
       <div className="mb-4 mx-auto">
         <Link href="/" className="flex items-center">
           <img src="/subport.png" className="mx-3  w-9" alt="Subport Logo" />
@@ -89,24 +90,35 @@ function Sidebar({ queries }: any) {
             </Link>
           )}
         </ul>
-        {status === "authenticated" && (<>
-        <hr className="hidden sm:flex md:w-40 border-zinc-600 mt-24 mb-8"/>
-    
-          <button
-            onClick={handleLogout}
-            className="flex px-4 py-2 rounded-2xl bg-zinc-900 hover:bg-zinc-700 dark:border-zinc-600 relative w-sm md:w-full mx-auto content-center text-center"
-          >
-            
-            <h3 className="text-base font-semibold text-zinc-900 lg:text-md dark:text-white">
-              Sign out
-            </h3><div className="w-6 p-1">
-            <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path clipRule="evenodd" fillRule="evenodd" d="M10 2a.75.75 0 01.75.75v7.5a.75.75 0 01-1.5 0v-7.5A.75.75 0 0110 2zM5.404 4.343a.75.75 0 010 1.06 6.5 6.5 0 109.192 0 .75.75 0 111.06-1.06 8 8 0 11-11.313 0 .75.75 0 011.06 0z" />
-</svg>
-            </div>
-            
-          </button>
-          </> )}
+        <hr className="hidden sm:flex sm:-16 lg:w-40 border-zinc-600 mt-24 mb-8" />
+        {status === "authenticated" ? (
+          <>
+            <button
+              onClick={handleLogout}
+              className="flex px-4 py-2 rounded-2xl bg-zinc-900 hover:bg-zinc-700 dark:border-zinc-600 relative w-sm md:w-full mx-auto content-center text-center"
+            >
+              <h3 className="text-base font-semibold text-zinc-900 lg:text-md dark:text-white">
+                Sign out
+              </h3>
+              <div className="w-6 p-1">
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path
+                    clipRule="evenodd"
+                    fillRule="evenodd"
+                    d="M10 2a.75.75 0 01.75.75v7.5a.75.75 0 01-1.5 0v-7.5A.75.75 0 0110 2zM5.404 4.343a.75.75 0 010 1.06 6.5 6.5 0 109.192 0 .75.75 0 111.06-1.06 8 8 0 11-11.313 0 .75.75 0 011.06 0z"
+                  />
+                </svg>
+              </div>
+            </button>
+          </>
+        ) : (
+          <SignInModal />
+        )}
       </nav>
     </aside>
   );
