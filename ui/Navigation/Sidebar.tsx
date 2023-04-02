@@ -94,7 +94,7 @@ function Sidebar({ queries }: any) {
     
           <button
             onClick={handleLogout}
-            className="flex px-4 py-2 rounded-2xl bg-zinc-900 dark:border-zinc-600 relative w-sm md:w-full"
+            className="flex px-4 py-2 rounded-2xl bg-zinc-900 dark:border-zinc-600 relative w-sm md:w-full mx-auto content-center"
           >
             
             <h3 className="text-base font-semibold text-zinc-900 lg:text-md dark:text-white">
