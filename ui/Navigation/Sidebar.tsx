@@ -11,7 +11,7 @@ function Sidebar({ queries }: any) {
   }
   const handleLogout = async () => {
     toast("Signing Out");
-    signOut()
+    signOut();
   };
   return (
     <aside className="flex flex-col bg-gray-100 h-screen lg:w-64 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-gray-200 dark:border-gray-800 top-0 fixed mx-auto items-center content-center justify-center">
@@ -28,7 +28,7 @@ function Sidebar({ queries }: any) {
           <Link href="/">
             <li className="hover:text-white">
               <p className="hidden lg:block"> Home</p>
-              <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105">
+              <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105 mb-3">
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -49,7 +49,7 @@ function Sidebar({ queries }: any) {
           <Link href="/trending">
             <li className="hover:text-white">
               <p className="hidden lg:block"> Trending</p>
-              <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105">
+              <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105 mb-3">
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -71,7 +71,7 @@ function Sidebar({ queries }: any) {
             <Link href="/create">
               <li className="hover:text-white">
                 <p className="hidden lg:block">Create</p>
-                <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105">
+                <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105 mb-3">
                   <svg
                     fill="currentColor"
                     viewBox="0 0 20 20"
@@ -89,11 +89,24 @@ function Sidebar({ queries }: any) {
             </Link>
           )}
         </ul>
-        {status === "authenticated" && (
-          <button className="" onClick={handleLogout}>
-            Sign out
+        {status === "authenticated" && (<>
+        <hr className="hidden md:w-40 border-zinc-600 mt-24 mb-8"/>
+    
+          <button
+            onClick={handleLogout}
+            className="flex px-4 py-2 rounded-2xl bg-zinc-900 dark:border-zinc-600 relative w-sm md:w-full"
+          >
+            
+            <h3 className="text-base font-semibold text-zinc-900 lg:text-md dark:text-white">
+              Sign out
+            </h3><div className="w-6 p-1">
+            <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path clipRule="evenodd" fillRule="evenodd" d="M10 2a.75.75 0 01.75.75v7.5a.75.75 0 01-1.5 0v-7.5A.75.75 0 0110 2zM5.404 4.343a.75.75 0 010 1.06 6.5 6.5 0 109.192 0 .75.75 0 111.06-1.06 8 8 0 11-11.313 0 .75.75 0 011.06 0z" />
+</svg>
+            </div>
+            
           </button>
-        )}
+          </> )}
       </nav>
     </aside>
   );
