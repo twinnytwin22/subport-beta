@@ -5,7 +5,7 @@ import CollectCard from "ui/Cards/CollectCard";
 
 function HomePage() {
   return (
-    <div className="max-w-7xl h-screen w-full mx-auto mt-8 content-center">
+    <div className="h-screen w-full mx-auto mt-8 content-center">
       <div className="flex md:grid md:grid-cols-10 justify-center justify-items-center content-center gap-16 w-full max-w-screen">
         <div className="w-full hidden lg:block md:col-span-10 lg:col-span-4 bg-black">
           <h1 className="text-2xl mb-4">Home</h1>
@@ -13,7 +13,7 @@ function HomePage() {
         </div>
 
         <div
-          className="flex flex-col space-y-10 md:col-span-10 lg:col-span-6 w-full justify-center content-center mx-auto max-w-screen-2xl"
+          className="flex flex-col space-y-10 md:col-span-10 lg:col-span-6 w-full justify-center content-center mx-auto"
           style={{ scrollbarWidth: "none" }}
         >
           <CollectCard />

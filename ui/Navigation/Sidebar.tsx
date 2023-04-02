@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { signOut } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
 function Sidebar({ queries }: any) {
@@ -11,6 +11,7 @@ function Sidebar({ queries }: any) {
   }
   const handleLogout = async () => {
     toast("Signing Out");
+    signOut()
   };
   return (
     <aside className="flex flex-col bg-gray-100 h-screen lg:w-64 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-gray-200 dark:border-gray-800 top-0 fixed mx-auto items-center content-center justify-center">
@@ -26,23 +27,22 @@ function Sidebar({ queries }: any) {
         <ul className="font-bold text-lg text-zinc-200 items-center mx-auto flex-col space-y-8">
           <Link href="/">
             <li className="hover:text-white">
-            <p className="hidden lg:block"> Home</p>
+              <p className="hidden lg:block"> Home</p>
               <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105">
-
-              <svg
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.5}
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-                />
-              </svg>
+                <svg
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                  />
+                </svg>
               </div>
             </li>
           </Link>

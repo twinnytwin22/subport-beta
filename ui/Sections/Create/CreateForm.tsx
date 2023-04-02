@@ -7,31 +7,30 @@ import { Media } from "ui/Misc/Media";
 
 import { create } from "ipfs-http-client";
 export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
-    const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
-    const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
-    const auth =
-      "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-    const ipfs =  create({
-      timeout: "2m",
-      host: "ipfs.infura.io",
-      port: 5001,
-      protocol: "https",
-      headers: {
-        authorization: auth,
-      },
-    });
-  
-    // Upload image file to IPFS
-    const imageResult = await ipfs.add(imageFile);
-    const imageUrl = `ipfs://${imageResult.path}`;
-  
-    // Upload audio file to IPFS
-    const audioResult = await ipfs.add(audioFile);
-    const audioUrl = `ipfs://${audioResult.path}`;
-  
-    return { image: imageUrl, audio: audioUrl };
-  };
-  
+  const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
+  const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
+  const auth =
+    "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
+  const ipfs = create({
+    timeout: "2m",
+    host: "ipfs.infura.io",
+    port: 5001,
+    protocol: "https",
+    headers: {
+      authorization: auth,
+    },
+  });
+
+  // Upload image file to IPFS
+  const imageResult = await ipfs.add(imageFile);
+  const imageUrl = `ipfs://${imageResult.path}`;
+
+  // Upload audio file to IPFS
+  const audioResult = await ipfs.add(audioFile);
+  const audioUrl = `ipfs://${audioResult.path}`;
+
+  return { image: imageUrl, audio: audioUrl };
+};
 
 export const CreateForm = () => {
   const [audioUrl, setAudioUrl] = useState();
@@ -59,7 +58,7 @@ export const CreateForm = () => {
   });
 
   const onSubmit = async (formData: Collectible) => {
-    toast.info("Submitting",{autoClose:6500});
+    toast.info("Submitting", { autoClose: 6500 });
     try {
       // Upload the image and audio files to IPFS
       const { image, audio } = await uploadToIpfs(
@@ -100,7 +99,10 @@ export const CreateForm = () => {
   };
 
   const onSubmitStep2 = async (data: any) => {
-    toast.info('Uploading Media to IPFS Storage',{progress: undefined , autoClose: 7500})
+    toast.info("Uploading Media to IPFS Storage", {
+      progress: undefined,
+      autoClose: 7500,
+    });
     try {
       const { image, audio } = await uploadToIpfs(data.image[0], data.audio[0]);
       const formData = {
@@ -371,101 +373,97 @@ export const CreateForm = () => {
         </h2>
         <div className="w-full mx-auto">
           <div className="flex flex-col mx-auto content-center md:grid md:grid-cols-2 p-8 mb-8 ">
-          <div className="mx-auto content-center shadow-xl shadow-gray-800">
+            <div className="mx-auto content-center shadow-xl shadow-gray-800">
               <Media audio={audioUrl} image={imageUrl} />
             </div>
-          <div className="">
-            <table className="w-full text-md text-left bg-gray-900 p-4 rounded-md shadow-xl shadow-gray-800">
-              <tbody className="p-8">
-               
-           
-                <tr className="border-b border-gray-600">
-                <td className="px-6 py-2 border-r border-gray-800">
-                  Release Name: 
-                </td>
-                <td className="px-6 py-2">
-                {watch("name")}
-                </td>
-              </tr>
-              <tr className="border-b border-gray-600">
-                <td className="px-6 py-2 border-r border-gray-800">
-                  Artist:
-                </td>
-                <td className="px-6 py-2">
-                  {watch("artist_name")}
-                </td></tr>
-                <tr className="border-b border-gray-600">
-                <td className="px-6 py-2 border-r border-gray-800">
-                  Release Date:
-                </td>
-                <td className="px-6 py-2">
-                {watch("release_date")}
-                </td></tr>
-                <tr className="border-b border-gray-600">
-                <td className="px-6 py-2 border-r border-gray-800">
-                  Total Collectibles:
-                 
-                </td>
-                <td className="px-6 py-2">
-             
-                  {watch("total_collectibles")}
-                </td></tr>
-                <tr className="border-b border-gray-600">
-              <td className="px-6 py-2 border-r border-gray-800">Description:
-              </td>
-              <td className="px-6 py-2">
-                {watch("description")}
-              </td></tr>
-              <tr className="border-b border-gray-600">
-              <td className="px-6 py-2 border-r border-gray-800">Song URI:</td>
-              <td className="px-6 py-2"> {watch("song_uri")}</td></tr>
-              <tr className="border-b border-gray-600">
-              <td className="px-6 py-2 border-r border-gray-800">Genre: </td>
+            <div className="">
+              <table className="w-full text-md text-left bg-gray-900 p-4 rounded-md shadow-xl shadow-gray-800">
+                <tbody className="p-8">
+                  <tr className="border-b border-gray-600">
+                    <td className="px-6 py-2 border-r border-gray-800">
+                      Release Name:
+                    </td>
+                    <td className="px-6 py-2">{watch("name")}</td>
+                  </tr>
+                  <tr className="border-b border-gray-600">
+                    <td className="px-6 py-2 border-r border-gray-800">
+                      Artist:
+                    </td>
+                    <td className="px-6 py-2">{watch("artist_name")}</td>
+                  </tr>
+                  <tr className="border-b border-gray-600">
+                    <td className="px-6 py-2 border-r border-gray-800">
+                      Release Date:
+                    </td>
+                    <td className="px-6 py-2">{watch("release_date")}</td>
+                  </tr>
+                  <tr className="border-b border-gray-600">
+                    <td className="px-6 py-2 border-r border-gray-800">
+                      Total Collectibles:
+                    </td>
+                    <td className="px-6 py-2">{watch("total_collectibles")}</td>
+                  </tr>
+                  <tr className="border-b border-gray-600">
+                    <td className="px-6 py-2 border-r border-gray-800">
+                      Description:
+                    </td>
+                    <td className="px-6 py-2">{watch("description")}</td>
+                  </tr>
+                  <tr className="border-b border-gray-600">
+                    <td className="px-6 py-2 border-r border-gray-800">
+                      Song URI:
+                    </td>
+                    <td className="px-6 py-2"> {watch("song_uri")}</td>
+                  </tr>
+                  <tr className="border-b border-gray-600">
+                    <td className="px-6 py-2 border-r border-gray-800">
+                      Genre:{" "}
+                    </td>
 
-              <td className="px-6 py-2">
-                {watch("genre") === "house" && "House/Dance"}
-                {watch("genre") === "rnb" && "R&B"}
-                {watch("genre") === "hip_hop" && "Hip-Hop/Rap"}
-                {watch("genre") === "country" && "Country"}
-                {watch("genre") === "rock" && "Rock"}
-                {watch("genre") === "electronic" && "Electronic"}
-                {watch("genre") === "pop" && "Pop"}
-              </td></tr>
-              <tr className="">
-              <td className="px-6 py-2 border-r border-gray-800">Keywords:</td>
-              <td className="px-6 py-2"> {watch("keywords")}</td>  
-  </tr>
-              </tbody>
+                    <td className="px-6 py-2">
+                      {watch("genre") === "house" && "House/Dance"}
+                      {watch("genre") === "rnb" && "R&B"}
+                      {watch("genre") === "hip_hop" && "Hip-Hop/Rap"}
+                      {watch("genre") === "country" && "Country"}
+                      {watch("genre") === "rock" && "Rock"}
+                      {watch("genre") === "electronic" && "Electronic"}
+                      {watch("genre") === "pop" && "Pop"}
+                    </td>
+                  </tr>
+                  <tr className="">
+                    <td className="px-6 py-2 border-r border-gray-800">
+                      Keywords:
+                    </td>
+                    <td className="px-6 py-2"> {watch("keywords")}</td>
+                  </tr>
+                </tbody>
               </table>
-              </div>
-             
-        
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)}>
+            </div>
+          </div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex space-x-4">
+              <button
+                onClick={onBack}
+                type="submit"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Back
+              </button>
+              <button
+                type="submit"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                Submit
+              </button>
 
-<div className="flex space-x-4">
-  <button
-    onClick={onBack}
-    type="submit"
-    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-  >
-    Back
-  </button>
-  <button
-    type="submit"
-    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-  >
-    Submit
-  </button>
-
-  <button
-    onClick={handleResetClick}
-    className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-  >
-    Reset
-  </button>
-</div>
-</form>
+              <button
+                onClick={handleResetClick}
+                className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+              >
+                Reset
+              </button>
+            </div>
+          </form>
         </div>
       </>
     );

@@ -12,7 +12,7 @@ function Navbar() {
 
   return (
     <div className="flex flex-grow fixed top-0 z-[300] border-zinc-800 px-4 lg:px-6 py-2.5 border-b max-w-screen w-full bg-black mx-auto ">
-      <div className="flex w-full mx-auto">
+      <div className="flex w-full mx-auto justify-between">
             <form className="flex mx-auto items-center w-full">
               <label htmlFor="simple-search" className="sr-only">
                 Search
@@ -62,7 +62,7 @@ function Navbar() {
                 <span className="sr-only">Search</span>
               </button>
             </form>
-            <div className="hidden sm:flex shrink justify-around items-center w-full mr-16">
+            <div className="hidden sm:flex items-center w-full mr-16">
               {status == "unauthenticated" && (
                 <>
                   <SignInModal />

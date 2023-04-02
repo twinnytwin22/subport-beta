@@ -88,10 +88,12 @@ function CollectCard() {
     <div className="flex flex-col static mx-auto w-full content-center justify-center">
       <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-lg dark:bg-zinc-900 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-900">
         <div className="flex h-8 mb-2 justify-between items-center">
-            <div className="block">
-        <p className="text-[10px] pl-3">Created by</p>
-        <Link href='/user'>
-          <p className="font-bold text-sm pl-3">@djtwinnytwin</p></Link></div>
+          <div className="block">
+            <p className="text-[10px] pl-3">Created by</p>
+            <Link href="/user">
+              <p className="font-bold text-sm pl-3">@djtwinnytwin</p>
+            </Link>
+          </div>
           <div className="flex h-8 pr-3 hover:scale-110">
             <MenuDots />
           </div>
@@ -102,7 +104,7 @@ function CollectCard() {
         <div className="p-5">
           <a href="#">
             <h5 className="mb-2 text-lg font-bold tracking-tight text-zinc-900 dark:text-white">
-             Gravitrion
+              Gravitrion
             </h5>
           </a>
           <div className="flex justify-between items-center mb-2">
@@ -124,7 +126,6 @@ function CollectCard() {
               className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Collect
-             
             </Link>
           </div>
           <p className="text-xs">Collected by You & 67 more</p>
