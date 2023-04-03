@@ -15,7 +15,7 @@ function Sidebar({ queries }: any) {
     signOut();
   };
   return (
-    <aside className="flex flex-col bg-gray-100 h-screen w-32 lg:w-64 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-gray-200 dark:border-gray-800 top-0 fixed mx-auto items-center content-center justify-center">
+    <aside className="flex flex-col bg-gray-100 h-screen w-32 lg:w-64 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-zinc-800 top-0 fixed mx-auto items-center content-center justify-center">
       <div className="mb-4 mx-auto">
         <Link href="/" className="flex items-center">
           <img src="/subport.png" className="mx-3  w-9" alt="Subport Logo" />
