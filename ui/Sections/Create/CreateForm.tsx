@@ -32,7 +32,7 @@ export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   return { image: imageUrl, audio: audioUrl };
 };
 
-export const CreateForm = () => {
+export const CreateForm = ({address}:any) => {
   const [audioUrl, setAudioUrl] = useState();
   const [imageUrl, setImageUrl] = useState();
   const [step, setStep] = useState(1);
@@ -54,6 +54,7 @@ export const CreateForm = () => {
       total_collectibles: 0,
       description: "",
       keywords: [""],
+      address: ""
     },
   });
 

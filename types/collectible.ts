@@ -11,6 +11,7 @@ type Collectible = {
     lyrics?: string;
     description?: string;
     keywords?: string[];
+    address: string
   };
   
 
