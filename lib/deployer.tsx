@@ -28,3 +28,11 @@ export async function deployContractWithWagmi({contractName, contractArgs, netwo
 
   return contractInstance;
 }
+
+
+export async function deployTest({name, description}:any){
+  const hello = "Hello"
+  console.log('Name:', name, 'Description:', description)
+  console.log('Hello Test:',hello)
+  return hello
+}
