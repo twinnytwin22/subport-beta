@@ -1,5 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react';
+import { toast } from 'react-toastify';
+
+const handleLogout = async () => {
+  toast("Signing Out");
+  signOut();
+};
 function UserMenu() {
   return (
     <div className='hidden md:block'>
@@ -8,9 +15,7 @@ function UserMenu() {
     <Link href="/user">
     <li className="w-full px-4 py-2 border-b border-zinc-200 rounded-t-lg dark:border-zinc-600 hover:dark:bg-zinc-700">Profile</li></Link>
     <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-600 hover:dark:bg-zinc-700">Settings</li>
-    <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-600 hover:dark:bg-zinc-700">Messages</li>
-    <Link href="/api/auth/signout">
-    <li className="w-full px-4 py-2 rounded-b-lg hover:dark:bg-zinc-700">Sign out</li></Link>
+    <li onClick={handleLogout} className="w-full px-4 py-2 rounded-b-lg hover:dark:bg-zinc-700">Sign out</li> 
 </ul>
 
     </div>
