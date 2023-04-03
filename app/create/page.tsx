@@ -6,13 +6,12 @@ import { useConnect } from 'wagmi'
 import ConnectComponent from 'ui/Auth/ConnectComponent'
 function UploadPage() {
   const session = useSession()
-  const { data:address } = useConnect()
-  const isConnected = !!address
+
   
-  console.log(session, isConnected)
+  console.log(session)
   return (
     <div className='bg-gray-100 dark:bg-black w-full max-w-screen mx-auto'>
-      {!isConnected ? <ConnectComponent/> :
+      {!session?.data?.user.wallet ? <ConnectComponent/> :
         <CreateForm/>}
         </div>
   )
