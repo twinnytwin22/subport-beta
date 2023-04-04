@@ -10,7 +10,7 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
       
       // Get the user ID from the authentication provider (NextAuth.js)
       const { data:session } =  useSession();
-      const wallet = session?.user?.wallet
+      const wallet = session?.user?.wallet_address
       console.log(wallet)
       // Deploy the contract using the form data
       const contractAddress = await deployTest({name, description});
