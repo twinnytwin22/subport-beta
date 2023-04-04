@@ -6,6 +6,7 @@ import { SiweMessage } from "siwe";
 import SpotifyProvider from "next-auth/providers/spotify";
 import GoogleProvider from "next-auth/providers/google";
 import { SupabaseAdapter } from '@next-auth/supabase-adapter'
+import jwt from "jsonwebtoken"
 
 
 export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
@@ -65,14 +66,25 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
   return {
     callbacks: {
       async session({ session, token }: any) {
+        const signingSecret = process.env.SUPABASE_JWT_SECRET
         session.id = token?.sub
         session.address = token?.sub.startsWith("0x") === true && token.sub;
         session.user = {
-          wallet: token.sub.startsWith("0x") === true && token.sub,
+          wallet_address: token.sub.startsWith("0x") === true && token.sub,
           email: session?.user?.email,
           name: session?.user?.name,
           image: session?.user?.image
         };
+        if (signingSecret) {
+          const payload = {
+            aud: "authenticated",
+            exp: Math.floor(new Date(session.expires).getTime() / 1000),
+            sub: session?.user?.id,
+            email: session?.user?.email,
+            role: "authenticated",
+          }
+          session.supabaseAccessToken = jwt.sign(payload, signingSecret)
+        }
         return session;
       },
       async signIn({ account, profile }: any) {

@@ -1,6 +1,10 @@
+import { getCollections } from 'lib/hooks/supaQueries'
 import React from 'react'
 
-function page() {
+async function page() {
+  const collections = await getCollections()
+  console.log(collections)
+  
   return (
     <div>
     </div>
