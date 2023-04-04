@@ -73,7 +73,8 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
           wallet_address: token.sub.startsWith("0x") === true && token.sub,
           email: session?.user?.email,
           name: session?.user?.name,
-          image: session?.user?.image
+          image: session?.user?.image,
+          id: session?.user?.id
         };
         if (signingSecret) {
           const payload = {
