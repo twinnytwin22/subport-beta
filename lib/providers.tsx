@@ -23,6 +23,9 @@ import { GetSiweMessageOptions, RainbowKitSiweNextAuthProvider } from '@rainbow-
 import { SessionProvider as AuthProvider } from "next-auth/react";
 import { getServerSession } from "next-auth/next"
 import { getAuthOptions } from "pages/api/auth/[...nextauth]";
+import addUpdateWallet from "./hooks/functions";
+import { useAccount } from 'wagmi'
+
 
 const ThemeProvider = dynamic(
   () => {
@@ -91,10 +94,14 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
 
 export default Providers;
 
-export async function getSomeProps(c: any) {
+export async function getSomeProps(context: any) {
+  const { address } = useAccount()
+  const session = await getServerSession(context.req, context.res, getAuthOptions(context.req));
+  // Call the checkWalletAddress function and pass the session object
   return {
     props: {
-      session: await getServerSession(c.req, c.res, getAuthOptions(c.req)),
-    },
-  };
+      session,
+  }
 };
+
+}

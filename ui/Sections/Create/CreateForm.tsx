@@ -4,8 +4,10 @@ import Collectible from "types/collectible";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Media } from "ui/Misc/Media";
-
+import addUpdateWallet from "lib/hooks/functions";
 import { create } from "ipfs-http-client";
+import { useSession } from "next-auth/react";
+import useFilePreview from "lib/hooks/useFilePreview";
 export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
   const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
@@ -33,9 +35,14 @@ export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
 };
 
 export const CreateForm = ({address}:any) => {
-  const [audioUrl, setAudioUrl] = useState();
-  const [imageUrl, setImageUrl] = useState();
+  const {data: session} = useSession()
+  const [audioUrl, setAudioUrl] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [imagePreview, setImagePreview] = useState<string>();
+  const [songPreview, setSongPreview] = useState<string>();
+  const [ipfsMedia, setIpfsMedia] = useState(false)
   const [step, setStep] = useState(1);
+  
   const {
     register,
     handleSubmit,
@@ -46,26 +53,41 @@ export const CreateForm = ({address}:any) => {
     defaultValues: {
       name: "",
       song_uri: "",
-      image: imageUrl,
-      audio: audioUrl,
+      image: imageUrl || null,
+      audio: audioUrl || null,
       artist_name: "",
       release_date: "",
       genre: "house",
       total_collectibles: 0,
       description: "",
-      keywords: [""],
-      address: ""
+      keywords: [],
+      address: address,
+      userId: session?.id 
     },
   });
 
+  const handleImageUpload = (event: any) => {
+    const file = event?.target?.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setImagePreview(reader.result as string);
+    };
+  };
+
+  const handleSongUpload = (e: any) => {
+    const file = e?.target?.files[0];
+    const newUrl = URL.createObjectURL(file);
+    setSongPreview(newUrl);
+  };
+
   const onSubmit = async (formData: Collectible) => {
-    toast.info("Submitting", { autoClose: 6500 });
+    toast.info("Submitting", { autoClose: 7500 });
     try {
       // Upload the image and audio files to IPFS
-      const { image, audio } = await uploadToIpfs(
-        formData.image[0],
-        formData.audio[0]
-      );
+     const image = imageUrl!
+     const audio = audioUrl!
+     
 
       // Update the form data with the generated URLs
       const updatedFormData = {
@@ -102,7 +124,7 @@ export const CreateForm = ({address}:any) => {
   const onSubmitStep2 = async (data: any) => {
     toast.info("Uploading Media to IPFS Storage", {
       progress: undefined,
-      autoClose: 7500,
+      autoClose: 8000,
     });
     try {
       const { image, audio } = await uploadToIpfs(data.image[0], data.audio[0]);
@@ -114,6 +136,7 @@ export const CreateForm = ({address}:any) => {
       console.log(formData);
       setAudioUrl(formData.audio);
       setImageUrl(formData.image);
+      setIpfsMedia(true)
       // do something with the form data, e.g. submit it to a server
     } catch (error) {
       console.error(error);
@@ -296,10 +319,11 @@ export const CreateForm = ({address}:any) => {
           <h2 className="text-center w-full py-4 text-xl">
             Step {step} - Upload your media.
           </h2>
-
           <div className="flex items-center justify-center w-full mb-2">
+          {!imagePreview && 
+
             <label
-              htmlFor="dropzone-file"
+              htmlFor="file"
               className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -327,16 +351,28 @@ export const CreateForm = ({address}:any) => {
                 </p>
               </div>
               <input
-                id="dropzone-file"
+                id="file"
                 type="file"
                 className="hidden"
-                {...register("image")}
+                onChange={(e) => {
+                 register("image") 
+                }}
               />
-            </label>
+            </label>}
+            {imagePreview ? <img className="w-96" src={imagePreview} alt='preview'/> : null}
+
           </div>
           <div className="flex items-center justify-center w-full mb-2">
+            {!songPreview && <>
             <label htmlFor="audio">Audio:</label>
-            <input type="file" id="audio" {...register("audio")} />
+            <input type="file" 
+            id="audio"   
+            onChange={(e) => {
+              register("audio") 
+             
+                }}/></>}
+            {songPreview ? <audio className="w-96" src={songPreview} controls={true}/> : null}
+
           </div>
           <div className="flex space-x-4">
             <button
@@ -375,7 +411,8 @@ export const CreateForm = ({address}:any) => {
         <div className="w-full mx-auto">
           <div className="flex flex-col mx-auto content-center md:grid md:grid-cols-2 p-8 mb-8 ">
             <div className="mx-auto content-center shadow-xl shadow-gray-800">
-              <Media audio={audioUrl} image={imageUrl} />
+              {ipfsMedia &&
+              <Media audio={audioUrl} image={imageUrl} />}
             </div>
             <div className="">
               <table className="w-full text-md text-left bg-gray-900 p-4 rounded-md shadow-xl shadow-gray-800">
@@ -472,6 +509,7 @@ export const CreateForm = ({address}:any) => {
   return (
     <div className="max-w-7xl mx-auto w-full sm:ml-4 lg:ml-0 p-8">
       <h1 className="text-center text-4xl">Create your collectible</h1>
+      <div className="text-center text-xs">Your blockchain address:<br/>{address}</div>
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}
       {step === 3 && renderStep3()}

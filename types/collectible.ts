@@ -12,6 +12,7 @@ type Collectible = {
     description?: string;
     keywords?: string[];
     address: string
+    userId: string
   };
   
 

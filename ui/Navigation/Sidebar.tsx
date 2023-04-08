@@ -5,6 +5,7 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
+import { SignOutButton } from "ui/Buttons/SignOut";
 function Sidebar({ queries }: any) {
   const { data: session, status } = useSession();
   {
@@ -93,30 +94,8 @@ function Sidebar({ queries }: any) {
         </ul>
         <hr className="hidden sm:flex sm:-16 lg:w-40 border-zinc-600 mt-24 mb-8" />
         {status === "authenticated" ? (
-          <>
-            <button
-              onClick={handleLogout}
-              className="flex px-4 py-2 rounded-2xl bg-zinc-900 hover:bg-zinc-700 dark:border-zinc-600 relative w-sm md:w-full mx-auto content-center text-center"
-            >
-              <h3 className="text-base font-semibold text-zinc-900 lg:text-md dark:text-white text-center">
-                Sign out
-              </h3>
-              <div className="w-6 p-1">
-                <svg
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <path
-                    clipRule="evenodd"
-                    fillRule="evenodd"
-                    d="M10 2a.75.75 0 01.75.75v7.5a.75.75 0 01-1.5 0v-7.5A.75.75 0 0110 2zM5.404 4.343a.75.75 0 010 1.06 6.5 6.5 0 109.192 0 .75.75 0 111.06-1.06 8 8 0 11-11.313 0 .75.75 0 011.06 0z"
-                  />
-                </svg>
-              </div>
-            </button>
-          </>
+        
+           <SignOutButton/>
         ) : (
           <SignInModal />
         )}

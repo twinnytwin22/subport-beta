@@ -1,3 +1,4 @@
+'use client'
 import { MediaRenderer } from "@thirdweb-dev/react";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 
@@ -13,8 +14,8 @@ const testAudio = "ipfs://QmSDprFUJu1q9e14xGdUnibGkFY3fTF5LAzW9j1DxkY6sH"
     <div className="mx-auto flex content-center">
     <ThirdwebProvider activeChain="ethereum">
 
-    <MediaRenderer src={audioUrl} poster={imageUrl}
-    requireInteraction={true}/>
+    <MediaRenderer src={audioUrl} poster={imageUrl} requireInteraction={false}
+   />
     </ThirdwebProvider>
     </div>
   );

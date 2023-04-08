@@ -25,16 +25,15 @@ export default async function RootLayout({
       <body className="bg-gray-100 dark:bg-black min-w-[315px]">
         <Providers>
           <Theme>
-            
             <div className="mb-16" />
             <div className="flex flex-wrap static">
-              <aside className="fixed left-0 hidden sm:block"> 
+              <aside className="fixed left-0 hidden sm:block">
                 <Sidebar />
               </aside>
-            <div className="sm:ml-24 lg:ml-56 sm:p-8 w-full mx-auto flex">
-  <Navbar />
-  <div className="max-w-7xl w-full mx-auto">{children}</div>
-</div>
+              <div className="sm:ml-24 lg:ml-56 sm:p-8 w-full mx-auto flex">
+                <Navbar />
+                <div className="max-w-7xl w-full mx-auto">{children}</div>
+              </div>
             </div>
             <MobileMenu />
           </Theme>

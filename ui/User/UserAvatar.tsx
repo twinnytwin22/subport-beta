@@ -7,6 +7,7 @@ function UserAvatar() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session, status } = useSession();
   const menuRef = useRef(null);
+  const email = session?.user.email
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -34,7 +35,7 @@ function UserAvatar() {
       </div>
       {isOpen && (
         <div ref={menuRef} className="absolute z-50 top-12 right-0">
-          <UserMenu />
+          <UserMenu email={email}/>
         </div>
       )}
     </div>
