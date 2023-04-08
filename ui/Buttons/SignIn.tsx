@@ -9,7 +9,7 @@ export const SignInModal = () => {
 
 const handleLogin = () => {
   setIsOpen(true)
-  toast.loading('Signing In')
+  toast('Signing In')
 }
 
   function SignInButton() {

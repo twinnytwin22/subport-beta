@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 export function SignOutButton() {
 
   const handleLogout = () => {
-    toast.loading('Signing In')
+    toast('Signing Out')
     signOut()
   }
   
