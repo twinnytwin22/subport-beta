@@ -7,7 +7,9 @@ import { Media } from "ui/Misc/Media";
 import addUpdateWallet from "lib/hooks/functions";
 import { create } from "ipfs-http-client";
 import { useSession } from "next-auth/react";
-import useFilePreview from "lib/hooks/useFilePreview";
+import { useRouter } from "next/navigation";
+import { uploadHashToIpfs } from "lib/uploadFileIpfs";
+import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
   const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
@@ -31,7 +33,7 @@ export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   const audioResult = await ipfs.add(audioFile);
   const audioUrl = `ipfs://${audioResult.path}`;
 
-  return { image: imageUrl, audio: audioUrl };
+  return { image: imageUrl, audio: audioUrl,  };
 };
 
 export const CreateForm = ({address}:any) => {
@@ -42,6 +44,7 @@ export const CreateForm = ({address}:any) => {
   const [songPreview, setSongPreview] = useState<string>();
   const [ipfsMedia, setIpfsMedia] = useState(false)
   const [step, setStep] = useState(1);
+  const router = useRouter()
   
   const {
     register,
@@ -50,6 +53,7 @@ export const CreateForm = ({address}:any) => {
     reset,
     formState: { errors },
   } = useForm<Collectible>({
+    mode: 'onChange',
     defaultValues: {
       name: "",
       song_uri: "",
@@ -62,7 +66,7 @@ export const CreateForm = ({address}:any) => {
       description: "",
       keywords: [],
       address: address,
-      userId: session?.id 
+      userId: ''
     },
   });
 
@@ -83,10 +87,13 @@ export const CreateForm = ({address}:any) => {
 
   const onSubmit = async (formData: Collectible) => {
     toast.info("Submitting", { autoClose: 7500 });
+    setStep(4)
+    
     try {
       // Upload the image and audio files to IPFS
      const image = imageUrl!
      const audio = audioUrl!
+     
      
 
       // Update the form data with the generated URLs
@@ -94,12 +101,14 @@ export const CreateForm = ({address}:any) => {
         ...formData,
         image: image,
         audio: audio,
-      };
+      };  
 
       const response = await fetch("/api/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Origin": "http://localhost:3000" // replace with your own base URL
+
         },
         body: JSON.stringify(updatedFormData),
       });
@@ -114,8 +123,7 @@ export const CreateForm = ({address}:any) => {
   };
 
   const handleResetClick = () => {
-    setStep(1);
-    reset();
+        reset()  
   };
   const onSubmitStep1 = () => {
     setStep(2);
@@ -303,7 +311,7 @@ export const CreateForm = ({address}:any) => {
             </button>
             <button
               onClick={handleResetClick}
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
             >
               Reset
             </button>
@@ -354,9 +362,7 @@ export const CreateForm = ({address}:any) => {
                 id="file"
                 type="file"
                 className="hidden"
-                onChange={(e) => {
-                 register("image") 
-                }}
+               {...register("image") }
               />
             </label>}
             {imagePreview ? <img className="w-96" src={imagePreview} alt='preview'/> : null}
@@ -367,10 +373,7 @@ export const CreateForm = ({address}:any) => {
             <label htmlFor="audio">Audio:</label>
             <input type="file" 
             id="audio"   
-            onChange={(e) => {
-              register("audio") 
-             
-                }}/></>}
+             {...register("audio") }/></>}
             {songPreview ? <audio className="w-96" src={songPreview} controls={true}/> : null}
 
           </div>
@@ -409,8 +412,8 @@ export const CreateForm = ({address}:any) => {
           Step {step} - Confirm.
         </h2>
         <div className="w-full mx-auto">
-          <div className="flex flex-col mx-auto content-center md:grid md:grid-cols-2 p-8 mb-8 ">
-            <div className="mx-auto content-center shadow-xl shadow-gray-800">
+          <div className="flex flex-col mx-auto content-center lg:grid lg:grid-cols-2 p-8 mb-8 ">
+            <div className="mx-auto content-center h-fit shadow-xl shadow-gray-800 mb-10">
               {ipfsMedia &&
               <Media audio={audioUrl} image={imageUrl} />}
             </div>
@@ -506,13 +509,26 @@ export const CreateForm = ({address}:any) => {
       </>
     );
   };
+const renderMintStatusCard = () => {
+return (
+<div className="w-full h-[60vh] flex items-center justify-center">
+  <RenderMintStatus/>
+  </div>
+)
+  }
+
   return (
     <div className="max-w-7xl mx-auto w-full sm:ml-4 lg:ml-0 p-8">
+     {step !== 4 &&  <>
       <h1 className="text-center text-4xl">Create your collectible</h1>
-      <div className="text-center text-xs">Your blockchain address:<br/>{address}</div>
+      <div className="text-center text-xs">Your blockchain address:<br/>{address}</div></>}
+      {step === 4 &&  <>
+      <h1 className="text-center text-4xl">Creating your collectible</h1>
+      </>}
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}
       {step === 3 && renderStep3()}
+      {step === 4 && renderMintStatusCard()}
     </div>
   );
 };

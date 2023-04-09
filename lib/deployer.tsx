@@ -30,14 +30,16 @@ export async function deployContractWithWagmi({contractName, contractArgs, netwo
 }
 
 
-export async function deployTest({name, description}:any){
+export async function deployTest(data: any){
   const contractAddress = '0x148280a1395af6F430248c2E4B8063c69B7cA23E'
-  const data = [
+  const deployData = [
     contractAddress,
-    name,
-    description
+    data.name,
+    data.description,
+    data.total_collectibles,
+    data.ipfsHash, 
+    data.ownerAddress
   ]
-  console.log('Name:', name, 'Description:', description)
-  console.log('Deploy Test:',data)
+  console.log('Deploy Test:', data , 'Deploy Data from Test', deployData)
   return data
 }

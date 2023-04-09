@@ -13,6 +13,7 @@ type Collectible = {
     keywords?: string[];
     address: string
     userId: string
+    ipfsHash: any
   };
   
 
