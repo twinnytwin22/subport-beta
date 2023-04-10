@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { deployTest } from 'lib/deployer';
-import fs from 'fs';
 import { getSession, useSession } from 'next-auth/react';
 import { createClient } from '@supabase/supabase-js';
 import { create } from "ipfs-http-client";
@@ -48,7 +47,7 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
         // Deploy the contract using the form data
         const deployData = { 
           ...collectibleData,
-          ipfsHash: ipfsHash.ipfsHash
+          ipfsHash: ipfsHash
         };
       
         const contractAddress = await deployTest(deployData);
@@ -89,19 +88,34 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
   });
 
   // Upload json file to IPFS
+  const { promises: fs } = require('fs');
+const uploadToIpfs = async ({collectibleData}: any) => {
+  const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
+  const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
+  const subdomain = 'subport'
+  const auth =
+    "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
+  const ipfs = create({
+    timeout: "2m",
+    host: "ipfs.infura.io",
+    port: 5001,
+    protocol: "https",
+    headers: {
+      authorization: auth,
+    },
+  });
+
+  // Upload json file to IPFS
   const jsonData = { collectibleData };
   const jsonContent = JSON.stringify(jsonData);
-  fs.writeFile('metadata.json', jsonContent, 'utf8', function (err) {
-    if (err) {
-      console.error(err);
-      throw err;
-    }
-    console.log('metadata was successfully saved to metadata.json file');
-  });
+  await fs.writeFile(`/tmp/${collectibleData.name}-metadata.json`, jsonContent, 'utf8');
+  console.log(`metadata was successfully saved to ${collectibleData.name}-metadata.json file`);
+
   // Upload audio file to IPFS
   const hashResult = await ipfs.add(jsonContent);
   console.log(hashResult, 'hrs')
   const hashUrl = `ipfs://${hashResult.path}`;
   console.log(hashUrl, 'hashUrl')
   return { ipfsHash: hashUrl };
+}
 }
