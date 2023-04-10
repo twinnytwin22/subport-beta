@@ -22,7 +22,7 @@ function Sidebar({ queries }: any) {
         <Link href="/" className="flex items-center">
           <img src="/subport.png" className="mx-3  w-9" alt="Subport Logo" />
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white hidden lg:block">
-            Subport
+            subport
           </span>
         </Link>
       </div>
