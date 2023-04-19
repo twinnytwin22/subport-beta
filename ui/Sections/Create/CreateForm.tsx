@@ -42,7 +42,7 @@ export const CreateForm = ({address}:any) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [imagePreview, setImagePreview] = useState<string>();
   const [songPreview, setSongPreview] = useState<string>();
-  const [ keywordArray, setKeywordArray ] = useState([])
+  const [ keywordArray, setKeywordArray ] = useState()
   const [ipfsMedia, setIpfsMedia] = useState(false)
   const [step, setStep] = useState(1);
   const router = useRouter()
@@ -65,7 +65,7 @@ export const CreateForm = ({address}:any) => {
       genre: "house",
       total_collectibles: 0,
       description: "",
-      keywords: keywordArray,
+      keywords: [ keywordArray ],
       address: address,
       userId: ''
     },
@@ -127,7 +127,7 @@ export const CreateForm = ({address}:any) => {
         reset()  
   };
   const onSubmitStep1 = (formData: any) => {
-    setKeywordArray(formData.keywords)
+    setKeywordArray(formData.keywords.toSting())
     setStep(2);
   };
 
