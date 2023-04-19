@@ -127,7 +127,7 @@ export const CreateForm = ({address}:any) => {
         reset()  
   };
   const onSubmitStep1 = (formData: any) => {
-    setKeywordArray(formData.keywords.toSting())
+    setKeywordArray(formData.keywords)
     setStep(2);
   };
 
