@@ -80,12 +80,14 @@ export const CreateForm = ({address}:any) => {
     };
   };
 
-  const handleSongUpload = (e: any) => {
-    const file = e?.target?.files[0];
-    const newUrl = URL.createObjectURL(file);
-    setSongPreview(newUrl);
+  const handleSongUpload = (event: any) => {
+    const file = event?.target?.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+    setSongPreview(reader.result as string);
   };
-
+  }
   const onSubmit = async (formData: Collectible) => {
     toast.info("Submitting", { autoClose: 7500 });
     setStep(4)
@@ -363,7 +365,7 @@ export const CreateForm = ({address}:any) => {
                 id="file"
                 type="file"
                 className="hidden"
-               {...register("image") }onChange={handleImageUpload}
+               {...register("image") }
               />
             </label>}
             {imagePreview ? <img className="w-96" src={imagePreview} alt='preview'/> : null}
@@ -374,7 +376,7 @@ export const CreateForm = ({address}:any) => {
             <label htmlFor="audio">Audio:</label>
             <input type="file" 
             id="audio"   
-             {...register("audio") }/></>}
+             {...register("audio") } /></>}
             {songPreview ? <audio className="w-96" src={songPreview} controls={true}/> : null}
 
           </div>
