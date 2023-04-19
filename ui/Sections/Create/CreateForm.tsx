@@ -64,7 +64,7 @@ export const CreateForm = ({address}:any) => {
       genre: "house",
       total_collectibles: 0,
       description: "",
-      keywords: [],
+      keywords: [''],
       address: address,
       userId: ''
     },
