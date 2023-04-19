@@ -86,7 +86,7 @@ const MenuDots = () => {
 function CollectCard() {
   return (
     <div className="flex flex-col static mx-auto w-full content-center justify-center">
-      <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-lg dark:bg-zinc-900 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-900">
+      <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-lg dark:bg-zinc-900 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-200 dark:shadow-zinc-900">
         <div className="flex h-8 mb-2 justify-between items-center">
           <div className="block">
             <p className="text-[10px] pl-3">Created by</p>

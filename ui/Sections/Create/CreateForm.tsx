@@ -181,7 +181,7 @@ export const CreateForm = ({address}:any) => {
               <input
                 type="text"
                 id="name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border border-zinc-300  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Always"
                 {...register("name", { required: true })}
               />
@@ -415,51 +415,51 @@ export const CreateForm = ({address}:any) => {
         </h2>
         <div className="w-full mx-auto">
           <div className="flex flex-col mx-auto content-center lg:grid lg:grid-cols-2 p-8 mb-8 ">
-            <div className="mx-auto content-center h-fit shadow-xl shadow-gray-800 mb-10">
+            <div className="mx-auto content-center h-fit shadow-xl shadow-zinc-300 dark:shadow-gray-800 mb-10">
               {ipfsMedia &&
               <Media audio={audioUrl} image={imageUrl} />}
             </div>
             <div className="">
-              <table className="w-full text-md text-left bg-gray-900 p-4 rounded-md shadow-xl shadow-gray-800">
+              <table className="w-full text-md text-left bg-zinc-200 dark:bg-gray-900 p-4 rounded-md shadow-xl shadow-zinc-300 dark:shadow-zinc-800">
                 <tbody className="p-8">
-                  <tr className="border-b border-gray-600">
-                    <td className="px-6 py-2 border-r border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-gray-600">
+                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
                       Release Name:
                     </td>
                     <td className="px-6 py-2">{watch("name")}</td>
                   </tr>
-                  <tr className="border-b border-gray-600">
-                    <td className="px-6 py-2 border-r border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-gray-600">
+                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
                       Artist:
                     </td>
                     <td className="px-6 py-2">{watch("artist_name")}</td>
                   </tr>
-                  <tr className="border-b border-gray-600">
-                    <td className="px-6 py-2 border-r border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-gray-600">
+                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
                       Release Date:
                     </td>
                     <td className="px-6 py-2">{watch("release_date")}</td>
                   </tr>
-                  <tr className="border-b border-gray-600">
-                    <td className="px-6 py-2 border-r border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-gray-600">
+                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
                       Total Collectibles:
                     </td>
                     <td className="px-6 py-2">{watch("total_collectibles")}</td>
                   </tr>
-                  <tr className="border-b border-gray-600">
-                    <td className="px-6 py-2 border-r border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-gray-600">
+                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
                       Description:
                     </td>
                     <td className="px-6 py-2">{watch("description")}</td>
                   </tr>
-                  <tr className="border-b border-gray-600">
-                    <td className="px-6 py-2 border-r border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-gray-600">
+                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
                       Song URI:
                     </td>
                     <td className="px-6 py-2"> {watch("song_uri")}</td>
                   </tr>
-                  <tr className="border-b border-gray-600">
-                    <td className="px-6 py-2 border-r border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-gray-600">
+                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
                       Genre:{" "}
                     </td>
 
@@ -474,7 +474,7 @@ export const CreateForm = ({address}:any) => {
                     </td>
                   </tr>
                   <tr className="">
-                    <td className="px-6 py-2 border-r border-gray-800">
+                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
                       Keywords:
                     </td>
                     <td className="px-6 py-2"> {watch("keywords")}</td>
@@ -527,9 +527,9 @@ return (
       {step === 4 &&  <>
       <h1 className="text-center text-4xl">Creating your collectible</h1>
       </>}
-      {step === 1 && renderStep1()}
+      {step === 1 && renderStep3()}
       {step === 2 && renderStep2()}
-      {step === 3 && renderStep3()}
+      {step === 3 && renderStep1()}
       {step === 4 && renderMintStatusCard()}
     </div>
   );

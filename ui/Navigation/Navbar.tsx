@@ -11,7 +11,7 @@ function Navbar() {
   console.log(session, "session2");
 
   return (
-    <div className="flex fixed top-0 z-[300] border-zinc-800 px-6 py-2.5 border-b w-full bg-black mx-auto">
+    <div className="flex fixed top-0 z-[300] border-zinc-200 dark:border-zinc-800 px-6 py-2.5 border-b w-full bg-zinc-100 dark:bg-black mx-auto">
       <div className="flex sm:grid sm:grid-cols-8 w-full gap-x-4 sm:pr-28">
             <form className={`flex mx-auto items-center w-full ml-0 col-span-8 sm:col-span-6 ${status === 'unauthenticated' && "md:col-span-7 lg:col-span-6"}`}>
               <label htmlFor="simple-search" className="sr-only">

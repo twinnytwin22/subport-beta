@@ -17,7 +17,7 @@ const handleLogin = () => {
       <div onClick={handleLogin}>
         <Link
           href="#"
-          className="text-zinc-900 dark:text-white hover:bg-zinc-50 focus:ring-4 bg-zinc-900 border-zinc-700 border focus:ring-zinc-300 hover:scale-105 text-xs rounded-lg lg:text-sm px-3 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-zinc-700 focus:outline-none dark:focus:ring-zinc-800  shadow-zinc-200 hover:shadow-sm"
+          className="text-zinc-900 dark:text-white hover:bg-zinc-50 focus:ring-4 bg-zinc-100 dark:bg-zinc-900 border-zinc-700 border focus:ring-zinc-300 hover:scale-105 text-xs rounded-lg lg:text-sm px-3 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-zinc-700 focus:outline-none dark:focus:ring-zinc-800  shadow-zinc-200 hover:shadow-sm"
         >
           Sign In
         </Link>
@@ -45,10 +45,10 @@ const handleLogin = () => {
             tabIndex={-1}
           >
             <div
-              className="flex flex-col p-4 rounded-2xl bg-black opacity-2"
+              className="flex flex-col p-4 rounded-2xl bg-zinc-200 dark:bg-black opacity-2"
               onClick={() => setIsOpen(false)}
             >
-              <button onClick={() => setIsOpen(false)}>Close</button>
+              <button className="text-black dark:text-white" onClick={() => setIsOpen(false)}>Close</button>
 
               <LoginCard />
             </div>

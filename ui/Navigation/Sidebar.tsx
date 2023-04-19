@@ -21,15 +21,15 @@ function Sidebar({ queries }: any) {
       <div className="mb-4 mx-auto">
         <Link href="/" className="flex items-center">
           <img src="/subport.png" className="mx-3  w-9" alt="Subport Logo" />
-          <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white hidden lg:block">
+          <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white hidden lg:block">
             subport
           </span>
         </Link>
       </div>
       <nav className="flex-grow p-2">
-        <ul className="font-bold text-lg text-zinc-200 items-center mx-auto flex-col space-y-8">
+        <ul className="font-bold text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
           <Link href="/">
-            <li className="hover:text-white">
+            <li className="">
               <p className="hidden lg:block"> Home</p>
               <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105 mb-3">
                 <svg
@@ -50,9 +50,9 @@ function Sidebar({ queries }: any) {
             </li>
           </Link>
           <Link href="/trending">
-            <li className="hover:text-white">
+            <li className="">
               <p className="hidden lg:block"> Trending</p>
-              <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105 mb-3">
+              <div className="block lg:hidden group w-10 mx-auto rounded-full  bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105 mb-3">
                 <svg
                   fill="none"
                   stroke="currentColor"
@@ -72,7 +72,7 @@ function Sidebar({ queries }: any) {
           </Link>
           {status === "authenticated" && (
             <Link href="/create">
-              <li className="hover:text-white">
+              <li className="">
                 <p className="hidden lg:block">Create</p>
                 <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105 mb-3">
                   <svg
