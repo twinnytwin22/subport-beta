@@ -42,7 +42,7 @@ export const CreateForm = ({address}:any) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [imagePreview, setImagePreview] = useState<string>();
   const [songPreview, setSongPreview] = useState<string>();
-  const [ keywordArray, setKeywordArray ] = useState()
+  const [ keywordArray, setKeywordArray ] = useState<string>()
   const [ipfsMedia, setIpfsMedia] = useState(false)
   const [step, setStep] = useState(1);
   const router = useRouter()
@@ -65,7 +65,7 @@ export const CreateForm = ({address}:any) => {
       genre: "house",
       total_collectibles: 0,
       description: "",
-      keywords: [ keywordArray ],
+      keywords: '',
       address: address,
       userId: ''
     },
@@ -94,7 +94,7 @@ export const CreateForm = ({address}:any) => {
       // Upload the image and audio files to IPFS
      const image = imageUrl!
      const audio = audioUrl!
-     
+     const keywordsArray = formData.keywords?.split(',')
      
 
       // Update the form data with the generated URLs
@@ -102,6 +102,7 @@ export const CreateForm = ({address}:any) => {
         ...formData,
         image: image,
         audio: audio,
+        keywords: keywordsArray
       };  
 
       const response = await fetch("/api/create", {
@@ -127,7 +128,6 @@ export const CreateForm = ({address}:any) => {
         reset()  
   };
   const onSubmitStep1 = (formData: any) => {
-    setKeywordArray(formData.keywords)
     setStep(2);
   };
 

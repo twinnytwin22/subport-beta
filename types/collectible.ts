@@ -10,7 +10,7 @@ type Collectible = {
     song_uri: string;
     lyrics?: string;
     description?: string;
-    keywords?: string[];
+    keywords?: string;
     address: string
     userId: string
     ipfsHash: any
