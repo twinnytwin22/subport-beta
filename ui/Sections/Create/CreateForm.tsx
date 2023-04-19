@@ -363,7 +363,7 @@ export const CreateForm = ({address}:any) => {
                 id="file"
                 type="file"
                 className="hidden"
-               {...register("image") }
+               {...register("image") }onChange={handleImageUpload}
               />
             </label>}
             {imagePreview ? <img className="w-96" src={imagePreview} alt='preview'/> : null}
