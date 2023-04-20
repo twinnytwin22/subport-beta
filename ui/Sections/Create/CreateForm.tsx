@@ -551,8 +551,8 @@ return (
       {step === 4 &&  <>
       <h1 className="text-center text-4xl">Creating your collectible</h1>
       </>}
-      {step === 1 && renderStep2()}
-      {step === 2 && renderStep1()}
+      {step === 1 && renderStep1()}
+      {step === 2 && renderStep2()}
       {step === 3 && renderStep3()}
       {step === 4 && renderMintStatusCard()}
     </div>
