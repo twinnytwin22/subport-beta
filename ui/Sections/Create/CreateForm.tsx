@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { uploadHashToIpfs } from "lib/uploadFileIpfs";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
+  console.log(imageFile, audioFile, 'ia upipfs')
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
   const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
   const auth =
@@ -40,26 +41,28 @@ export const CreateForm = ({address}:any) => {
   const {data: session} = useSession()
   const [audioUrl, setAudioUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const [imagePreview, setImagePreview] = useState<string>();
-  const [songPreview, setSongPreview] = useState<string>();
+  const [imagePreview, setImagePreview] = useState(null);
+  const [songPreview, setSongPreview] = useState(null);
+  const [ songfile, setSongFile ] = useState(null);
+  const [ imageFile, setImageFile ] = useState(null);
   const [ keywordArray, setKeywordArray ] = useState<string>()
-  const [ipfsMedia, setIpfsMedia] = useState(false)
+  const [ipfsMedia, setIpfsMedia] = useState(false);
   const [step, setStep] = useState(1);
-  const router = useRouter()
   
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<Collectible>({
     mode: 'onChange',
     defaultValues: {
       name: "",
       song_uri: "",
-      image: imageUrl || null,
-      audio: audioUrl || null,
+      image: '' || imageUrl || null,
+      audio: '' || audioUrl || null,
       artist_name: "",
       release_date: "",
       genre: "house",
@@ -70,24 +73,43 @@ export const CreateForm = ({address}:any) => {
       userId: ''
     },
   });
-
   const handleImageUpload = (event: any) => {
-    const file = event?.target?.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setImagePreview(reader.result as string);
-    };
+    const file = event.target.files[0];
+    if (file) {
+      // Read the selected file and create a preview URL
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        setImagePreview(event.target.result);
+      };
+      reader.readAsDataURL(file);
+
+      // Update the "audio" field value in the form data
+      setValue("image", file);
+    } else {
+      // Clear the preview and the "audio" field value if the file was removed
+      setImagePreview(null);
+      setValue("image", null);
+    }
   };
 
-  const handleSongUpload = (event: any) => {
-    const file = event?.target?.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-    setSongPreview(reader.result as string);
+  const handleSongChange = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Read the selected file and create a preview URL
+      const reader = new FileReader();
+      reader.onload = (event: any) => {
+        setSongPreview(event.target.result);
+      };
+      reader.readAsDataURL(file);
+
+      // Update the "audio" field value in the form data
+      setValue("audio", file);
+    } else {
+      // Clear the preview and the "audio" field value if the file was removed
+      setSongPreview(null);
+      setValue("audio", null);
+    }
   };
-  }
   const onSubmit = async (formData: Collectible) => {
     toast.info("Submitting", { autoClose: 7500 });
     setStep(4)
@@ -134,12 +156,14 @@ export const CreateForm = ({address}:any) => {
   };
 
   const onSubmitStep2 = async (data: any) => {
+    console.log(data)
     toast.info("Uploading Media to IPFS Storage", {
       progress: undefined,
       autoClose: 8000,
     });
+   
     try {
-      const { image, audio } = await uploadToIpfs(data.image[0], data.audio[0]);
+      const { image, audio } = await uploadToIpfs(data.image, data.audio);
       const formData = {
         ...data,
         image: image,
@@ -150,12 +174,11 @@ export const CreateForm = ({address}:any) => {
       setImageUrl(formData.image);
       setIpfsMedia(true)
       // do something with the form data, e.g. submit it to a server
+      setStep(3);
     } catch (error) {
       console.error(error);
+      toast.error("An error occurred while uploading media to IPFS");
     }
-
-    // Handle form submission for step 2 here
-    setStep(3);
   };
 
   const onBack = () => {
@@ -365,7 +388,7 @@ export const CreateForm = ({address}:any) => {
                 id="file"
                 type="file"
                 className="hidden"
-               {...register("image") }
+               {...register("image") } onChange={handleImageUpload}
               />
             </label>}
             {imagePreview ? <img className="w-96" src={imagePreview} alt='preview'/> : null}
@@ -376,7 +399,7 @@ export const CreateForm = ({address}:any) => {
             <label htmlFor="audio">Audio:</label>
             <input type="file" 
             id="audio"   
-             {...register("audio") } /></>}
+             {...register("audio") } onChange={handleSongChange} /></>}
             {songPreview ? <audio className="w-96" src={songPreview} controls={true}/> : null}
 
           </div>
@@ -528,8 +551,8 @@ return (
       {step === 4 &&  <>
       <h1 className="text-center text-4xl">Creating your collectible</h1>
       </>}
-      {step === 1 && renderStep1()}
-      {step === 2 && renderStep2()}
+      {step === 1 && renderStep2()}
+      {step === 2 && renderStep1()}
       {step === 3 && renderStep3()}
       {step === 4 && renderMintStatusCard()}
     </div>
