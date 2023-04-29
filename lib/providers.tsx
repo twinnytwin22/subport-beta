@@ -42,12 +42,12 @@ const { chains, provider, webSocketProvider } = configureChains(
 
 const connectors = connectorsForWallets([
   {
-    groupName: "CRIB Recommended",
+    groupName: "subport recommended",
     wallets: [
       injectedWallet({ chains }),
       rainbowWallet({ chains }),
       metaMaskWallet({ chains }),
-      coinbaseWallet({ chains, appName: "THE CRIB" }),
+      coinbaseWallet({ chains, appName: "subport.xyz" }),
       ledgerWallet({ chains }),
       walletConnectWallet({ chains }),
     ],
@@ -62,7 +62,7 @@ const wagmiClient = createClient({
 });
 
 const getSiweMessageOptions: GetSiweMessageOptions = () => ({
-  statement: 'Whats up fam?. Sign in PreSonic',
+  statement: 'Whats up fam?. Sign in subport',
 });
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
