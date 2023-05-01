@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useUser, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { supabase } from "lib/supabaseClient";
 import { useSession } from "next-auth/react";
 import { SignOutButton } from "ui/Buttons/SignOut";
+import Avatar from "./UploadWidget";
 export default function Account() {
   const { data: session } = useSession();
   const user = session?.id;
@@ -103,9 +103,17 @@ export default function Account() {
 
   return (
     <div className="bg-slate-200 dark:bg-zinc-900 border border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
-      {image ?
-      <img className="block aspect-square w-36 h-36 md:w-48 md:h-48 content-center mx-auto rounded-lg" src={image} /> :
-      <div className="block aspect-square w-36 h-36 md:w-48 md:h-48 content-center mx-auto">Loading...</div>}
+      <div className="mx-auto content-center items-center">
+      <Avatar
+      uid={session?.user.id}
+      url={avatar_url ?? image}
+      size={200}
+      onUpload={(url: any) => {
+        setAvatarUrl(url)
+        updateProfile({ avatar_url: url })
+      }}
+    />
+</div>
       <div className="place-content-end mx-auto">
       <div>
         <label
@@ -152,27 +160,7 @@ export default function Account() {
           onChange={(e: any) => setWallet(e?.target.value)}
         />
       </div>
-      <div>
-        <label
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          htmlFor="file_input"
-        >
-          Update Profile Image
-        </label>
-        <input
-        onChange={handleFileUpload}          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-          aria-describedby="file_input_help"
-          id="file_input"
-          type="file"
-          accept="image/"
-        />
-        <p
-          className="mt-1 text-sm text-gray-500 dark:text-gray-300"
-          id="file_input_help"
-        >
-         PNG, JPG or GIF (MAX. 800x800px).
-        </p>
-      </div>
+       
       <div className="flex space-x-2 mt-4">
         <button
           className="bg-blue-700 text-white p-2 text-sm w-32 rounded-lg hover:bg-blue-800 hover:scale-105"
