@@ -23,7 +23,6 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
       async session({ session, token }: any) {
         const signingSecret = process.env.SUPABASE_JWT_SECRET
         session.id = token?.sub
-        
         // Check if wallet_address exists for this user
         let { data, error } = await supabase
           .from('users')
@@ -76,6 +75,8 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
           }
           session.supabaseAccessToken = jwt.sign(payload, signingSecret)
         }
+        
+
         return session;
       },
       async signIn({ account, profile, email, user }: any) {
