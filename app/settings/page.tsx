@@ -4,7 +4,7 @@ async function page() {
   
 
 return (
-<div className="w-full h-[60vh] flex items-center justify-center">
+<div className="w-full min-h-full flex items-center justify-center content-center">
 <Account/>
 </div> 
 )

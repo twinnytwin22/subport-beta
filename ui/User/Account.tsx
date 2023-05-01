@@ -102,7 +102,7 @@ export default function Account() {
   
 
   return (
-    <div className="bg-slate-200 dark:bg-zinc-900 border border-zinc-700 rounded-lg p-8 min-w-sm max-w-2xl w-full space-y-4 flex place-items-center">
+    <div className="bg-slate-200 dark:bg-zinc-900 border border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
       {image ?
       <img className="block aspect-square w-48 h-48 content-center mx-auto rounded-lg" src={image} /> :
       <div className="block aspect-square w-48 h-48 content-center mx-auto">Loading...</div>}
@@ -157,7 +157,7 @@ export default function Account() {
           className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           htmlFor="file_input"
         >
-          Upload file
+          Update Profile Image
         </label>
         <input
         onChange={handleFileUpload}          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
