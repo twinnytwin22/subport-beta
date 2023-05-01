@@ -104,8 +104,8 @@ export default function Account() {
   return (
     <div className="bg-slate-200 dark:bg-zinc-900 border border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
       {image ?
-      <img className="block aspect-square w-48 h-48 content-center mx-auto rounded-lg" src={image} /> :
-      <div className="block aspect-square w-48 h-48 content-center mx-auto">Loading...</div>}
+      <img className="block aspect-square w-36 h-36 md:w-48 md:h-48 content-center mx-auto rounded-lg" src={image} /> :
+      <div className="block aspect-square w-36 h-36 md:w-48 md:h-48 content-center mx-auto">Loading...</div>}
       <div className="place-content-end mx-auto">
       <div>
         <label
