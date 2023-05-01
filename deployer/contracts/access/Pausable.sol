@@ -9,11 +9,11 @@
 
 pragma solidity >=0.5.16 <0.9.0;
 
-import "./CribOwnable.sol";
+import "./SubportOwnable.sol";
 
 //@title Pausable
 //@author Twinny @djtwinnytwin
-contract Pausable is CribOwnable {
+contract Pausable is SubportOwnable {
 
 	// -------------
 	// EVENTS & VARS
@@ -44,7 +44,7 @@ contract Pausable is CribOwnable {
 	// ----------
 
 	//@dev Pause or unpause minting
-	function toggleSaleActive() public isCrib
+	function toggleSaleActive() public isSubport
 	{
 		_paused = !_paused;
 

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, {useEffect} from 'react'
 import { CreateForm } from 'ui/Sections/Create/CreateForm'
 import { useAccount } from 'wagmi'
 import ConnectComponent from 'ui/Auth/ConnectComponent'
@@ -7,18 +7,25 @@ import { useSession } from 'next-auth/react'
 import addUpdateWallet from 'lib/hooks/functions'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
+import LoginCard from 'ui/Auth/AuthComponent'
 function Create({updatedUser}: any) {
   const { isConnected, address } = useAccount()
-  const { data:session } = useSession()
-  const userWalletStatus = addUpdateWallet({session},address)
+  const { data:session, status } = useSession()
   const router = useRouter()
-  
 
+
+
+  if (address != null) {
+    addUpdateWallet({ session }, address)
+  }
+  
+  console.log(address, 'address from create page.tsx')
 
   return (
-    <div className='bg-gray-100 dark:bg-black w-full max-w-screen mx-auto'>
-      {!isConnected && !session  || !isConnected ? <ConnectComponent/> :
-        <CreateForm  address={address}/> }
+    <div className='bg-gray-100 dark:bg-black w-full max-w-screen mx-auto place-items-center items-center min-h-screen'>
+      {!session && <div className='max-w-md mx-auto'> <LoginCard/></div>}
+      {session && !session.user.wallet_address && !address && <ConnectComponent/>}
+      {session ? session.user.wallet_address && <CreateForm address={session.user.wallet_address ?? address}/> : address && <CreateForm/> }
         </div>
   )
 }

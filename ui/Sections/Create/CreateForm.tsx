@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { uploadHashToIpfs } from "lib/uploadFileIpfs";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
-  console.log(imageFile, audioFile, 'ia upipfs')
+  console.log(imageFile, audioFile, "ia upipfs");
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
   const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
   const auth =
@@ -34,21 +34,18 @@ export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   const audioResult = await ipfs.add(audioFile);
   const audioUrl = `ipfs://${audioResult.path}`;
 
-  return { image: imageUrl, audio: audioUrl,  };
+  return { image: imageUrl, audio: audioUrl };
 };
 
-export const CreateForm = ({address}:any) => {
-  const {data: session} = useSession()
+export const CreateForm = ({ address }: any) => {
+  const { data: session } = useSession();
   const [audioUrl, setAudioUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [songPreview, setSongPreview] = useState(null);
-  const [ songfile, setSongFile ] = useState(null);
-  const [ imageFile, setImageFile ] = useState(null);
-  const [ keywordArray, setKeywordArray ] = useState<string>()
   const [ipfsMedia, setIpfsMedia] = useState(false);
   const [step, setStep] = useState(1);
-  
+
   const {
     register,
     handleSubmit,
@@ -57,20 +54,20 @@ export const CreateForm = ({address}:any) => {
     setValue,
     formState: { errors },
   } = useForm<Collectible>({
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues: {
       name: "",
       song_uri: "",
-      image: '' || imageUrl || null,
-      audio: '' || audioUrl || null,
+      image: "" || imageUrl || null,
+      audio: "" || audioUrl || null,
       artist_name: "",
       release_date: "",
       genre: "house",
       total_collectibles: 0,
       description: "",
-      keywords: '',
+      keywords: "",
       address: address,
-      userId: ''
+      userId: "",
     },
   });
   const handleImageUpload = (event: any) => {
@@ -112,29 +109,27 @@ export const CreateForm = ({address}:any) => {
   };
   const onSubmit = async (formData: Collectible) => {
     toast.info("Submitting", { autoClose: 7500 });
-    setStep(4)
-    
+    setStep(4);
+
     try {
       // Upload the image and audio files to IPFS
-     const image = imageUrl!
-     const audio = audioUrl!
-     const keywordsArray = formData.keywords?.split(',')
-     
+      const image = imageUrl!;
+      const audio = audioUrl!;
+      const keywordsArray = formData.keywords?.split(",");
 
       // Update the form data with the generated URLs
       const updatedFormData = {
         ...formData,
         image: image,
         audio: audio,
-        keywords: keywordsArray
-      };  
+        keywords: keywordsArray,
+      };
 
       const response = await fetch("/api/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Origin": "http://localhost:3000" // replace with your own base URL
-
+          Origin: "http://localhost:3000", // replace with your own base URL
         },
         body: JSON.stringify(updatedFormData),
       });
@@ -149,19 +144,19 @@ export const CreateForm = ({address}:any) => {
   };
 
   const handleResetClick = () => {
-        reset()  
+    reset();
   };
   const onSubmitStep1 = (formData: any) => {
     setStep(2);
   };
 
   const onSubmitStep2 = async (data: any) => {
-    console.log(data)
+    console.log(data);
     toast.info("Uploading Media to IPFS Storage", {
       progress: undefined,
       autoClose: 8000,
     });
-   
+
     try {
       const { image, audio } = await uploadToIpfs(data.image, data.audio);
       const formData = {
@@ -172,7 +167,7 @@ export const CreateForm = ({address}:any) => {
       console.log(formData);
       setAudioUrl(formData.audio);
       setImageUrl(formData.image);
-      setIpfsMedia(true)
+      setIpfsMedia(true);
       // do something with the form data, e.g. submit it to a server
       setStep(3);
     } catch (error) {
@@ -226,8 +221,51 @@ export const CreateForm = ({address}:any) => {
                 {...register("artist_name", { required: true })}
               />
             </div>
-
-            <div>
+            <div className="grid grid-cols-3 gap-6 place-items-center lg:col-span-1 ">
+              <label
+                htmlFor="start_date"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white col-span-2 w-full"
+              >
+                Start Date
+                <input
+                  type="date"
+                  className="bg-gray-50 border mt-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />
+              </label>
+              <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
+                <input type="checkbox" value="" className="sr-only peer" />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Now
+                </span>
+              </label>
+              <label
+                htmlFor="end_date"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white col-span-2 w-full"
+              >
+                End Date
+                <input
+                  type="date"
+                  className="bg-gray-50 border mt-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                />{" "}
+              </label>
+              <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
+                <input type="checkbox" value="" className="sr-only peer" />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Never
+                </span>
+              </label>
+            </div>
+            <div className="grid grid-cols-2 gap-6">
+              <div className="col-span-2">
+              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Drop Type? </label>
+              <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value='Save'>Pre-save / Save</option>
+                <option value="Standard">Standard Drop</option>
+              </select>
+              </div>
+              <div>
               <label
                 htmlFor="release_date"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -241,27 +279,6 @@ export const CreateForm = ({address}:any) => {
                 placeholder="Flowbite"
                 {...register("release_date", { required: true })}
               />
-            </div>
-            <div>
-              <label
-                htmlFor="genre"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Genre
-              </label>
-              <select
-                {...register("genre", { required: true })}
-                id="genre"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                <option value="rock">Rock</option>
-                <option value="pop">Pop</option>
-                <option value="rnb">R&B</option>
-                <option value="hip_hop">Hip Hop</option>
-                <option value="electronic">Electronic</option>
-                <option value="house">House/Dance</option>
-                <option value="country">Country</option>
-              </select>
             </div>
             <div>
               <label
@@ -283,6 +300,30 @@ export const CreateForm = ({address}:any) => {
                 })}
               />
             </div>
+            </div>
+            
+            <div>
+              <label
+                htmlFor="genre"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Genre
+              </label>
+              <select
+                {...register("genre", { required: true })}
+                id="genre"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="rock">Rock</option>
+                <option value="pop">Pop</option>
+                <option value="rnb">R&B</option>
+                <option value="hip_hop">Hip Hop</option>
+                <option value="electronic">Electronic</option>
+                <option value="house">House/Dance</option>
+                <option value="country">Country</option>
+              </select>
+            </div>
+            
             <div>
               <label
                 htmlFor="website"
@@ -355,53 +396,62 @@ export const CreateForm = ({address}:any) => {
             Step {step} - Upload your media.
           </h2>
           <div className="flex items-center justify-center w-full mb-2">
-          {!imagePreview && 
-
-            <label
-              htmlFor="file"
-              className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-            >
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <svg
-                  aria-hidden="true"
-                  className="w-10 h-10 mb-3 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                  ></path>
-                </svg>
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-semibold">Click to upload</span>
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  PNG, JPG or GIF (MAX.50MB)
-                </p>
-              </div>
-              <input
-                id="file"
-                type="file"
-                className="hidden"
-               {...register("image") } onChange={handleImageUpload}
-              />
-            </label>}
-            {imagePreview ? <img className="w-96" src={imagePreview} alt='preview'/> : null}
-
+            {!imagePreview && (
+              <label
+                htmlFor="file"
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg
+                    aria-hidden="true"
+                    className="w-10 h-10 mb-3 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    ></path>
+                  </svg>
+                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                    <span className="font-semibold">Click to upload</span>
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    PNG, JPG or GIF (MAX.50MB)
+                  </p>
+                </div>
+                <input
+                  id="file"
+                  type="file"
+                  className="hidden"
+                  {...register("image")}
+                  onChange={handleImageUpload}
+                />
+              </label>
+            )}
+            {imagePreview ? (
+              <img className="w-96" src={imagePreview} alt="preview" />
+            ) : null}
           </div>
           <div className="flex items-center justify-center w-full mb-2">
-            {!songPreview && <>
-            <label htmlFor="audio">Audio:</label>
-            <input type="file" 
-            id="audio"   
-             {...register("audio") } onChange={handleSongChange} /></>}
-            {songPreview ? <audio className="w-96" src={songPreview} controls={true}/> : null}
-
+            {!songPreview && (
+              <>
+                <label htmlFor="audio">Audio:</label>
+                <input
+                  type="file"
+                  id="audio"
+                  {...register("audio")}
+                  onChange={handleSongChange}
+                />
+              </>
+            )}
+            {songPreview ? (
+              <audio className="w-96" src={songPreview} controls={true} />
+            ) : null}
           </div>
           <div className="flex space-x-4">
             <button
@@ -440,8 +490,7 @@ export const CreateForm = ({address}:any) => {
         <div className="w-full mx-auto">
           <div className="flex flex-col mx-auto content-center lg:grid lg:grid-cols-2 p-8 mb-8 ">
             <div className="mx-auto content-center h-fit shadow-xl shadow-zinc-300 dark:shadow-gray-800 mb-10">
-              {ipfsMedia &&
-              <Media audio={audioUrl} image={imageUrl} />}
+              {ipfsMedia && <Media audio={audioUrl} image={imageUrl} />}
             </div>
             <div className="">
               <table className="w-full text-md text-left bg-zinc-200 dark:bg-gray-900 p-4 rounded-md shadow-xl shadow-zinc-300 dark:shadow-zinc-800">
@@ -535,22 +584,31 @@ export const CreateForm = ({address}:any) => {
       </>
     );
   };
-const renderMintStatusCard = () => {
-return (
-<div className="w-full h-[60vh] flex items-center justify-center">
-  <RenderMintStatus/>
-  </div>
-)
-  }
+  const renderMintStatusCard = () => {
+    return (
+      <div className="w-full h-[60vh] flex items-center justify-center">
+        <RenderMintStatus />
+      </div>
+    );
+  };
 
   return (
     <div className="max-w-7xl mx-auto w-full sm:ml-4 lg:ml-0 p-8">
-     {step !== 4 &&  <>
-      <h1 className="text-center text-4xl">Create your collectible</h1>
-      <div className="text-center text-xs">Your blockchain address:<br/>{address}</div></>}
-      {step === 4 &&  <>
-      <h1 className="text-center text-4xl">Creating your collectible</h1>
-      </>}
+      {step !== 4 && (
+        <>
+          <h1 className="text-center text-4xl">Create your collectible</h1>
+          <div className="text-center text-xs">
+            Your blockchain address:
+            <br />
+            {address}
+          </div>
+        </>
+      )}
+      {step === 4 && (
+        <>
+          <h1 className="text-center text-4xl">Creating your collectible</h1>
+        </>
+      )}
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}
       {step === 3 && renderStep3()}

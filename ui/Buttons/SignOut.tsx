@@ -2,11 +2,15 @@
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { disconnect } from "@wagmi/core";
 export function SignOutButton() {
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     toast('Signing Out')
-    signOut()
+    await signOut()
+    disconnect()
+    toast('You are signed out')
+    
   }
   
     return (

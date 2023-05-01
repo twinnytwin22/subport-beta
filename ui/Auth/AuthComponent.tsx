@@ -46,6 +46,7 @@ export default function LoginCard() {
                     </span>
                   </div>
                 </li>
+                {!window &&
                 <li>
                   <a
                     href="#"
@@ -102,10 +103,11 @@ export default function LoginCard() {
                     Email                    
                     </span>
                   </a>
-                </li>
+                </li>}
+                {!window && 
                 <li>
                   <ConnectToSubport/>
-                </li>
+                </li>}
               </ul>
               <div>
               </div>

@@ -1,27 +1,30 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react'
-
-export default function Account({ session }: any) {
-  const supabase = useSupabaseClient()
-  const user = useUser()
+import { supabase } from 'lib/supabaseClient'
+import { useSession } from 'next-auth/react'
+export default function Account() {
+  const {data:session} = useSession()
+  const user = session?.id
+  console.log(session)
   const [loading, setLoading] = useState(true)
-  const [username, setUsername] = useState(null)
-  const [website, setWebsite] = useState(null)
-  const [avatar_url, setAvatarUrl] = useState(null)
+  const [username, setUsername] = useState('')
+  const [ email, setEmail ] = useState(session?.user?.email!)
+  const [wallet, setWallet] = useState('')
+  const [avatar_url, setAvatarUrl] = useState('')
 
   useEffect(() => {
     getProfile()
   }, [session])
 
   async function getProfile() {
+    if (session) 
     try {
       setLoading(true)
-
       let { data, error, status } = await supabase
-        .from('profiles')
-        .select(`username, website, avatar_url`)
-        .eq('id', user!.id)
+        .from('users')
+        .select(` wallet_address, image`)
+        .eq('id', user)
         .single()
 
       if (error && status !== 406) {
@@ -29,9 +32,9 @@ export default function Account({ session }: any) {
       }
 
       if (data) {
-        setUsername(data.username)
-        setWebsite(data.website)
-        setAvatarUrl(data.avatar_url)
+        setWallet(data.wallet_address)
+        setAvatarUrl(data.image)
+      
       }
     } catch (error) {
       alert('Error loading user data!')
@@ -41,15 +44,14 @@ export default function Account({ session }: any) {
     }
   }
 
-  async function updateProfile({ username, website, avatar_url }: any) {
+  async function updateProfile({ username, wallet, avatar_url }: any) {
     try {
       setLoading(true)
-
       const updates = {
-        id: user!.id,
-        username,
-        website,
-        avatar_url,
+        user_id: session?.user.id,
+        wallet_address: wallet,
+        handle: username,
+        image: avatar_url,
         updated_at: new Date().toISOString(),
       }
 
@@ -68,31 +70,36 @@ export default function Account({ session }: any) {
     <div className="form-widget">
       <div>
         <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session?.user?.email} disabled />
+        <input
+          id="email" 
+          type="text" 
+          value={email} 
+          onChange={(e: any) => setEmail(e.target.value)}
+          disabled />
       </div>
       <div>
         <label htmlFor="username">Username</label>
         <input
           id="username"
           type="text"
-          value={username || ''}
+          value={username}
           onChange={(e: any) => setUsername(e.target.value)}
         />
       </div>
       <div>
-        <label htmlFor="website">Website</label>
+        <label htmlFor="wallet">Wallet</label>
         <input
-          id="website"
-          type="website"
-          value={website || ''}
-          onChange={(e: any) => setWebsite(e.target.value)}
+          id="wallet"
+          type="text"
+          value={wallet}
+          onChange={(e: any) => setWallet(e?.target.value)}
         />
       </div>
 
       <div>
         <button
           className="button primary block"
-          onClick={() => updateProfile({ username, website, avatar_url })}
+          onClick={() => updateProfile({ username, wallet, avatar_url })}
           disabled={loading}
         >
           {loading ? 'Loading ...' : 'Update'}

@@ -1,14 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
 import { getCsrfToken } from "next-auth/react";
-import { SiweMessage } from "siwe";
 import SpotifyProvider from "next-auth/providers/spotify";
 import GoogleProvider from "next-auth/providers/google";
 import { SupabaseAdapter } from '@next-auth/supabase-adapter'
 import jwt from "jsonwebtoken"
-
-
+import { supabase } from "lib/supabaseClient";
+import { generateWallet } from "lib/hooks/generateWallet";
 export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
   const providers = [
     GoogleProvider({
@@ -17,65 +15,57 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
     }),
     SpotifyProvider({
       clientId: process.env.SPOTIFY_CLIENT_ID as string,
-      clientSecret: process.env.SPOTIFY_CLIENT_SECRET as string
-    }),
-    CredentialsProvider({
-      async authorize(credentials) {
-        try {
-          const nURL = process.env.NEXTAUTH_URL as string;
-          const siwe = new SiweMessage(
-            JSON.parse(credentials?.message || "{}")
-          );
-          const nextAuthUrl = new URL(nURL);
-
-          const result = await siwe.verify({
-            signature: credentials?.signature || "",
-            domain: nextAuthUrl.host,
-            nonce: await getCsrfToken({ req }),
-          });
-
-          if (result.success) {
-            return {
-              id: siwe.address,
-            };
-          }
-          return null;
-        } catch (e) {
-          return null;
-        }
-      },
-      credentials: {
-        message: {
-          label: "Message",
-          placeholder: "0x0",
-          type: "text",
-        },
-        signature: {
-          label: "Signature",
-          placeholder: "0x0",
-          type: "text",
-        },
-      },
-      name: "Ethereum",
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET as string,
     }),
   ];
-
- 
-
-
   return {
     callbacks: {
       async session({ session, token }: any) {
         const signingSecret = process.env.SUPABASE_JWT_SECRET
         session.id = token?.sub
-        session.address = token?.sub.startsWith("0x") === true && token.sub;
-        session.user = {
-          wallet_address: token.sub.startsWith("0x") === true && token.sub,
-          email: session?.user?.email,
-          name: session?.user?.name,
-          image: session?.user?.image,
-          id: session?.user?.id
-        };
+        
+        // Check if wallet_address exists for this user
+        let { data, error } = await supabase
+          .from('users')
+          .select('wallet_address')
+          .eq('id', token.sub)
+          .limit(1)
+        
+        if (error) {
+          throw new Error(error.message)
+        }
+
+        // Generate a new wallet address for this user if it doesn't exist
+        if (!data || !data.length || !data[0]?.wallet_address) {
+          const walletAddress = await generateWallet()
+          let { data, error } = await supabase
+            .from('users')
+            .upsert({
+              id: token.sub,
+              wallet_address: walletAddress.address
+            })
+            .eq('id', token.sub)
+        
+          if (error) {
+            throw new Error(error.message)
+          }
+          session.user = {
+            wallet_address: walletAddress,
+            email: session?.user?.email,
+            name: session?.user?.name,
+            image: session?.user?.image,
+            id: session?.user?.id
+          };
+        } else {
+          session.user = {
+            wallet_address: data[0]?.wallet_address,
+            email: session?.user?.email,
+            name: session?.user?.name,
+            image: session?.user?.image,
+            id: session?.user?.id
+          };
+        }
+
         if (signingSecret) {
           const payload = {
             aud: "authenticated",
@@ -88,7 +78,7 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
         }
         return session;
       },
-      async signIn({ account, profile }: any) {
+      async signIn({ account, profile, email, user }: any) {
         if (account.provider === "google") {
           return profile.email_verified && profile.email.endsWith("@gmail.com")
         }
@@ -115,7 +105,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
     res.status(400).send("Bad request");
     return;
   }
-
   const isDefaultSigninPage =
     req.method === "GET" &&
     req.query.nextauth.find((value) => value === "signin");

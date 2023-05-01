@@ -1,192 +1,6 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/CRIBMusicV1.sol": {
-      "lastModificationDate": 1680314153822,
-      "contentHash": "67716ae93b2faff17f84ef5a538fcf7f",
-      "sourceName": "contracts/CRIBMusicV1.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./ERC721A.sol",
-        "./access/Pausable.sol",
-        "./utils/ReentrancyGuard.sol",
-        "./utils/LibPart.sol",
-        "@openzeppelin/contracts/utils/math/SafeMath.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "CRIBMusicV1"
-      ]
-    },
-    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/utils/ReentrancyGuard.sol": {
-      "lastModificationDate": 1680248792999,
-      "contentHash": "80b1e36ed1d6740946c3858e4b5165da",
-      "sourceName": "contracts/utils/ReentrancyGuard.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "ReentrancyGuard"
-      ]
-    },
-    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/utils/LibPart.sol": {
-      "lastModificationDate": 1680248792996,
-      "contentHash": "3e4387a42cb34e33f0f4257454396b41",
-      "sourceName": "contracts/utils/LibPart.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        ">=0.5.16 <0.9.0"
-      ],
-      "artifacts": [
-        "LibPart"
-      ]
-    },
-    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/access/Pausable.sol": {
-      "lastModificationDate": 1680248806828,
-      "contentHash": "89b0a1a22407cb796a54a6d726886780",
-      "sourceName": "contracts/access/Pausable.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./CribOwnable.sol"
-      ],
-      "versionPragmas": [
-        ">=0.5.16 <0.9.0"
-      ],
-      "artifacts": [
-        "Pausable"
-      ]
-    },
-    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/ERC721A.sol": {
-      "lastModificationDate": 1680248723429,
-      "contentHash": "790fd228e5b4069d1a48e3da6193a3e3",
-      "sourceName": "contracts/ERC721A.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./IERC721A.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.4"
-      ],
-      "artifacts": [
-        "ERC721A",
-        "ERC721A__IERC721Receiver"
-      ]
-    },
     "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/node_modules/@openzeppelin/contracts/utils/math/SafeMath.sol": {
       "lastModificationDate": 1679994462470,
       "contentHash": "2337f0279507b5edf14a07067adf0d05",
@@ -220,43 +34,6 @@
       ],
       "artifacts": [
         "SafeMath"
-      ]
-    },
-    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/access/CribOwnable.sol": {
-      "lastModificationDate": 1680248806823,
-      "contentHash": "9e22381dea49fadf624fced2951d3201",
-      "sourceName": "contracts/access/CribOwnable.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/access/Ownable.sol"
-      ],
-      "versionPragmas": [
-        ">=0.5.16 <0.9.0"
-      ],
-      "artifacts": [
-        "CribOwnable"
       ]
     },
     "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/node_modules/@openzeppelin/contracts/access/Ownable.sol": {
@@ -329,41 +106,6 @@
       ],
       "artifacts": [
         "Context"
-      ]
-    },
-    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/IERC721A.sol": {
-      "lastModificationDate": 1680248723433,
-      "contentHash": "c620549359b6b82e54feea999a9ad070",
-      "sourceName": "contracts/IERC721A.sol",
-      "solcConfig": {
-        "version": "0.8.9",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.4"
-      ],
-      "artifacts": [
-        "IERC721A"
       ]
     },
     "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol": {
@@ -886,8 +628,8 @@
       ]
     },
     "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/SBPRT721.sol": {
-      "lastModificationDate": 1680241536906,
-      "contentHash": "d176e7de4620ee5de4405fcd1143dd04",
+      "lastModificationDate": 1682827713730,
+      "contentHash": "bd9acbe8c6c112df1e431d92204659a1",
       "sourceName": "contracts/SBPRT721.sol",
       "solcConfig": {
         "version": "0.8.9",
@@ -913,19 +655,18 @@
         }
       },
       "imports": [
-        "@openzeppelin/contracts/token/ERC721/ERC721.sol",
-        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
-        "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        "@openzeppelin/contracts/security/Pausable.sol",
-        "@openzeppelin/contracts/access/AccessControl.sol",
-        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
-        "@openzeppelin/contracts/utils/Counters.sol"
+        "./ERC721A.sol",
+        "./access/Pausable.sol",
+        "./utils/ReentrancyGuard.sol",
+        "./utils/LibPart.sol",
+        "@openzeppelin/contracts/utils/math/SafeMath.sol"
       ],
       "versionPragmas": [
-        "^0.8.9"
+        "^0.8.0"
       ],
       "artifacts": [
-        "SBPRT721"
+        "SBPRT721",
+        "Twinesis"
       ]
     },
     "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/node_modules/@openzeppelin/contracts/utils/Counters.sol": {
@@ -1035,6 +776,223 @@
       ],
       "artifacts": [
         "ERC721URIStorage"
+      ]
+    },
+    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/ERC721A.sol": {
+      "lastModificationDate": 1682827416889,
+      "contentHash": "790fd228e5b4069d1a48e3da6193a3e3",
+      "sourceName": "contracts/ERC721A.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./IERC721A.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "ERC721A",
+        "ERC721A__IERC721Receiver"
+      ]
+    },
+    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/IERC721A.sol": {
+      "lastModificationDate": 1682827416905,
+      "contentHash": "c620549359b6b82e54feea999a9ad070",
+      "sourceName": "contracts/IERC721A.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.4"
+      ],
+      "artifacts": [
+        "IERC721A"
+      ]
+    },
+    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/utils/ReentrancyGuard.sol": {
+      "lastModificationDate": 1682827416964,
+      "contentHash": "80b1e36ed1d6740946c3858e4b5165da",
+      "sourceName": "contracts/utils/ReentrancyGuard.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ReentrancyGuard"
+      ]
+    },
+    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/utils/LibPart.sol": {
+      "lastModificationDate": 1682827416953,
+      "contentHash": "3e4387a42cb34e33f0f4257454396b41",
+      "sourceName": "contracts/utils/LibPart.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        ">=0.5.16 <0.9.0"
+      ],
+      "artifacts": [
+        "LibPart"
+      ]
+    },
+    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/access/Pausable.sol": {
+      "lastModificationDate": 1682827416937,
+      "contentHash": "89b0a1a22407cb796a54a6d726886780",
+      "sourceName": "contracts/access/Pausable.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./CribOwnable.sol"
+      ],
+      "versionPragmas": [
+        ">=0.5.16 <0.9.0"
+      ],
+      "artifacts": [
+        "Pausable"
+      ]
+    },
+    "/Volumes/Home Drive/SANDBOX/NFT-Song-Gate/DSP-like-follow-presave-nft-gate/deployer/contracts/access/CribOwnable.sol": {
+      "lastModificationDate": 1682827416937,
+      "contentHash": "9e22381dea49fadf624fced2951d3201",
+      "sourceName": "contracts/access/CribOwnable.sol",
+      "solcConfig": {
+        "version": "0.8.9",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/access/Ownable.sol"
+      ],
+      "versionPragmas": [
+        ">=0.5.16 <0.9.0"
+      ],
+      "artifacts": [
+        "CribOwnable"
       ]
     }
   }
