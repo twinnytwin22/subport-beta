@@ -9,6 +9,7 @@ function UserAvatar() {
   const menuRef = useRef(null);
   const email = session?.user.email
 
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !(menuRef.current as HTMLElement).contains(event.target as Node)) {
