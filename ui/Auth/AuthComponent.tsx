@@ -8,7 +8,7 @@ import { ConnectToSubport } from "ui/Buttons/ConnectButton";
 export default function LoginCard() {
   
   return (
-    <div className="">
+    <div className="relative">
      
            
             <div className="flex flex-col px-6 py-4 border-b rounded-t dark:border-zinc-600 relative w-sm md:w-full">
