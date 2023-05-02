@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { NextAuthOptions } from "next-auth";
-import { getCsrfToken } from "next-auth/react";
+import { getCsrfToken, getSession } from "next-auth/react";
 import SpotifyProvider from "next-auth/providers/spotify";
 import GoogleProvider from "next-auth/providers/google";
 import { SupabaseAdapter } from '@next-auth/supabase-adapter'
 import jwt from "jsonwebtoken"
 import { supabase } from "lib/supabaseClient";
 import { generateWallet } from "lib/hooks/generateWallet";
-export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
+export function getAuthOptions(req: NextApiRequest, update?: boolean): NextAuthOptions {
   const providers = [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -20,7 +20,9 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
   ];
   return {
     callbacks: {
-      async session({ session, token }: any) {
+      async session({ session, token, user }: any) {
+
+        
         const signingSecret = process.env.SUPABASE_JWT_SECRET
         session.id = token?.sub
         // Check if wallet_address exists for this user
@@ -75,16 +77,22 @@ export function getAuthOptions(req: any, update?: boolean): NextAuthOptions {
           }
           session.supabaseAccessToken = jwt.sign(payload, signingSecret)
         }
-        
-
         return session;
       },
       async signIn({ account, profile, email, user }: any) {
+        if (await getSession({req})) {
+          return true;
+        }
+        if (account.provider === 'spotify' && email.verificationRequest) {
+          return true;
+        }
+
         if (account.provider === "google") {
           return profile.email_verified && profile.email.endsWith("@gmail.com")
         }
         return true // Do different verification for other providers that don't have `email_verified`
       },
+  
     },
     adapter: SupabaseAdapter({
       url: process.env.NEXT_PUBLIC_SUPABASE_URL as string,

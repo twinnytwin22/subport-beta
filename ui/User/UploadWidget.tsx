@@ -59,7 +59,7 @@ export default function Avatar({ uid, url, size, onUpload }: any) {
     <div>
       {avatarUrl && defaultImage ? (
         <img
-          src={avatarUrl ?? defaultImage}
+          src={avatarUrl}
           alt="Avatar"
           className="avatar image rounded-lg mb-4"
           style={{ height: size, width: size }}

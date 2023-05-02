@@ -19,11 +19,9 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import dynamic from "next/dynamic";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { GetSiweMessageOptions, RainbowKitSiweNextAuthProvider } from '@rainbow-me/rainbowkit-siwe-next-auth';
-import { SessionProvider as AuthProvider } from "next-auth/react";
+import { SessionProvider as AuthProvider, SessionProvider } from "next-auth/react";
 import { getServerSession } from "next-auth/next"
 import { getAuthOptions } from "pages/api/auth/[...nextauth]";
-import addUpdateWallet from "./hooks/functions";
 import { useAccount } from 'wagmi'
 
 
@@ -61,17 +59,12 @@ const wagmiClient = createClient({
   webSocketProvider,
 });
 
-const getSiweMessageOptions: GetSiweMessageOptions = () => ({
-  statement: 'Whats up fam?. Sign in subport',
-});
 
-export const Providers = ({ children }: { children: React.ReactNode }) => {
+export const Providers = ({ children }: { children: React.ReactNode }, props: any) => {
   return (
     <AuthProvider>
     <WagmiConfig client={wagmiClient}>
-    <RainbowKitSiweNextAuthProvider
-          getSiweMessageOptions={getSiweMessageOptions}
-        >         
+          <SessionProvider session={props.session}>
       <RainbowKitProvider
         chains={chains}
         theme={darkTheme({
@@ -85,8 +78,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
         </ThemeProvider>
         <ToastContainer />
       </RainbowKitProvider>
-      </RainbowKitSiweNextAuthProvider> 
-
+     </SessionProvider>
     </WagmiConfig>
     </AuthProvider>
   );
@@ -94,9 +86,17 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
 
 export default Providers;
 
-export async function getSomeProps(context: any) {
+export async function getServerSideProps(context: any) {
   const { address } = useAccount()
   const session = await getServerSession(context.req, context.res, getAuthOptions(context.req));
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
   // Call the checkWalletAddress function and pass the session object
   return {
     props: {

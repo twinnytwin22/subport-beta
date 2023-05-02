@@ -124,7 +124,7 @@ const signInWithGoogle = () => {
     callbackUrl: window.location.href,
   });
 };
-const signInWithSpotify = () => {
+export const signInWithSpotify = () => {
   toast.loading('Redirecting...');
   // Perform sign in
   signIn('spotify', {

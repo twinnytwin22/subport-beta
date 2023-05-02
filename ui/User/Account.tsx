@@ -4,6 +4,7 @@ import { supabase } from "lib/supabaseClient";
 import { useSession } from "next-auth/react";
 import { SignOutButton } from "ui/Buttons/SignOut";
 import Avatar from "./UploadWidget";
+import { ConnectSpotifyButton } from "./ConnectSpotifyButton";
 export default function Account() {
   const { data: session } = useSession();
   const user = session?.id;
@@ -160,7 +161,8 @@ export default function Account() {
           onChange={(e: any) => setWallet(e?.target.value)}
         />
       </div>
-       
+      <div className="mt-4">
+       <ConnectSpotifyButton/></div>
       <div className="flex space-x-2 mt-4">
         <button
           className="bg-blue-700 text-white p-2 text-sm w-32 rounded-lg hover:bg-blue-800 hover:scale-105"
