@@ -7,20 +7,20 @@ function Profile() {
   const {data:session, status} = useSession()
   return (
     <div className="">
-      <div className="relative block h-[300px] bg-black">
+      <div className=" block h-[300px] bg-black">
         <div
-          className="absolute top-0 w-full h-full bg-center bg-blue-900 opacity-50 bg-cover bg-fixed"
+          className=" w-full h-full bg-center bg-cover bg-fixed rounded-lg"
           style={{
-            backgroundImage: `url(/coverBanner.png)`,
+            backgroundImage: `url(/coverBanner.jpg)`,
             backgroundPosition: "center",
           }}
         ></div>
       </div>
-      <div className="relative py-16 container mx-auto px-4 ">
-        <div className="relative flex flex-col min-w-0 break-words bg-zinc-100 dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-xl rounded-lg -mt-36 pb-8">
+      <div className=" py-16 mx-auto px-4 ">
+        <div className=" flex flex-col min-w-0 break-words bg-zinc-100 dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-xl rounded-lg -mt-36 pb-8">
           <div className="grid grid-cols-12 px-6">
             <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">
-              <div className="relative">
+              <div className="">
                 <img
                   alt="avatar"
                   src={session?.user.image as string}
@@ -28,10 +28,10 @@ function Profile() {
                 />
               </div>
               <div className="block">
-                <h3 className="relative text-xl md:text-2xl font-bold leading-normal text-center text-zinc-900 dark:text-zinc-200 pt-24">
+                <h3 className=" text-xl md:text-2xl font-bold leading-normal text-center text-zinc-900 dark:text-zinc-200 pt-24">
                   {session?.user?.name}
                 </h3>
-                <h4 className="relative text-lg md:text-xl leading-normal text-center text-zinc-500">
+                <h4 className=" text-lg md:text-xl leading-normal text-center text-zinc-500">
                   @djtwinnytwin
                 </h4>
               </div>
@@ -105,9 +105,9 @@ const FollowingUser = () => {
 
 const UserBio = () => {
   return (
-    <div className="flex w-full md:block xl:px-24 relative mt-0 md:mt-6">
+    <div className="flex w-full md:block xl:px-24  mt-0 md:mt-6">
          <UserLocation/>
-      <p className="flex mb-4 max-w-full text-xs md:text-sm text-zinc-900 dark:text-zinc-200 break-words relative">
+      <p className="flex mb-4 max-w-full text-xs md:text-sm text-zinc-900 dark:text-zinc-200 break-words ">
         An artist of considerable range, Jenna the name taken by
         Melbourne-raised, Brooklyn-based Nick Murphy.
       </p>

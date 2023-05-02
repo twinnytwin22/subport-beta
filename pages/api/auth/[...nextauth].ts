@@ -21,8 +21,6 @@ export function getAuthOptions(req: NextApiRequest, update?: boolean): NextAuthO
   return {
     callbacks: {
       async session({ session, token, user }: any) {
-
-        
         const signingSecret = process.env.SUPABASE_JWT_SECRET
         session.id = token?.sub
         // Check if wallet_address exists for this user
