@@ -81,7 +81,7 @@ export function getAuthOptions(req: NextApiRequest, update?: boolean): NextAuthO
         if (await getSession({req})) {
           return true;
         }
-        if (account.provider === 'spotify' && email.verificationRequest) {
+        if (account.provider === 'spotify') {
           return true;
         }
 
