@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl: string = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey: string = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
-
+import { supabase } from "lib/supabaseClient";
 export async function getCollections() {
   try {
     const { data, error } = await supabase.from('collectibles').select('*');

@@ -32,7 +32,7 @@ export default function Account() {
         setLoading(true);
         let { data, error, status } = await supabase
           .from("users")
-          .select(` wallet_address, image, email, handle`)
+          .select(` wallet_address, avatar_url, email, handle`)
           .eq("id", user)
           .single();
 
@@ -42,14 +42,12 @@ export default function Account() {
 
         if (data) {
           setWallet(data.wallet_address);
-          setAvatarUrl(data.image);
+          setAvatarUrl(data.avatar_url);
           setEmail(data.email);
           if (data.handle) {
             setUsername(data?.handle);
           }
-          if (data.image) {
-            setImage(data?.image);
-          }
+
         }
       } catch (error) {
         alert("Error loading user data!");
@@ -65,7 +63,7 @@ export default function Account() {
       const updates = {
         wallet_address: wallet,
         handle: username,
-        image: avatar_url,
+        avatar_url: avatar_url,
         updated_at: new Date().toISOString(),
       };
 
@@ -74,7 +72,7 @@ export default function Account() {
         .update({
           wallet_address: wallet,
           handle: username,
-          image: avatar_url,
+          avatar_url: avatar_url,
           updated_at: new Date().toISOString(),
         })
         .eq("id", user);
@@ -107,7 +105,7 @@ export default function Account() {
       <div className="mx-auto content-center items-center">
       <Avatar
       uid={session?.user.id}
-      url={avatar_url ?? image}
+      url={avatar_url}
       size={200}
       onUpload={(url: any) => {
         setAvatarUrl(url)
@@ -124,7 +122,7 @@ export default function Account() {
           Email
         </label>
         <input
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           id="email"
           type="text"
           value={email}
@@ -139,7 +137,7 @@ export default function Account() {
           Username
         </label>
         <input
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           id="username"
           type="text"
           value={username}
@@ -154,7 +152,7 @@ export default function Account() {
           Wallet
         </label>
         <input
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           id="wallet"
           type="text"
           value={wallet}

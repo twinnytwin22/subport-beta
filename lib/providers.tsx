@@ -19,11 +19,14 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import dynamic from "next/dynamic";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { SessionProvider as AuthProvider, SessionProvider } from "next-auth/react";
-import { getServerSession } from "next-auth/next"
+import {
+  SessionProvider as AuthProvider,
+  SessionProvider,
+} from "next-auth/react";
+import { getServerSession } from "next-auth/next";
 import { getAuthOptions } from "pages/api/auth/[...nextauth]";
-import { useAccount } from 'wagmi'
-
+import { useAccount } from "wagmi";
+import { supabase } from "./supabaseClient";
 
 const ThemeProvider = dynamic(
   () => {
@@ -59,27 +62,24 @@ const wagmiClient = createClient({
   webSocketProvider,
 });
 
-
-export const Providers = ({ children }: { children: React.ReactNode }, props: any) => {
+export const Providers = ({ children }: { children: React.ReactNode }, user: any) => {
   return (
     <AuthProvider>
-    <WagmiConfig client={wagmiClient}>
-          <SessionProvider session={props.session}>
-      <RainbowKitProvider
-        chains={chains}
-        theme={darkTheme({
-          accentColor: "white",
-          accentColorForeground: "black",
-          fontStack: "system",
-        })}
-      >
-        <ThemeProvider enableSystem={true} attribute="class">
-          {children}
-        </ThemeProvider>
-        <ToastContainer />
-      </RainbowKitProvider>
-     </SessionProvider>
-    </WagmiConfig>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider
+          chains={chains}
+          theme={darkTheme({
+            accentColor: "white",
+            accentColorForeground: "black",
+            fontStack: "system",
+          })}
+        >
+          <ThemeProvider enableSystem={true} attribute="class">
+            {children}
+          </ThemeProvider>
+          <ToastContainer />
+        </RainbowKitProvider>
+      </WagmiConfig>
     </AuthProvider>
   );
 };
@@ -87,21 +87,29 @@ export const Providers = ({ children }: { children: React.ReactNode }, props: an
 export default Providers;
 
 export async function getServerSideProps(context: any) {
-  const { address } = useAccount()
-  const session = await getServerSession(context.req, context.res, getAuthOptions(context.req));
+  const { address } = useAccount();
+  const session = await getServerSession(
+  getAuthOptions()
+  );
   if (!session) {
     return {
       redirect: {
-        destination: '/',
+        destination: "/",
         permanent: false,
       },
-    }
+    };
+  } else {
+    let { data } = await supabase
+      .from("users")
+      .select()
+      .eq("id", session?.user.id);
+      console.log(data, 'booty')
+    // Call the checkWalletAddress function and pass the session object
+    return {
+      props: {
+        session,
+        user: data,
+      },
+    };
   }
-  // Call the checkWalletAddress function and pass the session object
-  return {
-    props: {
-      session,
-  }
-};
-
 }
