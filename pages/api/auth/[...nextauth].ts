@@ -7,7 +7,7 @@ import { SupabaseAdapter } from '@next-auth/supabase-adapter'
 import jwt from "jsonwebtoken"
 import { supabase } from "lib/supabaseClient";
 import { generateWallet } from "lib/hooks/generateWallet";
-export function getAuthOptions(): NextAuthOptions {
+export function getAuthOptions(req: NextApiRequest, update?: boolean): NextAuthOptions {
   const providers = [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -78,7 +78,7 @@ export function getAuthOptions(): NextAuthOptions {
         return session;
       },
       async signIn({ account, profile, email, user }: any) {
-        if (await getSession()) {
+        if (await getSession({req})) {
           return true;
         }
         if (account.provider === 'spotify') {
@@ -105,7 +105,21 @@ export function getAuthOptions(): NextAuthOptions {
 }
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  const authOptions: NextAuthOptions = getAuthOptions();
+  const authOptions = getAuthOptions(req);
+
+  if (!Array.isArray(req.query.nextauth
+)) {
+    res.status(400).send("Bad request");
+    return;
+  }
+  const isDefaultSigninPage =
+    req.method === "GET" &&
+    req.query.nextauth.find((value) => value === "signin");
+
+  // Hide Sign-In with Ethereum from default sign page
+  if (isDefaultSigninPage) {
+    authOptions.providers.pop();
+  }
 
   return await NextAuth(req, res, authOptions);
 }
