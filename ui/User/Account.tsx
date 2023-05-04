@@ -13,7 +13,6 @@ export default function Account() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [wallet, setWallet] = useState("");
-  const [image, setImage] = useState("");
   const [avatar_url, setAvatarUrl] = useState("");
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export default function Account() {
         setLoading(true);
         let { data, error, status } = await supabase
           .from("users")
-          .select(` wallet_address, image, email, handle`)
+          .select(` wallet_address, avatar_url, email, handle`)
           .eq("id", user)
           .single();
 
@@ -42,14 +41,12 @@ export default function Account() {
 
         if (data) {
           setWallet(data.wallet_address);
-          setAvatarUrl(data.image);
+          setAvatarUrl(data.avatar_url);
           setEmail(data.email);
           if (data.handle) {
             setUsername(data?.handle);
           }
-          if (data.image) {
-            setImage(data?.image);
-          }
+        
         }
       } catch (error) {
         alert("Error loading user data!");
@@ -65,7 +62,7 @@ export default function Account() {
       const updates = {
         wallet_address: wallet,
         handle: username,
-        image: avatar_url,
+        avatar_url: avatar_url,
         updated_at: new Date().toISOString(),
       };
 
@@ -74,7 +71,7 @@ export default function Account() {
         .update({
           wallet_address: wallet,
           handle: username,
-          image: avatar_url,
+          avatar_url: avatar_url,
           updated_at: new Date().toISOString(),
         })
         .eq("id", user);
@@ -96,7 +93,7 @@ export default function Account() {
       reader.readAsDataURL(file);
       reader.onload = () => {
         const result = reader.result as string; // type assertion
-        setImage(result);
+        setAvatarUrl(result);
       };
     }
   };
@@ -107,7 +104,7 @@ export default function Account() {
       <div className="mx-auto content-center items-center">
       <Avatar
       uid={session?.user.id}
-      url={avatar_url ?? image}
+      url={avatar_url}
       size={200}
       onUpload={(url: any) => {
         setAvatarUrl(url)
