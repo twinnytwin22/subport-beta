@@ -1,20 +1,49 @@
-require('@nomicfoundation/hardhat-toolbox');
-require('dotenv').config()
+require('@nomiclabs/hardhat-ethers');
+require('@nomiclabs/hardhat-etherscan')
+require('dotenv').config();
 
 module.exports = {
-	solidity: "0.8.9",
-	networks: {
-		hardhat: {},
-		MATIC_MAINNET: {
-			accounts: [`${process.env.PRIVATE_KEY}`],
-			url: `https://polygon-mainnet.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
-		},
-		MATIC_MUMBAI: {
-			accounts: [`${process.env.PRIVATE_KEY}`],
-			url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMY_API_KEY}`
-		}
-	},
-	etherscan: {
-		apiKey: `${process.env.ETHERSCAN_API_KEY}`
-	}
-}
+  paths: {
+		sources: "./contracts",
+		artifacts: "./artifacts",
+	  },
+  solidity: {
+    version: "0.8.9",
+    settings: {
+        optimizer: {
+            enabled: true,
+            runs: 2000, 
+            details: {
+              yul: true,
+              yulDetails: {
+                stackAllocation: true,
+                optimizerSteps: "dhfoDgvulfnTUtnIf",
+              },
+        },
+      },
+    },
+  },
+  etherscan: {
+    apiKey: {
+      polygonMumbai: process.env.POLYGONSCAN_API,
+      polygon: process.env.POLYGONSCAN_API
+       
+    },
+  },
+  networks: {
+    mumbai: {
+      url: process.env.STAGING_ALCHEMY_KEY,
+      accounts: [process.env.PRIVATE_KEY],
+    },
+    matic: {
+      chainId: 137,
+      url: process.env.PROD_ALCHEMY_KEY,
+      accounts: [process.env.PRIVATE_KEY],
+    },
+    mainnet: {
+      chainId: 1,
+      url: process.env.PROD_ALCHEMY_KEY,
+      accounts: [process.env.PRIVATE_KEY],
+    },
+  },
+};

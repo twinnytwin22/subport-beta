@@ -45,6 +45,16 @@ export const CreateForm = ({ address }: any) => {
   const [songPreview, setSongPreview] = useState(null);
   const [ipfsMedia, setIpfsMedia] = useState(false);
   const [step, setStep] = useState(1);
+  const [nowChecked, setNowChecked] = useState(false);
+  const [neverChecked, setNeverChecked] = useState(false);
+
+  const handleNowChange = (event: any) => {
+    setNowChecked(event.target.checked);
+  };
+
+  const handleNeverChange = (event: any) => {
+    setNeverChecked(event.target.checked);
+  };
 
   const {
     register,
@@ -68,6 +78,8 @@ export const CreateForm = ({ address }: any) => {
       keywords: "",
       address: address,
       userId: "",
+      start_date: "",
+      end_date: "",
     },
   });
   const handleImageUpload = (event: any) => {
@@ -216,53 +228,69 @@ export const CreateForm = ({ address }: any) => {
               <input
                 type="text"
                 id="artist_name"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Twinny Twin"
                 {...register("artist_name", { required: true })}
               />
             </div>
             <div className="grid grid-cols-3 gap-6 place-items-center lg:col-span-1 ">
-              <label
-                htmlFor="start_date"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white col-span-2 w-full"
-              >
-                Start Date
-                <input
-                  type="date"
-                  className="bg-gray-50 border mt-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />
-              </label>
-              <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
-                <input type="checkbox" value="" className="sr-only peer" />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  Now
-                </span>
-              </label>
-              <label
-                htmlFor="end_date"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white col-span-2 w-full"
-              >
-                End Date
-                <input
-                  type="date"
-                  className="bg-gray-50 border mt-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                />{" "}
-              </label>
-              <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
-                <input type="checkbox" value="" className="sr-only peer" />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  Never
-                </span>
-              </label>
+            <label
+          htmlFor="start_date"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white col-span-2 w-full"
+        >
+          Start Date
+          <input
+            type="date"
+            disabled={nowChecked}
+            {...register("start_date")}
+            className="bg-gray-50 border mt-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </label>
+        <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
+          <input
+            type="checkbox"
+            value=""
+            checked={nowChecked}
+            onChange={handleNowChange}
+            className="sr-only peer"
+          />
+          <div className="w-11 h-6  bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Now
+          </span>
+        </label>
+        <label
+          htmlFor="start_date"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white col-span-2 w-full"
+        >
+          End Date
+          <input
+            type="date"
+            disabled={neverChecked}
+            {...register("end_date")}
+            className="bg-gray-50 border mt-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          />
+        </label>
+        <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
+          <input
+            type="checkbox"
+            value=""
+            checked={neverChecked}
+            onChange={handleNeverChange}
+            className="sr-only peer"
+          />
+          <div className="w-11 h-6 peer-focus:text-slate-400 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Infinite
+          </span>
+        </label>
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="col-span-2">
               <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Drop Type? </label>
               <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value='Save'>Pre-save / Save</option>
-                <option value="Standard">Standard Drop</option>
+                <option disabled value="Standard">Standard Drop</option>
               </select>
               </div>
               <div>
@@ -275,7 +303,7 @@ export const CreateForm = ({ address }: any) => {
               <input
                 type="date"
                 id="release_date"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Flowbite"
                 {...register("release_date", { required: true })}
               />

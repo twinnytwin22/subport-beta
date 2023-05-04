@@ -13,31 +13,54 @@ import "./access/Pausable.sol";
 import "./utils/ReentrancyGuard.sol";
 import "./utils/LibPart.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-
-abstract contract Twinesis {
-	function balanceOf(address a) public virtual returns (uint);
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+abstract contract ContextMixin {
+    function msgSender()
+        internal
+        view
+        returns (address payable sender)
+    {
+        if (msg.sender == address(this)) {
+            bytes memory array = msg.data;
+            uint256 index = msg.data.length;
+            assembly {
+                // Load the 32 bytes word from memory with the address on the lower 20 bytes, and mask those.
+                sender := and(
+                    mload(add(array, index)),
+                    0xffffffffffffffffffffffffffffffffffffffff
+                )
+            }
+        } else {
+            sender = payable(msg.sender);
+        }
+        return sender;
+    }
 }
 
 //@title CRIB Music Vol 1: Open Edition Music NFT
 //@author Twinny @djtwinnytwin - Randal Herndon
 contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
 	using SafeMath for uint256;
+    using ECDSA for bytes32;
 
-	//@dev TWINESIS instance: testing PLEASE CHANGE TO MAINNET WHEN DONE!
-    address private constant TWINNY =
-        0x739B720e0DbC4dB51035ADdfB5fCb68EAF92Bf1A; // crib music wallet
 
+   
 	//@dev Supply
 	uint256 constant TOKENS = 0;//
 
 	//@dev Properties
+	string private _name;
+	string private _tokenName;
+
+    uint public _startDate;
+    uint public _endDate;
 	string internal _contractURI;
+	uint256 private _totalSupply;
 	string internal _baseTokenURI;
 	string internal _tokenHash;
-	address public payoutAddress;
+	address public _payoutAddress;
+	address private signerAddress;
 	uint256 public weiPrice;
-	uint256 public startDate;
-    uint256 public endDate;
 	uint256 constant public royaltyFeeBps = 1500;//15%
 	bool public openToPublic;
 
@@ -73,10 +96,12 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
 			numberMinted(to) + qty >= 1, 
 			" ummm let's try again"
 		);
+		if (weiPrice > 0) {
 		require(
 			amount >= weiPrice*qty, 
 			"not enough ether"
 		);
+		}
 		require(
 			!_isContract(to), 
 			" nah playa"
@@ -100,24 +125,49 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
 	// CONSTRUCTION
 	// ------------
 
-	constructor(uint256 _startDate, uint256 _endDate) ERC721A("Crib Music Vol. 1", "CRIBMusicV1") {
-		_baseTokenURI = "ipfs://";
-		_tokenHash = "QmUwJa8yKKmmYAQZAv5LNtruza5HakMzEj2ckoS6ZxVzjj";//token metadata ipfs hash
-		_contractURI = "ipfs://QmUwJa8yKKmmYAQZAv5LNtruza5HakMzEj2ckoS6ZxVzjj";
-		weiPrice = 30000000000000000;//0.03ETH
-		payoutAddress = address(TWINNY);//the crib
-	    startDate = _startDate;
-        endDate = _endDate;
-	}
+constructor(
+    string memory name_,
+    string memory tokenName_,
+    uint256 startDate_,
+    uint256 endDate_,
+    string memory contractUri_,
+    uint256 totalSupply_
+) ERC721A(name_, tokenName_) {
+    _name = name_;
+    _tokenName = tokenName_;
+    _startDate = startDate_;
+    _endDate = endDate_;
+    _contractURI = contractUri_;
+    _totalSupply = totalSupply_;
+	openToPublic = true;
+	signerAddress = 0x7B41dE805578Cb93f4D4758Cea533E526EefEf49;
+}
+
+
 	// ----------
 	// MAIN LOGIC
 	// ----------
 
+	 function name() public view virtual override returns (string memory) {
+        return _name;
+    }
 	//@dev See {ERC721A16-_baseURI}
 	function _baseURI() internal view virtual override returns (string memory)
 	{
 		return _baseTokenURI;
 	}
+
+    function totalSupply() public view virtual override returns (uint256) {
+        return _totalSupply;
+    }
+
+	function startDate() public view returns (uint256) {
+        return _startDate;
+    }
+
+    function endDate() public view returns (uint256) {
+        return _endDate;
+    }
 
 	//@dev See {ERC721A16-tokenURI}.
 	function tokenURI(uint256 tid) public view virtual override
@@ -141,35 +191,35 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
 	}
 
 	//@dev Allows allowlist addresses (non-owners) to claim 1 free NFT
-	function AllowListPurchase(address payable to, uint256 qty) 
+	function allowListCollect(address payable to, uint256 qty) 
 		external payable saleActive enoughSupply(qty) gateArgsOK(to, qty)
-
 	{
-        
 		_safeMint(to, qty);
 	}
 
 	//@dev Allows public addresses (non-owners) to purchase
-	function publicPurchase(address payable to, uint256 qty) 
+	function collect(bytes memory signature, address payable to, uint256 qty) 
 		external payable saleActive enoughSupply(qty) purchaseArgsOK(to, qty, msg.value)
 	{
+		require(verifyAddressSigner(signature), "Address not verified");
+
 		require(
 			openToPublic, 
 			" sale is not public"
 		);
 		require(
-        	balanceOf(msg.sender) < 1, "Ayeeoo: You can only mint one free collectible!"
+        	balanceOf(msg.sender) < 1, "You can only mint one free collectible!"
             );
 		_safeMint(to, qty);
 	}
 
 
 // WITHDRAWAL 
-	//@dev Allows us to withdraw funds collected
+	//@dev Allows owner to withdraw funds collected
 	function withdraw() external {
 		require(
             msg.sender == owner() ||
-                msg.sender == TWINNY,
+                msg.sender == _payoutAddress,
             "Caller cannot withdraw funds"
         );
 		uint256 _balance = address(this).balance;
@@ -178,7 +228,7 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
 	   
 
 
-		payable(TWINNY).transfer(_balance);
+		payable(_payoutAddress).transfer(_balance);
       
 	}
 
@@ -217,6 +267,17 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
 	// -------
 	// HELPERS
 	// -------
+
+	function verifyAddressSigner(bytes memory signature) private 
+    view returns (bool) {
+        bytes32 messageHash = keccak256(abi.encodePacked(msg.sender));
+        return signerAddress == messageHash.toEthSignedMessageHash().recover(signature);
+    }
+
+    function setSignerAddress(address newSignerAddress) external onlyOwner
+{
+    signerAddress = newSignerAddress;
+}
 
 	//@dev Gives us access to the otw internal function `_numberMinted`
 	function numberMinted(address owner) public view returns (uint256) 
@@ -259,7 +320,7 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
 	{
 		LibPart.Part[] memory royalties = new LibPart.Part[](1);
 		royalties[0] = LibPart.Part({
-			account: payable(payoutAddress),
+			account: payable(_payoutAddress),
 			value: uint96(royaltyFeeBps)
 		});
 		return royalties;
@@ -271,6 +332,6 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
 		returns (address, uint256) 
 	{
 		uint256 ourCut = SafeMath.div(SafeMath.mul(salePrice, royaltyFeeBps), 10000);
-		return (payoutAddress, ourCut);
+		return (_payoutAddress, ourCut);
 	}
 }

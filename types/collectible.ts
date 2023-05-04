@@ -5,7 +5,7 @@ type Collectible = {
     name: string;
     artist_name: string;
     release_date: string;
-    genre: 'rock' | 'pop' | 'hip_hop' | 'electronic' | 'country' | 'house' | 'rnb';
+    genre: string;
     total_collectibles: number;
     website?: string;
     song_uri: string;

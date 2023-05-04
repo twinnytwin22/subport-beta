@@ -4,9 +4,11 @@
 	"private": true,
 	"scripts": {
 		"build": "npx hardhat compile",
-		"deploy-testnet": "npx hardhat run ./scripts/SBPRT721_deploy.js --network MATIC_MUMBAI",
-		"deploy": "npx hardhat run ./scripts/SBPRT721_deploy.js --network MATIC_MAINNET",
+		"deploy-testnet": "npx hardhat run ./scripts/SBPRT721_deploy.js --network mumbai",
+		"deploy": "npx hardhat run ./scripts/SBPRT721_deploy.js --network matic",
 		"node": "npx hardhat node",
+		"clean": "npx hardhat clean",
+		"compile": "npx hardhat compile",
 		"deploy-local": "npx hardhat run ./scripts/SBPRT721_deploy.js --network localhost"
 	},
 	"dependencies": {
