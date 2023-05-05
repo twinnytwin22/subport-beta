@@ -10,6 +10,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { uploadHashToIpfs } from "lib/uploadFileIpfs";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
+import { allGenres } from "lib/allGenres";
+import { Tooltip } from "ui/Misc/Tooltip";
 export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   console.log(imageFile, audioFile, "ia upipfs");
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -205,7 +207,7 @@ export const CreateForm = ({ address }: any) => {
             <div>
               <label
                 htmlFor="name"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
               >
                 Release Name
               </label>
@@ -213,7 +215,7 @@ export const CreateForm = ({ address }: any) => {
               <input
                 type="text"
                 id="name"
-                className="bg-gray-50 border border-zinc-300  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Always"
                 {...register("name", { required: true })}
               />
@@ -221,148 +223,163 @@ export const CreateForm = ({ address }: any) => {
             <div>
               <label
                 htmlFor="artist_name"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
               >
                 Artist(s) name
               </label>
               <input
                 type="text"
                 id="artist_name"
-                className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Twinny Twin"
                 {...register("artist_name", { required: true })}
               />
             </div>
             <div className="grid grid-cols-3 gap-6 place-items-center lg:col-span-1 ">
-            <label
-          htmlFor="start_date"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white col-span-2 w-full"
-        >
-          Start Date
-          <input
-            type="date"
-            disabled={nowChecked}
-            {...register("start_date")}
-            className="bg-gray-50 border mt-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </label>
-        <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
-          <input
-            type="checkbox"
-            value=""
-            checked={nowChecked}
-            onChange={handleNowChange}
-            className="sr-only peer"
-          />
-          <div className="w-11 h-6  bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-            Now
-          </span>
-        </label>
-        <label
-          htmlFor="start_date"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white col-span-2 w-full"
-        >
-          End Date
-          <input
-            type="date"
-            disabled={neverChecked}
-            {...register("end_date")}
-            className="bg-gray-50 border mt-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-        </label>
-        <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
-          <input
-            type="checkbox"
-            value=""
-            checked={neverChecked}
-            onChange={handleNeverChange}
-            className="sr-only peer"
-          />
-          <div className="w-11 h-6 peer-focus:text-slate-400 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-          <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-            Infinite
-          </span>
-        </label>
+              <label
+                htmlFor="start_date"
+                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white col-span-2 w-full"
+              >
+                Start Date
+                <input
+                  type="date"
+                  disabled={nowChecked}
+                  {...register("start_date")}
+                  className={`bg-zinc-50 border mt-2 border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
+                    nowChecked && "text-zinc-800 dark:text-zinc-500"
+                  }`}
+                />
+              </label>
+              <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
+                <input
+                  type="checkbox"
+                  value=""
+                  checked={nowChecked}
+                  onChange={handleNowChange}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6  bg-zinc-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-zinc-600 peer-checked:bg-blue-600"></div>
+                <span className="ml-3 text-sm font-bold text-zinc-900 dark:text-zinc-300">
+                  Now
+                </span>
+                <Tooltip message="Testing the tool tip" />
+              </label>
+              <label
+                htmlFor="end_date"
+                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white col-span-2 w-full"
+              >
+                End Date
+                <input
+                  type="date"
+                  disabled={neverChecked}
+                  {...register("end_date")}
+                  className={`bg-zinc-50 border mt-2 border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
+                    neverChecked && "text-zinc-800 dark:text-zinc-500"
+                  }`}
+                />
+              </label>
+              <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
+                <input
+                  type="checkbox"
+                  value=""
+                  checked={neverChecked}
+                  onChange={handleNeverChange}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 peer-focus:text-zinc-400 bg-zinc-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-zinc-600 peer-checked:bg-blue-600"></div>
+                <span className="ml-3 text-sm font-medium text-zinc-900 dark:text-zinc-300">
+                  Infinite
+                </span>
+                <Tooltip message="Testing the tool tip" />
+              </label>
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="col-span-2">
-              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Drop Type? </label>
-              <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option value='Save'>Pre-save / Save</option>
-                <option disabled value="Standard">Standard Drop</option>
-              </select>
+                <label
+                  htmlFor="countries"
+                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+                >
+                  Drop Type?{" "}
+                </label>
+                <select
+                  id="countries"
+                  className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                >
+                  <option value="Save">Pre-save / Save</option>
+                  <option disabled value="Standard">
+                    Standard Drop
+                  </option>
+                </select>
               </div>
               <div>
-              <label
-                htmlFor="release_date"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Release Date
-              </label>
-              <input
-                type="date"
-                id="release_date"
-                className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Flowbite"
-                {...register("release_date", { required: true })}
-              />
+                <label
+                  htmlFor="release_date"
+                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+                >
+                  Release Date
+                </label>
+                <input
+                  type="date"
+                  id="release_date"
+                  className="bg-zinc-50 border  border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Flowbite"
+                  {...register("release_date", { required: true })}
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="total_collectibles"
+                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+                >
+                  Total Collectibles
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  max={1000}
+                  id="total_collectibles"
+                  className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  {...register("total_collectibles", {
+                    required: true,
+                    min: 1,
+                    max: 1000,
+                  })}
+                />
+              </div>
             </div>
-            <div>
-              <label
-                htmlFor="total_collectibles"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Total Collectibles
-              </label>
-              <input
-                type="number"
-                min={1}
-                max={1000}
-                id="total_collectibles"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                {...register("total_collectibles", {
-                  required: true,
-                  min: 1,
-                  max: 1000,
-                })}
-              />
-            </div>
-            </div>
-            
+
             <div>
               <label
                 htmlFor="genre"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
               >
                 Genre
               </label>
               <select
+                placeholder="Choose your genre"
                 {...register("genre", { required: true })}
                 id="genre"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
-                <option value="rock">Rock</option>
-                <option value="pop">Pop</option>
-                <option value="rnb">R&B</option>
-                <option value="hip_hop">Hip Hop</option>
-                <option value="electronic">Electronic</option>
-                <option value="house">House/Dance</option>
-                <option value="country">Country</option>
+                {allGenres.map((genre: any) => (
+                  <option key={genre} value={genre}>
+                    {genre}
+                  </option>
+                ))}
               </select>
             </div>
-            
+
             <div>
               <label
                 htmlFor="website"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
               >
                 Song URI
               </label>
               <input
                 type="url"
                 id="song_uri"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="URI: spotify:artist:EXAMPLE"
                 {...register("song_uri", { required: true })}
               />
@@ -372,13 +389,13 @@ export const CreateForm = ({ address }: any) => {
           <div className="mb-6">
             <label
               htmlFor="lyrics"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
             >
               Song Description
             </label>
             <textarea
               id="description"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="I don't want to write you a love song, 'cause you asked for it, 'cause you need one. (You see)..."
               {...register("description", { required: true })}
             />
@@ -386,13 +403,13 @@ export const CreateForm = ({ address }: any) => {
           <div className="mb-6">
             <label
               htmlFor="Other Keywords"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
             >
               Other Keywords
             </label>
             <input
               id="keywords"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Futuristic, Emotional, Synthwave"
               {...register("keywords")}
             />
@@ -423,16 +440,16 @@ export const CreateForm = ({ address }: any) => {
           <h2 className="text-center w-full py-4 text-xl">
             Step {step} - Upload your media.
           </h2>
-          <div className="flex items-center justify-center w-full mb-2">
+          <div className="flex items-center justify-center w-full mb-2 max-w-lg mx-auto">
             {!imagePreview && (
               <label
                 htmlFor="file"
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                className="flex flex-col items-center justify-center w-72 h-72 md:w-96 md:h-96 border-2 border-zinc-300 border-dashed rounded-lg cursor-pointer bg-zinc-50 dark:hover:bg-bray-800 dark:bg-zinc-700 hover:bg-zinc-100 dark:border-zinc-600 dark:hover:border-zinc-500 dark:hover:bg-zinc-600"
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <svg
                     aria-hidden="true"
-                    className="w-10 h-10 mb-3 text-gray-400"
+                    className="w-10 h-10 mb-3 text-zinc-400"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -445,10 +462,12 @@ export const CreateForm = ({ address }: any) => {
                       d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                     ></path>
                   </svg>
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Click to upload</span>
+                  <p className="mb-2 text-sm text-zinc-500 dark:text-zinc-400">
+                    <span className="font-semibold">
+                      Click to upload artwork
+                    </span>
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
                     PNG, JPG or GIF (MAX.50MB)
                   </p>
                 </div>
@@ -462,20 +481,31 @@ export const CreateForm = ({ address }: any) => {
               </label>
             )}
             {imagePreview ? (
-              <img className="w-96" src={imagePreview} alt="preview" />
+              <img
+                className="w-96 rounded-lg"
+                src={imagePreview}
+                alt="preview"
+              />
             ) : null}
           </div>
           <div className="flex items-center justify-center w-full mb-2">
             {!songPreview && (
-              <>
-                <label htmlFor="audio">Audio:</label>
-                <input
-                  type="file"
-                  id="audio"
-                  {...register("audio")}
-                  onChange={handleSongChange}
-                />
-              </>
+              <div className="flex items-center justify-center w-full mb-2 max-w-96 mx-auto">
+                <label
+                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+                  htmlFor="audio"
+                >
+                  Upload Audio:
+                  <input
+                    className="block w-full text-sm p-2.5 text-zinc-900 border border-zinc-300 rounded-lg cursor-pointer bg-zinc-50 dark:text-zinc-400 focus:outline-none dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400"
+                    aria-describedby="file_input_help"
+                    type="file"
+                    id="audio"
+                    {...register("audio")}
+                    onChange={handleSongChange}
+                  />
+                </label>
+              </div>
             )}
             {songPreview ? (
               <audio className="w-96" src={songPreview} controls={true} />
@@ -515,70 +545,92 @@ export const CreateForm = ({ address }: any) => {
         <h2 className="text-center w-full py-4 text-xl">
           Step {step} - Confirm.
         </h2>
-        <div className="w-full mx-auto">
-          <div className="flex flex-col mx-auto content-center lg:grid lg:grid-cols-2 p-8 mb-8 ">
-            <div className="mx-auto content-center h-fit shadow-xl shadow-zinc-300 dark:shadow-gray-800 mb-10">
+        <div className="w-full mx-auto items-center">
+          <div className="flex flex-col mx-auto content-center lg:grid lg:grid-cols-2 p-8 mb-8 overflow-x-auto">
+            <div className="mx-auto content-center h-fit shadow-xl shadow-zinc-300 dark:shadow-zinc-800 mb-10 max-w-md col-span-1">
               {ipfsMedia && <Media audio={audioUrl} image={imageUrl} />}
             </div>
-            <div className="">
-              <table className="w-full text-md text-left bg-zinc-200 dark:bg-gray-900 p-4 rounded-md shadow-xl shadow-zinc-300 dark:shadow-zinc-800">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg dark:bg-zinc-900 border dark:border-zinc-800 bg-zinc-200 border-zinc-300">
+              <table className="text-sm text-left text-zinc-700 dark:text-zinc-300">
                 <tbody className="p-8">
-                  <tr className="border-b border-zinc-300 dark:border-gray-600">
-                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                    <th
+                      scope="row"
+                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                    >
                       Release Name:
-                    </td>
-                    <td className="px-6 py-2">{watch("name")}</td>
+                    </th>
+                    <td className="px-6 py-2 w-full">{watch("name")}</td>
                   </tr>
-                  <tr className="border-b border-zinc-300 dark:border-gray-600">
-                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                    <th
+                      scope="row"
+                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                    >
                       Artist:
-                    </td>
+                    </th>
                     <td className="px-6 py-2">{watch("artist_name")}</td>
                   </tr>
-                  <tr className="border-b border-zinc-300 dark:border-gray-600">
-                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                    <th
+                      scope="row"
+                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                    >
                       Release Date:
-                    </td>
+                    </th>
                     <td className="px-6 py-2">{watch("release_date")}</td>
                   </tr>
-                  <tr className="border-b border-zinc-300 dark:border-gray-600">
-                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                    <th
+                      scope="row"
+                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                    >
                       Total Collectibles:
+                    </th>
+                    <td className="px-6 py-2">
+                      {watch("total_collectibles")}
                     </td>
-                    <td className="px-6 py-2">{watch("total_collectibles")}</td>
                   </tr>
-                  <tr className="border-b border-zinc-300 dark:border-gray-600">
-                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                    <th
+                      scope="row"
+                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                    >
                       Description:
-                    </td>
+                    </th>
                     <td className="px-6 py-2">{watch("description")}</td>
                   </tr>
-                  <tr className="border-b border-zinc-300 dark:border-gray-600">
-                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                    <th
+                      scope="row"
+                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                    >
                       Song URI:
-                    </td>
+                    </th>
                     <td className="px-6 py-2"> {watch("song_uri")}</td>
                   </tr>
-                  <tr className="border-b border-zinc-300 dark:border-gray-600">
-                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
+                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                    <th
+                      scope="row"
+                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                    >
                       Genre:{" "}
-                    </td>
-
+                    </th>   
                     <td className="px-6 py-2">
-                      {watch("genre") === "house" && "House/Dance"}
-                      {watch("genre") === "rnb" && "R&B"}
-                      {watch("genre") === "hip_hop" && "Hip-Hop/Rap"}
-                      {watch("genre") === "country" && "Country"}
-                      {watch("genre") === "rock" && "Rock"}
-                      {watch("genre") === "electronic" && "Electronic"}
-                      {watch("genre") === "pop" && "Pop"}
-                    </td>
+                    {allGenres.map((genre: any) => 
+                   <>
+                        {watch(genre) === genre && genre}
+                     </>
+                    )} </td>
                   </tr>
                   <tr className="">
-                    <td className="px-6 py-2 border-r border-zinc-300 dark:border-gray-800">
+                  <th
+                      scope="row"
+                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                    >
                       Keywords:
-                    </td>
-                    <td className="px-6 py-2"> {watch("keywords")}</td>
+                    </th>
+                    <td className="px-6 py-2">{watch("keywords")}</td>
                   </tr>
                 </tbody>
               </table>
