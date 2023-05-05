@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { SignOutButton } from "ui/Buttons/SignOut";
 import Avatar from "./UploadWidget";
 import { ConnectSpotifyButton } from "./ConnectSpotifyButton";
+import { toast } from "react-toastify";
 export default function Account() {
   const { data: session } = useSession();
   const user = session?.id;
@@ -49,7 +50,7 @@ export default function Account() {
         
         }
       } catch (error) {
-        alert("Error loading user data!");
+        toast.error("Error loading user data!");
         console.log(error);
       } finally {
         setLoading(false);
@@ -79,7 +80,7 @@ export default function Account() {
       if (error) throw error;
       alert("Profile updated!");
     } catch (error) {
-      alert("Error updating the data!");
+      toast.error(error as any);
       console.log(error);
     } finally {
       setLoading(false);
