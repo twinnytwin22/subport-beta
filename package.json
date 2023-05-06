@@ -26,6 +26,7 @@
     "@thirdweb-dev/react": "^3.10.3",
     "@thirdweb-dev/sdk": "^3.10.3",
     "@trpc/client": "^10.14.0",
+    "@vercel/edge-config": "^0.1.9",
     "alchemy-sdk": "^2.4.3",
     "arweave": "^1.13.5",
     "autoprefixer": "^10.4.13",
