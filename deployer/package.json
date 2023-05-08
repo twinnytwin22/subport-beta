@@ -12,6 +12,7 @@
 		"deploy-local": "npx hardhat run ./scripts/SBPRT721_deploy.js --network localhost"
 	},
 	"dependencies": {
+		"@nomiclabs/hardhat-ethers": "^2.2.3",
 		"@openzeppelin/contracts": "^4.7.3",
 		"dotenv": "^16.0.2",
 		"fs-extra": "^11.1.1"

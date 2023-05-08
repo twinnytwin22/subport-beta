@@ -2,21 +2,19 @@
 import { useSigner }  from 'wagmi'
 import { ethers } from 'ethers';
 import { sign } from 'jsonwebtoken';
-const { getDefaultProvider } = require('@ethersproject/providers');
-const { ContractFactory } = require('@ethersproject/contracts');
-const { keccak256 } = require('@ethersproject/keccak256');
-const { Signer } = require('@ethersproject/abstract-signer');
+import { getDefaultProvider } from '@ethersproject/providers';
+import { ContractFactory } from '@ethersproject/contracts';
+import { keccak256 } from '@ethersproject/keccak256';
+import { Signer } from '@ethersproject/abstract-signer';
 
 export async function deployContractWithWagmi({contractName, contractArgs, network, abi, bytecode}: any) {
-  // Initialize the provider
-  const provider = network ? new ethers.providers.JsonRpcProvider(network) : getDefaultProvider();
   // Get the signer from wagmi
   const signer = useSigner();
-  if (!Signer(signer)) {
+  if (signer) {
     throw new Error('Signer is not an AbstractSigner');
   }
   // Compute the contract deployment bytecode
-  const contractFactory = new ethers.ContractFactory(abi, bytecode, signer ? signer : provider);
+  const contractFactory = new ethers.ContractFactory(abi, bytecode, signer);
   // Deploy the contract
   const contract = await contractFactory.deploy()
   // Retrieve the contract address

@@ -177,6 +177,28 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
         _safeMint(to, qty);
     }
 
+       function purhase(
+        bytes memory signature,
+        address payable to,
+        uint256 qty
+    )
+        external
+        payable
+        saleActive
+        enoughSupply(qty)
+        purchaseArgsOK(to, qty, msg.value)
+    {
+        require(verifyAddressSigner(signature), "Address not verified");
+
+        require(openToPublic, " sale is not public");
+        require(
+            balanceOf(msg.sender) < 1,
+            "You can only mint one free collectible!"
+        );
+        _safeMint(to, qty);
+    }
+
+
     //@dev Allows public addresses (non-owners) to purchase
     function collect(
         bytes memory signature,

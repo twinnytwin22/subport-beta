@@ -29,6 +29,6 @@
       ] // this mapping is relative to "baseUrl"
     },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/supabaseClient.js", "lib/supabaseClient.js", "lib/supabaseClient.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "lib/supabaseClient.js", "lib/supabaseClient.js", "lib/supabaseClient.js", "deployer/hardhat.config.js", "deployer/scripts/SBPRT721_deploy.js"],
   "exclude": ["node_modules"]
 }
