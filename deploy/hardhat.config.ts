@@ -4,6 +4,7 @@ import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomiclabs/hardhat-etherscan"
 import "tsconfig-paths/register";
+import '@nomiclabs/hardhat-ethers'
 
 
 const polygonVerifyKey: any = process.env.POLYGONSCAN_API!;
