@@ -2,6 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "hardhat-deploy"; // 
 
 const polygonVerifyKey: any = process.env.POLYGONSCAN_API!;
 const mumbaiApiKey: any = process.env.STAGING_ALCHEMY_KEY!;
