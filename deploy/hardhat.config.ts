@@ -28,24 +28,24 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      polygonMumbai: process.env.POLYGONSCAN_API! as string,
-      polygon: process.env.POLYGONSCAN_API! as string,
+      polygonMumbai: process.env.POLYGONSCAN_API! as any,
+      polygon: process.env.POLYGONSCAN_API! as any,
        
     },
   },
   networks: {
     mumbai: {
-      url: process.env.STAGING_ALCHEMY_KEY as string,
+      url: process.env.STAGING_ALCHEMY_KEY as any,
       accounts: [process.env.PRIVATE_KEY!] as any,
     },
     matic: {
       chainId: 137,
-      url: process.env.PROD_ALCHEMY_KEY as string,
+      url: process.env.PROD_ALCHEMY_KEY as any,
       accounts: [process.env.PRIVATE_KEY!] as any,
     },
     mainnet: {
       chainId: 1,
-      url: process.env.PROD_ALCHEMY_KEY as string,
+      url: process.env.PROD_ALCHEMY_KEY as any,
       accounts: [process.env.PRIVATE_KEY!] as any,
     },
   },
