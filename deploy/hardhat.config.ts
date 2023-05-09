@@ -4,6 +4,11 @@ dotenv.config()
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 
+const polygonVerifyKey: any = process.env.POLYGONSCAN_API!
+const mumbaiApiKey: any = process.env.STAGING_ALCHEMY_KEY!
+const maticApiKey: any = process.env.PROD_ALCHEMY_KEY!
+const PK: any = process.env.PRIVATE_KEY!
+
 const config: HardhatUserConfig = {
   paths: {
 		sources: "./contracts",
@@ -27,20 +32,19 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
-      polygonMumbai: process.env.POLYGONSCAN_API! as any,
-      polygon: process.env.POLYGONSCAN_API! as any,
-       
+      polygonMumbai: polygonVerifyKey,
+      polygon: polygonVerifyKey,
     },
   },
   networks: {
     mumbai: {
-      url: process.env.STAGING_ALCHEMY_KEY as any,
-      accounts: [process.env.PRIVATE_KEY!] as any,
+      url: mumbaiApiKey,
+      accounts: PK,
     },
     matic: {
       chainId: 137,
-      url: process.env.PROD_ALCHEMY_KEY as any,
-      accounts: [process.env.PRIVATE_KEY!] as any,
+      url: maticApiKey,
+      accounts: PK,
     },
     mainnet: {
       chainId: 1,
