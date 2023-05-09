@@ -44,7 +44,8 @@ coverage
 coverage.json
 typechain
 typechain-types
-
+deployer-ts
+/deployer-ts
 # Hardhat files
 cache
 artifacts

@@ -4,8 +4,7 @@ import { getSession, useSession } from 'next-auth/react';
 import { createClient } from '@supabase/supabase-js';
 import { create } from "ipfs-http-client";
 import { Database } from 'types/supabase';
-import { runDeploy } from 'deploy/scripts/SBPRT721_deploy';
-
+import { runDeploy } from 'deployer/scripts/SBPRT721_deploy';
 const supabaseUrl = 'https://hlrcgzujgosmqgepcemj.supabase.co'
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 const supabase = createClient<Database>(supabaseUrl, supabaseKey)

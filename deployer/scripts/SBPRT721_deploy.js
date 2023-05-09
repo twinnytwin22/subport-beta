@@ -1,4 +1,4 @@
-import { ethers, run } from 'hardhat';
+const hre = require("hardhat");
 
 const name = 'Twinny Testing Vars';
 const tokenName = 'TTV';
@@ -7,10 +7,10 @@ const endDate = 0;
 const contractUri = 'ipfs://testcontracturi';
 const totalSupply = 500;
 
-async function main({name, tokenName, startDate, endDate, contractUri, totalSupply}: any) {
+async function main({name, tokenName, startDate, endDate, contractUri, totalSupply}) {
 
   // assume you have these variables after uploading to IPFS and deploying the contract
-  const Contract = await ethers.getContractFactory('SBPRT721');
+  const Contract = await hre.ethers.getContractFactory('SBPRT721');
   const contract = await Contract.deploy(name, tokenName, startDate, endDate, contractUri, totalSupply);
   await contract.deployed();
 
@@ -22,7 +22,7 @@ async function main({name, tokenName, startDate, endDate, contractUri, totalSupp
   const contractAbi = Contract.interface.format('json');
 
   // verify the contract on Etherscan
-  const verification = await run('verify:verify',{
+  const verification = await hre.run('verify:verify',{
     network: 'mumbai',
     apiKey: process.env.POLYGONSCAN_API,
     address: contract.address,
@@ -31,7 +31,7 @@ async function main({name, tokenName, startDate, endDate, contractUri, totalSupp
   });
     {verification && console.log('contract verified')};
 }
-export const runDeploy = async ({name, tokenName, startDate, endDate, contractUri, totalSupply}: any) => {
+const runDeploy = async ({name, tokenName, startDate, endDate, contractUri, totalSupply}) => {
   try {
     await main({name, tokenName, startDate, endDate, contractUri, totalSupply});
     process.exit(0);
@@ -42,3 +42,7 @@ export const runDeploy = async ({name, tokenName, startDate, endDate, contractUr
 };
 
 runDeploy({name, tokenName, startDate, endDate, contractUri, totalSupply});
+
+module.exports = { runDeploy };
+
+
