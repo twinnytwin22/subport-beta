@@ -8,7 +8,7 @@ const mumbaiApiKey: any = process.env.STAGING_ALCHEMY_KEY!;
 const maticApiKey: any = process.env.PROD_ALCHEMY_KEY!;
 const PK: any = process.env.PRIVATE_KEY!;
 
-const config: HardhatUserConfig = {
+const config: HardhatUserConfig | any = {
   paths: {
     sources: "./contracts",
     artifacts: "./artifacts",
