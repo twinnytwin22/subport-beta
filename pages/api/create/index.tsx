@@ -4,10 +4,18 @@ import { getSession, useSession } from 'next-auth/react';
 import { createClient } from '@supabase/supabase-js';
 import { create } from "ipfs-http-client";
 import { Database } from 'types/supabase';
+import { runDeploy } from 'deploy/scripts/SBPRT721_deploy';
 
 const supabaseUrl = 'https://hlrcgzujgosmqgepcemj.supabase.co'
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 const supabase = createClient<Database>(supabaseUrl, supabaseKey)
+
+const name = 'Twinny Testing Vars';
+const tokenName = 'TTV';
+const startDate = Math.round(Date.now() / 1000);
+const endDate = 0;
+const contractUri = 'ipfs://testcontracturi';
+const totalSupply = 500;
 
 export default async function(req: NextApiRequest, res: NextApiResponse) {
   // Get the user ID from the authentication provider (NextAuth.js)
@@ -50,7 +58,7 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
           ipfsHash: ipfsHash
         };
       
-        const contractAddress = await deployTest(deployData);
+        const contractAddress = await runDeploy({name, tokenName, startDate, endDate, contractUri, totalSupply});
 
         // Return a JSON response with the contract address
         res.json({ success: true, contractAddress });
