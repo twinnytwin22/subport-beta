@@ -4,7 +4,7 @@ import { getSession, useSession } from 'next-auth/react';
 import { createClient } from '@supabase/supabase-js';
 import { create } from "ipfs-http-client";
 import { Database } from 'types/supabase';
-import { runDeploy } from 'deploy/scripts/SBPRT721_deploy';
+import { runDeploy } from 'deployer/scripts/SBPRT721_deploy';
 
 const supabaseUrl = 'https://hlrcgzujgosmqgepcemj.supabase.co'
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -17,7 +17,7 @@ const endDate = 0;
 const contractUri = 'ipfs://testcontracturi';
 const totalSupply = 500;
 
-export default async function(req: NextApiRequest, res: NextApiResponse) {
+export default async function (req: NextApiRequest, res: NextApiResponse) {
   // Get the user ID from the authentication provider (NextAuth.js)
   const session = await getSession({ req });
   console.log(session, 'session for req')
@@ -27,11 +27,11 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
 
     try {
       // Get the form data from the request body
-      const collectibleData = { 
+      const collectibleData = {
         ...req.body,
         userId: session?.id
       };
-      
+
       /// Upload Collection Data to IPFS
       try {
         ipfsHash = await uploadToIpfs(collectibleData);
@@ -53,12 +53,12 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
         console.log(wallet);
 
         // Deploy the contract using the form data
-        const deployData = { 
+        const deployData = {
           ...collectibleData,
           ipfsHash: ipfsHash
         };
-      
-        const contractAddress = await runDeploy({name, tokenName, startDate, endDate, contractUri, totalSupply});
+
+        const contractAddress = await runDeploy({ name, tokenName, startDate, endDate, contractUri, totalSupply });
 
         // Return a JSON response with the contract address
         res.json({ success: true, contractAddress });
@@ -67,7 +67,7 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
         console.error('Error uploading to IPFS:', error);
         res.status(500).json({ success: false, error: 'Error uploading to IPFS' });
         return;
-      }      
+      }
 
     } catch (error) {
       console.error(error);
@@ -79,7 +79,7 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
 }
 
 
-  const uploadToIpfs = async ({collectibleData}: any) => {
+const uploadToIpfs = async ({ collectibleData }: any) => {
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
   const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
   const subdomain = 'subport'
@@ -97,33 +97,33 @@ export default async function(req: NextApiRequest, res: NextApiResponse) {
 
   // Upload json file to IPFS
   const { promises: fs } = require('fs');
-const uploadToIpfs = async ({collectibleData}: any) => {
-  const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
-  const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
-  const subdomain = 'subport'
-  const auth =
-    "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-  const ipfs = create({
-    timeout: "2m",
-    host: "ipfs.infura.io",
-    port: 5001,
-    protocol: "https",
-    headers: {
-      authorization: auth,
-    },
-  });
+  const uploadToIpfs = async ({ collectibleData }: any) => {
+    const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
+    const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
+    const subdomain = 'subport'
+    const auth =
+      "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
+    const ipfs = create({
+      timeout: "2m",
+      host: "ipfs.infura.io",
+      port: 5001,
+      protocol: "https",
+      headers: {
+        authorization: auth,
+      },
+    });
 
-  // Upload json file to IPFS
-  const jsonData = { collectibleData };
-  const jsonContent = JSON.stringify(jsonData);
-  await fs.writeFile(`/tmp/${collectibleData.name}-metadata.json`, jsonContent, 'utf8');
-  console.log(`metadata was successfully saved to ${collectibleData.name}-metadata.json file`);
+    // Upload json file to IPFS
+    const jsonData = { collectibleData };
+    const jsonContent = JSON.stringify(jsonData);
+    await fs.writeFile(`/tmp/${collectibleData.name}-metadata.json`, jsonContent, 'utf8');
+    console.log(`metadata was successfully saved to ${collectibleData.name}-metadata.json file`);
 
-  // Upload audio file to IPFS
-  const hashResult = await ipfs.add(jsonContent);
-  console.log(hashResult, 'hrs')
-  const hashUrl = `ipfs://${hashResult.path}`;
-  console.log(hashUrl, 'hashUrl')
-  return { ipfsHash: hashUrl };
-}
+    // Upload audio file to IPFS
+    const hashResult = await ipfs.add(jsonContent);
+    console.log(hashResult, 'hrs')
+    const hashUrl = `ipfs://${hashResult.path}`;
+    console.log(hashUrl, 'hashUrl')
+    return { ipfsHash: hashUrl };
+  }
 }
