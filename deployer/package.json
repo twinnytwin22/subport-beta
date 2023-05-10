@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "npx hardhat compile",
+    "clean": "npx hardhat clean",
+    "hh-dep-local": "npx hardhat run --scripts SBPRT721_deploy.js"
   },
   "author": "",
   "license": "ISC",
