@@ -9,7 +9,7 @@ const totalSupply = 500;
 async function main({name, tokenName, startDate, endDate, contractUri, totalSupply}) {
 
   // assume you have these variables after uploading to IPFS and deploying the contract
-  const Contract = await ethers.getContractFactory('SBPRT721');
+  const Contract = await hre.ethers.getContractFactory('SBPRT721');
   const contract = await Contract.deploy(name, tokenName, startDate, endDate, contractUri, totalSupply);
   await contract.deployed();
 
@@ -21,7 +21,7 @@ async function main({name, tokenName, startDate, endDate, contractUri, totalSupp
   const contractAbi = Contract.interface.format('json');
 
   // verify the contract on Etherscan
-  const verification = await run('verify:verify',{
+  const verification = await hre.run('verify:verify',{
     network: 'mumbai',
     apiKey: process.env.POLYGONSCAN_API,
     address: contract.address,
