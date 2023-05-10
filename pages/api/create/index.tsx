@@ -58,8 +58,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
           ipfsHash: ipfsHash
         };
 
-        const contractAddress = await runDeploy({ name, tokenName, startDate, endDate, contractUri, totalSupply });
-
+        const contractAddress = await deployTest(deployData)
         // Return a JSON response with the contract address
         res.json({ success: true, contractAddress });
 
