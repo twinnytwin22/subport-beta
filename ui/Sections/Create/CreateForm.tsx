@@ -618,9 +618,9 @@ export const CreateForm = ({ address }: any) => {
                     </th>   
                     <td className="px-6 py-2">
                     {allGenres.map((genre: any) => 
-                   <>
+                   <div key={genre}>
                         {watch(genre) === genre && genre}
-                     </>
+                     </div>
                     )} </td>
                   </tr>
                   <tr className="">
