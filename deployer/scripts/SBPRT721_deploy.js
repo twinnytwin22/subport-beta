@@ -32,11 +32,12 @@ async function main({name, tokenName, startDate, endDate, contractUri, totalSupp
 }
 export const runDeploy = async ({name, tokenName, startDate, endDate, contractUri, totalSupply}) => {
   try {
-    await main({name, tokenName, startDate, endDate, contractUri, totalSupply});
-    process.exit(0);
+    const contract = await main({name, tokenName, startDate, endDate, contractUri, totalSupply});
+   // process.exit(0);
+   return contract
   } catch (error) {
     console.log(error);
-    process.exit(1);
+   // process.exit(1);
   }
 };
 
