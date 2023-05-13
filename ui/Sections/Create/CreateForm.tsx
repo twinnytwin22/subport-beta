@@ -4,14 +4,13 @@ import Collectible from "types/collectible";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Media } from "ui/Misc/Media";
-import addUpdateWallet from "lib/hooks/functions";
 import { create } from "ipfs-http-client";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { uploadHashToIpfs } from "lib/uploadFileIpfs";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 import { allGenres } from "lib/allGenres";
 import { Tooltip } from "ui/Misc/Tooltip";
+import { createFormMessage } from "./createFormMessages";
 export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   console.log(imageFile, audioFile, "ia upipfs");
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -245,9 +244,8 @@ export const CreateForm = ({ address }: any) => {
                   type="date"
                   disabled={nowChecked}
                   {...register("start_date")}
-                  className={`bg-zinc-50 border mt-2 border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
-                    nowChecked && "text-zinc-800 dark:text-zinc-500"
-                  }`}
+                  className={`bg-zinc-50 border mt-2 border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${nowChecked && "text-zinc-800 dark:text-zinc-500"
+                    }`}
                 />
               </label>
               <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
@@ -262,7 +260,7 @@ export const CreateForm = ({ address }: any) => {
                 <span className="ml-3 text-sm font-bold text-zinc-900 dark:text-zinc-300">
                   Now
                 </span>
-                <Tooltip message="Testing the tool tip" />
+                <Tooltip message={createFormMessage.startNow} />
               </label>
               <label
                 htmlFor="end_date"
@@ -273,9 +271,8 @@ export const CreateForm = ({ address }: any) => {
                   type="date"
                   disabled={neverChecked}
                   {...register("end_date")}
-                  className={`bg-zinc-50 border mt-2 border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
-                    neverChecked && "text-zinc-800 dark:text-zinc-500"
-                  }`}
+                  className={`bg-zinc-50 border mt-2 border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${neverChecked && "text-zinc-800 dark:text-zinc-500"
+                    }`}
                 />
               </label>
               <label className="relative inline-flex items-center cursor-pointer col-span-1 w-full">
@@ -290,16 +287,17 @@ export const CreateForm = ({ address }: any) => {
                 <span className="ml-3 text-sm font-medium text-zinc-900 dark:text-zinc-300">
                   Infinite
                 </span>
-                <Tooltip message="Testing the tool tip" />
+                <Tooltip message={createFormMessage.infinite} />
               </label>
             </div>
             <div className="grid grid-cols-2 gap-6">
               <div className="col-span-2">
                 <label
                   htmlFor="countries"
-                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+                  className="flex mb-2 text-sm font-medium text-zinc-900 dark:text-white items-center"
                 >
                   Drop Type?{" "}
+                  <Tooltip message="Drop Type" />
                 </label>
                 <select
                   id="countries"
@@ -314,9 +312,10 @@ export const CreateForm = ({ address }: any) => {
               <div>
                 <label
                   htmlFor="release_date"
-                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+                  className="flex items-center mb-2 text-sm font-medium text-zinc-900 dark:text-white"
                 >
                   Release Date
+                  <Tooltip message={createFormMessage.releaseDate} />
                 </label>
                 <input
                   type="date"
@@ -329,9 +328,11 @@ export const CreateForm = ({ address }: any) => {
               <div>
                 <label
                   htmlFor="total_collectibles"
-                  className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+                  className="flex mb-2 text-sm font-medium text-zinc-900 dark:text-white"
                 >
                   Total Collectibles
+                  <Tooltip message={createFormMessage.total} />
+
                 </label>
                 <input
                   type="number"
@@ -372,9 +373,11 @@ export const CreateForm = ({ address }: any) => {
             <div>
               <label
                 htmlFor="website"
-                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+                className="flex mb-2 text-sm font-medium text-zinc-900 dark:text-white"
               >
                 Song URI
+                <Tooltip message={createFormMessage.songUri} />
+
               </label>
               <input
                 type="url"
@@ -403,9 +406,11 @@ export const CreateForm = ({ address }: any) => {
           <div className="mb-6">
             <label
               htmlFor="Other Keywords"
-              className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+              className="flex items mb-2 text-sm font-medium text-zinc-900 dark:text-white"
             >
               Other Keywords
+              <Tooltip message={createFormMessage.keywords} />
+
             </label>
             <input
               id="keywords"
@@ -615,16 +620,16 @@ export const CreateForm = ({ address }: any) => {
                       className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
                     >
                       Genre:{" "}
-                    </th>   
+                    </th>
                     <td className="px-6 py-2">
-                    {allGenres.map((genre: any) => 
-                   <>
-                        {watch(genre) === genre && genre}
-                     </>
-                    )} </td>
+                      {allGenres.map((genre: any) =>
+                        <>
+                          {watch(genre) === genre && genre}
+                        </>
+                      )} </td>
                   </tr>
                   <tr className="">
-                  <th
+                    <th
                       scope="row"
                       className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
                     >
