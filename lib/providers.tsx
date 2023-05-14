@@ -2,7 +2,7 @@
 import "@rainbow-me/rainbowkit/styles.css";
 import "styles/globals.css";
 import * as React from "react";
-import { connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { connectorsForWallets, getDefaultWallets } from "@rainbow-me/rainbowkit";
 import {
   injectedWallet,
   walletConnectWallet,
@@ -12,7 +12,7 @@ import {
   ledgerWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { configureChains, WagmiConfig, createClient } from "wagmi";
+import { configureChains, WagmiConfig, createConfig } from "wagmi";
 import { mainnet, polygon } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -21,7 +21,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   SessionProvider as AuthProvider,
-  SessionProvider,
 } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { getAuthOptions } from "pages/api/auth/[...nextauth]";
@@ -35,13 +34,22 @@ const ThemeProvider = dynamic(
   { ssr: false }
 );
 
+const projectId = '81347ba0dc58fcf4a2217b6524d9b6c5'
+
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
-const { chains, provider, webSocketProvider } = configureChains(
+const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet, polygon],
   [alchemyProvider({ apiKey }), publicProvider()]
 );
 
+const { wallets } = getDefaultWallets({
+  appName: 'subport',
+  projectId,
+  chains
+})
+
 const connectors = connectorsForWallets([
+  ...wallets,
   {
     groupName: "subport recommended",
     wallets: [
@@ -55,17 +63,18 @@ const connectors = connectorsForWallets([
   },
 ]);
 
-const wagmiClient = createClient({
+const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  provider,
-  webSocketProvider,
+  webSocketPublicClient,
+  publicClient,
+
 });
 
 export const Providers = ({ children }: { children: React.ReactNode }, user: any) => {
   return (
     <AuthProvider>
-      <WagmiConfig client={wagmiClient}>
+      <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider
           chains={chains}
           theme={darkTheme({
@@ -89,7 +98,7 @@ export default Providers;
 export async function getServerSideProps(context: any) {
   const { address } = useAccount();
   const session = await getServerSession(
-  getAuthOptions()
+    getAuthOptions()
   );
   if (!session) {
     return {
@@ -103,7 +112,7 @@ export async function getServerSideProps(context: any) {
       .from("users")
       .select()
       .eq("id", session?.user.id);
-      console.log(data, 'booty')
+    console.log(data, 'booty')
     // Call the checkWalletAddress function and pass the session object
     return {
       props: {
