@@ -55,4 +55,5 @@ export async function deployTest(data: any) {
   const totalSupply = data?.total_collectibles || 500;
 
   console.log('Deploy Test:', data, 'Deploy Data from Test', deployData)
+  return data
 }
