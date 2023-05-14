@@ -6,7 +6,6 @@ import { getDefaultProvider } from '@ethersproject/providers';
 import { ContractFactory } from '@ethersproject/contracts';
 import { keccak256 } from '@ethersproject/keccak256';
 import { Signer } from '@ethersproject/abstract-signer';
-import { runDeploy } from 'deployer/scripts/SBPRT721_deploy';
 
 export async function deployContractWithWagmi({ contractName, contractArgs, network, abi, bytecode }: any) {
   // Get the signer from wagmi
@@ -55,7 +54,6 @@ export async function deployTest(data: any) {
   const contractUri = 'ipfs://testcontracturi';
   const totalSupply = data?.total_collectibles || 500;
 
-  const deployResults = await runDeploy({ name, tokenName, startDate, endDate, contractUri, totalSupply })
   console.log('Deploy Test:', data, 'Deploy Data from Test', deployData)
-  return deployResults
+  return data
 }

@@ -1,4 +1,5 @@
 const hre = require('hardhat')
+const fs = require('fs')
 const name = 'Twinny Testing Vars';
 const tokenName = 'TTV';
 const startDate = Math.round(Date.now() / 1000);
@@ -12,6 +13,23 @@ async function main({name, tokenName, startDate, endDate, contractUri, totalSupp
   const Contract = await hre.ethers.getContractFactory('SBPRT721');
   const contract = await Contract.deploy(name, tokenName, startDate, endDate, contractUri, totalSupply);
   await contract.deployed();
+
+  const contractsDir = __dirname + '/../src/contractsData';
+  if (!fs.existsSync(contractsDir)) {
+    fs.mkdirSync(contractsDir)
+  }
+
+  fs.writeFileSync(
+    contractsDir + `/${name}-address.json`,
+    JSON.stringify({address: contract.address})
+  );
+
+  const contractArtifact = artifacts.readArtifactSync('SBPRT721')
+
+  fs.writeFileSync(
+    contractsDir + `/${name}.json`,
+    JSON.stringify(contractArtifact, null, 2) 
+  );
 
   console.log('SBPRT721 deployed to:', contract.address, 'with start date of:', startDate);
   // Wait for 1 minute before running verification
@@ -30,7 +48,7 @@ async function main({name, tokenName, startDate, endDate, contractUri, totalSupp
   });
     {verification && console.log('contract verified')};
 }
-export const runDeploy = async ({name, tokenName, startDate, endDate, contractUri, totalSupply}) => {
+const runDeploy = async ({name, tokenName, startDate, endDate, contractUri, totalSupply}) => {
   try {
     const contract = await main({name, tokenName, startDate, endDate, contractUri, totalSupply});
    // process.exit(0);
