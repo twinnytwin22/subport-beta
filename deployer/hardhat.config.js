@@ -1,6 +1,5 @@
 require('dotenv').config()
 require("@nomicfoundation/hardhat-toolbox");
-require("@nomicfoundation/hardhat-foundry");
 
 const polygonVerifyKey = process.env.POLYGONSCAN_API;
 const mumbaiApiKey = process.env.STAGING_ALCHEMY_KEY;

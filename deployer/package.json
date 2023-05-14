@@ -8,7 +8,8 @@
     "compile": "npx hardhat compile",
     "forge compile": "forge build",
     "clean": "npx hardhat clean",
-    "hh-dep-local": "npx hardhat run --scripts SBPRT721_deploy.js"
+    "hh-dep-local": "npx hardhat run --scripts SBPRT721_deploy.js",
+    "hh-dep-mumbai": "npx hardhat run scripts/SBPRT721_deploy.js --network mumbai"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.3",
     "dotenv": "^16.0.3",
-    "forge-std": "github:foundry-rs/forge-std"
+    "forge-std": "github:foundry-rs/forge-std",
+    "fs": "^0.0.1-security"
   }
 }

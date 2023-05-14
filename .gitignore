@@ -60,3 +60,6 @@ typechain-types
 cache
 artifacts
 
+
+# Sentry Auth Token
+.sentryclirc

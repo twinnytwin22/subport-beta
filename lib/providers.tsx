@@ -58,7 +58,7 @@ const connectors = connectorsForWallets([
       metaMaskWallet({ chains }),
       coinbaseWallet({ chains, appName: "subport.xyz" }),
       ledgerWallet({ chains }),
-      walletConnectWallet({ chains }),
+      walletConnectWallet({ projectId, chains }),
     ],
   },
 ]);
