@@ -5,13 +5,13 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Media } from "ui/Misc/Media";
 import { create } from "ipfs-http-client";
+import { fetch as ipfsFetch } from 'ipfs-utils/src/http/fetch'
 import { useSession } from "next-auth/react";
-import { uploadHashToIpfs } from "lib/uploadFileIpfs";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 import { allGenres } from "lib/allGenres";
 import { Tooltip } from "ui/Misc/Tooltip";
 import { createFormMessage } from "./createFormMessages";
-export const uploadToIpfs = async (imageFile: any, audioFile: any) => {
+const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   console.log(imageFile, audioFile, "ia upipfs");
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
   const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
@@ -623,9 +623,9 @@ export const CreateForm = ({ address }: any) => {
                     </th>
                     <td className="px-6 py-2">
                       {allGenres.map((genre: any) =>
-                        <>
+                        <div key={genre}>
                           {watch(genre) === genre && genre}
-                        </>
+                        </div>
                       )} </td>
                   </tr>
                   <tr className="">

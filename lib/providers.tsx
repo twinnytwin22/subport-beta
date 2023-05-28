@@ -54,10 +54,10 @@ const connectors = connectorsForWallets([
     groupName: "subport recommended",
     wallets: [
       injectedWallet({ chains }),
-      rainbowWallet({ chains }),
-      metaMaskWallet({ chains }),
+      rainbowWallet({ projectId, chains }),
+      metaMaskWallet({ projectId, chains }),
       coinbaseWallet({ chains, appName: "subport.xyz" }),
-      ledgerWallet({ chains }),
+      ledgerWallet({ projectId, chains }),
       walletConnectWallet({ projectId, chains }),
     ],
   },
@@ -96,7 +96,6 @@ export const Providers = ({ children }: { children: React.ReactNode }, user: any
 export default Providers;
 
 export async function getServerSideProps(context: any) {
-  const { address } = useAccount();
   const session = await getServerSession(
     getAuthOptions()
   );

@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { deployTest } from 'lib/deployer';
-import { getSession, useSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
 import { createClient } from '@supabase/supabase-js';
 import { create } from "ipfs-http-client";
 import { Database } from 'types/supabase';
-
+import { writeFile } from 'fs/promises';
+import { getAuthOptions } from '../auth/[...nextauth]';
 const supabaseUrl = 'https://hlrcgzujgosmqgepcemj.supabase.co'
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 const supabase = createClient<Database>(supabaseUrl, supabaseKey)
@@ -16,9 +17,10 @@ const endDate = 0;
 const contractUri = 'ipfs://testcontracturi';
 const totalSupply = 500;
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: any, res: NextApiResponse) {
+  const authOptions = getAuthOptions()
   // Get the user ID from the authentication provider (NextAuth.js)
-  const session = await getSession({ req });
+  const session = await getServerSession(authOptions);
   console.log(session, 'session for req')
 
   if (req.method === 'POST') {
@@ -78,9 +80,9 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
 
 
 const uploadToIpfs = async ({ collectibleData }: any) => {
+  // Upload json file to IPFS
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
   const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
-  const subdomain = 'subport'
   const auth =
     "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
   const ipfs = create({
@@ -92,36 +94,16 @@ const uploadToIpfs = async ({ collectibleData }: any) => {
       authorization: auth,
     },
   });
-
   // Upload json file to IPFS
-  const { promises: fs } = require('fs');
-  const uploadToIpfs = async ({ collectibleData }: any) => {
-    const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
-    const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
-    const subdomain = 'subport'
-    const auth =
-      "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-    const ipfs = create({
-      timeout: "2m",
-      host: "ipfs.infura.io",
-      port: 5001,
-      protocol: "https",
-      headers: {
-        authorization: auth,
-      },
-    });
+  const jsonData = { collectibleData };
+  const jsonContent = JSON.stringify(jsonData);
+  await writeFile(`/tmp/${collectibleData.name}-metadata.json`, jsonContent, 'utf8');
+  console.log(`metadata was successfully saved to ${collectibleData.name}-metadata.json file`);
 
-    // Upload json file to IPFS
-    const jsonData = { collectibleData };
-    const jsonContent = JSON.stringify(jsonData);
-    await fs.writeFile(`/tmp/${collectibleData.name}-metadata.json`, jsonContent, 'utf8');
-    console.log(`metadata was successfully saved to ${collectibleData.name}-metadata.json file`);
-
-    // Upload audio file to IPFS
-    const hashResult = await ipfs.add(jsonContent);
-    console.log(hashResult, 'hrs')
-    const hashUrl = `ipfs://${hashResult.path}`;
-    console.log(hashUrl, 'hashUrl')
-    return { ipfsHash: hashUrl };
-  }
+  // Upload audio file to IPFS
+  const hashResult = await ipfs.add(jsonContent);
+  console.log(hashResult, 'hrs')
+  const hashUrl = `ipfs://${hashResult.path}`;
+  console.log(hashUrl, 'hashUrl')
+  return { ipfsHash: hashUrl };
 }
