@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Media } from "ui/Misc/Media";
 import { create } from "ipfs-http-client";
-import { fetch as ipfsFetch } from 'ipfs-utils/src/http/fetch'
 import { useSession } from "next-auth/react";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 import { allGenres } from "lib/allGenres";
