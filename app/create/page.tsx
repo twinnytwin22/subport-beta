@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CreateForm } from 'ui/Sections/Create/CreateForm'
 import { useAccount } from 'wagmi'
 import ConnectComponent from 'ui/Auth/ConnectComponent'
