@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function useFilePreview(file: any) {
-  const [imgSrc, setImgSrc] = useState(null);
+  const [imgSrc, setImgSrc] = useState('');
 
   useEffect(() => {
     if (file && file[0]) {
