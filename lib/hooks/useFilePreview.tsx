@@ -6,9 +6,12 @@ export default function useFilePreview(file: any) {
   useEffect(() => {
     if (file && file[0]) {
       const newUrl: any = URL.createObjectURL(file[0]);
-      if (newUrl !== imgSrc) {
-        setImgSrc(newUrl);
-      }
+      setImgSrc((prevImgSrc) => {
+        if (newUrl !== prevImgSrc) {
+          return newUrl;
+        }
+        return prevImgSrc;
+      });
     }
   }, [file]);
 
