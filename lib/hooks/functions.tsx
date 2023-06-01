@@ -7,7 +7,7 @@ import { Database } from 'types/supabase';
 import { toast } from 'react-toastify';
 
 
-export default async function addUpdateWallet(context: any, address: any) {
+export default async function AddUpdateWallet(context: any, address: any) {
   const supabaseUrl = 'https://hlrcgzujgosmqgepcemj.supabase.co'
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   const { data: session } = useSession();

@@ -4,7 +4,7 @@ import { CreateForm } from 'ui/Sections/Create/CreateForm'
 import { useAccount } from 'wagmi'
 import ConnectComponent from 'ui/Auth/ConnectComponent'
 import { useSession } from 'next-auth/react'
-import addUpdateWallet from 'lib/hooks/functions'
+import AddUpdateWallet from 'lib/hooks/functions'
 import LoginCard from 'ui/Auth/AuthComponent'
 function Create({ updatedUser }: any) {
   const { isConnected, address } = useAccount()
@@ -13,7 +13,7 @@ function Create({ updatedUser }: any) {
 
 
   if (address != null) {
-    addUpdateWallet({ session }, address)
+    AddUpdateWallet({ session }, address)
   }
 
   console.log(address, 'address from create page.tsx')

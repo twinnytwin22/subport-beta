@@ -1,4 +1,5 @@
 'use client'
+import React from 'react';
 import { useWalletClient } from 'wagmi'
 import { ethers } from 'ethers';
 import { sign } from 'jsonwebtoken';
@@ -8,7 +9,7 @@ import { keccak256 } from '@ethersproject/keccak256';
 import { Signer } from '@ethersproject/abstract-signer';
 
 
-export async function deployTest(data: any) {
+export async function DeployTest(data: any) {
   const { data: walletClient } = useWalletClient()
   const contractAddress = '0x148280a1395af6F430248c2E4B8063c69B7cA23E'
   const deployData = [
