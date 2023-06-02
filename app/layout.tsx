@@ -8,7 +8,6 @@ import MobileMenu from "ui/Navigation/MobileMenu";
 import Sidebar from "ui/Navigation/Sidebar";
 
 export const revalidate = 0;
-
 export default async function RootLayout({
   children,
 }: {

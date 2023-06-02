@@ -6,10 +6,12 @@ import ConnectComponent from 'ui/Auth/ConnectComponent'
 import { useSession } from 'next-auth/react'
 import AddUpdateWallet from 'lib/hooks/functions'
 import LoginCard from 'ui/Auth/AuthComponent'
+import { Signer } from '@ethersproject/abstract-signer';
+
 function Create({ updatedUser }: any) {
   const { isConnected, address } = useAccount()
   const { data: session, status } = useSession()
-
+  console.log(Signer)
 
 
   if (address != null) {

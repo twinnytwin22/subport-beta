@@ -24,7 +24,6 @@ import {
 } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { getAuthOptions } from "pages/api/auth/[...nextauth]";
-import { useAccount } from "wagmi";
 import { supabase } from "./supabaseClient";
 
 const ThemeProvider = dynamic(
