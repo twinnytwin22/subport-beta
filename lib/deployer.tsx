@@ -7,7 +7,31 @@ import { getDefaultProvider } from '@ethersproject/providers';
 import { ContractFactory } from '@ethersproject/contracts';
 import { keccak256 } from '@ethersproject/keccak256';
 import { Signer } from '@ethersproject/abstract-signer';
+import subportMeta from '../utils/subport.json'
 
+const bytecode = subportMeta.bytecode
+const abi = subportMeta.bytecode
+
+
+export async function deployContract({contractName, contractArgs, network }: any) {
+  // Get the signer from wagmi
+  const signer = Signer;
+  if (signer) {
+    throw new Error('Signer is not an AbstractSigner');
+  }
+  // Compute the contract deployment bytecode
+  const contractFactory = new ethers.ContractFactory(abi, bytecode, signer);
+  // Deploy the contract
+  const contract = await contractFactory.deploy()
+  // Retrieve the contract address
+  const contractAddress = contract.contractAddress;
+  console.log(`Contract deployed at address: ${contractAddress}`);
+
+  // Create a contract instance
+  const contractInstance = new ethers.Contract(contractAddress, abi);
+
+  return contractInstance;
+}
 
 export async function DeployTest(data: any) {
   const { data: walletClient } = useWalletClient()
@@ -23,12 +47,7 @@ export async function DeployTest(data: any) {
     data.ipfsHash,
     data.ownerAddress
   ]
-  // const name = data.name
-  // const tokenName = data.name
-  // const endDate = data.end_date
-  // const startDate = data.start_date
-  // const contractUri = data?.ipfsHash || 'ipfs://testcontracturi';
-  // const totalSupply = data.total_collectibles
+  
 
   const name = data?.name || 'Twinny Testing Vars';
   const tokenName = 'TTV';
