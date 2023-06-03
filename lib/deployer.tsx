@@ -13,9 +13,9 @@ const totalSupply = 500;
 // const totalSupply = data?.total_collectibles || 500;
 const args = [name, tokenName, startDate, endDate, contractUri]
 
-export async function deployContractS({ isConnected }: any) {
+export async function deployContractS() {
 
-  if (!isConnected) {
+  if (!abi) {
     throw new Error('Wallet client is not available');
   }
 
