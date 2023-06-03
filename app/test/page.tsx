@@ -22,7 +22,7 @@ function page(props: any) {
   return (
     <div className="w-full h-[60vh] flex flex-col items-center justify-center">
       <div className="space-y-6 bg-zinc-200 rounded-md border-zinc-300 p-8">
-        <h1 className="text-center font-bold text-2xl">Deployer Tester</h1>
+        <h1 className="text-center font-bold text-2xl text-black">Deployer Tester</h1>
 
         <ConnectButton />
         <button onClick={handleClick}
