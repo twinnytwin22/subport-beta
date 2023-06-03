@@ -49,9 +49,10 @@ export function getAuthOptions(): NextAuthOptions {
             throw new Error(error.message);
           }
           session.user = {
+            wallet_address: walletAddress,
             email: session?.user?.email,
             name: session?.user?.name,
-            image: session?.user?.avatar_url,
+            avatar_url: session?.user?.avatar_url,
             id: session?.user?.id,
           };
         } else {
@@ -59,7 +60,7 @@ export function getAuthOptions(): NextAuthOptions {
             wallet_address: data[0]?.wallet_address,
             email: session?.user?.email,
             name: session?.user?.name,
-            image: session?.user?.avatar_url,
+            avatar_url: session?.user?.avatar_url,
             id: session?.user?.id,
           };
         }
@@ -77,6 +78,9 @@ export function getAuthOptions(): NextAuthOptions {
         return session;
       },
       async signIn({ account, profile, email, user }: any) {
+        if (await getSession()) {
+          return true;
+        }
         if (account.provider === "spotify") {
           return true;
         }

@@ -72,7 +72,7 @@ export interface Database {
         Row: {
           email: string | null;
           id: string;
-          image: string | null;
+          image?: string | null;
           name: string | null;
         };
         Insert: {
