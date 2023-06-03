@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import NextAuth, { NextAuthOptions } from "next-auth";
+import { getCsrfToken, getSession } from "next-auth/react";
 import SpotifyProvider from "next-auth/providers/spotify";
 import GoogleProvider from "next-auth/providers/google";
 import { SupabaseAdapter } from "@next-auth/supabase-adapter";
 import jwt from "jsonwebtoken";
 import { supabase } from "lib/supabaseClient";
 import { generateWallet } from "lib/hooks/generateWallet";
-
 export function getAuthOptions(): NextAuthOptions {
   const providers = [
     GoogleProvider({
@@ -18,18 +18,16 @@ export function getAuthOptions(): NextAuthOptions {
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET as string,
     }),
   ];
-
   return {
     callbacks: {
       async session({ session, token, user }: any) {
         const signingSecret = process.env.SUPABASE_JWT_SECRET;
         session.id = token?.sub;
-
         // Check if wallet_address exists for this user
         let { data, error } = await supabase
           .from("users")
           .select("wallet_address")
-          .eq("id", token?.sub)
+          .eq("id", token.sub)
           .limit(1);
 
         if (error) {
@@ -53,6 +51,7 @@ export function getAuthOptions(): NextAuthOptions {
           session.user = {
             email: session?.user?.email,
             name: session?.user?.name,
+            image: session?.user?.avatar_url,
             id: session?.user?.id,
           };
         } else {
@@ -60,6 +59,7 @@ export function getAuthOptions(): NextAuthOptions {
             wallet_address: data[0]?.wallet_address,
             email: session?.user?.email,
             name: session?.user?.name,
+            image: session?.user?.avatar_url,
             id: session?.user?.id,
           };
         }
