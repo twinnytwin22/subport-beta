@@ -4,10 +4,19 @@ import Account from "ui/User/Account";
 import { deployContractS } from "lib/deployer";
 import { useAccount, useWalletClient } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+
+const name = 'Twinny Testing Vars';
+const tokenName = 'TTV';
+const startDate = Math.round(Date.now() / 1000);
+const endDate = 0;
+const contractUri = 'ipfs://testcontracturi';
+const totalSupply = 500;
+
+const deployData = [name, tokenName, startDate, endDate, contractUri, totalSupply]
 function page(props: any) {
   console.log(props, 'session')
   const handleClick = () => {
-    deployContractS()
+    deployContractS({ deployData })
   }
 
   return (

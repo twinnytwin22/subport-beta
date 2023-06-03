@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { DeployTest } from 'lib/deployer';
+import { deployContractS } from 'lib/deployer';
 import { getServerSession } from 'next-auth/next';
 import { createClient } from '@supabase/supabase-js';
 import { create } from "ipfs-http-client";
@@ -59,7 +59,7 @@ export default async function handler(req: any, res: NextApiResponse) {
           ipfsHash: ipfsHash
         };
 
-        const contractAddress = await DeployTest(deployData)
+        const contractAddress = await deployContractS({ deployData })
         // Return a JSON response with the contract address
         res.json({ success: true, contractAddress });
 
