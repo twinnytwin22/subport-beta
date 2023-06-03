@@ -13,7 +13,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 import { darkTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, WagmiConfig, createConfig } from "wagmi";
-import { mainnet, polygon } from "wagmi/chains";
+import { mainnet, polygon, polygonMumbai } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import dynamic from "next/dynamic";
@@ -37,7 +37,7 @@ const projectId = '81347ba0dc58fcf4a2217b6524d9b6c5'
 
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet, polygon],
+  [mainnet, polygon, polygonMumbai],
   [alchemyProvider({ apiKey }), publicProvider()]
 );
 
