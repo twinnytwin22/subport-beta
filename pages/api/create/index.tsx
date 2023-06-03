@@ -64,6 +64,7 @@ export default async function handler(req: any, res: NextApiResponse) {
           contractUri: ipfsHash,
           totalSupply: collectibleData.total_collectibles,
         };
+        console.log(deployData, 'deployData')
 
         const contractAddress = await deployContractS({ deployData });
         // Return a JSON response with the contract address
