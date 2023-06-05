@@ -1,28 +1,16 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { deployContractS } from "lib/deployer";
-import { getServerSession } from "next-auth/next";
+import { deployContractViem } from "lib/deployer";
 import { createClient } from "@supabase/supabase-js";
 import { create } from "ipfs-http-client";
 import { Database } from "types/supabase";
 import { writeFile } from "fs/promises";
-import { getAuthOptions } from "../auth/[...nextauth]";
+
 const supabaseUrl = "https://hlrcgzujgosmqgepcemj.supabase.co";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient<Database>(supabaseUrl, supabaseKey);
 
-const name = "Twinny Testing Vars";
-const tokenName = "TTV";
-const startDate = Math.round(Date.now() / 1000);
-const endDate = 0;
-const contractUri = "ipfs://testcontracturi";
-const totalSupply = 500;
-
 export default async function handler(req: any, res: NextApiResponse) {
-  const authOptions = getAuthOptions();
   // Get the user ID from the authentication provider (NextAuth.js)
-  const session = await getServerSession(authOptions);
-  console.log(session, "session for req");
-
   if (req.method === "POST") {
     let ipfsHash = null; // Declare the ipfsHash variable outside the try-catch block
 
@@ -30,19 +18,37 @@ export default async function handler(req: any, res: NextApiResponse) {
       // Get the form data from the request body
       const collectibleData = {
         ...req.body,
-        userId: session?.id,
       };
-
+      console.log(collectibleData, 'CData')
       /// Upload Collection Data to IPFS
       try {
-        ipfsHash = await uploadToIpfs(collectibleData);
+        ipfsHash = await uploadToIpfs({ collectibleData });
         console.log("Upload successful! IPFS hash:", ipfsHash);
+
+        const wallet = collectibleData.address;
+        console.log(wallet);
+
+        // Deploy the contract using the form data
+        const deployData = {
+          name: collectibleData?.name,
+          tokenName: collectibleData?.name,
+          startDate: collectibleData?.start_date,
+          endDate: collectibleData.end_date,
+          contractUri: ipfsHash,
+          totalSupply: collectibleData?.total_collectibles,
+        };
+        res.json({ message: 'deploying...', deployData })
+
+        const contractAddress = await deployContractViem({ deployData });
 
         // Add Collection to Supabase
         const { data: collectible, error } = await supabase
-          .from("collectibles")
-          .insert(collectibleData)
-          .eq("userId", session?.id);
+          .from("drops")
+          .insert([
+            { userId: collectibleData?.id },
+            { contractAddress: contractAddress }
+          ])
+          .eq("userId", collectibleData?.id);
 
         if (error) {
           console.error(error);
@@ -52,28 +58,13 @@ export default async function handler(req: any, res: NextApiResponse) {
           return;
         }
 
-        const wallet = session?.user?.wallet_address;
-        console.log(wallet);
-
-        // Deploy the contract using the form data
-        const deployData = {
-          name: collectibleData.name,
-          tokenName: collectibleData.name,
-          startDate: collectibleData.start_date,
-          endDate: collectibleData.end_date,
-          contractUri: ipfsHash,
-          totalSupply: collectibleData.total_collectibles,
-        };
-        console.log(deployData, 'deployData')
-
-        const contractAddress = await deployContractS({ deployData });
         // Return a JSON response with the contract address
-        res.json({ success: true, contractAddress });
+        res.json({ success: true, contractAddress, collectible });
       } catch (error) {
-        console.error("Error uploading to IPFS:", error);
+        console.error("Error deploying:", error);
         res
           .status(500)
-          .json({ success: false, error: "Error uploading to IPFS" });
+          .json({ success: false, error: "Error deploying" });
         return;
       }
     } catch (error) {
@@ -103,7 +94,7 @@ const uploadToIpfs = async ({ collectibleData }: any) => {
     },
   });
   // Upload json file to IPFS
-  const jsonData = { collectibleData };
+  const jsonData = collectibleData;
   const jsonContent = JSON.stringify(jsonData);
   await writeFile(
     `/tmp/${collectibleData.name}-metadata.json`,

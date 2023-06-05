@@ -25,8 +25,8 @@ function UserAvatar() {
   }, [menuRef]);
 
   const toggleMenu = () => {
-   
-    {isOpen == false ? setIsOpen(true) : setIsOpen(false)};
+
+    { isOpen == false ? setIsOpen(true) : setIsOpen(false) };
   };
 
   return (
@@ -36,7 +36,7 @@ function UserAvatar() {
       </div>
       {isOpen && (
         <div ref={menuRef} className="absolute z-50 top-12 right-0">
-          <UserMenu email={email}/>
+          <UserMenu email={email} />
         </div>
       )}
     </div>

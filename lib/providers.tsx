@@ -25,6 +25,7 @@ import {
 import { getServerSession } from "next-auth/next";
 import { getAuthOptions } from "pages/api/auth/[...nextauth]";
 import { supabase } from "./supabaseClient";
+import { createWalletClient, custom } from "viem";
 
 const ThemeProvider = dynamic(
   () => {
@@ -36,10 +37,13 @@ const ThemeProvider = dynamic(
 const projectId = '81347ba0dc58fcf4a2217b6524d9b6c5'
 
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
+
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet, polygon, polygonMumbai],
   [alchemyProvider({ apiKey }), publicProvider()]
 );
+
+
 
 const { wallets } = getDefaultWallets({
   appName: 'subport',

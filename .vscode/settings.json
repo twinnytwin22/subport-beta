@@ -26,6 +26,7 @@
     "Toastify",
     "typechain",
     "Unib",
+    "Viem",
     "wagmi",
     "Wagmi"
   ]

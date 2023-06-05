@@ -52,7 +52,7 @@ export function getAuthOptions(): NextAuthOptions {
             wallet_address: walletAddress,
             email: session?.user?.email,
             name: session?.user?.name,
-            avatar_url: session?.user?.avatar_url,
+            image: session?.user?.image,
             id: session?.user?.id,
           };
         } else {
@@ -60,7 +60,7 @@ export function getAuthOptions(): NextAuthOptions {
             wallet_address: data[0]?.wallet_address,
             email: session?.user?.email,
             name: session?.user?.name,
-            avatar_url: session?.user?.avatar_url,
+            image: session?.user?.image,
             id: session?.user?.id,
           };
         }

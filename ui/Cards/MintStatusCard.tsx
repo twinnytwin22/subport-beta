@@ -72,7 +72,7 @@ export const RenderMintStatus = ({ ipfsStatus, supabaseStatus, deployStatus }: a
   const [statuses, setStatuses] = useState([]);
 
   return (
-    <div className="bg-zinc-900 rounded-lg p-8 w-96 border border-zinc-700">
+    <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-8 w-96 border border-zinc-300  dark:border-zinc-700">
       <ul className="items-center content-center mx-auto">
         <li className="border-b border-zinc-600 p-2">
           <div className="grid grid-cols-6">
@@ -99,15 +99,15 @@ export const RenderMintStatus = ({ ipfsStatus, supabaseStatus, deployStatus }: a
         <li className="border-b border-zinc-600 p-2">
           <div className="grid grid-cols-6">
             <div className=" items-center col-span-5 ">
-            <div className="flex items-center">
-              <IsLoading />
-              <h1 className="text-xl font-bold">Sign the transaction</h1>
+              <div className="flex items-center">
+                <IsLoading />
+                <h1 className="text-xl font-bold">Sign the transaction</h1>
               </div>
               <ul>
                 <li>
                   <p className="ml-6 text-xs">Open your wallet and sign</p>
                 </li>
-                </ul>
+              </ul>
             </div>
 
             <p className="text-xs font-bold">Status</p>
@@ -116,10 +116,10 @@ export const RenderMintStatus = ({ ipfsStatus, supabaseStatus, deployStatus }: a
         <li className="p-2">
           <div className="grid grid-cols-6">
             <div className="items-center col-span-5">
-            <div className="flex items-center">
+              <div className="flex items-center">
 
-              <IsPending />
-              <h1 className="text-xl font-bold">Finalizing</h1></div>
+                <IsPending />
+                <h1 className="text-xl font-bold">Finalizing</h1></div>
               <ul>
                 <li>
                   <p className="ml-6 text-xs">Confirming transaction</p>
@@ -127,11 +127,11 @@ export const RenderMintStatus = ({ ipfsStatus, supabaseStatus, deployStatus }: a
                 <li>
                   <p className="ml-6 text-xs">Confirmed on explorer</p>
                 </li>
-                </ul>
+              </ul>
             </div>
             <div className="">
-            <p className="text-xs font-bold mb-2">Status</p>
-           
+              <p className="text-xs font-bold mb-2">Status</p>
+
             </div>
 
           </div>

@@ -1,7 +1,10 @@
+import { outputFile, readFile } from "fs-extra";
+import fs from 'fs-extra'
 import { create } from "ipfs-http-client";
-import * as fs from 'fs';
-export const uploadHashToIpfs = async (collectibleData: any) => {
-    console.log(collectibleData, 'csd')
+
+export const uploadHashToIpfs = async ({ collectibleData }: any) => {
+  try {
+    // Upload json file to IPFS
     const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
     const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
     const auth =
@@ -11,29 +14,39 @@ export const uploadHashToIpfs = async (collectibleData: any) => {
       host: "ipfs.infura.io",
       port: 5001,
       protocol: "https",
-      
       headers: {
         authorization: auth,
-        
       },
     });
-  
-    // Upload json file to IPFS
-  
-  
-    // Upload json file to IPFS
-    const jsonData = { collectibleData };
-    const jsonContent = JSON.stringify(jsonData);
-    fs.writeFile('contract.json', jsonContent, 'utf8', function (err) {
-      if (err) {
-        console.error(err);
-        throw err;
+    try {
+      // Upload json file to IPFS
+      const jsonData = collectibleData;
+      const jsonContent = JSON.stringify(jsonData);
+      const file = `/tmp/${collectibleData.name}-metadata.json`
+      await outputFile(
+        file,
+        jsonContent,
+      );
+      const data = await fs.readFile(file, 'utf8')
+      console.log(
+        `metadata was successfully saved to ${collectibleData.name}-metadata.json file`
+      );
+      try {
+        // Upload audio file to IPFS
+        const hashResult = await ipfs.add(data);
+        console.log(hashResult, "hrs");
+        const hashUrl = `ipfs://${hashResult.path}`;
+        console.log(hashUrl, "hashUrl");
+        return { ipfsHash: hashUrl };
+      } catch (err) {
+        console.error(err)
       }
-      console.log('Contract address saved to contract.json file');
-    });
-    // Upload audio file to IPFS
-    const hashResult = await ipfs.add(jsonContent);
-    const hashUrl = `ipfs://${hashResult.path}`;
-    console.log(hashUrl, 'hashUrl')
-    return { hash: hashUrl };
+
+    } catch (err) {
+      console.error(err)
+    }
+
+  } catch (err) {
+    console.error(err)
   }
+};

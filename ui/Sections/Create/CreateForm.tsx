@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Collectible from "types/collectible";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,8 @@ import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 import { allGenres } from "lib/allGenres";
 import { Tooltip } from "ui/Misc/Tooltip";
 import { createFormMessage } from "./createFormMessages";
+import { useWalletClient } from "wagmi";
+import { deployCollectible } from "lib/deployer";
 const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   console.log(imageFile, audioFile, "ia upipfs");
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -38,6 +40,8 @@ const uploadToIpfs = async (imageFile: any, audioFile: any) => {
 };
 
 export const CreateForm = ({ address }: any) => {
+  const { data: walletClient } = useWalletClient()
+  console.log(walletClient)
   const { data: session } = useSession();
   const [audioUrl, setAudioUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -47,6 +51,12 @@ export const CreateForm = ({ address }: any) => {
   const [step, setStep] = useState(1);
   const [nowChecked, setNowChecked] = useState(false);
   const [neverChecked, setNeverChecked] = useState(false);
+  const [uId, setUId] = useState('')
+  useEffect(() => {
+    if (session) {
+      setUId(session.id);
+    }
+  }, [session]);
 
   const handleNowChange = (event: any) => {
     setNowChecked(event.target.checked);
@@ -77,7 +87,7 @@ export const CreateForm = ({ address }: any) => {
       description: "",
       keywords: "",
       address: address,
-      userId: "",
+      userId: uId,
       start_date: "",
       end_date: "",
     },
@@ -130,30 +140,30 @@ export const CreateForm = ({ address }: any) => {
       const keywordsArray = formData.keywords?.split(",");
 
       // Update the form data with the generated URLs
-      const updatedFormData = {
+      const collectibleData = {
         ...formData,
         image: image,
         audio: audio,
+        id: uId,
         keywords: keywordsArray,
       };
 
-      const response = await fetch("/api/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Origin: "http://localhost:3000", // replace with your own base URL
-        },
-        body: JSON.stringify(updatedFormData),
-      });
+      // Call the deployCollectible function
+      const deployResult = await deployCollectible({ collectibleData });
 
-      const json = await response.json();
-
-      toast.success(json.message);
+      if (deployResult.success) {
+        // If deployment is successful, display the success message
+        toast.success("Collectible deployed successfully");
+      } else {
+        // If deployment fails, display the error message
+        toast.error(deployResult.error as any);
+      }
     } catch (error) {
       console.error(error);
       toast.error("An error occurred. Please try again.");
     }
   };
+
 
   const handleResetClick = () => {
     reset();
@@ -677,7 +687,7 @@ export const CreateForm = ({ address }: any) => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto w-full sm:ml-4 lg:ml-0 p-8">
+    <div className="max-w-7xl mx-auto w-full sm:ml-4 lg:ml-0 p-8 mb-24 md:mb-0">
       {step !== 4 && (
         <>
           <h1 className="text-center text-4xl">Create your collectible</h1>
