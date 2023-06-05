@@ -1,12 +1,9 @@
 'use client'
 import React, { useState } from "react";
-import Account from "ui/User/Account";
 import { useSession } from "next-auth/react";
 import { deployContractViem } from "lib/deployer";
-import { useAccount, useWalletClient } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { supabase } from "lib/supabaseClient";
-import { useSupaUser } from "lib/supaUser";
 
 const name = 'Twinny Testing Vars';
 const tokenName = 'TTV';
@@ -24,7 +21,7 @@ const deployData = [
   contractUri,
   totalSupply
 ]
-function page(props: any) {
+function Page(props: any) {
   const { data: session } = useSession()
   console.log(session)
   const [contractAddress, setContractAddress] = useState('');
@@ -89,4 +86,4 @@ function page(props: any) {
       </div>   </div>
   )
 }
-export default page;
+export default Page;
