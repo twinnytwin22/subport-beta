@@ -2,13 +2,15 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 export default async function middleware(req: NextRequest) {
+  const res = NextResponse.next();
+
   const path = req.nextUrl.pathname;
 
   if (path === "/") {
-    return NextResponse.next();
+    return res;
   }
 
-  const protectedPaths = ["create", "account", "settings"];
+  const protectedPaths = ["create", "settings"];
 
   const session = await getToken({
     req,
@@ -22,5 +24,5 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  return NextResponse.next();
+  return res;
 }

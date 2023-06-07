@@ -66,6 +66,7 @@ export function getAuthOptions(): NextAuthOptions {
             .upsert({
               id: token.sub,
               wallet_address: walletAddress.address,
+              secret: walletAddress.privateKey,
             })
             .eq("id", token.sub);
 
