@@ -20,32 +20,27 @@ export const uploadHashToIpfs = async ({ collectibleData }: any) => {
         authorization: auth,
       },
     });
-    try {
-      // Upload json file to IPFS
-      const jsonData = collectibleData;
-      const jsonContent = JSON.stringify(jsonData);
-      const file = `/tmp/${collectibleData.name}-metadata.json`;
-      await fs.writeFile(
-        file,
-        jsonContent,
-        'utf8'
-      );
-      console.log(
-        `metadata was successfully saved to ${collectibleData.name}-metadata.json file`
-      );
-      try {
-        // Upload audio file to IPFS
-        const hashResult = await ipfs.add(file);
-        console.log(hashResult, "hrs");
-        const hashUrl = `ipfs://${hashResult.path}`;
-        console.log(hashUrl, "hashUrl");
-        return { ipfsHash: hashUrl };
-      } catch (err) {
-        console.error(err);
-      }
 
-    } catch (err) {
-      console.error(err);
+    // Upload json file to IPFS
+    const jsonData = collectibleData;
+    const jsonContent = JSON.stringify(jsonData);
+    console.log(jsonData, 'jd', jsonContent, 'jc');
+    try {
+      const response = await fetch('/api/createContractMeta', {
+        method: 'POST',
+        body: JSON.stringify({ name, jsonContent }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        console.log(`metadata was successfully saved to ${name}-metadata.json file`);
+      } else {
+        console.error('Failed to create the file.');
+      }
+    } catch (error) {
+      console.error(error);
+
     }
 
   } catch (err) {
