@@ -5,23 +5,31 @@ import { deployContractViem } from "lib/deployer";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { supabase } from "lib/supabaseClient";
 
-const name = 'Twinny Testing Vars';
-const tokenName = 'TTV';
+let getName = 'Always' + Math.random();
+let name = getName.toString()
+const artistName = 'Twinny Twin';
 const startDate = Math.round(Date.now() / 1000);
 const endDate = 0;
 const contractUri = 'ipfs://testcontracturi';
 const totalSupply = 500;
-const contractAddress = ""
+const slug = (artistName.toLowerCase() + '-' + name.toLowerCase()).replace(/\s+/g, '-');
+
 
 const deployData = [
   name,
-  tokenName,
+  artistName,
   startDate,
   endDate,
   contractUri,
   totalSupply
 ]
+
+const metaData = {
+  name: name,
+
+}
 function Page(props: any) {
+  const [loading, isLoading] = useState(false)
   const { data: session } = useSession()
   console.log(session)
   const [contractAddress, setContractAddress] = useState('');
@@ -30,6 +38,7 @@ function Page(props: any) {
 
 
   const handleClick = () => {
+    isLoading(true)
     deployContractViem({ deployData }).then(async (address: any) => {
       setContractAddress(address);
       console.log('Contract address:', address);
@@ -46,29 +55,64 @@ function Page(props: any) {
 
         if (error) {
           console.error(error);
+          isLoading(false)
           return
         }
       }
+      isLoading(false)
     }
     );
   }
 
+  async function handleTestFileCreation() {// Replace with the desired name
+    isLoading(true)
+    const jsonData = deployData;
+    const jsonContent = JSON.stringify(jsonData);
+    console.log(jsonData, 'jd', jsonContent, 'jc');
+    try {
+      const response = await fetch('/api/createContractMeta', {
+        method: 'POST',
+        body: JSON.stringify({ name, jsonContent }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        console.log(`metadata was successfully saved to ${name}-metadata.json file`);
+      } else {
+        console.error('Failed to create the file.');
+        isLoading(false)
+      }
+    } catch (error) {
+      console.error(error);
+      isLoading(false)
+
+    }
+    isLoading(false)
+
+  }
+
+
   async function handleTestSupaUpload() {
+    isLoading(true)
     if (session) {
       const { data: drop, error } = await supabase
         .from('drops')
         .insert([
           {
+            name: name,
             userId: session.id,
-            contractAddress: 'gjgjygjygkg22'
+            contractAddress: name,
+            slug: slug
           }
         ])
         .eq("userId", session?.id);
-
+      console.log('successful test upload')
       if (error) {
         console.error(error);
         return { success: false, error: "Error inserting collectible" };
       }
+      isLoading(false)
     }
   }
 
@@ -76,6 +120,8 @@ function Page(props: any) {
     <div className="w-full h-[60vh] flex flex-col items-center justify-center">
       <div className="space-y-6 bg-zinc-200 rounded-md border-zinc-300 p-8 space-x-4">
         <h1 className="text-center font-bold text-2xl text-black">Deployer Tester</h1>
+        {loading &&
+          <h2 className="text-center font-bold text-xl text-black">Testing...</h2>}
 
         <ConnectButton />
         <button onClick={handleClick}
@@ -83,6 +129,13 @@ function Page(props: any) {
 
         <button onClick={handleTestSupaUpload}
           className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST UPLOAD</button>
+        <button onClick={handleTestFileCreation}
+          className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST FILE</button>
+        <br />
+        <button onClick={handleTestSupaUpload}
+          className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST IPFS</button>
+
+
       </div>   </div>
   )
 }

@@ -1,12 +1,26 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import NextAuth, { NextAuthOptions } from "next-auth";
-import { getCsrfToken, getSession } from "next-auth/react";
+import { NextAuthOptions } from "next-auth";
+import { getSession } from "next-auth/react";
 import SpotifyProvider from "next-auth/providers/spotify";
 import GoogleProvider from "next-auth/providers/google";
 import { SupabaseAdapter } from "@next-auth/supabase-adapter";
 import jwt from "jsonwebtoken";
+import { getToken } from "next-auth/jwt";
 import { supabase } from "lib/supabaseClient";
 import { generateWallet } from "lib/hooks/generateWallet";
+
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL as any;
+const supaSecret = process.env.supabaseKey!;
+
+const options = {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+  },
+}
+
+
+const secret = process.env.NEXTAUTH_SECRET;
 export function getAuthOptions(): NextAuthOptions {
   const providers = [
     GoogleProvider({
@@ -20,8 +34,20 @@ export function getAuthOptions(): NextAuthOptions {
   ];
   return {
     callbacks: {
+      async jwt({ token, user, session }) {
+        if (user) {
+          const u = user as unknown as any;
+          return {
+            ...token,
+            id: u.id,
+            supabaseAccessToken: session?.supabaseAccessToken,
+          };
+        }
+        return token;
+      },
       async session({ session, token, user }: any) {
         const signingSecret = process.env.SUPABASE_JWT_SECRET;
+
         session.id = token?.sub;
         // Check if wallet_address exists for this user
         let { data, error } = await supabase
@@ -53,7 +79,7 @@ export function getAuthOptions(): NextAuthOptions {
             email: session?.user?.email,
             name: session?.user?.name,
             image: session?.user?.image,
-            id: session?.user?.id,
+            id: session?.id,
           };
         } else {
           session.user = {
@@ -61,7 +87,7 @@ export function getAuthOptions(): NextAuthOptions {
             email: session?.user?.email,
             name: session?.user?.name,
             image: session?.user?.image,
-            id: session?.user?.id,
+            id: session?.id,
           };
         }
 
@@ -92,19 +118,15 @@ export function getAuthOptions(): NextAuthOptions {
       },
     },
     adapter: SupabaseAdapter({
-      url: process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-      secret: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
+      url,
+      secret: supaSecret,
+      
     }),
     providers,
     secret: process.env.NEXTAUTH_SECRET,
+
     session: {
       strategy: "jwt",
     },
   };
-}
-
-export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  const authOptions: NextAuthOptions = getAuthOptions();
-
-  return await NextAuth(req, res, authOptions);
 }

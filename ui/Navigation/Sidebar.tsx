@@ -16,7 +16,7 @@ function Sidebar({ queries }: any) {
     signOut();
   };
   return (
-    
+
     <aside className="flex flex-col bg-gray-100 h-screen w-32 lg:w-64 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-zinc-800 top-0 fixed mx-auto items-center content-center justify-center">
       <div className="mb-4 mx-auto">
         <Link href="/" className="flex items-center">
@@ -94,12 +94,20 @@ function Sidebar({ queries }: any) {
         </ul>
         <hr className="hidden sm:flex sm:-16 lg:w-40 border-zinc-600 mt-24 mb-8" />
         {status === "authenticated" ? (
-        
-           <SignOutButton/>
+
+          <SignOutButton />
         ) : (
           <SignInModal />
         )}
       </nav>
+      {session?.user.email === 'randal.herndon@gmail.com' &&
+        <div className="font-bold text-lg dark:text-zinc-200 text-zinc-900">
+          <Link href='/test'>
+            <p>
+              Testing Panel</p>
+          </Link>
+
+        </div>}
     </aside>
   );
 }
@@ -108,9 +116,9 @@ export default Sidebar;
 export const getServerSideProps = async () => {
   // Create authenticated Supabase Client
   // Check if we have a session
-  const { data: session } = await useSession();
+  const { data: session, status } = useSession();
 
-  if (!session)
+  if (status == 'unauthenticated')
     return {
       redirect: {
         destination: "/",
@@ -121,7 +129,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       initialSession: session,
-      user: session.user,
+      user: session?.user,
     },
   };
 };

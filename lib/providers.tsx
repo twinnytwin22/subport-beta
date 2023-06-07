@@ -23,9 +23,9 @@ import {
   SessionProvider as AuthProvider,
 } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
-import { getAuthOptions } from "pages/api/auth/[...nextauth]";
+import { getAuthOptions } from "./auth";
 import { supabase } from "./supabaseClient";
-import { createWalletClient, custom } from "viem";
+import { AuthOptions, Session } from "next-auth";
 
 const ThemeProvider = dynamic(
   () => {
@@ -35,7 +35,7 @@ const ThemeProvider = dynamic(
 );
 
 const projectId = '81347ba0dc58fcf4a2217b6524d9b6c5'
-
+const auth = getAuthOptions()
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -74,9 +74,12 @@ const wagmiConfig = createConfig({
 
 });
 
-export const Providers = ({ children }: { children: React.ReactNode }, user: any) => {
+export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <AuthProvider>
+    <AuthProvider
+
+      refetchInterval={6 * 100} // refetch every hour
+    >
       <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider
           chains={chains}
@@ -88,8 +91,9 @@ export const Providers = ({ children }: { children: React.ReactNode }, user: any
         >
           <ThemeProvider enableSystem={true} attribute="class">
             {children}
+            <ToastContainer />
+
           </ThemeProvider>
-          <ToastContainer />
         </RainbowKitProvider>
       </WagmiConfig>
     </AuthProvider>
@@ -98,9 +102,10 @@ export const Providers = ({ children }: { children: React.ReactNode }, user: any
 
 export default Providers;
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(auth: AuthOptions) {
+
   const session = await getServerSession(
-    getAuthOptions()
+    auth
   );
   if (!session) {
     return {
@@ -113,7 +118,7 @@ export async function getServerSideProps(context: any) {
     let { data } = await supabase
       .from("users")
       .select()
-      .eq("id", session?.user.id);
+      .eq("id", session?.id);
     console.log(data, 'booty')
     // Call the checkWalletAddress function and pass the session object
     return {

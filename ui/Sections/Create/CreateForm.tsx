@@ -10,7 +10,6 @@ import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 import { allGenres } from "lib/allGenres";
 import { Tooltip } from "ui/Misc/Tooltip";
 import { createFormMessage } from "./createFormMessages";
-import { useWalletClient } from "wagmi";
 import { deployCollectible } from "lib/deployer";
 const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   console.log(imageFile, audioFile, "ia upipfs");
@@ -40,8 +39,6 @@ const uploadToIpfs = async (imageFile: any, audioFile: any) => {
 };
 
 export const CreateForm = ({ address }: any) => {
-  const { data: walletClient } = useWalletClient()
-  console.log(walletClient)
   const { data: session } = useSession();
   const [audioUrl, setAudioUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);

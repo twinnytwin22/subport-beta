@@ -59,11 +59,12 @@ export async function deployCollectible({ collectibleData }: any) {
 
       const wallet = collectibleData.address;
       console.log(wallet);
+      const slug = (collectibleData.artist_name.toLowerCase() + '-' + collectibleData.name.toLowerCase()).replace(/\s+/g, '-');
 
       // Deploy the contract using the form data
       const deployDataDefined = {
         name: collectibleData?.name,
-        tokenName: collectibleData?.name,
+        tokenName: collectibleData?.name.toUpperCase(),
         startDate: collectibleData?.start_date,
         endDate: collectibleData.end_date,
         contractUri: ipfsHash,
@@ -80,8 +81,11 @@ export async function deployCollectible({ collectibleData }: any) {
         .from("drops")
         .insert([
           {
+            name: collectibleData?.name,
             userId: collectibleData?.id,
-            contractAddress: contractAddress
+            contractAddress: contractAddress,
+            slug: slug,
+            keywords: collectibleData?.keywords
           }
         ])
         .eq("userId", collectibleData?.id);

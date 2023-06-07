@@ -1,8 +1,10 @@
-import { outputFile, readFile } from "fs-extra";
-import fs from 'fs-extra'
+'use client'
+import { promises as fs } from 'fs';
 import { create } from "ipfs-http-client";
 
+
 export const uploadHashToIpfs = async ({ collectibleData }: any) => {
+
   try {
     // Upload json file to IPFS
     const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -22,31 +24,31 @@ export const uploadHashToIpfs = async ({ collectibleData }: any) => {
       // Upload json file to IPFS
       const jsonData = collectibleData;
       const jsonContent = JSON.stringify(jsonData);
-      const file = `/tmp/${collectibleData.name}-metadata.json`
-      await outputFile(
+      const file = `/tmp/${collectibleData.name}-metadata.json`;
+      await fs.writeFile(
         file,
         jsonContent,
+        'utf8'
       );
-      const data = await fs.readFile(file, 'utf8')
       console.log(
         `metadata was successfully saved to ${collectibleData.name}-metadata.json file`
       );
       try {
         // Upload audio file to IPFS
-        const hashResult = await ipfs.add(data);
+        const hashResult = await ipfs.add(file);
         console.log(hashResult, "hrs");
         const hashUrl = `ipfs://${hashResult.path}`;
         console.log(hashUrl, "hashUrl");
         return { ipfsHash: hashUrl };
       } catch (err) {
-        console.error(err)
+        console.error(err);
       }
 
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
 
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
 };
