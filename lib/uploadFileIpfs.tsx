@@ -1,5 +1,4 @@
 'use client'
-import { promises as fs } from 'fs';
 import { create } from "ipfs-http-client";
 
 
