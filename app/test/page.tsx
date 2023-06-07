@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { deployContractViem } from "lib/deployer";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { supabase } from "lib/supabaseClient";
+import { toast } from "react-toastify";
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -13,6 +14,17 @@ const endDate = 0;
 const contractUri = 'ipfs://testcontracturi';
 const totalSupply = 500;
 const slug = (artistName.toLowerCase() + '-' + name.toLowerCase()).replace(/\s+/g, '-');
+
+type TestMessage = {
+  title: string
+}
+
+const testMessages = ({ title }: TestMessage) => {
+  return {
+    success: `Test "${title}" succeeded!`,
+    fail: `Test "${title}" failed!`,
+  };
+};
 
 
 const deployData = [
@@ -38,6 +50,8 @@ function Page(props: any) {
 
 
   const handleClick = () => {
+    const messages = testMessages({ title: "Deploy" });
+
     isLoading(true)
     deployContractViem({ deployData }).then(async (address: any) => {
       setContractAddress(address);
@@ -54,10 +68,12 @@ function Page(props: any) {
           .eq("userId", session.id);
 
         if (error) {
-          console.error(error);
+          toast(messages.fail);
           isLoading(false)
           return
         }
+        toast(messages.success);
+
       }
       isLoading(false)
     }
@@ -65,6 +81,7 @@ function Page(props: any) {
   }
 
   async function handleTestFileCreation() {// Replace with the desired name
+    const messages = testMessages({ title: "File Creation" });
     isLoading(true)
     const jsonData = deployData;
     const jsonContent = JSON.stringify(jsonData);
@@ -79,14 +96,14 @@ function Page(props: any) {
       });
       if (response.ok) {
         console.log(`metadata was successfully saved to ${name}-metadata.json file`);
+        toast(messages.success);
       } else {
         console.error('Failed to create the file.');
         isLoading(false)
       }
     } catch (error) {
-      console.error(error);
+      toast(messages.fail);
       isLoading(false)
-
     }
     isLoading(false)
 
@@ -94,6 +111,7 @@ function Page(props: any) {
 
 
   async function handleTestSupaUpload() {
+    const messages = testMessages({ title: "Supabase Upload" });
     isLoading(true)
     if (session) {
       const { data: drop, error } = await supabase
@@ -108,10 +126,15 @@ function Page(props: any) {
         ])
         .eq("userId", session?.id);
       console.log('successful test upload')
+
       if (error) {
+        toast(messages.fail);
         console.error(error);
         return { success: false, error: "Error inserting collectible" };
-      }
+      } else (
+        toast(messages.success)
+
+      )
       isLoading(false)
     }
   }
