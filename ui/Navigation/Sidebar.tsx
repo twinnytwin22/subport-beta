@@ -92,7 +92,7 @@ function Sidebar({ props }: any) {
           <SignInModal />
         )}
       </nav>
-      {
+      {user?.email === 'randal.herndon@gmail.ocm' &&
         <div className="font-bold text-lg dark:text-zinc-200 text-zinc-900">
           <Link href='/test'>
             <p>

@@ -78,7 +78,7 @@ export const CreateForm = ({ address }: any) => {
       description: "",
       keywords: "",
       address: address,
-      userId: user?.id,
+      userId: user?.id || null,
       start_date: "",
       end_date: "",
     },
