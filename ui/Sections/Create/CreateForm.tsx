@@ -1,16 +1,16 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Collectible from "types/collectible";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Media } from "ui/Misc/Media";
 import { create } from "ipfs-http-client";
-import { useSession } from "next-auth/react";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 import { allGenres } from "lib/allGenres";
 import { Tooltip } from "ui/Misc/Tooltip";
 import { createFormMessage } from "./createFormMessages";
 import { deployCollectible } from "lib/deployer";
+import { useAuthProvider } from "app/context";
 const uploadToIpfs = async (imageFile: any, audioFile: any) => {
   console.log(imageFile, audioFile, "ia upipfs");
   const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
@@ -39,7 +39,7 @@ const uploadToIpfs = async (imageFile: any, audioFile: any) => {
 };
 
 export const CreateForm = ({ address }: any) => {
-  const { data: session } = useSession();
+  const { user } = useAuthProvider()
   const [audioUrl, setAudioUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -48,12 +48,6 @@ export const CreateForm = ({ address }: any) => {
   const [step, setStep] = useState(1);
   const [nowChecked, setNowChecked] = useState(false);
   const [neverChecked, setNeverChecked] = useState(false);
-  const [uId, setUId] = useState('')
-  useEffect(() => {
-    if (session) {
-      setUId(session.id);
-    }
-  }, [session]);
 
   const handleNowChange = (event: any) => {
     setNowChecked(event.target.checked);
@@ -84,7 +78,7 @@ export const CreateForm = ({ address }: any) => {
       description: "",
       keywords: "",
       address: address,
-      userId: uId,
+      userId: user?.id,
       start_date: "",
       end_date: "",
     },
@@ -141,7 +135,7 @@ export const CreateForm = ({ address }: any) => {
         ...formData,
         image: image,
         audio: audio,
-        id: uId,
+        id: user?.id,
         keywords: keywordsArray,
       };
 

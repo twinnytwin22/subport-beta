@@ -1,14 +1,14 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
 import UserMenu from './UserMenu';
-import { useSession } from 'next-auth/react';
-
+import { useAuthProvider } from 'app/context';
 function UserAvatar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session, status } = useSession();
   const menuRef = useRef(null);
-  const email = session?.user.email
 
+  const { user } = useAuthProvider()
+  console.log(user)
+  const email = user?.email
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -32,7 +32,7 @@ function UserAvatar() {
   return (
     <div className="relative rounded-full bg-blue-900">
       <div onClick={toggleMenu} className="block w-10 bg-blue-900 rounded-full cursor-pointer">
-        <img className="block w-full bg-blue-800 rounded-full" src={session?.user?.image as string} alt="avi" />
+        <img className="block w-full bg-blue-800 rounded-full" src={user?.user_metadata?.avatar_url} alt="avi" />
       </div>
       {isOpen && (
         <div ref={menuRef} className="absolute z-50 top-12 right-0">

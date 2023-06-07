@@ -1,10 +1,10 @@
 'use client'
 import React, { useState } from "react";
-import { useSession } from "next-auth/react";
 import { deployContractViem } from "lib/deployer";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { supabase } from "lib/supabaseClient";
 import { toast } from "react-toastify";
+import { useAuthProvider } from "app/context";
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -42,8 +42,8 @@ const metaData = {
 }
 function Page(props: any) {
   const [loading, isLoading] = useState(false)
-  const { data: session } = useSession()
-  console.log(session)
+  const { user } = useAuthProvider()
+  console.log(user)
   const [contractAddress, setContractAddress] = useState('');
 
   console.log(props, 'session');
@@ -56,16 +56,16 @@ function Page(props: any) {
     deployContractViem({ deployData }).then(async (address: any) => {
       setContractAddress(address);
       console.log('Contract address:', address);
-      if (address && session) {
+      if (address && user?.email) {
         const { data: drop, error } = await supabase
           .from("drops")
           .insert([
             {
-              userId: session.id,
+              userId: user?.id,
               contractAddress: address
             }
           ])
-          .eq("userId", session.id);
+          .eq("userId", user?.id);
 
         if (error) {
           toast(messages.fail);
@@ -113,18 +113,18 @@ function Page(props: any) {
   async function handleTestSupaUpload() {
     const messages = testMessages({ title: "Supabase Upload" });
     isLoading(true)
-    if (session) {
+    if (user) {
       const { data: drop, error } = await supabase
         .from('drops')
         .insert([
           {
             name: name,
-            userId: session.id,
+            userId: user?.id,
             contractAddress: name,
             slug: slug
           }
         ])
-        .eq("userId", session?.id);
+        .eq("userId", user?.id);
       console.log('successful test upload')
 
       if (error) {

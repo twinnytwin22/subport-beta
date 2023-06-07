@@ -1,10 +1,11 @@
 'use client'
-import { useSession } from "next-auth/react";
 import React from "react";
 import avatar from "../../public/avatar.jpg";
+import { useAuthProvider } from "app/context";
 
 function Profile() {
-  const {data:session, status} = useSession()
+  const { user } = useAuthProvider()
+
   return (
     <div className="">
       <div className=" block h-[300px] bg-black">
@@ -23,13 +24,13 @@ function Profile() {
               <div className="">
                 <img
                   alt="avatar"
-                  src={session?.user.image as string}
+                  src={user?.user_metadata?.avatar_url as string}
                   className="shadow-xl rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
                 />
               </div>
               <div className="block">
                 <h3 className=" text-xl md:text-2xl font-bold leading-normal text-center text-zinc-900 dark:text-zinc-200 pt-24">
-                  {session?.user?.name}
+                  {user?.user_metadata.name}
                 </h3>
                 <h4 className=" text-lg md:text-xl leading-normal text-center text-zinc-500">
                   @djtwinnytwin
@@ -37,12 +38,12 @@ function Profile() {
               </div>
             </div>
             <div className="flex flex-col md:flex-row  w-full col-span-12 md:col-span-8 items-center order-3 md:order-2 mx-auto">
-                <UserStats/>
-              
-                   
-                <UserBio/></div>
+              <UserStats />
+
+
+              <UserBio /></div>
             <div className="flex justify-center items-center col-span-3 md:col-span-2 order-2 md:order-3">
-            <FollowUser/>
+              <FollowUser />
             </div>
           </div>
         </div>
@@ -91,22 +92,22 @@ const FollowUser = () => {
 
 
 const FollowingUser = () => {
-    return (
-      <div className="py-6 px-3 sm:mt-0">
-        <button
-          className="bg-blue-600 active:bg-blue-700 uppercase  font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-          type="button"
-        >
-          Following
-        </button>
-      </div>
-    );
-  };
+  return (
+    <div className="py-6 px-3 sm:mt-0">
+      <button
+        className="bg-blue-600 active:bg-blue-700 uppercase  font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+        type="button"
+      >
+        Following
+      </button>
+    </div>
+  );
+};
 
 const UserBio = () => {
   return (
     <div className="flex w-full md:block xl:px-24  mt-0 md:mt-6">
-         <UserLocation/>
+      <UserLocation />
       <p className="flex mb-4 max-w-full text-xs md:text-sm text-zinc-900 dark:text-zinc-200 break-words ">
         An artist of considerable range, Jenna the name taken by
         Melbourne-raised, Brooklyn-based Nick Murphy.
@@ -118,9 +119,9 @@ const UserLocation = () => {
   return (
     <div className="flex w-full text-xs md:text-sm leading-normal mt-0 mb-2 text-zinc-400 font-bold uppercase">
       <svg className="h-5 pr-2 text-zinc-900 dark:text-zinc-200  " fill="none" stroke="white" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-</svg>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+      </svg>
       Phoenix, Arizona
     </div>
   );

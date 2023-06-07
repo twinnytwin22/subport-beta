@@ -1,60 +1,21 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { supabase } from "lib/supabaseClient";
-import { useSession } from "next-auth/react";
 import { SignOutButton } from "ui/Buttons/SignOut";
 import Avatar from "./UploadWidget";
 import { ConnectSpotifyButton } from "./ConnectSpotifyButton";
 import { toast } from "react-toastify";
+import { useAuthProvider } from "app/context";
 export default function Account() {
-  const { data: session } = useSession();
-  const user = session?.id;
-  console.log(session);
+  const { user } = useAuthProvider()
+
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [wallet, setWallet] = useState("");
   const [avatar_url, setAvatarUrl] = useState("");
 
-  useEffect(() => {
-    getProfile();
-  }, [session]);
 
-  async function getProfile() {
-    let {
-      data: accounts,
-      error,
-      status,
-    } = await supabase.from("users").select(`*`);
-    console.log(accounts);
-    if (session)
-      try {
-        setLoading(true);
-        let { data, error, status } = await supabase
-          .from("users")
-          .select(` wallet_address, avatar_url, email, handle`)
-          .eq("id", user)
-          .single();
-
-        if (error && status !== 406) {
-          throw error;
-        }
-
-        if (data) {
-          setWallet(data.wallet_address);
-          setAvatarUrl(data.avatar_url);
-          setEmail(data.email);
-          if (data.handle) {
-            setUsername(data?.handle);
-          }
-        }
-      } catch (error) {
-        toast.error("Error loading user data!");
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-  }
 
   async function updateProfile({ username, wallet, avatar_url }: any) {
     try {
@@ -91,7 +52,7 @@ export default function Account() {
     <div className="bg-slate-200 dark:bg-zinc-900 border border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
       <div className="mx-auto content-center items-center">
         <Avatar
-          uid={session?.user.id}
+          uid={user?.id}
           url={avatar_url}
           size={200}
           onUpload={(url: any) => {

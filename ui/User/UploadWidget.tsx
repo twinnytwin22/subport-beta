@@ -1,12 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { supabase } from 'lib/supabaseClient'
-import { useSession } from 'next-auth/react'
+import { useAuthProvider } from 'app/context'
 export default function Avatar({ uid, url, size, onUpload }: any) {
   const [avatarUrl, setAvatarUrl] = useState('')
   const [uploading, setUploading] = useState(false)
-  const {data:session} = useSession()
-  const defaultImage = session?.user.image
+  const { user } = useAuthProvider()
+  const defaultImage = user?.user_metadata?.avatar_url
 
   useEffect(() => {
     if (url) downloadImage(url)
@@ -68,7 +68,7 @@ export default function Avatar({ uid, url, size, onUpload }: any) {
         <div className="avatar no-image" style={{ height: size, width: size }} />
       )}
       <div style={{ width: size }}>
-        <label 
+        <label
           className="bg-blue-700 text-white p-2 text-sm w-32 rounded-lg hover:bg-blue-800 hover:scale-105"
           htmlFor="single">
           {uploading ? 'Uploading ...' : 'Upload'}

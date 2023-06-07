@@ -19,13 +19,8 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import dynamic from "next/dynamic";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  SessionProvider as AuthProvider,
-} from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-import { getAuthOptions } from "./auth";
 import { supabase } from "./supabaseClient";
-import { AuthOptions, Session } from "next-auth";
+import { AuthContextProvider } from "app/context";
 
 const ThemeProvider = dynamic(
   async () => {
@@ -35,7 +30,6 @@ const ThemeProvider = dynamic(
 );
 
 const projectId = '81347ba0dc58fcf4a2217b6524d9b6c5'
-const auth = getAuthOptions()
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID as string;
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -74,12 +68,11 @@ const wagmiConfig = createConfig({
 
 });
 
+
+
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <AuthProvider
-
-      refetchInterval={6 * 100} // refetch every hour
-    >
+    <AuthContextProvider>
       <WagmiConfig config={wagmiConfig}>
         <RainbowKitProvider
           chains={chains}
@@ -96,34 +89,9 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
           </ThemeProvider>
         </RainbowKitProvider>
       </WagmiConfig>
-    </AuthProvider>
+    </AuthContextProvider>
   );
 };
 
 export default Providers;
 
-export async function getServerSideProps(auth: AuthOptions) {
-
-  const session = await getServerSession(
-    auth
-  );
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  } else {
-    let { data } = await supabase
-      .from("users")
-      .select()
-      .eq("id", session?.id);    // Call the checkWalletAddress function and pass the session object
-    return {
-      props: {
-        session,
-        user: data,
-      },
-    };
-  }
-}
