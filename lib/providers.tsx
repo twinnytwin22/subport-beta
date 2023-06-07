@@ -28,10 +28,10 @@ import { supabase } from "./supabaseClient";
 import { AuthOptions, Session } from "next-auth";
 
 const ThemeProvider = dynamic(
-  () => {
-    return import("next-themes").then((mod) => mod.ThemeProvider);
+  async () => {
+    const mod = await import("next-themes");
+    return mod.ThemeProvider;
   },
-  { ssr: false }
 );
 
 const projectId = '81347ba0dc58fcf4a2217b6524d9b6c5'
@@ -89,7 +89,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
             fontStack: "system",
           })}
         >
-          <ThemeProvider enableSystem={true} attribute="class">
+          <ThemeProvider enableSystem={true} attribute="className" defaultTheme="system">
             {children}
             <ToastContainer />
 
@@ -118,9 +118,7 @@ export async function getServerSideProps(auth: AuthOptions) {
     let { data } = await supabase
       .from("users")
       .select()
-      .eq("id", session?.id);
-    console.log(data, 'booty')
-    // Call the checkWalletAddress function and pass the session object
+      .eq("id", session?.id);    // Call the checkWalletAddress function and pass the session object
     return {
       props: {
         session,

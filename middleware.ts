@@ -14,7 +14,7 @@ export default async function middleware(req: NextRequest) {
     req,
     secret: process.env.NEXTAUTH_SECRET,
   });
-
+  console.log(session, "middleware");
   if (
     !session &&
     protectedPaths.some((protectedPath) => path.includes(protectedPath))

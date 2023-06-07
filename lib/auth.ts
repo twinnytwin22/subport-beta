@@ -8,17 +8,16 @@ import { getToken } from "next-auth/jwt";
 import { supabase } from "lib/supabaseClient";
 import { generateWallet } from "lib/hooks/generateWallet";
 
-const url = process.env.NEXT_PUBLIC_SUPABASE_URL as any;
+const url = process.env.supabaseUrl!;
 const supaSecret = process.env.supabaseKey!;
 
 const options = {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
-    detectSessionInUrl: true
+    detectSessionInUrl: true,
   },
-}
-
+};
 
 const secret = process.env.NEXTAUTH_SECRET;
 export function getAuthOptions(): NextAuthOptions {
@@ -47,7 +46,6 @@ export function getAuthOptions(): NextAuthOptions {
       },
       async session({ session, token, user }: any) {
         const signingSecret = process.env.SUPABASE_JWT_SECRET;
-
         session.id = token?.sub;
         // Check if wallet_address exists for this user
         let { data, error } = await supabase
@@ -120,7 +118,6 @@ export function getAuthOptions(): NextAuthOptions {
     adapter: SupabaseAdapter({
       url,
       secret: supaSecret,
-      
     }),
     providers,
     secret: process.env.NEXTAUTH_SECRET,

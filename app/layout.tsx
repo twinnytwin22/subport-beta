@@ -17,7 +17,7 @@ export default async function RootLayout({
 }) {
 
   return (
-    <html>
+    <html suppressHydrationWarning>
       <head />
       <body className="bg-gray-100 dark:bg-black min-w-[315px]">
         <Providers >
