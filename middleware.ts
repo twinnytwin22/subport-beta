@@ -15,10 +15,6 @@ export default async function middleware(req: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  if (session) {
-    session.sub = session as any;
-  }
-
   if (
     !session &&
     protectedPaths.some((protectedPath) => path.includes(protectedPath))
