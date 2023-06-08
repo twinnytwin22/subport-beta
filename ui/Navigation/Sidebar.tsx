@@ -5,7 +5,6 @@ import { SignOutButton } from "ui/Buttons/SignOut";
 import { useAuthProvider } from "app/context";
 function Sidebar({ props }: any) {
   const { user } = useAuthProvider()
-  console.log(user)
 
   return (
 
@@ -92,7 +91,7 @@ function Sidebar({ props }: any) {
           <SignInModal />
         )}
       </nav>
-      {user?.email === 'randal.herndon@gmail.ocm' &&
+      {user?.email === 'randal.herndon@gmail.com' &&
         <div className="font-bold text-lg dark:text-zinc-200 text-zinc-900">
           <Link href='/test'>
             <p>

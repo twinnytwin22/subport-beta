@@ -2,13 +2,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import UserMenu from './UserMenu';
 import { useAuthProvider } from 'app/context';
-function UserAvatar() {
+
+function UserAvatar(avi: any) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
-
-  const { user } = useAuthProvider()
-  console.log(user)
-  const email = user?.email
+  const { user } = useAuthProvider();
+  const email = user?.email;
+  const [userAvatar, setUserAvatar] = useState(avi);
+  const [isAvatarLoaded, setIsAvatarLoaded] = useState(!!avi);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -25,20 +26,28 @@ function UserAvatar() {
   }, [menuRef]);
 
   const toggleMenu = () => {
-
-    { isOpen == false ? setIsOpen(true) : setIsOpen(false) };
+    setIsOpen(!isOpen);
   };
 
-  return (
+  const handleImageLoad = () => {
+    setUserAvatar(avi)
+    setIsAvatarLoaded(true);
+  };
+
+  return userAvatar && (
     <div className="relative rounded-full bg-blue-900">
-      <div onClick={toggleMenu} className="block w-10 bg-blue-900 rounded-full cursor-pointer">
-        <img className="block w-full bg-blue-800 rounded-full" src={user?.user_metadata?.avatar_url} alt="avi" />
-      </div>
-      {isOpen && (
-        <div ref={menuRef} className="absolute z-50 top-12 right-0">
-          <UserMenu email={email} />
-        </div>
-      )}
+      {isAvatarLoaded ? (
+        <>
+          <div onClick={toggleMenu} className="block w-10 bg-blue-900 rounded-full cursor-pointer">
+            <img className="block w-full bg-blue-800 rounded-full" src={userAvatar} alt="avi" onLoad={handleImageLoad} />
+          </div>
+          {isOpen && (
+            <div ref={menuRef} className="absolute z-50 top-12 right-0">
+              <UserMenu email={email} />
+            </div>
+          )}
+        </>
+      ) : null}
     </div>
   );
 }

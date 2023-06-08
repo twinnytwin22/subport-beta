@@ -1,11 +1,42 @@
 "use client";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useAuthProvider } from "app/context";
-import React from "react";
+import AddUpdateWallet from "lib/hooks/generateWallet";
+import React, { useState, useEffect } from "react";
 import UserAvatar from "ui/User/UserAvatar";
-
 function Navbar() {
-  const { user } = useAuthProvider()
-  console.log(user)
+  const [walletAddress, setWalletAddress] = useState('');
+  const supabase = createClientComponentClient();
+  const { user } = useAuthProvider();
+  const [avi, setAvi] = useState('');
+  console.log(avi)
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const { data: wallet, error } = await supabase
+          .from('profiles')
+          .select('wallet_address, avatar_url')
+          .eq("id", user?.id)
+          .single();
+
+        if (wallet?.wallet_address === '' || wallet?.wallet_address === null) {
+          await AddUpdateWallet(user);
+        }
+
+        setAvi(wallet?.avatar_url); // Set the avatarUrl state
+
+        user.wallet = wallet?.wallet_address;
+      } catch (error) {
+        console.log('Error loading user data:', error);
+      }
+    };
+
+    if (user) {
+      getData();
+    }
+  }, [user, supabase]);
+
 
 
   return (
@@ -81,7 +112,7 @@ function Navbar() {
                 </svg>
               </div>
               <div className="hidden sm:block -ml-4 w-8">
-                <UserAvatar />
+                <UserAvatar avl={avi} />
               </div> </>}
 
 

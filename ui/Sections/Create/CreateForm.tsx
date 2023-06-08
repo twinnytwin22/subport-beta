@@ -4,41 +4,16 @@ import Collectible from "types/collectible";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Media } from "ui/Misc/Media";
-import { create } from "ipfs-http-client";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 import { allGenres } from "lib/allGenres";
 import { Tooltip } from "ui/Misc/Tooltip";
 import { createFormMessage } from "./createFormMessages";
 import { deployCollectible } from "lib/deployer";
 import { useAuthProvider } from "app/context";
-const uploadToIpfs = async (imageFile: any, audioFile: any) => {
-  console.log(imageFile, audioFile, "ia upipfs");
-  const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
-  const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
-  const auth =
-    "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-  const ipfs = create({
-    timeout: "2m",
-    host: "ipfs.infura.io",
-    port: 5001,
-    protocol: "https",
-    headers: {
-      authorization: auth,
-    },
-  });
+import { uploadContractMediaToIpfs } from "lib/uploadFileIpfs";
 
-  // Upload image file to IPFS
-  const imageResult = await ipfs.add(imageFile);
-  const imageUrl = `ipfs://${imageResult.path}`;
 
-  // Upload audio file to IPFS
-  const audioResult = await ipfs.add(audioFile);
-  const audioUrl = `ipfs://${audioResult.path}`;
-
-  return { image: imageUrl, audio: audioUrl };
-};
-
-export const CreateForm = ({ address }: any) => {
+export const CreateForm = () => {
   const { user } = useAuthProvider()
   const [audioUrl, setAudioUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -77,7 +52,7 @@ export const CreateForm = ({ address }: any) => {
       total_collectibles: 0,
       description: "",
       keywords: "",
-      address: address,
+      address: user?.wallet,
       userId: user?.id || null,
       start_date: "",
       end_date: "",
@@ -155,7 +130,6 @@ export const CreateForm = ({ address }: any) => {
     }
   };
 
-
   const handleResetClick = () => {
     reset();
   };
@@ -171,7 +145,7 @@ export const CreateForm = ({ address }: any) => {
     });
 
     try {
-      const { image, audio } = await uploadToIpfs(data.image, data.audio);
+      const { image, audio } = await uploadContractMediaToIpfs(data.image, data.audio);
       const formData = {
         ...data,
         image: image,
@@ -685,7 +659,7 @@ export const CreateForm = ({ address }: any) => {
           <div className="text-center text-xs">
             Your blockchain address:
             <br />
-            {address}
+            {user?.wallet}
           </div>
         </>
       )}

@@ -17,7 +17,7 @@ export const Media = (data: any) => {
   };
 
   return (
-    <div className="mx-auto block content-center">
+    <div className="mx-auto block content-center" suppressHydrationWarning>
       <ThirdwebProvider activeChain="ethereum">
         <MediaRenderer {...mediaProps} />
       </ThirdwebProvider>

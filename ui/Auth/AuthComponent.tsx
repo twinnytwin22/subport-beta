@@ -1,37 +1,11 @@
 "use client";
+
 import { supabase } from "lib/supabaseClient";
-import { useRouter } from 'next/navigation'
 import { ConnectToSubport } from "ui/Buttons/ConnectButton";
 
 
 // Supabase auth needs to be triggered client-side
 export default function LoginCard() {
-  const router = useRouter()
-  async function signInWithGoogle() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        queryParams: {
-          access_type: 'offline',
-          prompt: 'consent',
-          hd: window.location.href
-        },
-      },
-
-    })
-    router.refresh()
-
-  }
-  async function signInWithSpotify() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'spotify',
-    })
-    router.refresh()
-
-  }
-  //...
-
-
   return (
     <div className="relative">
 
@@ -143,3 +117,29 @@ export default function LoginCard() {
   );
 }
 
+
+export async function signInWithGoogle() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      queryParams: {
+        access_type: 'offline',
+        prompt: 'consent',
+        hd: window.location.href
+      },
+    },
+  });
+
+  if (error) {
+    console.error('Error signing in with Google:', error);
+    return;
+  }
+}
+
+
+export async function signInWithSpotify() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'spotify',
+  })
+
+}
