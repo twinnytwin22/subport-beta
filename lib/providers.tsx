@@ -82,7 +82,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
             fontStack: "system",
           })}
         >
-          <ThemeProvider enableSystem={true} attribute="className" defaultTheme="system">
+          <ThemeProvider enableSystem={true} attribute="class" defaultTheme="dark">
             {children}
             <ToastContainer />
 
