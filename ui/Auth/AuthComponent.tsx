@@ -1,11 +1,12 @@
 "use client";
 
-import { supabase } from "lib/supabaseClient";
 import { ConnectToSubport } from "ui/Buttons/ConnectButton";
+import { useAuthProvider } from "app/context";
 
 
 // Supabase auth needs to be triggered client-side
 export default function LoginCard() {
+  const { signInWithSpotify, signInWithGoogle } = useAuthProvider()
   return (
     <div className="relative">
 
@@ -118,28 +119,3 @@ export default function LoginCard() {
 }
 
 
-export async function signInWithGoogle() {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      queryParams: {
-        access_type: 'offline',
-        prompt: 'consent',
-        hd: window.location.href
-      },
-    },
-  });
-
-  if (error) {
-    console.error('Error signing in with Google:', error);
-    return;
-  }
-}
-
-
-export async function signInWithSpotify() {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'spotify',
-  })
-
-}

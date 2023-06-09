@@ -1,7 +1,7 @@
 import Link from "next/link";
-import React from "react";
+import React, { PureComponent } from "react";
 
-const HeartIcon = () => {
+const HeartIcon = async () => {
   return (
     <>
       <svg
@@ -108,15 +108,15 @@ function CollectCard({ drop }: any) {
             </h5>
           </a>
           <div className="flex justify-between items-center mb-2">
-            <div className="grid grid-cols-3 max-h-6 max-w-xs">
-              <div className="flex h-6 hover:scale-105 space-x-2">
+            <div className="grid grid-cols-3 max-h-6 max-w-sm space-x-2">
+              <div className="flex h-6 hover:scale-105 space-x-3">
                 45
                 <HeartIcon />
               </div>
-              <div className="flex h-6 hover:scale-105 space-x-2">
+              <div className="flex h-6 hover:scale-105 space-x-3">
                 8<CommentIcon />
               </div>
-              <div className="flex h-6 hover:scale-105 space-x-2">
+              <div className="flex h-6 hover:scale-105 space-x-3">
                 111
                 <CollectIcon />
               </div>

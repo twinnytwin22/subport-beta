@@ -72,24 +72,22 @@ const wagmiConfig = createConfig({
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <AuthContextProvider>
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider
-          chains={chains}
-          theme={darkTheme({
-            accentColor: "white",
-            accentColorForeground: "black",
-            fontStack: "system",
-          })}
-        >
-          <ThemeProvider enableSystem={true} attribute="class" defaultTheme="dark">
-            {children}
-            <ToastContainer />
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider
+        chains={chains}
+        theme={darkTheme({
+          accentColor: "white",
+          accentColorForeground: "black",
+          fontStack: "system",
+        })}
+      >
+        <ThemeProvider enableSystem={true} attribute="class" defaultTheme="dark">
+          {children}
+          <ToastContainer />
 
-          </ThemeProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </AuthContextProvider>
+        </ThemeProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 };
 

@@ -1,15 +1,26 @@
 "use client";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Session, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useAuthProvider } from "app/context";
 import AddUpdateWallet from "lib/hooks/generateWallet";
 import React, { useState, useEffect } from "react";
 import UserAvatar from "ui/User/UserAvatar";
-function Navbar() {
+function Navbar({ session }: { session: Session | null }) {
   const [walletAddress, setWalletAddress] = useState('');
   const supabase = createClientComponentClient();
-  const { user } = useAuthProvider();
   const [avi, setAvi] = useState('');
-  console.log(avi)
+  const { user, profile } = useAuthProvider()
+
+  if (user) {
+    console.log(user, 'user')
+  }
+
+  if (profile) {
+    console.log(profile, 'profile')
+  }
+
+  if (!profile) {
+    console.log('no profile')
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -26,7 +37,6 @@ function Navbar() {
 
         setAvi(wallet?.avatar_url); // Set the avatarUrl state
 
-        user.wallet = wallet?.wallet_address;
       } catch (error) {
         console.log('Error loading user data:', error);
       }

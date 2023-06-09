@@ -3,16 +3,18 @@ import { useAuthProvider } from "app/context";
 import { supabase } from "lib/supabaseClient";
 import { useRouter } from "next/navigation";
 export function SignOutButton() {
-  const { signOut } = useAuthProvider()
   const router = useRouter()
-  async function signout() {
-    const { error } = signOut()
+  const { signOut } = useAuthProvider()
+
+
+  async function handleSignout() {
+    const { error } = await signOut()
     router.refresh()
   }
 
 
   return (
-    <div onClick={signout} className='w-full flex items-center'>
+    <div onClick={handleSignout} className='w-full flex items-center'>
       <div
         className="flex text-zinc-900 items-center dark:text-white hover:bg-zinc-50 bg-zinc-100 focus:ring-4 dark:bg-zinc-900 border-zinc-700 border focus:ring-zinc-300 hover:scale-105 text-xs rounded-lg lg:text-sm px-3 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-zinc-700 focus:outline-none dark:focus:ring-zinc-800  shadow-zinc-200 hover:shadow-sm"
       >
