@@ -1,20 +1,11 @@
 "use client";
-import React from "react";
 import SignInModal from "ui/Buttons/SignIn";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
-import { toast } from "react-toastify";
-import { useSession } from "next-auth/react";
 import { SignOutButton } from "ui/Buttons/SignOut";
-function Sidebar({ queries }: any) {
-  const { data: session, status } = useSession();
-  {
-    session ? console.log(session) : console.log("no session found");
-  }
-  const handleLogout = async () => {
-    toast("Signing Out");
-    signOut();
-  };
+import { useAuthProvider } from "app/context";
+function Sidebar({ props }: any) {
+  const { user } = useAuthProvider()
+
   return (
 
     <aside className="flex flex-col bg-gray-100 h-screen w-32 lg:w-64 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-zinc-800 top-0 fixed mx-auto items-center content-center justify-center">
@@ -70,7 +61,7 @@ function Sidebar({ queries }: any) {
               </div>
             </li>
           </Link>
-          {status === "authenticated" && (
+          {user?.email && (
             <Link href="/create">
               <li className="">
                 <p className="hidden lg:block">Create</p>
@@ -93,14 +84,14 @@ function Sidebar({ queries }: any) {
           )}
         </ul>
         <hr className="hidden sm:flex sm:-16 lg:w-40 border-zinc-600 mt-24 mb-8" />
-        {status === "authenticated" ? (
+        {user?.email ? (
 
           <SignOutButton />
         ) : (
           <SignInModal />
         )}
       </nav>
-      {session?.user.email === 'randal.herndon@gmail.com' &&
+      {user?.email === 'randal.herndon@gmail.com' &&
         <div className="font-bold text-lg dark:text-zinc-200 text-zinc-900">
           <Link href='/test'>
             <p>
@@ -113,23 +104,4 @@ function Sidebar({ queries }: any) {
 }
 
 export default Sidebar;
-export const getServerSideProps = async () => {
-  // Create authenticated Supabase Client
-  // Check if we have a session
-  const { data: session, status } = useSession();
 
-  if (status == 'unauthenticated')
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-
-  return {
-    props: {
-      initialSession: session,
-      user: session?.user,
-    },
-  };
-};

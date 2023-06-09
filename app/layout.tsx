@@ -3,10 +3,8 @@ import { Theme } from "styles/Theme";
 import "styles/globals.css";
 import Providers from "lib/providers";
 import Navbar from "ui/Navigation/Navbar";
-import { createServerClient } from "lib/supabase-server";
 import MobileMenu from "ui/Navigation/MobileMenu";
 import Sidebar from "ui/Navigation/Sidebar";
-import { getServerSession } from "next-auth";
 import { Suspense } from "react";
 
 export const revalidate = 0;

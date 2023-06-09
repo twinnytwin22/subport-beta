@@ -1,45 +1,20 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Collectible from "types/collectible";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Media } from "ui/Misc/Media";
-import { create } from "ipfs-http-client";
-import { useSession } from "next-auth/react";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 import { allGenres } from "lib/allGenres";
 import { Tooltip } from "ui/Misc/Tooltip";
 import { createFormMessage } from "./createFormMessages";
 import { deployCollectible } from "lib/deployer";
-const uploadToIpfs = async (imageFile: any, audioFile: any) => {
-  console.log(imageFile, audioFile, "ia upipfs");
-  const projectId = process.env.NEXT_PUBLIC_INFURA_ID;
-  const projectSecret = process.env.NEXT_PUBLIC_INFURA_SECRET;
-  const auth =
-    "Basic " + Buffer.from(projectId + ":" + projectSecret).toString("base64");
-  const ipfs = create({
-    timeout: "2m",
-    host: "ipfs.infura.io",
-    port: 5001,
-    protocol: "https",
-    headers: {
-      authorization: auth,
-    },
-  });
+import { useAuthProvider } from "app/context";
+import { uploadContractMediaToIpfs } from "lib/uploadFileIpfs";
 
-  // Upload image file to IPFS
-  const imageResult = await ipfs.add(imageFile);
-  const imageUrl = `ipfs://${imageResult.path}`;
 
-  // Upload audio file to IPFS
-  const audioResult = await ipfs.add(audioFile);
-  const audioUrl = `ipfs://${audioResult.path}`;
-
-  return { image: imageUrl, audio: audioUrl };
-};
-
-export const CreateForm = ({ address }: any) => {
-  const { data: session } = useSession();
+export const CreateForm = () => {
+  const { user } = useAuthProvider()
   const [audioUrl, setAudioUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -48,12 +23,6 @@ export const CreateForm = ({ address }: any) => {
   const [step, setStep] = useState(1);
   const [nowChecked, setNowChecked] = useState(false);
   const [neverChecked, setNeverChecked] = useState(false);
-  const [uId, setUId] = useState('')
-  useEffect(() => {
-    if (session) {
-      setUId(session.id);
-    }
-  }, [session]);
 
   const handleNowChange = (event: any) => {
     setNowChecked(event.target.checked);
@@ -83,10 +52,11 @@ export const CreateForm = ({ address }: any) => {
       total_collectibles: 0,
       description: "",
       keywords: "",
-      address: address,
-      userId: uId,
+      address: user?.wallet,
+      userId: user?.id || null,
       start_date: "",
       end_date: "",
+      website: '',
     },
   });
   const handleImageUpload = (event: any) => {
@@ -141,26 +111,26 @@ export const CreateForm = ({ address }: any) => {
         ...formData,
         image: image,
         audio: audio,
-        id: uId,
+        id: user?.id,
         keywords: keywordsArray,
       };
+      console.log(collectibleData, 'about to deploy')
 
       // Call the deployCollectible function
-      const deployResult = await deployCollectible({ collectibleData });
+      const deployResult = await deployCollectible(collectibleData);
 
-      if (deployResult.success) {
+      if (deployResult.toString()) {
         // If deployment is successful, display the success message
         toast.success("Collectible deployed successfully");
       } else {
         // If deployment fails, display the error message
-        toast.error(deployResult.error as any);
+        toast.error(deployResult.toString() as any);
       }
     } catch (error) {
       console.error(error);
       toast.error("An error occurred. Please try again.");
     }
   };
-
 
   const handleResetClick = () => {
     reset();
@@ -177,7 +147,7 @@ export const CreateForm = ({ address }: any) => {
     });
 
     try {
-      const { image, audio } = await uploadToIpfs(data.image, data.audio);
+      const { image, audio } = await uploadContractMediaToIpfs(data.image, data.audio);
       const formData = {
         ...data,
         image: image,
@@ -688,11 +658,11 @@ export const CreateForm = ({ address }: any) => {
       {step !== 4 && (
         <>
           <h1 className="text-center text-4xl">Create your collectible</h1>
-          <div className="text-center text-xs">
+          {!window && <div className="text-center text-xs">
             Your blockchain address:
             <br />
-            {address}
-          </div>
+            {user?.wallet}
+          </div>}
         </>
       )}
       {step === 4 && (

@@ -1,6 +1,5 @@
 import React from "react";
 import CollectCard from "ui/Cards/CollectCard";
-import SearchInput from "ui/Misc/SearchInput";
 function Trending() {
   return (
     <div className="max-w-7xl mx-auto w-full mt-2">

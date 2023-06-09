@@ -4,7 +4,6 @@ import React from "react";
 import UserAvatar from "ui/User/UserAvatar";
 
 function MobileMenu() {
-  const width = 8;
 
   return (
     <>
