@@ -8,7 +8,8 @@
     "compile": "npx hardhat compile",
     "forge compile": "forge build",
     "clean": "npx hardhat clean",
-    "hh-dep-local": "npx hardhat run --scripts SBPRT721_deploy.js",
+    "start-up": "npx hardhat node",
+    "hh-dep-local": "npx hardhat run scripts/SBPRT721_deploy.js",
     "hh-dep-mumbai": "npx hardhat run scripts/SBPRT721_deploy.js --network mumbai"
   },
   "author": "",

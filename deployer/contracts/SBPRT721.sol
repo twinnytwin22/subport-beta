@@ -109,6 +109,7 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
         uint256 startDate_,
         uint256 endDate_,
         string memory contractUri_,
+        string memory tokenHash_,
         uint256 totalSupply_
     ) ERC721A(name_, tokenName_) {
         _name = name_;
@@ -119,6 +120,8 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
         _totalSupply = totalSupply_;
         openToPublic = true;
         signerAddress = 0x7B41dE805578Cb93f4D4758Cea533E526EefEf49;
+        _baseTokenURI = 'ipfs://';
+        _tokenHash = tokenHash_;
     }
 
     // ----------
@@ -177,7 +180,7 @@ contract SBPRT721 is ERC721A, Pausable, ReentrancyGuard {
         _safeMint(to, qty);
     }
 
-       function purhase(
+       function purchase(
         bytes memory signature,
         address payable to,
         uint256 qty

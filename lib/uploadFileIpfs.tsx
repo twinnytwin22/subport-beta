@@ -2,15 +2,13 @@
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 const storage = new ThirdwebStorage();
 
-
-
-export async function uploadHashToIpfs(deployData: any) {
-  const uri = await storage.upload(deployData)
+export async function uploadHashToIpfs({ data }: any) {
+  const uri = await storage.upload(data)
   if (uri) {
-    console.log(deployData)
+    console.log(data)
     return uri
   }
-}
+};
 
 export async function uploadToIpfs(deployData: any) {
   const uri = await storage.upload(deployData)
@@ -18,8 +16,7 @@ export async function uploadToIpfs(deployData: any) {
     console.log(deployData)
     return uri
   }
-}
-
+};
 
 export async function uploadToAudio(audioFile: any) {
   const uri = await storage.upload(audioFile)
@@ -27,8 +24,7 @@ export async function uploadToAudio(audioFile: any) {
     console.log(audioFile)
     return uri
   }
-}
-
+};
 
 export async function uploadToMedia(imageFile: any) {
   const uri = await storage.upload(imageFile)
@@ -36,7 +32,7 @@ export async function uploadToMedia(imageFile: any) {
     console.log(imageFile)
     return uri
   }
-}
+};
 
 export const uploadContractMediaToIpfs = async (imageFile: any, audioFile: any) => {
   console.log(imageFile, audioFile, "ia upipfs");
@@ -46,4 +42,3 @@ export const uploadContractMediaToIpfs = async (imageFile: any, audioFile: any) 
   const audioResult = await uploadToAudio(audioFile)
   return { image: imageResult, audio: audioResult }
 };
-;

@@ -56,6 +56,7 @@ export const CreateForm = () => {
       userId: user?.id || null,
       start_date: "",
       end_date: "",
+      website: '',
     },
   });
   const handleImageUpload = (event: any) => {
@@ -113,16 +114,17 @@ export const CreateForm = () => {
         id: user?.id,
         keywords: keywordsArray,
       };
+      console.log(collectibleData, 'about to deploy')
 
       // Call the deployCollectible function
-      const deployResult = await deployCollectible({ collectibleData });
+      const deployResult = await deployCollectible(collectibleData);
 
-      if (deployResult.success) {
+      if (deployResult.toString()) {
         // If deployment is successful, display the success message
         toast.success("Collectible deployed successfully");
       } else {
         // If deployment fails, display the error message
-        toast.error(deployResult.error as any);
+        toast.error(deployResult.toString() as any);
       }
     } catch (error) {
       console.error(error);
@@ -656,11 +658,11 @@ export const CreateForm = () => {
       {step !== 4 && (
         <>
           <h1 className="text-center text-4xl">Create your collectible</h1>
-          <div className="text-center text-xs">
+          {!window && <div className="text-center text-xs">
             Your blockchain address:
             <br />
             {user?.wallet}
-          </div>
+          </div>}
         </>
       )}
       {step === 4 && (
