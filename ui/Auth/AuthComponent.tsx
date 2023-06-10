@@ -2,11 +2,24 @@
 
 import { ConnectToSubport } from "ui/Buttons/ConnectButton";
 import { useAuthProvider } from "app/context";
+import { useRouter } from "next/navigation";
 
 
 // Supabase auth needs to be triggered client-side
 export default function LoginCard() {
   const { signInWithSpotify, signInWithGoogle } = useAuthProvider()
+  const router = useRouter()
+  async function handleSpotifyLogin() {
+    await signInWithSpotify()
+  }
+
+  async function handleGoogleLogin() {
+    const res = await signInWithGoogle()
+    if (res) {
+      console.log(res)
+      router.refresh()
+    }
+  }
   return (
     <div className="relative">
 
@@ -23,7 +36,7 @@ export default function LoginCard() {
         </p>
         <ul className="my-4 space-y-3">
 
-          <li onClick={signInWithSpotify}>
+          <li onClick={handleSpotifyLogin}>
             <a
               href="#"
               className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-lg bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
@@ -34,7 +47,7 @@ export default function LoginCard() {
               </span>
             </a>
           </li>
-          <li onClick={signInWithGoogle}>
+          <li onClick={handleGoogleLogin}>
             <div
 
               className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-lg bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"

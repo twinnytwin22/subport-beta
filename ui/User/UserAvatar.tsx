@@ -3,14 +3,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import UserMenu from './UserMenu';
 import { useAuthProvider } from 'app/context';
 import Image from 'next/image';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
-function UserAvatar({ avi }: any) {
+function UserAvatar() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { user, profile } = useAuthProvider();
   const email = user?.email;
-  const [userAvatar, setUserAvatar] = useState(profile?.avatar_url);
-  const [isAvatarLoaded, setIsAvatarLoaded] = useState(!!profile);
+  const [userAvatar, setUserAvatar] = useState('');
+  const [isAvatarLoaded, setIsAvatarLoaded] = useState(false);
+  const supabase = createClientComponentClient()
+
+
 
 
 
@@ -34,19 +38,29 @@ function UserAvatar({ avi }: any) {
     setIsOpen(!isOpen);
   };
 
-  const handleImageLoad = () => {
+  const handleImageLoad = async () => {
+    console.log('trying image upload')
     if (profile) {
-      setUserAvatar(profile?.avatar_url)
-      setIsAvatarLoaded(true)
+      const { data } = supabase
+        .storage
+        .from('avatars')
+        .getPublicUrl(`/${profile?.avatar_url}`)
+
+      if (data) {
+        console.log(data, 'image load')
+        setUserAvatar(data?.publicUrl)
+        setIsAvatarLoaded(true)
+      }
+
     }
 
   };
-  return userAvatar && (
+  return profile && (
     <div className="relative rounded-full bg-blue-900">
       {isAvatarLoaded ? (
         <>
           <div onClick={toggleMenu} className="block w-10 bg-blue-900 rounded-full cursor-pointer">
-            <Image className="block w-full bg-blue-800 rounded-full" src={`/${userAvatar || user?.user_metadata.avatar_url}`} alt="avi" onLoad={handleImageLoad} width={50} height={50} priority />
+            <Image className="block w-full bg-blue-800 rounded-full" src={userAvatar} alt="avi" onLoad={handleImageLoad} width={50} height={50} priority />
           </div>
           {isOpen && (
             <div ref={menuRef} className="absolute z-50 top-12 right-0">

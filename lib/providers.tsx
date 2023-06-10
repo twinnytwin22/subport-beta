@@ -21,6 +21,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { supabase } from "./supabaseClient";
 import { AuthContextProvider } from "app/context";
+import { Session } from "@supabase/auth-helpers-nextjs";
 
 const ThemeProvider = dynamic(
   async () => {
@@ -70,24 +71,28 @@ const wagmiConfig = createConfig({
 
 
 
-export const Providers = ({ children }: { children: React.ReactNode }) => {
+export const Providers = ({ children, session }: { children: React.ReactNode, session: Session | null }) => {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider
-        chains={chains}
-        theme={darkTheme({
-          accentColor: "white",
-          accentColorForeground: "black",
-          fontStack: "system",
-        })}
-      >
-        <ThemeProvider enableSystem={true} attribute="class" defaultTheme="dark">
-          {children}
-          <ToastContainer />
+    <AuthContextProvider session={
+      session
+    }>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider
+          chains={chains}
+          theme={darkTheme({
+            accentColor: "white",
+            accentColorForeground: "black",
+            fontStack: "system",
+          })}
+        >
+          <ThemeProvider enableSystem={true} attribute="class" defaultTheme="dark">
+            {children}
+            <ToastContainer />
 
-        </ThemeProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+          </ThemeProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </AuthContextProvider>
   );
 };
 

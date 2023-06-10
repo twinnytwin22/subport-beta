@@ -5,9 +5,7 @@ import { SignOutButton } from "ui/Buttons/SignOut";
 import { Session } from "@supabase/supabase-js";
 import { useAuthProvider } from "app/context";
 function Sidebar({ session }: { session: Session | null }) {
-  const user = session?.user
-  const data = useAuthProvider()
-  console.log(data)
+  const { user } = useAuthProvider()
   return (
 
     <aside className="flex flex-col bg-gray-100 h-screen w-32 lg:w-64 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-zinc-800 top-0 fixed mx-auto items-center content-center justify-center">

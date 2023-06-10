@@ -103,7 +103,7 @@ function Navbar({ session }: { session: Session | null }) {
         </form>
         <div className={`hidden sm:inline-flex items-center  w-full space-x-2 sm:grid-cols-2 ${user?.email && "-mr-28"}`}>
 
-          {user?.email &&
+          {user &&
             <>
               <div className="hidden sm:block group w-8 rounded-full hover:scale-105">
                 <svg className="w-8"
@@ -122,8 +122,9 @@ function Navbar({ session }: { session: Session | null }) {
                 </svg>
               </div>
               <div className="hidden sm:block -ml-4 w-8">
-                <UserAvatar avl={avi} />
-              </div> </>}
+                <UserAvatar />
+              </div>
+            </>}
 
 
         </div></div></div>
