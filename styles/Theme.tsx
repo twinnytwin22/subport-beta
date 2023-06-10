@@ -1,28 +1,28 @@
 'use client'
-import * as React from "react"
+import React from "react"
 
 import dynamic from 'next/dynamic';
 
-
-
 const ThemeProvider = dynamic(
-    async () => {
-      const mod = await import('next-themes');
-        return mod.ThemeProvider;
-    },
-    { ssr: false, }
-  );
+  async () => {
+    const mod = await import('next-themes');
+    return mod.ThemeProvider;
+  },
+  { ssr: false, }
+);
 
-  export const Theme = ({
-    children,
-  }: {
-    children: React.ReactNode
-  }) => {
+export const Theme = ({
+  children,
+}: {
+  children: React.ReactNode
+}) => {
 
-    return (
-        <ThemeProvider enableSystem={true} attribute="class">
+  return (
+    <React.Suspense>
+      <ThemeProvider enableSystem={true} attribute="class">
 
-{children}
-</ThemeProvider>
-    )
-  }
+        {children}
+      </ThemeProvider>
+    </React.Suspense>
+  )
+}

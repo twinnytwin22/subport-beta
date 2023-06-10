@@ -7,18 +7,16 @@ import { useRouter } from "next/navigation";
 
 // Supabase auth needs to be triggered client-side
 export default function LoginCard() {
-  const { signInWithSpotify, signInWithGoogle } = useAuthProvider()
   const router = useRouter()
+  const { signInWithSpotify, signInWithGoogle, user } = useAuthProvider()
   async function handleSpotifyLogin() {
+    if (!user) { router.refresh() }
     await signInWithSpotify()
   }
 
   async function handleGoogleLogin() {
-    const res = await signInWithGoogle()
-    if (res) {
-      console.log(res)
-      router.refresh()
-    }
+    if (!user) { router.refresh() }
+    await signInWithGoogle()
   }
   return (
     <div className="relative">

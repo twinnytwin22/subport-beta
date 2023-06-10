@@ -1,10 +1,10 @@
-"use client";
+'use client'
 import SignInModal from "ui/Buttons/SignIn";
 import Link from "next/link";
 import { SignOutButton } from "ui/Buttons/SignOut";
 import { Session } from "@supabase/supabase-js";
 import { useAuthProvider } from "app/context";
-function Sidebar({ session }: { session: Session | null }) {
+async function Sidebar({ session }: { session: Session | null }) {
   const { user } = useAuthProvider()
   return (
 

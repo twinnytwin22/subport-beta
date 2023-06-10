@@ -27,24 +27,16 @@ export default async function RootLayout({
           <div className="mb-16" />
           <div className="flex flex-wrap static">
             <aside className="fixed left-0 hidden sm:block">
-              <Suspense>
-                <Sidebar session={session} />
-              </Suspense>
+              <Sidebar session={session} />
             </aside>
             <div className="sm:ml-24 lg:ml-56 sm:p-8 w-full mx-auto flex">
-              <Suspense>
-                <Navbar session={session} />
-              </Suspense>
+              <Navbar session={session} />
               <div className="max-w-7xl w-full mx-auto">
-                <Suspense fallback={null}>
-                  {children}
-                </Suspense>
+                {children}
               </div>
             </div>
           </div>
-          <Suspense fallback={null}>
-            <MobileMenu session={session} />
-          </Suspense>
+          <MobileMenu session={session} />
 
         </Providers>
 

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "sh liftoff.sh && next dev",
-    "dev-turbo": "sh liftoff.sh && next dev --turbo",
+    "dev-turbo": "sh liftoff.sh && next dev --turbo --show-all",
     "build": "next build",
     "install-deps": "npm install",
     "update-deps": "npm udpate",

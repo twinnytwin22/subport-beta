@@ -1,69 +1,66 @@
 'use client'
-import { Session, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Session, createClient } from "@supabase/supabase-js";
+import { Suspense, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { supabaseAdmin } from "app/supabase-admin";
 
 interface AuthContextProps {
   user: any;
-  signOut: any;
-  signInWithGoogle: any,
-  signInWithSpotify: any
+  signOut: () => void;
+  signInWithGoogle: () => Promise<void>;
+  signInWithSpotify: () => Promise<void>;
   profile: any;
 }
 
 const AuthContext = createContext<AuthContextProps>({
   user: null,
-  signOut: undefined,
+  signOut: () => { },
   profile: null,
-  signInWithGoogle: undefined,
-  signInWithSpotify: undefined
+  signInWithGoogle: () => Promise.resolve(),
+  signInWithSpotify: () => Promise.resolve(),
 });
-const supabase = createClientComponentClient();
 
+const supabase = createClientComponentClient()
 const signInWithGoogle = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'google',
-    options: {
-      queryParams: {
-        access_type: 'offline',
-        prompt: 'consent',
-        hd: window.location.href
-      },
-    },
+  try {
+    const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error signing in with Google:", error);
   }
-  );
-
-  if (error) {
-    console.error('Error signing in with Google:', error);
-    return;
-  }
-
-}
+};
 
 const signInWithSpotify = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: 'spotify',
-  })
+  try {
+    const { error } = await supabase.auth.signInWithOAuth({ provider: "spotify" });
+    if (error) {
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error signing in with Spotify:", error);
+  }
+};
 
-}
-
-const handleSignOut = async () => {
-  await supabase.auth.signOut()
-}
-
-export const AuthContextProvider = ({ children, session }: { children: React.ReactNode, session: Session | null }) => {
+export const AuthContextProvider = ({
+  children,
+  session,
+}: {
+  children: React.ReactNode;
+  session: Session | null;
+}) => {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isProfileFetched, setIsProfileFetched] = useState(false);
-  const [isProfileImageFetched, setIsProfileImageFetched] = useState(false);
-  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-
-
-  const fetchProfile = async ({ id }: any) => {
+  const fetchProfile = async ({ id }: { id: string }) => {
     try {
+      setIsLoading(true);
       const { data, error } = await supabase
         .from("profiles")
         .select("username, website, avatar_url, wallet_address")
@@ -73,22 +70,27 @@ export const AuthContextProvider = ({ children, session }: { children: React.Rea
       if (error) {
         throw error;
       }
+
       setProfile(data);
       setIsProfileFetched(true);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching profile data:", error);
+      setIsLoading(false);
     }
   };
 
-
-  const onAuthStateChange = async () => {
+  const onAuthStateChanged = async () => {
     if (!user) {
       try {
-        const { data: authUser } = await supabase.auth.getUser();
+        const { data: authUser, error } = await supabase.auth.getUser();
+        if (error) {
+          throw error;
+        }
         if (authUser?.user) {
           setUser(authUser?.user);
           if (!isProfileFetched) {
-            await fetchProfile({ id: authUser?.user?.id });
+            await fetchProfile({ id: authUser?.user.id });
             setIsAuthenticated(true);
           }
         } else {
@@ -96,7 +98,6 @@ export const AuthContextProvider = ({ children, session }: { children: React.Rea
           setIsAuthenticated(false);
           setProfile(null);
           setIsProfileFetched(false);
-          setIsProfileImageFetched(false);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -104,37 +105,70 @@ export const AuthContextProvider = ({ children, session }: { children: React.Rea
     }
   };
 
-  const value = useMemo(() => {
-    return {
+  const signOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      setUser(null);
+      setIsAuthenticated(false);
+      setProfile(null);
+      setIsProfileFetched(false);
+      router.refresh()
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
+  const value = useMemo(
+    () => ({
       user,
       profile,
-      signInWithGoogle: async () => { await signInWithGoogle() },
-      signInWithSpotify: async () => { await signInWithSpotify() },
-      signOut: async () => {
-        await handleSignOut(),
-          router.push('/')
-      },
-    };
-  }, [user, profile, session,]);
+      signInWithGoogle,
+      signInWithSpotify,
+      signOut,
+    }),
+    [user, profile]
+  );
+
+
+  const AuthListener =
+    supabaseAdmin.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        setIsAuthenticated(false)
+        setUser(null)
+        router.refresh()
+
+      } else if (event === 'SIGNED_IN') {
+        setIsAuthenticated(true)
+        router.refresh()
+      } else if (!session && event === 'INITIAL_SESSION') {
+        router.push('/trending')
+        return
+      }
+
+    })
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      onAuthStateChange();
-    }
-  }, []);
-
-
+    onAuthStateChanged();
+  }, [AuthListener]);
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      <Suspense>
+        {
+          children
+        }
+      </Suspense>
     </AuthContext.Provider>
   );
 };
 
 export const useAuthProvider = () => {
-  const { user, signOut, profile, signInWithGoogle, signInWithSpotify } = useContext(AuthContext);
+  const {
+    user,
+    signOut,
+    profile,
+    signInWithGoogle,
+    signInWithSpotify,
+  } = useContext(AuthContext);
   return { user, signOut, profile, signInWithGoogle, signInWithSpotify };
 };
-
-
