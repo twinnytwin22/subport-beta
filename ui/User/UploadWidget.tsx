@@ -1,33 +1,25 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { supabaseAdmin } from 'app/supabase-admin'
+import { SupabaseImage, downloadImage } from 'lib/hooks/downloadImage'
 
 
 export default function Avatar({ uid, url, size, onUpload }: {
   uid: string
-  url: string
+  url: SupabaseImage
   size: number
   onUpload: any
 }) {
   const [avatarUrl, setAvatarUrl] = useState<any>(url || null)
   const [uploading, setUploading] = useState<boolean>(false)
 
+  const getImage = async (url: SupabaseImage) => {
+    const path = await downloadImage(url)
+    setAvatarUrl(path)
+  }
+
   useEffect(() => {
-    async function downloadImage(path: string) {
-      try {
-        const { data, error } = await supabaseAdmin.storage.from('avatars').download(path)
-        if (error) {
-          throw error
-        }
-
-        const url = URL.createObjectURL(data)
-        setAvatarUrl(url || "")
-      } catch (error) {
-        console.log('Error downloading image: ', error)
-      }
-    }
-
-    if (url) downloadImage(url)
+    if (url) getImage(url)
   }, [url, supabaseAdmin])
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (event) => {

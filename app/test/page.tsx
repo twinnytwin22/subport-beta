@@ -1,13 +1,15 @@
 'use client'
+import 'viem/window'
 import React, { useEffect, useState } from "react";
-import { deployContractViem } from "lib/deployer";
+import { deployContractViem } from "lib/deployFunctions/deployer";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { supabase } from "lib/supabaseClient";
+import { supabase } from "lib/providers/supabase/supabaseClient";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
-import { uploadToIpfs } from "lib/uploadFileIpfs";
+import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
+import { supabaseAdmin } from "app/supabase-admin";
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -143,14 +145,15 @@ function Page(props: any) {
     const messages = testMessages({ title: "Supabase Upload" });
     isLoading(true)
     if (user) {
-      const { data: drop, error, status } = await supabase
+      const { data: drop, error, status } = await supabaseAdmin
         .from('drops')
         .insert([
           {
             name: name,
             userId: user?.id,
             contractAddress: name,
-            slug: slug
+            slug: slug,
+            genre: 'House'
           }
         ])
         .eq("userId", user?.id)

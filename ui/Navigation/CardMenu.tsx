@@ -1,5 +1,5 @@
 'use client'
-import { supabase } from 'lib/supabaseClient';
+import { supabase } from 'lib/providers/supabase/supabaseClient';
 import React from 'react'
 import { toast } from 'react-toastify';
 

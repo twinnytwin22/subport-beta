@@ -6,7 +6,6 @@ import { useAuthProvider } from 'app/context'
 
 function Create() {
   const { user } = useAuthProvider()
-  console.log(user, 'createpage')
 
   return (
     <div className='bg-gray-100 dark:bg-black w-full max-w-screen mx-auto place-items-center items-center min-h-screen'>

@@ -6,8 +6,8 @@ function page() {
 
   return (
     <div className='mx-auto'>
-        <Profile/>
-        <UserCreated/>
+      <Profile />
+      <UserCreated />
 
     </div>
   )

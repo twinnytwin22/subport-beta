@@ -1,4 +1,4 @@
-import { supabase } from "lib/supabaseClient";
+import { supabase } from "lib/providers/supabase/supabaseClient";
 export async function getCollections() {
   try {
     const { data, error } = await supabase.from('collectibles').select('*');

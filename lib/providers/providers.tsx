@@ -18,8 +18,6 @@ import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import dynamic from "next/dynamic";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { supabase } from "./supabaseClient";
 import { AuthContextProvider } from "app/context";
 import { Session } from "@supabase/auth-helpers-nextjs";
 

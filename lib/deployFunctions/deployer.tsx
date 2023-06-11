@@ -1,8 +1,8 @@
 import 'viem/window'
 import { createWalletClient, http, custom, createPublicClient } from 'viem'
 import { polygonMumbai } from 'viem/chains'
-import subportMeta from '../utils/subport.json';
-import { supabase } from './supabaseClient'
+import subportMeta from '../../utils/subport.json';
+import { supabase } from '../providers/supabase/supabaseClient'
 import { uploadHashToIpfs } from './uploadFileIpfs'
 import { supabaseAdmin } from 'app/supabase-admin';
 
@@ -43,7 +43,7 @@ export async function deployContractViem({ deployData }: any) {
 
 export const walletClient = createWalletClient({
   chain: polygonMumbai,
-  transport: custom(window.ethereum! as any),
+  transport: custom(window?.ethereum! as any),
 })
 
 

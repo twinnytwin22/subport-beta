@@ -22,74 +22,46 @@ export default function Account() {
   const [email, setEmail] = useState<string>("");
   const [website, setWebsite] = useState('');
   const [avatar_url, setAvatarUrl] = useState<string>("");
-  const { user } = useAuthProvider();
+  const { user, profile } = useAuthProvider();
 
-  const getProfile = useCallback(async () => {
-    try {
-      setLoading(true);
-      let { data, error, status } = await supabaseAdmin
-        .from('profiles')
-        .select(`username, website, avatar_url`)
-        .eq('id', user?.id)
-        .single();
 
-      if (error && status !== 406) {
-        throw error;
+
+  async function updateProfile({ username, avatar_url }: any) {
+
+    if (profile) {
+      try {
+        setLoading(true);
+        const updates = {
+          username: username,
+          avatar_url: avatar_url,
+          updated_at: new Date().toISOString(),
+        };
+
+        let { error } = await supabaseAdmin
+          .from("profiles")
+          .update(updates)
+          .eq("id", user?.id);
+
+        if (error) throw error;
+        alert("Profile updated!");
+      } catch (error) {
+        toast.error(error as any);
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
-
-      if (data) {
-        console.log(data, 'data');
-        setEmail(user?.email || ""); // Initialize with an empty string
-        setUsername(data?.username || "");
-        setWebsite(data?.website || "");
-        setAvatarUrl(data.avatar_url || "");
-      }
-    } catch (error) {
-      alert('Error loading user data!');
-    } finally {
-      setLoading(false);
-    }
-  }, [user, supabaseAdmin]);
-
-  useEffect(() => {
-    if (user) {
-      getProfile();
-    }
-  }, [user, getProfile]);
-
-  async function updateProfile({ username, wallet, avatar_url }: any) {
-    try {
-      setLoading(true);
-      const updates = {
-        username: username,
-        avatar_url: avatar_url,
-        updated_at: new Date().toISOString(),
-      };
-
-      let { error } = await supabaseAdmin
-        .from("profiles")
-        .update(updates)
-        .eq("id", user?.id);
-
-      if (error) throw error;
-      alert("Profile updated!");
-    } catch (error) {
-      toast.error(error as any);
-      console.log(error);
-    } finally {
-      setLoading(false);
     }
   }
 
 
 
 
-  return user?.wallet && (
+  return user && (
     <div className="bg-slate-200 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
       <div className="mx-auto content-center items-center">
         <Avatar
           uid={user?.id || ""}
-          url={avatar_url || ""}
+          url={profile?.avatar_url || ""}
           size={200}
           onUpload={(url: any) => {
             setAvatarUrl(url)
@@ -109,7 +81,7 @@ export default function Account() {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="email"
             type="text"
-            value={email || ""}
+            value={email || user?.email || ""}
             onChange={(e: any) => setEmail(e?.target.value)}
           />
         </div>
@@ -124,7 +96,7 @@ export default function Account() {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="username"
             type="text"
-            value={username || ""}
+            value={username || profile?.username || ""}
             onChange={(e: any) => setUsername(e?.target.value)}
           />
         </div>
@@ -140,7 +112,7 @@ export default function Account() {
             className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="wallet"
             type="text"
-            value={user?.wallet || ""}
+            value={profile?.wallet_address}
             readOnly />
         </div>
         <div className="mt-4">

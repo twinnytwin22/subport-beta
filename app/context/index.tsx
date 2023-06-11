@@ -53,12 +53,12 @@ export const AuthContextProvider = ({
 }) => {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isProfileFetched, setIsProfileFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const fetchProfile = async ({ id }: { id: string }) => {
+
+  const fetchProfile = async ({ id }: any) => {
     try {
       setIsLoading(true);
       const { data, error } = await supabase
@@ -66,11 +66,9 @@ export const AuthContextProvider = ({
         .select("username, website, avatar_url, wallet_address")
         .eq("id", id)
         .single();
-
       if (error) {
         throw error;
       }
-
       setProfile(data);
       setIsProfileFetched(true);
       setIsLoading(false);
@@ -91,11 +89,10 @@ export const AuthContextProvider = ({
           setUser(authUser?.user);
           if (!isProfileFetched) {
             await fetchProfile({ id: authUser?.user.id });
-            setIsAuthenticated(true);
           }
+
         } else {
           setUser(null);
-          setIsAuthenticated(false);
           setProfile(null);
           setIsProfileFetched(false);
         }
@@ -105,11 +102,12 @@ export const AuthContextProvider = ({
     }
   };
 
+
+
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
       setUser(null);
-      setIsAuthenticated(false);
       setProfile(null);
       setIsProfileFetched(false);
       router.refresh()
@@ -133,18 +131,14 @@ export const AuthContextProvider = ({
   const AuthListener =
     supabaseAdmin.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
-        setIsAuthenticated(false)
         setUser(null)
         router.refresh()
 
       } else if (event === 'SIGNED_IN') {
-        setIsAuthenticated(true)
         router.refresh()
-      } else if (!session && event === 'INITIAL_SESSION') {
-        router.push('/trending')
+      } else if (!session || !user) {
         return
       }
-
     })
 
   useEffect(() => {

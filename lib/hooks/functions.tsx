@@ -1,4 +1,4 @@
-import { supabase } from "lib/supabaseClient"
+import { supabase } from "lib/providers/supabase/supabaseClient"
 
 export const revalidate = 0
 export async function fetchCollectibles() {

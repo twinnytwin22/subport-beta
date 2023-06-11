@@ -5,12 +5,12 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Media } from "ui/Misc/Media";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
-import { allGenres } from "lib/allGenres";
+import { allGenres } from "lib/content/allGenres";
 import { Tooltip } from "ui/Misc/Tooltip";
 import { createFormMessage } from "./createFormMessages";
-import { deployCollectible } from "lib/deployer";
+import { deployCollectible } from "lib/deployFunctions/deployer";
 import { useAuthProvider } from "app/context";
-import { uploadContractMediaToIpfs } from "lib/uploadFileIpfs";
+import { uploadContractMediaToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 
 
 export const CreateForm = () => {
@@ -658,7 +658,7 @@ export const CreateForm = () => {
       {step !== 4 && (
         <>
           <h1 className="text-center text-4xl text-black dark:text-white">Create your collectible</h1>
-          {!window && <div className="text-center text-xs">
+          {<div className="text-center text-xs">
             Your blockchain address:
             <br />
             {user?.wallet}

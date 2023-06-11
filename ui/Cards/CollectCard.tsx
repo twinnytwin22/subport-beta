@@ -99,7 +99,7 @@ function CollectCard({ drop }: any) {
           </div>
         </div>
         <a href="#">
-          <img className="" src="/gravitron.png" alt="" />
+          <img className="" src="images/stock/gravitron.png" alt="" />
         </a>
         <div className="p-5 text-zinc-900 dark:text-white">
           <a href="#">
