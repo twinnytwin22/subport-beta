@@ -31,13 +31,13 @@ function UserAvatar() {
     setIsOpen(!isOpen);
   };
   useEffect(() => {
-    if (!userAvatar) {
+    if (!userAvatar && profile?.avatar_url) {
       handleImageLoad()
     }
-  }, [])
+  }, [profile?.avatar_url])
 
   const handleImageLoad = async () => {
-    const path = await downloadImage({ path: profile?.avatar_url })
+    const path = await downloadImage(profile?.avatar_url)
     if (path) {
       setUserAvatar(path)
     }

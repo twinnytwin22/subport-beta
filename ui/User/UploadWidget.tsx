@@ -49,12 +49,12 @@ export default function Avatar({ uid, url, size, onUpload }: {
   }
 
   return (
-    <div>
+    <div className='mx-auto'>
       {avatarUrl ? (
         <img
           src={avatarUrl}
           alt="Avatar"
-          className="avatar image rounded-lg mb-4"
+          className="avatar image rounded-lg mb-4 mx-auo justify-center"
           style={{ height: size, width: size }}
         />
       ) : (

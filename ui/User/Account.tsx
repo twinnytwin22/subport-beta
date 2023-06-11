@@ -58,7 +58,7 @@ export default function Account() {
 
   return user && (
     <div className="bg-slate-200 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
-      <div className="mx-auto content-center items-center">
+      <div className="mx-auto content-center items-center justify-center w-full">
         <Avatar
           uid={user?.id || ""}
           url={profile?.avatar_url || ""}
@@ -72,28 +72,29 @@ export default function Account() {
       <div className="place-content-end mx-auto">
         <div>
           <label
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
             htmlFor="email"
           >
             Email
           </label>
           <input
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="email"
             type="text"
             value={email || user?.email || ""}
             onChange={(e: any) => setEmail(e?.target.value)}
+            readOnly
           />
         </div>
         <div>
           <label
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
             htmlFor="username"
           >
             Username
           </label>
           <input
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="username"
             type="text"
             value={username || profile?.username || ""}
@@ -102,17 +103,17 @@ export default function Account() {
         </div>
         <div>
           <label
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
             htmlFor="wallet"
           >
             Wallet
           </label>
 
           <input
-            className="bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="bg-zinc-50 border  border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="wallet"
             type="text"
-            value={profile?.wallet_address}
+            value={profile?.wallet_address || ""}
             readOnly />
         </div>
         <div className="mt-4">
