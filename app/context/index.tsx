@@ -104,31 +104,30 @@ export const AuthContextProvider = ({
 
 
 
-  const signOut = async () => {
-    try {
-      await supabase.auth.signOut();
-      setUser(null);
-      setProfile(null);
-      setIsProfileFetched(false);
-      router.refresh()
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
   const value = useMemo(
     () => ({
       user,
       profile,
       signInWithGoogle,
       signInWithSpotify,
-      signOut,
+      signOut: async () => {
+        try {
+          await supabase.auth.signOut();
+          setUser(null);
+          setProfile(null);
+          setIsProfileFetched(false);
+          router.refresh()
+        } catch (error) {
+          console.error("Error signing out:", error);
+        }
+      },
+
     }),
-    [user, profile]
+    [user, profile, router]
   );
 
 
-  const AuthListener =
+  const AuthListener = async () => {
     supabaseAdmin.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_OUT') {
         setUser(null)
@@ -140,9 +139,10 @@ export const AuthContextProvider = ({
         return
       }
     })
-
+  }
   useEffect(() => {
-    onAuthStateChanged();
+    onAuthStateChanged()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [AuthListener]);
 
   return (

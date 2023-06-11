@@ -10,6 +10,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import { supabaseAdmin } from "app/supabase-admin";
+import Image from 'next/image';
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -50,18 +51,18 @@ function Page(props: any) {
   const { user } = useAuthProvider()
   console.log(user)
 
-  const getProfile = async () => {
-    const supabase = createClientComponentClient()
-    const { data: profile, error } = await supabase.from('profiles').select('avatar_url').eq('id', user?.id).single()
-    if (profile?.avatar_url) {
-      setAvatarUrl(profile.avatar_url)
-    }
-  }
+
 
   useEffect(() => {
     console.log('getting profile')
-    getProfile()
-  }, [])
+    async () => {
+      const supabase = createClientComponentClient()
+      const { data: profile, error } = await supabase.from('profiles').select('avatar_url').eq('id', user?.id).single()
+      if (profile?.avatar_url) {
+        setAvatarUrl(profile.avatar_url)
+      }
+    }
+  }, [avatarUrl, user?.id])
 
 
   const handleClick = async () => {
@@ -193,7 +194,7 @@ function Page(props: any) {
         <h1 className="text-center font-bold text-2xl text-black">Deployer Tester</h1>
         {loading &&
           <h2 className="text-center font-bold text-xl text-black">Testing...</h2>}
-        {!avatarUrl && <img src={avatarUrl} alt="avatar test" />}
+        {avatarUrl && <Image src={avatarUrl} alt="avatar test" width={50} height={50} />}
 
         <ConnectButton showBalance={false} accountStatus={'avatar'} />
         <button onClick={handleClick}

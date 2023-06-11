@@ -4,7 +4,6 @@ export default function Head() {
       <title>subport</title>
       <meta content="width=device-width, initial-scale=1" name="viewport" />
       <link rel="icon" href="/subport.png" />
-      <script src="//unpkg.com/cross-fetch/dist/cross-fetch.js"></script>
 
     </>
   )
