@@ -1,8 +1,7 @@
 'use client'
-import { Session, createClient } from "@supabase/supabase-js";
 import { Suspense, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient, Session } from "@supabase/auth-helpers-nextjs";
 import { supabaseAdmin } from "app/supabase-admin";
 
 interface AuthContextProps {
@@ -22,27 +21,7 @@ const AuthContext = createContext<AuthContextProps>({
 });
 
 const supabase = createClientComponentClient()
-const signInWithGoogle = async () => {
-  try {
-    const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
-    if (error) {
-      throw error;
-    }
-  } catch (error) {
-    console.error("Error signing in with Google:", error);
-  }
-};
 
-const signInWithSpotify = async () => {
-  try {
-    const { error } = await supabase.auth.signInWithOAuth({ provider: "spotify" });
-    if (error) {
-      throw error;
-    }
-  } catch (error) {
-    console.error("Error signing in with Spotify:", error);
-  }
-};
 
 export const AuthContextProvider = ({
   children,
@@ -53,11 +32,33 @@ export const AuthContextProvider = ({
 }) => {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
+  const [currentSession, setCurrentSession] = useState<any>(null)
   const [isProfileFetched, setIsProfileFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const accessToken = session?.access_token
 
+  const signInWithGoogle = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+    }
+  };
 
+  const signInWithSpotify = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({ provider: "spotify" });
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.error("Error signing in with Spotify:", error);
+    }
+  };
   const fetchProfile = async ({ id }: any) => {
     try {
       setIsLoading(true);
@@ -81,14 +82,15 @@ export const AuthContextProvider = ({
   const onAuthStateChanged = async () => {
     if (!user) {
       try {
-        const { data: authUser, error } = await supabase.auth.getUser();
+        const { data: { session: activeSession }, error } = await supabase.auth.getSession()
         if (error) {
           throw error;
         }
-        if (authUser?.user) {
-          setUser(authUser?.user);
+        if (activeSession) {
+          setCurrentSession(activeSession)
+          setUser(session?.user ?? null);
           if (!isProfileFetched) {
-            await fetchProfile({ id: authUser?.user.id });
+            await fetchProfile({ id: session?.user.id });
           }
 
         } else {
@@ -123,35 +125,43 @@ export const AuthContextProvider = ({
       },
 
     }),
-    [user, profile, router]
+    [user, profile, router,]
   );
 
 
-  const AuthListener = async () => {
-    supabaseAdmin.auth.onAuthStateChange((event, session) => {
+
+
+  useEffect(() => {
+
+    onAuthStateChanged()
+
+    const { data: {
+      subscription: AuthListener
+    } } = supabaseAdmin.auth.onAuthStateChange((event, currentSession) => {
+      setCurrentSession(currentSession);
+      setUser(currentSession?.user ?? null);
+      if (currentSession?.access_token !== accessToken) {
+        router.refresh();
+      }
       if (event === 'SIGNED_OUT') {
         setUser(null)
         router.refresh()
-
       } else if (event === 'SIGNED_IN') {
         router.refresh()
       } else if (!session || !user) {
-        return
+        return () => {
+          AuthListener?.unsubscribe();
+        };
       }
     })
-  }
-  useEffect(() => {
-    onAuthStateChanged()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [AuthListener]);
+  }, []);
 
   return (
     <AuthContext.Provider value={value}>
-      <Suspense>
-        {
-          children
-        }
-      </Suspense>
+      {
+        children
+      }
     </AuthContext.Provider>
   );
 };

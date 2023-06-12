@@ -5,14 +5,23 @@ import subportMeta from '../../utils/subport.json';
 import { supabase } from '../providers/supabase/supabaseClient'
 import { uploadHashToIpfs } from './uploadFileIpfs'
 import { supabaseAdmin } from 'app/supabase-admin';
+import dynamic from 'next/dynamic';
 
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
+const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_KEY
+const transport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
 
-const publicClient = createPublicClient({
+export const publicClient = createPublicClient({
   chain: polygonMumbai,
   transport: http(),
+  batch: {
+    multicall: {
+      batchSize: 100,
+    }
+  }
 })
+
 
 export async function deployContractViem({ deployData }: any) {
   try {
@@ -43,7 +52,7 @@ export async function deployContractViem({ deployData }: any) {
 
 export const walletClient = createWalletClient({
   chain: polygonMumbai,
-  transport: custom(window?.ethereum! as any),
+  transport
 })
 
 

@@ -83,7 +83,12 @@ const MenuDots = () => {
   );
 };
 
-function CollectCard({ drop }: any) {
+function CollectCard(props: any) {
+  console.log(props)
+
+  const drop = props?.drop
+
+
   return (
     <div className="flex flex-col static mx-auto w-full content-center justify-center">
       <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-lg dark:bg-zinc-900 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-200 dark:shadow-zinc-900">
@@ -104,7 +109,7 @@ function CollectCard({ drop }: any) {
         <div className="p-5 text-zinc-900 dark:text-white">
           <a href="#">
             <h5 className="mb-2 text-lg font-bold tracking-tight ">
-              Gravitrion
+              {drop?.name}
             </h5>
           </a>
           <div className="flex justify-between items-center mb-2">

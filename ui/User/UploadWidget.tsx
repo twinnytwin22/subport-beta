@@ -49,12 +49,12 @@ export default function Avatar({ uid, url, size, onUpload }: {
   }
 
   return (
-    <div className='mx-auto'>
+    <div className='mx-auto justify-center items-center content-center'>
       {avatarUrl ? (
         <img
           src={avatarUrl}
           alt="Avatar"
-          className="avatar image rounded-lg mb-4 mx-auo justify-center"
+          className="avatar image rounded-lg mb-4"
           style={{ height: size, width: size }}
         />
       ) : (
@@ -62,7 +62,7 @@ export default function Avatar({ uid, url, size, onUpload }: {
       )}
       <div style={{ width: size }}>
         <label
-          className="bg-blue-700 text-white p-2 text-sm w-32 rounded-lg hover:bg-blue-800 hover:scale-105"
+          className="bg-blue-700 text-white p-2.5 text-sm w-32 rounded-lg hover:bg-blue-800 hover:scale-105"
           htmlFor="single">
           {uploading ? 'Uploading ...' : 'Upload'}
         </label>

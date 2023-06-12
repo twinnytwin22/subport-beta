@@ -12,7 +12,7 @@ function Profile() {
         <div
           className=" w-full h-full bg-center bg-cover bg-fixed rounded-lg"
           style={{
-            backgroundImage: `url(/coverBanner.jpg)`,
+            backgroundImage: `url(/images/stock/coverBanner.jpg)`,
             backgroundPosition: "center",
           }}
         ></div>

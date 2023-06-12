@@ -58,7 +58,7 @@ export default function Account() {
 
   return user && (
     <div className="bg-slate-200 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
-      <div className="mx-auto content-center items-center justify-center w-full">
+      <div className="mx-auto content-center items-center justify-center">
         <Avatar
           uid={user?.id || ""}
           url={profile?.avatar_url || ""}

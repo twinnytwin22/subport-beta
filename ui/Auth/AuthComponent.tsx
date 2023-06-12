@@ -10,13 +10,15 @@ export default function LoginCard() {
   const router = useRouter()
   const { signInWithSpotify, signInWithGoogle, user } = useAuthProvider()
   async function handleSpotifyLogin() {
-    if (!user) { router.refresh() }
     await signInWithSpotify()
+    if (!user) { router.refresh() }
+
   }
 
   async function handleGoogleLogin() {
-    if (!user) { router.refresh() }
     await signInWithGoogle()
+    if (!user) { router.refresh() }
+
   }
   return (
     <div className="relative">
@@ -39,7 +41,7 @@ export default function LoginCard() {
               href="#"
               className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-lg bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
             >
-              <img className="w-5" src='/spotify.png' />
+              <img className="w-5" src='/images/icons/spotify.png' />
               <span className="flex-1 ml-3 whitespace-nowrap">
                 Spotify
               </span>
@@ -51,13 +53,13 @@ export default function LoginCard() {
               className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-lg bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
             >
 
-              <img className="w-5" src="/icons8-google-96.png" />
+              <img className="w-5" src="/images/icons/icons8-google-96.png" />
               <span className="flex-1 ml-3 whitespace-nowrap">
                 Google
               </span>
             </div>
           </li>
-          {!user &&
+          {user &&
             <li>
               <a
                 href="#"
@@ -115,7 +117,7 @@ export default function LoginCard() {
                 </span>
               </a>
             </li>}
-          {!user &&
+          {user &&
             <li>
               <ConnectToSubport />
             </li>}

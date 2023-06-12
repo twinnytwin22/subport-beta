@@ -1,12 +1,11 @@
-import { supabase } from "lib/providers/supabase/supabaseClient"
-
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 export const revalidate = 0
+
+const supabase = createClientComponentClient()
 export async function fetchCollectibles() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
   let { data: collectibles, error } = await supabase
-    .from('collectibles')
+    .from('drops')
     .select('*')
   return collectibles
 }
