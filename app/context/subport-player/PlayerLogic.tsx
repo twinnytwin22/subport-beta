@@ -1,16 +1,13 @@
-'use effect'
 import { useEffect } from 'react';
 
 export const usePlaybackTime = (audioRef: any) => {
     useEffect(() => {
         const musicPlayer = audioRef.current;
 
-        // Save the current playback time in localStorage
         const savePlaybackTime = () => {
             localStorage?.setItem('playbackTime', musicPlayer?.currentTime?.toString());
         };
 
-        // Load the saved playback time from localStorage
         const loadPlaybackTime = () => {
             const playbackTime = localStorage?.getItem('playbackTime');
             if (playbackTime && musicPlayer) {
@@ -18,7 +15,6 @@ export const usePlaybackTime = (audioRef: any) => {
             }
         };
 
-        // Add event listeners to save and load playback time on page change
         window.addEventListener('beforeunload', savePlaybackTime);
         window.addEventListener('load', loadPlaybackTime);
 
@@ -29,14 +25,13 @@ export const usePlaybackTime = (audioRef: any) => {
     }, [audioRef]);
 };
 
-export function useAudio(audioUrl: any, setAudio: any) {
+export const useAudio = (audioUrl: any, setAudio: any) => {
     useEffect(() => {
-        setAudio(new Audio(audioUrl))
-        // only run once on the first render on the client
-    }, [])
-}
+        setAudio(new Audio(audioUrl));
+    }, [audioUrl, setAudio]);
+};
 
-export const setupAudio = (audioRef: any, audioUrl: any, onLoadedData: any) => {
+export const useSetupAudio = (audioRef: any, audioUrl: any, onLoadedData: any) => {
     useEffect(() => {
         if (audioUrl) {
             audioRef.current = new Audio(audioUrl);
@@ -51,58 +46,51 @@ export const setupAudio = (audioRef: any, audioUrl: any, onLoadedData: any) => {
     }, [audioUrl, audioRef, onLoadedData]);
 };
 
-
 export const handlePlay = (audioRef: any, setIsPlaying: any) => {
     audioRef.current.play();
-    setIsPlaying(true)
+    setIsPlaying(true);
 };
 
-// Event handler for pause button
 export const handlePause = (audioRef: any, setIsPlaying: any) => {
     audioRef.current.pause();
-    setIsPlaying(false)
-
+    setIsPlaying(false);
 };
 
-// Event handler for stop button
 export const handleStop = (audioRef: any, setIsPlaying: any) => {
     audioRef.current.pause();
     audioRef.current.currentTime = 0;
-    setIsPlaying(false)
+    setIsPlaying(false);
 };
 
 export function formatTime(time: any) {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
-export function useInterval(audioRef: any, setCurrentTime: any, isPlaying: any) {
+export const useInterval = (audioRef: any, setCurrentTime: any, isPlaying: any) => {
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(audioRef.current.currentTime);
         }, 1000);
         return () => clearInterval(intervalId);
-    }, [isPlaying]);
-}
+    }, [audioRef, setCurrentTime, isPlaying]);
+};
 
 export const handleVolumeChange = (event: any, audioRef: any, setVolume: any) => {
     setVolume(event.target.value);
     audioRef.current.volume = event.target.value / 100;
 };
 
-///Update Time 
 export const handleTimeUpdate = (audioRef: any, setPosition: any) => {
-    setPosition(audioRef?.current.currentTime);
+    setPosition(audioRef?.current?.currentTime);
 };
 
-///Handle Loaded Song Duration 
 export const handleLoadedData = (audioRef: any, setDuration: any) => {
     audioRef.current.load();
-    setDuration(audioRef?.current.duration);
-};
-/// Scrub Thru Song 
-export const handleSeekChange = (event: any, audioRef: any) => {
-    audioRef.current.currentTime = event?.target.value;
+    setDuration(audioRef?.current?.duration);
 };
 
+export const handleSeekChange = (event: any, audioRef: any) => {
+    audioRef.current.currentTime = event?.target?.value;
+};
