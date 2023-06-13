@@ -29,6 +29,12 @@ export const usePlaybackTime = (audioRef: any) => {
     }, [audioRef]);
 };
 
+export function useAudio(audioUrl: any, setAudio: any) {
+    useEffect(() => {
+        setAudio(new Audio(audioUrl))
+        // only run once on the first render on the client
+    }, [])
+}
 
 export const handlePlay = (audioRef: any, setIsPlaying: any) => {
     audioRef.current.play();
