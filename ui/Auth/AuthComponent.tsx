@@ -11,13 +11,10 @@ export default function LoginCard() {
   const { signInWithSpotify, signInWithGoogle, user } = useAuthProvider()
   async function handleSpotifyLogin() {
     await signInWithSpotify()
-    if (!user) { router.refresh() }
-
   }
 
   async function handleGoogleLogin() {
     await signInWithGoogle()
-    if (!user) { router.refresh() }
 
   }
   return (

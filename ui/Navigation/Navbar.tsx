@@ -57,7 +57,8 @@ function Navbar({ session }: { session: Session | null }) {
           </form>
           <div className="flex items-center space-x-2">
             <NotificationIcon />
-            <UserAvatar />
+            <div className="hidden sm:block">  <UserAvatar /></div>
+
           </div>
         </div>
       </div>

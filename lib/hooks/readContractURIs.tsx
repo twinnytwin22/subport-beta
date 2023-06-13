@@ -2,6 +2,7 @@ import subportMeta from '../../utils/subport.json';
 import { publicClient } from 'lib/deployFunctions/deployer';
 
 export async function readContractURIs(contractAddresses: any) {
+
     try {
         const client = publicClient;
         const contractURICalls = contractAddresses.map((address: any) => {

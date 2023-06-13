@@ -5,7 +5,6 @@ import React from "react";
 import UserAvatar from "ui/User/UserAvatar";
 
 function MobileMenu({ session }: { session: Session | null }) {
-  console.log(session)
   return (
     <>
       <div className="block sm:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0">
@@ -110,9 +109,9 @@ function MobileMenu({ session }: { session: Session | null }) {
               </div>
             </Link>
           </div>
-          <Link href="/user" className="flex w-8 items-center pb-2">
+          <div className="flex w-8 items-center pb-2">
             <UserAvatar />
-          </Link>
+          </div>
         </div>
       </div>
     </>

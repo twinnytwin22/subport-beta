@@ -32,34 +32,12 @@ export const AuthContextProvider = ({
 }) => {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
-  const [currentSession, setCurrentSession] = useState<any>(null)
   const [isProfileFetched, setIsProfileFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const accessToken = session?.access_token
 
-  const signInWithGoogle = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      console.error("Error signing in with Google:", error);
-    }
-  };
-
-  const signInWithSpotify = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({ provider: "spotify" });
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      console.error("Error signing in with Spotify:", error);
-    }
-  };
-  const fetchProfile = async ({ id }: any) => {
+  const fetchProfile = async (id: string) => {
     try {
       setIsLoading(true);
       const { data, error } = await supabase
@@ -83,16 +61,18 @@ export const AuthContextProvider = ({
     if (!user) {
       try {
         const { data: { session: activeSession }, error } = await supabase.auth.getSession()
-        if (error) {
-          throw error;
-        }
         if (activeSession) {
-          setCurrentSession(activeSession)
-          setUser(session?.user ?? null);
-          if (!isProfileFetched) {
-            await fetchProfile({ id: session?.user.id });
-          }
+          const { data: authUser, error } = await supabase.auth.getUser()
+          if (authUser?.user) {
+            setUser(authUser?.user)
+            if (error) {
+              throw error;
+            };
 
+            if (!isProfileFetched) {
+              await fetchProfile(authUser.user.id);
+            };
+          };
         } else {
           setUser(null);
           setProfile(null);
@@ -110,8 +90,26 @@ export const AuthContextProvider = ({
     () => ({
       user,
       profile,
-      signInWithGoogle,
-      signInWithSpotify,
+      signInWithGoogle: async () => {
+        try {
+          const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+          if (error) {
+            throw error;
+          }
+        } catch (error) {
+          console.error("Error signing in with Google:", error);
+        }
+      },
+      signInWithSpotify: async () => {
+        try {
+          const { error } = await supabase.auth.signInWithOAuth({ provider: "spotify" });
+          if (error) {
+            throw error;
+          }
+        } catch (error) {
+          console.error("Error signing in with Spotify:", error);
+        }
+      },
       signOut: async () => {
         try {
           await supabase.auth.signOut();
@@ -128,41 +126,38 @@ export const AuthContextProvider = ({
     [user, profile, router,]
   );
 
-
-
+  const { data: { subscription: AuthListener } } = supabaseAdmin.auth.onAuthStateChange(async (event, currentSession) => {
+    if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+      await onAuthStateChanged()
+      router.refresh()
+    }
+    if (event === 'SIGNED_OUT') {
+      setUser(null);
+      router.refresh();
+      return () => {
+        AuthListener?.unsubscribe();
+      };
+    }
+  })
 
   useEffect(() => {
+    onAuthStateChanged();
 
-    onAuthStateChanged()
-
-    const { data: {
-      subscription: AuthListener
-    } } = supabaseAdmin.auth.onAuthStateChange((event, currentSession) => {
-      setCurrentSession(currentSession);
-      setUser(currentSession?.user ?? null);
-      if (currentSession?.access_token !== accessToken) {
-        router.refresh();
-      }
-      if (event === 'SIGNED_OUT') {
-        setUser(null)
-        router.refresh()
-      } else if (event === 'SIGNED_IN') {
-        router.refresh()
-      } else if (!session || !user) {
-        return () => {
-          AuthListener?.unsubscribe();
-        };
-      }
-    })
+    return () => {
+      AuthListener?.unsubscribe();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [AuthListener, value]);
+
 
   return (
-    <AuthContext.Provider value={value}>
-      {
-        children
-      }
-    </AuthContext.Provider>
+    <Suspense>
+      <AuthContext.Provider value={value}>
+        {
+          children
+        }
+      </AuthContext.Provider>
+    </Suspense>
   );
 };
 
