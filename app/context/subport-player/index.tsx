@@ -1,6 +1,6 @@
 'use client'
-import { Suspense, createContext, useContext, useEffect, useRef, useState } from 'react';
-import { useAudio, usePlaybackTime } from './PlayerLogic';
+import { Suspense, createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { setupAudio, useAudio, usePlaybackTime } from './PlayerLogic';
 
 // Create the player context
 export const SubportPlayerContext = createContext<any>(null);
@@ -13,7 +13,16 @@ export const SubportPlayer = ({ children }: { children: React.ReactNode }) => {
     const [audio, setAudio] = useState<any>(null)
     const audioRef = useRef<any>(audio);
 
+
+
     useAudio(audioUrl, setAudio)
+
+    const onLoadedData = useCallback(() => {
+        // Set the duration or perform any necessary audio setup
+    }, []);
+
+
+    setupAudio(audioRef, audioUrl, onLoadedData);
 
     usePlaybackTime(audioRef);
 

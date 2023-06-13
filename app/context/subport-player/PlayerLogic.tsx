@@ -36,6 +36,22 @@ export function useAudio(audioUrl: any, setAudio: any) {
     }, [])
 }
 
+export const setupAudio = (audioRef: any, audioUrl: any, onLoadedData: any) => {
+    useEffect(() => {
+        if (audioUrl) {
+            audioRef.current = new Audio(audioUrl);
+            audioRef.current.addEventListener('loadeddata', onLoadedData);
+        }
+
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.removeEventListener('loadeddata', onLoadedData);
+            }
+        };
+    }, [audioUrl, audioRef, onLoadedData]);
+};
+
+
 export const handlePlay = (audioRef: any, setIsPlaying: any) => {
     audioRef.current.play();
     setIsPlaying(true)
