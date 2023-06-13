@@ -5,12 +5,13 @@ import { deployContractViem } from "lib/deployFunctions/deployer";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { supabase } from "lib/providers/supabase/supabaseClient";
 import { toast } from "react-toastify";
-import { useAuthProvider } from "app/context";
+import { useAuthProvider } from "app/context/auth";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import { supabaseAdmin } from "app/supabase-admin";
 import Image from 'next/image';
+import MusicPlayer from 'ui/Players/MusicPlayer';
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()

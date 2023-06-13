@@ -25,7 +25,6 @@ const supabase = createClientComponentClient()
 
 export const AuthContextProvider = ({
   children,
-  session,
 }: {
   children: React.ReactNode;
   session: Session | null;
@@ -35,7 +34,6 @@ export const AuthContextProvider = ({
   const [isProfileFetched, setIsProfileFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const accessToken = session?.access_token
 
   const fetchProfile = async (id: string) => {
     try {

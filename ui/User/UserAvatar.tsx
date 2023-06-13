@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import UserMenu from './UserMenu';
-import { useAuthProvider } from 'app/context';
+import { useAuthProvider } from 'app/context/auth';
 import { downloadImage } from 'lib/hooks/downloadImage';
 
 function UserAvatar() {

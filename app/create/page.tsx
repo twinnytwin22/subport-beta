@@ -2,7 +2,7 @@
 import React from 'react'
 import { CreateForm } from 'ui/Sections/Create/CreateForm'
 import LoginCard from 'ui/Auth/AuthComponent'
-import { useAuthProvider } from 'app/context'
+import { useAuthProvider } from 'app/context/auth'
 
 function Create() {
   const { user } = useAuthProvider()

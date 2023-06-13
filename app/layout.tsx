@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import FooterPlayer from "ui/Players/FooterPlayer";
+import { LoadingContainer } from "ui/LoadingContainer";
 
 export const revalidate = 0;
 
@@ -24,11 +25,8 @@ export default async function RootLayout({
     <div className="z-0 top-16 left-0 right-0  sm:ml-[128px] lg:ml-[256px] border-zinc-200 dark:border-zinc-800 px-6 py-2.5 w-full bg-zinc-100 dark:bg-black mx-auto max-w-screen container overflow-x-hidden overflow-y-visible place-content-center place-items-center flex">
 
       <div className="relative mx-auto max-w-7xl w-full"> {children}</div>
-      {session &&
-        <Suspense fallback=''>
-          <FooterPlayer />
-        </Suspense>}
 
+      <FooterPlayer />
     </div>
   );
 
@@ -42,7 +40,10 @@ export default async function RootLayout({
             <Sidebar session={session} />
             <div className="w-full mx-auto flex justify-center relative right-0 isolate inset-1 overflow-hidden">
               <Navbar session={session} />
-              <ContentWrapper />
+              <Suspense fallback={<LoadingContainer />}>
+                <ContentWrapper />
+              </Suspense>
+
             </div>
           </div>
           <MobileMenu session={session} />

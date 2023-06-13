@@ -9,7 +9,7 @@ import { allGenres } from "lib/content/allGenres";
 import { Tooltip } from "ui/Misc/Tooltip";
 import { createFormMessage } from "./createFormMessages";
 import { deployCollectible } from "lib/deployFunctions/deployer";
-import { useAuthProvider } from "app/context";
+import { useAuthProvider } from "app/context/auth";
 import { uploadContractMediaToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 
 

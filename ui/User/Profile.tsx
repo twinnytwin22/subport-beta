@@ -1,7 +1,7 @@
 'use client'
 import React from "react";
 import avatar from "../../public/avatar.jpg";
-import { useAuthProvider } from "app/context";
+import { useAuthProvider } from "app/context/auth";
 
 function Profile() {
   const { user } = useAuthProvider()

@@ -5,7 +5,7 @@ import Avatar from "./UploadWidget";
 import { ConnectSpotifyButton } from "./ConnectSpotifyButton";
 import { toast } from "react-toastify";
 import { Session, User } from '@supabase/auth-helpers-nextjs'
-import { useAuthProvider } from "app/context";
+import { useAuthProvider } from "app/context/auth";
 import { supabaseAdmin } from "app/supabase-admin";
 
 interface ExtendedUser extends User {

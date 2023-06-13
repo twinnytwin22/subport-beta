@@ -4,7 +4,7 @@ import SpotifyPresave from 'ui/Buttons/SpotifyPresave'
 import { NextPage } from 'next/types'
 import { upload } from 'lib/content/mockUpload'
 import CollectionNav from 'ui/Navigation/NFTNav'
-import { useAuthProvider } from 'app/context'
+import { useAuthProvider } from 'app/context/auth'
 
 
 

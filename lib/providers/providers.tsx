@@ -18,8 +18,10 @@ import { publicProvider } from "wagmi/providers/public";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import dynamic from "next/dynamic";
 import { ToastContainer } from "react-toastify";
-import { AuthContextProvider } from "app/context";
+import { AuthContextProvider } from "app/context/auth";
 import { Session } from "@supabase/auth-helpers-nextjs";
+import { SubportPlayer } from "app/context/subport-player";
+import { Suspense } from "react";
 
 const ThemeProvider = dynamic(
   async () => {
@@ -74,22 +76,26 @@ export const Providers = ({ children, session }: { children: React.ReactNode, se
     <AuthContextProvider session={
       session
     }>
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider
-          chains={chains}
-          theme={darkTheme({
-            accentColor: "white",
-            accentColorForeground: "black",
-            fontStack: "system",
-          })}
-        >
-          <ThemeProvider enableSystem={true} attribute="class" defaultTheme="dark">
-            {children}
-            <ToastContainer />
+      <SubportPlayer>
+        <Suspense>
+          <WagmiConfig config={wagmiConfig}>
+            <RainbowKitProvider
+              chains={chains}
+              theme={darkTheme({
+                accentColor: "white",
+                accentColorForeground: "black",
+                fontStack: "system",
+              })}
+            >
+              <ThemeProvider enableSystem={true} attribute="class" defaultTheme="dark">
+                {children}
+                <ToastContainer />
 
-          </ThemeProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
+              </ThemeProvider>
+            </RainbowKitProvider>
+          </WagmiConfig>
+        </Suspense>
+      </SubportPlayer>
     </AuthContextProvider>
   );
 };

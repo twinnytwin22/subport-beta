@@ -1,6 +1,6 @@
 "use client";
 import { Session, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useAuthProvider } from "app/context";
+import { useAuthProvider } from "app/context/auth";
 import AddUpdateWallet from "lib/hooks/generateWallet";
 import React, { useState, useEffect } from "react";
 import UserAvatar from "ui/User/UserAvatar";
