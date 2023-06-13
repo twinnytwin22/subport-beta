@@ -7,7 +7,6 @@ import { readContractURIs } from "lib/hooks/readContractURIs";
 async function HomePage() {
   const drops = await fetchCollectibles();
   let metaData = null
-  let dropData = null
   try {
     const contractAddresses = drops?.map(drop => drop.contractAddress);
     if (contractAddresses) {

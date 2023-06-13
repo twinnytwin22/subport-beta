@@ -94,3 +94,4 @@ export const handleLoadedData = (audioRef: any, setDuration: any) => {
 export const handleSeekChange = (event: any, audioRef: any) => {
     audioRef.current.currentTime = event?.target?.value;
 };
+
