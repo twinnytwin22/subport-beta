@@ -9,12 +9,12 @@ import dynamic from 'next/dynamic';
 
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
-const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_KEY
+const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID
 const transport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
 
 export const publicClient = createPublicClient({
   chain: polygonMumbai,
-  transport: http(),
+  transport: transport,
   batch: {
     multicall: {
       batchSize: 100,
@@ -67,7 +67,10 @@ export async function deployCollectible(collectibleData: any) {
       'name': collectibleData.name,
       'description': collectibleData.description,
       'image': collectibleData.image,
-      'external_url': collectibleData?.website || null
+      'external_link': collectibleData?.website || null,
+      "seller_fee_basis_points": 1000,
+      "fee_recipient": collectibleData?.address
+
     };
 
     const tokenURIData = {

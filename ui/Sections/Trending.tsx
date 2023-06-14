@@ -1,5 +1,5 @@
 import React from "react";
-import CollectCard from "ui/Cards/CollectCard";
+import CollectCard from "ui/Cards/Collect/CollectCard";
 function Trending() {
   return (
     <div className="mx-auto w-full mt-2">

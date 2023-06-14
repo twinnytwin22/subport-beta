@@ -1,5 +1,5 @@
 import React from 'react'
-import CollectCard from 'ui/Cards/CollectCard'
+import CollectCard from 'ui/Cards/Collect/CollectCard'
 function UserCreated() {
   return (
     <div className='max-w-7xl w-full px-12 xl:px-0 justify-center mx-auto content-center'>

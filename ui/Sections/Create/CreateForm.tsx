@@ -14,7 +14,7 @@ import { uploadContractMediaToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 
 
 export const CreateForm = () => {
-  const { user } = useAuthProvider()
+  const { user, profile } = useAuthProvider()
   const [audioUrl, setAudioUrl] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -52,7 +52,7 @@ export const CreateForm = () => {
       total_collectibles: 0,
       description: "",
       keywords: "",
-      address: user?.wallet,
+      address: profile?.wallet_address,
       userId: user?.id || null,
       start_date: "",
       end_date: "",

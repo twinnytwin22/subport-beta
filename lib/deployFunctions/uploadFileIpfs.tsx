@@ -1,6 +1,20 @@
 'use client'
+
+const Auth = Buffer.from(
+  process.env.INFURA_API_KEY + ":" + process.env.INFURA_API_KEY_SECRET,
+).toString("base64");
+
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
-const storage = new ThirdwebStorage();
+const storage = new ThirdwebStorage({
+  gatewayUrls: [
+    "https://subport.infura-ipfs.io/ipfs/",
+    "https://ipfs.thirdwebcdn.com/ipfs/",
+    "https://gateway.ipfscdn.io/ipfs/",
+    "https://cloudflare-ipfs.com/ipfs/",
+    "https://ipfs.io/ipfs/",
+  ], 
+  
+});
 
 export async function uploadHashToIpfs({ data }: any) {
   const uri = await storage.upload(data)

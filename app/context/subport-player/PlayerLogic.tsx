@@ -57,9 +57,11 @@ export const handlePause = (audioRef: any, setIsPlaying: any) => {
 };
 
 export const handleStop = (audioRef: any, setIsPlaying: any) => {
-    audioRef.current.pause();
-    audioRef.current.currentTime = 0;
-    setIsPlaying(false);
+    if (audioRef) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        setIsPlaying(false);
+    }
 };
 
 export function formatTime(time: any) {
