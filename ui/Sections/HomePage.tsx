@@ -18,7 +18,7 @@ async function HomePage() {
         metaData: metaData[index]?.metadata
       }));
 
-      console.log('Drops with MetaData:', dropsWithMetaData);
+      //      console.log('Drops with MetaData:', dropsWithMetaData);
 
       return dropsWithMetaData && (
         <div className="w-full mx-auto mt-8 mb-20 content-center my-8">

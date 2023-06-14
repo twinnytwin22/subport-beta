@@ -1,17 +1,14 @@
 import Link from "next/link";
 import React, { PureComponent } from "react";
 import { MenuDots, HeartIcon, CommentIcon, CollectIcon } from "./EngagementUI";
+import { fetchProfilesForDrops } from "lib/hooks/functions";
 
-
-
-function CollectCard(props: any) {
+async function CollectCard(props: any) {
   const drop = props?.drop
   const metaData = props?.metaData
   const imageHash = metaData?.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
-
-
-
-
+  const [user]: any = await fetchProfilesForDrops(drop?.userId)
+  console.log(user?.[0], 'user')
 
 
   return (
@@ -21,16 +18,16 @@ function CollectCard(props: any) {
           <div className="block">
             <p className="text-[10px] pl-3">Created by</p>
             <Link href="/user">
-              <p className="font-bold text-sm pl-3">@djtwinnytwin</p>
+              <p className="font-bold text-sm pl-3">@{user?.username}</p>
             </Link>
           </div>
           <div className="flex h-8 pr-3 hover:scale-110">
             <MenuDots />
           </div>
         </div>
-        <a href="#">
+        <a>
           <img
-            className='w-full' src={imageHash || '/images/stock/gravitron.png'} alt="" />
+            className='w-full select-none' src={imageHash || '/images/stock/gravitron.png'} alt="" />
         </a>
         <div className="p-5 text-zinc-900 dark:text-white">
           <a href="#">

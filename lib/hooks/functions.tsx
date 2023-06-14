@@ -10,3 +10,10 @@ export async function fetchCollectibles() {
   return collectibles
 }
 
+export async function fetchProfilesForDrops(id: any) {
+  let { data: dropProfiles } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', id)
+  return dropProfiles
+}
