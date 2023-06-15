@@ -59,7 +59,6 @@ export const AuthContextProvider = ({
 
   const onAuthStateChanged = async () => {
     if (!user) {
-      setIsLoading(true);
       try {
         const { data: { session: activeSession }, error } = await supabase.auth.getSession()
         if (activeSession) {
@@ -78,11 +77,8 @@ export const AuthContextProvider = ({
           setUser(null);
           setProfile(null);
           setIsProfileFetched(false);
-          setIsLoading(false);
         }
-
       } catch (error) {
-        setIsLoading(false);
         console.error("Error fetching user data:", error);
       }
     }
