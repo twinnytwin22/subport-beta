@@ -17,7 +17,7 @@ async function CollectCard(props: any) {
         <div className="flex h-8 mb-2 justify-between items-center">
           <div className="block">
             <p className="text-[10px] pl-3">Created by</p>
-            <Link href={`/${user?.username}`}>
+            <Link href={`/users/${user?.username}`}>
               <p className="font-bold text-sm pl-3">@{user?.username}</p>
             </Link>
           </div>
