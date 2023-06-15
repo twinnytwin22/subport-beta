@@ -5,11 +5,8 @@ import { checkUser } from 'utils/database';
 export const dynamic = 'force-dynamic';
 export default async function Page({ params }: { params: { slug: string, user: string } }) {
   const { user } = params;
-  console.log(params.user, 'page slug');
-
   try {
     const res = await checkUser(user);
-    console.log(res, 'user exists');
 
     if (!res.exists) {
       return notFound();
@@ -17,7 +14,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
 
     return (
       <div className='mx-auto'>
-        <Profile profile={res.profiles} username={user} />
+        <Profile profile={res.profile} username={user} />
       </div>
     );
   } catch (error) {

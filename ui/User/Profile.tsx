@@ -1,7 +1,8 @@
-import React from "react";
+import { useImagePath } from "lib/constants";
+import React, { Suspense } from "react";
 
-function Profile({ profile, username }: any) {
-  console.log(profile)
+async function Profile({ profile, username }: any) {
+  const imagePath = useImagePath(profile.avatar_url)
 
   return (
     <div className="">
@@ -19,15 +20,17 @@ function Profile({ profile, username }: any) {
           <div className="grid grid-cols-12 px-6">
             <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">
               <div className="">
-                <img
-                  alt="avatar"
-                  src=''
-                  className="shadow-xl rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
-                />
+                <Suspense>
+                  <img
+                    alt="avatar"
+                    src={imagePath}
+                    className="shadow-xl rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
+                  />
+                </Suspense>
               </div>
               <div className="block">
                 <h3 className=" text-xl md:text-2xl font-bold leading-normal text-center text-zinc-900 dark:text-zinc-200 pt-24">
-                  handle
+                  {profile?.full_name}
                 </h3>
                 <h4 className=" text-lg md:text-xl leading-normal text-center text-zinc-500">
                   @{username}

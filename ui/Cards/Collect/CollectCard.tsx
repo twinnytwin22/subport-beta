@@ -1,28 +1,38 @@
 import Link from "next/link";
 import React, { PureComponent } from "react";
-import { MenuDots, HeartIcon, CommentIcon, CollectIcon } from "./EngagementUI";
+import { HeartIcon, CommentIcon, CollectIcon } from "./EngagementUI";
 import { fetchProfilesForDrops } from "utils/database";
+import { useImagePath } from "lib/constants";
+import CollectCardMenu from "./CollectCardMenu";
 
 async function CollectCard(props: any) {
   const drop = props?.drop
   const metaData = props?.metaData
   const imageHash = metaData?.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
   const [user]: any = await fetchProfilesForDrops(drop?.userId)
-  console.log(user?.[0], 'user')
+  const profileImagePath = useImagePath(user.avatar_url)
+
+
 
 
   return (
     <div className="flex flex-col static mx-auto w-full content-center justify-center">
       <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-lg dark:bg-zinc-900 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-200 dark:shadow-zinc-900 w-full">
         <div className="flex h-8 mb-2 justify-between items-center">
-          <div className="block">
-            <p className="text-[10px] pl-3">Created by</p>
+          <div className="flex items-center p-2.5">
             <Link href={`/users/${user?.username}`}>
-              <p className="font-bold text-sm pl-3">@{user?.username}</p>
+
+              <img className="w-8 h-8 rounded-full" src={profileImagePath} />
             </Link>
+            <div className="block">
+              <p className="text-[10px] pl-3">Created by</p>
+              <Link href={`/users/${user?.username}`}>
+                <p className="font-bold text-sm pl-3">@{user?.username}</p>
+              </Link>
+            </div>
           </div>
-          <div className="flex h-8 pr-3 hover:scale-110">
-            <MenuDots />
+          <div className="flex h-8 pr-3 relative">
+            <CollectCardMenu />
           </div>
         </div>
         <a>

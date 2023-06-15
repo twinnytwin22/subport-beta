@@ -30,22 +30,21 @@ export async function getAllUsers() {
 
 export async function checkUser(user: any) {
   console.log(user, "username string");
-  let {
-    data: profiles,
-    error,
-    status,
-  } = await supabaseAdmin.from("profiles").select("id, username");
 
-  const exists = profiles?.some((u) => u.username === user);
+  let { data: profiles, error } = await supabase
+    .from("profiles")
+    .select("id, username, avatar_url, website, full_name")
+    .eq("username", user);
 
-  console.log(exists, "exists?");
-  console.log(profiles);
+  console.log(profiles, "matching profiles");
+
   if (error) {
     console.error("error", error);
   }
-  if (exists) {
-    return { exists: true, profiles };
+
+  if (profiles !== null && profiles.length > 0) {
+    return { exists: true, profile: profiles[0] };
   } else {
-    return { exists: false, profiles: null };
+    return { exists: false, profile: null };
   }
 }
