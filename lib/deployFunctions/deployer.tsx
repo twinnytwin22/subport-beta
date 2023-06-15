@@ -11,7 +11,7 @@ const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID
 const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
-const transport = http(`https://mumbai.rpc.thirdweb.com/`)
+const transport = custom(window?.ethereum! as any)
 const infuraTransport = http('https://eth-mainnet.g.alchemy.com/v2/...', {
   fetchOptions: {
     headers: {
