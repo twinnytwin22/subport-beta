@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { PureComponent } from "react";
 import { MenuDots, HeartIcon, CommentIcon, CollectIcon } from "./EngagementUI";
-import { fetchProfilesForDrops } from "lib/hooks/functions";
+import { fetchProfilesForDrops } from "utils/database";
 
 async function CollectCard(props: any) {
   const drop = props?.drop

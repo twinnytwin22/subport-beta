@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { SignOutButton } from "ui/Buttons/SignOut";
 import Avatar from "./UploadWidget";
 import { ConnectSpotifyButton } from "./ConnectSpotifyButton";
@@ -27,7 +27,6 @@ export default function Account() {
 
 
   async function updateProfile({ username, avatar_url }: any) {
-
     if (profile) {
       try {
         setLoading(true);
@@ -61,7 +60,7 @@ export default function Account() {
       <div className="mx-auto content-center items-center justify-center">
         <Avatar
           uid={user?.id || ""}
-          url={profile?.avatar_url || ""}
+          url={profile?.avatar_url || avatar_url}
           size={200}
           onUpload={(url: any) => {
             setAvatarUrl(url)

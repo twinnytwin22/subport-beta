@@ -10,8 +10,9 @@ import dynamic from 'next/dynamic';
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID
+const qnKey = process.env.NEXT_PUBLIC_RPC_NODE
 const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
-const transport = http(`https://wiser-bitter-dream.matic-testnet.discover.quiknode.pro/e6a272e852edbd3124ab56baa5c2a581d4b0ab17/`)
+const transport = http(`https://wiser-bitter-dream.matic-testnet.discover.quiknode.pro/${qnKey}/`)
 
 
 export const publicClient = createPublicClient({

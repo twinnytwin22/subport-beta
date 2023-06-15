@@ -8,7 +8,6 @@ import { cookies } from 'next/headers';
 import FooterPlayer from "ui/Players/FooterPlayer";
 import { LoadingContainer } from "ui/LoadingContainer";
 
-export const revalidate = 0;
 
 export default async function RootLayout({
   children,

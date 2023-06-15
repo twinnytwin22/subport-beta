@@ -1,4 +1,4 @@
-import { fetchCollectibles } from "lib/hooks/functions";
+import { fetchCollectibles } from "utils/database";
 import React from "react";
 import AppStore from "ui/Cards/AppStore";
 import CollectCard from "ui/Cards/Collect/CollectCard";
