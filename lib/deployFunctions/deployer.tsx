@@ -1,5 +1,5 @@
-'use client'
-import 'viem/window'
+
+import window from 'viem/window'
 import { createWalletClient, http, custom, createPublicClient } from 'viem'
 import { polygonMumbai } from 'viem/chains'
 import subportMeta from '../../utils/subport.json';
@@ -12,7 +12,7 @@ const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID
 const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
-const transport = custom(window?.ethereum! as any)
+const transport = http('https://rpc-mumbai.maticvigil.com')
 const infuraTransport = http('https://eth-mainnet.g.alchemy.com/v2/...', {
   fetchOptions: {
     headers: {
