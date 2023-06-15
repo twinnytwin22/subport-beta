@@ -10,6 +10,7 @@ interface AuthContextProps {
   signInWithGoogle: () => Promise<void>;
   signInWithSpotify: () => Promise<void>;
   profile: any;
+  isLoading: boolean
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -18,6 +19,7 @@ const AuthContext = createContext<AuthContextProps>({
   profile: null,
   signInWithGoogle: () => Promise.resolve(),
   signInWithSpotify: () => Promise.resolve(),
+  isLoading: true
 });
 
 const supabase = createClientComponentClient()
@@ -32,7 +34,7 @@ export const AuthContextProvider = ({
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [isProfileFetched, setIsProfileFetched] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   const fetchProfile = async (id: string) => {
@@ -88,6 +90,7 @@ export const AuthContextProvider = ({
     () => ({
       user,
       profile,
+      isLoading,
       signInWithGoogle: async () => {
         try {
           const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
@@ -166,6 +169,7 @@ export const useAuthProvider = () => {
     profile,
     signInWithGoogle,
     signInWithSpotify,
+    isLoading,
   } = useContext(AuthContext);
-  return { user, signOut, profile, signInWithGoogle, signInWithSpotify };
+  return { user, signOut, profile, signInWithGoogle, signInWithSpotify, isLoading };
 };

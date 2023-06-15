@@ -210,10 +210,10 @@ export const CreateForm = () => {
                 {...register("artist_name", { required: true })}
               />
             </div>
-            <div className="grid grid-cols-3 gap-6 place-items-center lg:col-span-1 ">
+            <div className="grid grid-cols-2 gap-6 place-items-center ">
               <label
                 htmlFor="start_date"
-                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white col-span-2 w-full"
+                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white col-span-1 w-full"
               >
                 Start Date
                 <input
@@ -230,7 +230,7 @@ export const CreateForm = () => {
                   value=""
                   checked={nowChecked}
                   onChange={handleNowChange}
-                  className="sr-only peer"
+                  className="sr-only peer just"
                 />
                 <div className="w-11 h-6  bg-zinc-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-zinc-600 peer-checked:bg-blue-600"></div>
                 <span className="ml-3 text-sm font-bold text-zinc-900 dark:text-zinc-300">
@@ -240,7 +240,7 @@ export const CreateForm = () => {
               </label>
               <label
                 htmlFor="end_date"
-                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white col-span-2 w-full"
+                className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white col-span-1 w-full"
               >
                 End Date
                 <input
