@@ -44,8 +44,8 @@ export async function checkUser(user: any) {
     console.error("error", error);
   }
   if (exists) {
-    return true;
+    return { exists: true, profiles };
   } else {
-    return false;
+    return { exists: false, profiles: null };
   }
 }

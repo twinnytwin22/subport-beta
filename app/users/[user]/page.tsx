@@ -11,13 +11,13 @@ export default async function Page({ params }: { params: { slug: string, user: s
     const res = await checkUser(user);
     console.log(res, 'user exists');
 
-    if (!res) {
+    if (!res.exists) {
       return notFound();
     }
 
     return (
       <div className='mx-auto'>
-        <Profile />
+        <Profile profile={res.profiles} username={user} />
       </div>
     );
   } catch (error) {

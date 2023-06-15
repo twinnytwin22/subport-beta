@@ -1,10 +1,7 @@
-'use client'
 import React from "react";
-import avatar from "../../public/avatar.jpg";
-import { useAuthProvider } from "app/context/auth";
 
-function Profile() {
-  const { user } = useAuthProvider()
+function Profile({ profile, username }: any) {
+  console.log(profile)
 
   return (
     <div className="">
@@ -24,16 +21,16 @@ function Profile() {
               <div className="">
                 <img
                   alt="avatar"
-                  src={user?.user_metadata?.avatar_url as string}
+                  src=''
                   className="shadow-xl rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
                 />
               </div>
               <div className="block">
                 <h3 className=" text-xl md:text-2xl font-bold leading-normal text-center text-zinc-900 dark:text-zinc-200 pt-24">
-                  {user?.user_metadata.name}
+                  handle
                 </h3>
                 <h4 className=" text-lg md:text-xl leading-normal text-center text-zinc-500">
-                  @djtwinnytwin
+                  @{username}
                 </h4>
               </div>
             </div>
