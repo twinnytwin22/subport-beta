@@ -17,7 +17,7 @@ const PublicRoutes: NavigationRoute[] = [
 const UserRoutes: NavigationRoute[] = [
   {
     name: "Create",
-    route: "http://localhost:3000/create",
+    route: "/create",
   },
 ];
 
