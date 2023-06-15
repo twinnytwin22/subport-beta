@@ -1,3 +1,4 @@
+'use client'
 import 'viem/window'
 import { createWalletClient, http, custom, createPublicClient } from 'viem'
 import { polygonMumbai } from 'viem/chains'
