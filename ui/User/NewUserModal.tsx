@@ -51,13 +51,13 @@ const NewUserModal = () => {
     if (profile && !handle) {
         return (
             <div
-                className={`fixed inset-0 z-[9999] flex items-center  justify-center mx-8 ${showModal ? "" : "hidden"
+                className={`fixed inset-0 z-[9999] flex items-center  justify-center mx-8 sm:pl-32 lg:pl-64 ${showModal ? "" : "hidden"
                     }`}
             >
                 <div className="fixed inset-0 bg-zinc-500 dark:bg-zinc-950 opacity-75 blur-3xl"></div>
-                <div className="bg-slate-200 dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg p-8 mx-4 max-w-xl w-full space-y-4 place-items-center mt-8 relative z-10">
+                <div className="bg-slate-200 dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg p-8 mx-1 md:mx-4 max-w-xl w-full space-y-4 place-items-center mt-8 relative z-10">
                     {/* Content of the modal */}
-                    <div className="p-8">
+                    <div className="p-4 md:p-8">
                         <h2 className="text-2xl mb-4">Create User Handle</h2>
                         <p className="mb-4">
                             You need to create a user handle before proceeding.
