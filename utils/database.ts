@@ -33,7 +33,9 @@ export async function checkUser(user: any) {
 
   let { data: profiles, error } = await supabase
     .from("profiles")
-    .select("id, username, avatar_url, website, full_name")
+    .select(
+      "id, username, avatar_url, website, full_name, city, state, country"
+    )
     .eq("username", user);
 
   console.log(profiles, "matching profiles");

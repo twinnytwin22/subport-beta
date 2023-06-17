@@ -25,7 +25,6 @@ function Navbar({ session }: { session: Session | null }) {
           await AddUpdateWallet(user);
         }
 
-        setAvi(wallet?.avatar_url); // Set the avatarUrl state
 
       } catch (error) {
         console.log('Error loading user data:', error);

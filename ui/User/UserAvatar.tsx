@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import UserMenu from './UserMenu';
 import { useAuthProvider } from 'app/context/auth';
 import { downloadImage } from 'lib/hooks/downloadImage';
+import { defaultUserImage } from 'lib/constants';
 
 function UserAvatar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +50,7 @@ function UserAvatar() {
     <div className="relative rounded-full bg-blue-900">
       {userAvatar && (
         <div onClick={toggleMenu} className="block w-10 bg-blue-900  rounded-full cursor-pointer">
-          <img className="block w-full bg-blue-800 rounded-full" src={userAvatar} alt="avi" width={50} height={50} />
+          <img className="block w-full bg-blue-800 rounded-full" src={userAvatar ?? defaultUserImage} alt="avi" width={50} height={50} />
         </div>
       )}
 

@@ -1,9 +1,10 @@
-import { useImagePath } from "lib/constants";
+import { defaultUserImage, useImagePath } from "lib/constants";
 import React, { Suspense } from "react";
+import { FollowButton } from "ui/Buttons/FollowButton";
 
 async function Profile({ profile, username }: any) {
   const imagePath = useImagePath(profile.avatar_url)
-
+  console.log(profile, 'profile')
   return (
     <div className="">
       <div className=" block h-[300px] bg-black">
@@ -41,9 +42,11 @@ async function Profile({ profile, username }: any) {
               <UserStats />
 
 
-              <UserBio /></div>
+              <UserBio profile={profile} /></div>
             <div className="flex justify-center items-center col-span-3 md:col-span-2 order-2 md:order-3">
-              <FollowUser />
+              <Suspense>
+                <FollowButton currentProfile={profile} />
+              </Suspense>
             </div>
           </div>
         </div>
@@ -77,7 +80,7 @@ const UserStats = () => {
   );
 };
 
-const FollowUser = () => {
+const FollowUser = (profile: any) => {
   return (
     <div className="py-6 px-3 sm:mt-0">
       <button
@@ -104,10 +107,10 @@ const FollowingUser = () => {
   );
 };
 
-const UserBio = () => {
+const UserBio = ({ profile }: any) => {
   return (
     <div className="flex w-full md:block xl:px-24  mt-0 md:mt-6">
-      <UserLocation />
+      <UserLocation profile={profile} />
       <p className="flex mb-4 max-w-full text-xs md:text-sm text-zinc-900 dark:text-zinc-200 break-words ">
         An artist of considerable range, Jenna the name taken by
         Melbourne-raised, Brooklyn-based Nick Murphy.
@@ -115,14 +118,15 @@ const UserBio = () => {
     </div>
   );
 };
-const UserLocation = () => {
+const UserLocation = ({ profile }: any) => {
+  console.log(profile)
   return (
     <div className="flex w-full text-xs md:text-sm leading-normal mt-0 mb-2 text-zinc-400 font-bold uppercase">
       <svg className="h-5 pr-2 text-zinc-900 dark:text-zinc-200  " fill="none" stroke="white" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
       </svg>
-      Phoenix, Arizona
+      {profile.city},{profile.state ? profile.state : profile.country}
     </div>
   );
 };

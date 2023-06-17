@@ -35,6 +35,8 @@ export const AuthContextProvider = ({
   const [profile, setProfile] = useState<any>(null);
   const [isProfileFetched, setIsProfileFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [signingIn, setIsSigningIn] = useState(false)
+  const [activeSession, setActiveSession] = useState<any>('')
   const router = useRouter();
 
   const fetchProfile = async (id: string) => {
@@ -42,15 +44,17 @@ export const AuthContextProvider = ({
       setIsLoading(true);
       const { data, error } = await supabase
         .from("profiles")
-        .select("username, website, avatar_url, wallet_address")
+        .select("id, username, website, avatar_url, wallet_address, city, state, country")
         .eq("id", id)
         .single();
       if (error) {
         throw error;
       }
+
       setProfile(data);
       setIsProfileFetched(true);
       setIsLoading(false);
+      setIsSigningIn(false)
     } catch (error) {
       console.error("Error fetching profile data:", error);
       setIsLoading(false);
@@ -60,24 +64,33 @@ export const AuthContextProvider = ({
   const onAuthStateChanged = async () => {
     if (!user) {
       try {
-        const { data: { session: activeSession }, error } = await supabase.auth.getSession()
-        if (activeSession) {
-          const { data: authUser, error } = await supabase.auth.getUser()
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          throw sessionError;
+        }
+
+        if (session && !signingIn) {
+          const { data: authUser, error: authError } = await supabase.auth.getUser();
+
+          if (authError) {
+            throw authError;
+          }
+
           if (authUser?.user) {
-            setUser(authUser?.user)
-            if (error) {
-              throw error;
-            };
+            setUser(authUser?.user);
 
             if (!isProfileFetched) {
               await fetchProfile(authUser.user.id);
-            };
-          };
-        } else {
-          setUser(null);
-          setProfile(null);
-          setIsProfileFetched(false);
+            }
+
+            return;
+          }
         }
+
+        setUser(null);
+        setProfile(null);
+        setIsProfileFetched(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -92,9 +105,13 @@ export const AuthContextProvider = ({
       profile,
       isLoading,
       signInWithGoogle: async () => {
+        setIsSigningIn(true)
         try {
           const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+          setIsSigningIn(false)
+
           if (error) {
+            alert('nah')
             throw error;
           }
         } catch (error) {
@@ -102,8 +119,10 @@ export const AuthContextProvider = ({
         }
       },
       signInWithSpotify: async () => {
+        setIsSigningIn(true)
         try {
           const { error } = await supabase.auth.signInWithOAuth({ provider: "spotify" });
+          setIsSigningIn(false)
           if (error) {
             throw error;
           }
@@ -128,7 +147,7 @@ export const AuthContextProvider = ({
   );
 
   const { data: { subscription: AuthListener } } = supabaseAdmin.auth.onAuthStateChange(async (event, currentSession) => {
-    if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+    if (event === 'SIGNED_IN') {
       await onAuthStateChanged()
       router.refresh()
     }

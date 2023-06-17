@@ -6,6 +6,7 @@ import { Session } from "@supabase/supabase-js";
 import { useAuthProvider } from "app/context/auth";
 import { SupbortLogo } from "lib/content/siteSettings";
 import { AdminRoutes, PublicRoutes, UserRoutes } from "./Routes";
+import SocialRow from "ui/Misc/SocialRow";
 function Sidebar({ session }: { session: Session | null }) {
   const { user } = useAuthProvider()
   return (
@@ -31,9 +32,12 @@ function Sidebar({ session }: { session: Session | null }) {
           <SignInModal />
         )}
       </nav>
-      <nav className="flex-grow p-2">
+      <nav className="flex-grow fixed  bottom-12 left-6 p-2">
         <AdminSidebarRoutes user={user} />
       </nav>
+      <div className="absolute bottom-5">
+        <SocialRow />
+      </div>
     </aside>
 
   );

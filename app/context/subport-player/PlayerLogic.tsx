@@ -72,10 +72,12 @@ export function formatTime(time: any) {
 
 export const useInterval = (audioRef: any, setCurrentTime: any, isPlaying: any) => {
     useEffect(() => {
-        const intervalId = setInterval(() => {
-            setCurrentTime(audioRef.current.currentTime);
-        }, 1000);
-        return () => clearInterval(intervalId);
+        if (audioRef) {
+            const intervalId = setInterval(() => {
+                setCurrentTime(audioRef?.current?.currentTime);
+            }, 1000);
+            return () => clearInterval(intervalId);
+        }
     }, [audioRef, setCurrentTime, isPlaying]);
 };
 

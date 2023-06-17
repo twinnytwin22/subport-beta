@@ -1,41 +1,58 @@
-"use client";
+'use client'
 import { useState } from "react";
 import { SignOutButton } from "ui/Buttons/SignOut";
 import Avatar from "./UploadWidget";
 import { ConnectSpotifyButton } from "./ConnectSpotifyButton";
 import { toast } from "react-toastify";
-import { Session, User } from '@supabase/auth-helpers-nextjs'
 import { useAuthProvider } from "app/context/auth";
 import { supabaseAdmin } from "app/supabase-admin";
+import { LoadingContainer } from "ui/LoadingContainer";
+import { useRouter } from 'next/navigation'
 
-interface ExtendedUser extends User {
-  wallet?: string
-}
 
-interface ExtendedSession extends Session {
-  user: ExtendedUser;
-}
 
 export default function Account() {
+  const { user, profile, isLoading } = useAuthProvider();
+
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState<string>("");
+  const [username, setUsername] = useState<string>(profile?.username);
   const [email, setEmail] = useState<string>("");
   const [website, setWebsite] = useState('');
-  const [avatar_url, setAvatarUrl] = useState<string>("");
-  const { user, profile } = useAuthProvider();
+  const [avatar_url, setAvatarUrl] = useState<string>(profile?.avatar_url);
+  const [city, setCity] = useState<string>(profile?.city);
+  const [country, setCountry] = useState<string>(profile?.country);
+  const [state, setState] = useState<string>(profile?.state);
+  const router = useRouter()
+  console.log(user?.id)
+
+  console.log(profile, 'profile')
 
 
 
-  async function updateProfile({ username, avatar_url }: any) {
-    if (profile) {
+  async function updateProfile({ username, avatar_url, city, country, state }: any) {
+    if (profile && user) {
       try {
         setLoading(true);
-        const updates = {
-          username: username,
-          avatar_url: avatar_url,
-          updated_at: new Date().toISOString(),
-        };
+        const updates: any = {};
 
+        // Check each input field and add it to the updates object if it has changed
+        if (username !== profile?.username) {
+          updates.username = username;
+        }
+        if (avatar_url !== profile?.avatar_url) {
+          updates.avatar_url = avatar_url;
+        }
+        if (city !== profile?.city) {
+          updates.city = city;
+        }
+        if (country !== profile?.country) {
+          updates.country = country;
+        }
+        if (state !== profile?.state) {
+          updates.state = state;
+        }
+        updates.updated_at = new Date().toISOString();
+        console.log(updates, 'updae')
         let { error } = await supabaseAdmin
           .from("profiles")
           .update(updates)
@@ -43,21 +60,25 @@ export default function Account() {
 
         if (error) throw error;
         alert("Profile updated!");
+
       } catch (error) {
         toast.error(error as any);
         console.log(error);
       } finally {
         setLoading(false);
+        router.refresh()
       }
     }
   }
 
 
+  if (isLoading || !user || loading) {
+    return <LoadingContainer />
+  }
 
-
-  return user && (
+  return !isLoading && user && (
     <div className="bg-slate-200 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
-      <div className="mx-auto content-center items-center justify-center">
+      <div className="mx-auto content-start items-center justify-center">
         <Avatar
           uid={user?.id || ""}
           url={profile?.avatar_url || avatar_url}
@@ -80,7 +101,7 @@ export default function Account() {
             className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="email"
             type="text"
-            value={email || user?.email || ""}
+            value={user?.email}
             onChange={(e: any) => setEmail(e?.target.value)}
             readOnly
           />
@@ -96,38 +117,85 @@ export default function Account() {
             className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="username"
             type="text"
-            value={username || profile?.username || ""}
+            value={username || ""}
             onChange={(e: any) => setUsername(e?.target.value)}
           />
         </div>
         <div>
           <label
             className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+            htmlFor="city"
+          >
+            City
+          </label>
+          <input
+            className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            id="city"
+            type="text"
+            value={city || ""}
+            onChange={(e: any) => setCity(e?.target.value)}
+          />
+        </div>
+        <div>
+          <label
+            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+            htmlFor="state"
+          >
+            State/Territory
+          </label>
+          <input
+            className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            id="state"
+            type="text"
+            value={state || ""}
+            onChange={(e: any) => setState(e?.target.value)}
+          />
+        </div>
+        <div>
+          <label
+            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+            htmlFor="country"
+          >
+            Country
+          </label>
+          <input
+            className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            id="country"
+            type="text"
+            value={country || ""}
+            onChange={(e: any) => setCountry(e?.target.value)}
+          />
+        </div>
+
+        <div className="hidden">
+          <label
+            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
             htmlFor="wallet"
           >
             Wallet
           </label>
-
           <input
             className="bg-zinc-50 border  border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="wallet"
             type="text"
             value={profile?.wallet_address || ""}
-            readOnly />
+            readOnly
+          />
         </div>
         <div className="mt-4">
-          <ConnectSpotifyButton /></div>
+          <ConnectSpotifyButton />
+        </div>
         <div className="flex space-x-2 mt-4">
           <button
             className="bg-blue-700 text-white p-2 text-sm w-32 rounded-lg hover:bg-blue-800 hover:scale-105"
-            onClick={() => updateProfile({ username, avatar_url })}
+            onClick={() => updateProfile({ username, avatar_url, city, country, state })}
             disabled={loading}
           >
             {loading ? "Loading ..." : "Update"}
           </button>
-
           <SignOutButton />
-        </div></div>
+        </div>
+      </div>
     </div>
   );
 }

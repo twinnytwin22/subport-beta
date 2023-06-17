@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabaseAdmin } from 'app/supabase-admin'
 import { SupabaseImage, downloadImage } from 'lib/hooks/downloadImage'
+import { useImagePath } from 'lib/constants'
 
 
 export default function Avatar({ uid, url, size, onUpload }: {
@@ -14,18 +15,17 @@ export default function Avatar({ uid, url, size, onUpload }: {
   const [uploading, setUploading] = useState<boolean>(false)
 
   const getImage = async (url: SupabaseImage) => {
-    const path = await downloadImage(url)
+    const path = useImagePath(url)
     setAvatarUrl(path)
   }
-
+  console.log(avatarUrl)
   useEffect(() => {
-    if (url) getImage(url)
+    if (url) { getImage(url) }
   }, [url, supabaseAdmin])
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     try {
       setUploading(true)
-
       if (!event.target.files || event.target.files.length === 0) {
         throw new Error('You must select an image to upload.')
       }
@@ -39,7 +39,6 @@ export default function Avatar({ uid, url, size, onUpload }: {
       if (uploadError) {
         throw uploadError
       }
-
       onUpload(filePath)
     } catch (error) {
       alert('Error uploading avatar!')
@@ -47,7 +46,6 @@ export default function Avatar({ uid, url, size, onUpload }: {
       setUploading(false)
     }
   }
-
   return (
     <div className='mx-auto justify-center items-center content-center'>
       {avatarUrl ? (
