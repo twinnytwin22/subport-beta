@@ -1,10 +1,15 @@
 import { defaultUserImage, useImagePath } from "lib/constants";
 import React, { Suspense } from "react";
 import { FollowButton } from "ui/Buttons/FollowButton";
+import { getProfileCounts } from "lib/hooks/getProfileStats";
 
 async function Profile({ profile, username }: any) {
   const imagePath = useImagePath(profile.avatar_url)
   console.log(profile, 'profile')
+
+  const res = await getProfileCounts(profile?.id)
+
+  console.log(res?.DropsCounts, 'profile count')
   return (
     <div className="">
       <div className=" block h-[300px] bg-black">
@@ -39,7 +44,7 @@ async function Profile({ profile, username }: any) {
               </div>
             </div>
             <div className="flex flex-col md:flex-row  w-full col-span-12 md:col-span-8 items-center order-3 md:order-2 mx-auto">
-              <UserStats />
+              <UserStats followers={res?.FollowerCount} following={res?.FollowingCount} drops={res?.DropsCounts} />
 
 
               <UserBio profile={profile} /></div>
@@ -55,18 +60,18 @@ async function Profile({ profile, username }: any) {
   );
 }
 
-const UserStats = () => {
+const UserStats = ({ followers, following, drops }: any) => {
   return (
     <div className="flex justify-center py-4 ">
       <div className="mr-4 p-3 text-center">
         <span className="text-xl font-bold block uppercase tracking-wide text-zinc-400 ">
-          22
+          {followers}
         </span>
         <span className="text-sm 0 text-zinc-900 dark:text-zinc-200 ">Followers</span>
       </div>
       <div className="mr-4 p-3 text-center">
         <span className="text-xl font-bold block uppercase tracking-wide text-zinc-400">
-          10
+          {drops}
         </span>
         <span className="text-sm text-zinc-900 dark:text-zinc-200 ">Releases</span>
       </div>

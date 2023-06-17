@@ -70,4 +70,8 @@ async function isFollowing(followerId: string, followingId: string) {
 }
 
 
+
+// Usage example
+
+
 export { FollowProfile, UnFollowProfile, isFollowing };

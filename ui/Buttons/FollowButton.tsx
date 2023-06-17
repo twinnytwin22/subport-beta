@@ -52,7 +52,7 @@ const FollowButton = ({ currentProfile }: any) => {
         }
     }
 
-    return !isAuthedUser && (
+    return !isAuthedUser && user && (
         <div className="py-6 px-3 sm:mt-0">
             <button
                 className="bg-blue-600 active:bg-blue-700 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"

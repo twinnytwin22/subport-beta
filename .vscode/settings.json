@@ -4,6 +4,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "cSpell.words": [
+    "Authed",
     "bruh",
     "fimg",
     "gravitron",
@@ -28,6 +29,7 @@
     "Toastify",
     "typechain",
     "unfetch",
+    "Unfollow",
     "Unib",
     "Viem",
     "wagmi",
