@@ -1,15 +1,17 @@
-import { defaultUserImage, useImagePath } from "lib/constants";
+import { useImagePath } from "lib/constants";
 import React, { Suspense } from "react";
 import { FollowButton } from "ui/Buttons/FollowButton";
 import { getProfileCounts } from "lib/hooks/getProfileStats";
+import { getProfileData } from "lib/hooks/getProfileDrops";
+import UserDrops from "./UserDrops";
 
 async function Profile({ profile, username }: any) {
   const imagePath = useImagePath(profile.avatar_url)
   console.log(profile, 'profile')
 
-  const res = await getProfileCounts(profile?.id)
+  const res = await getProfileData(profile?.id)
 
-  console.log(res?.DropsCounts, 'profile count')
+  console.log(res?.Drops, 'profile count')
   return (
     <div className="">
       <div className=" block h-[300px] bg-black">
@@ -54,8 +56,15 @@ async function Profile({ profile, username }: any) {
               </Suspense>
             </div>
           </div>
+
         </div>
+
+        <div>
+          <UserDrops drops={res?.Drops} />
+        </div>
+
       </div>
+
     </div>
   );
 }
@@ -85,32 +94,9 @@ const UserStats = ({ followers, following, drops }: any) => {
   );
 };
 
-const FollowUser = (profile: any) => {
-  return (
-    <div className="py-6 px-3 sm:mt-0">
-      <button
-        className="bg-blue-600 active:bg-blue-700 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-        type="button"
-      >
-        Follow
-      </button>
-    </div>
-  );
-};
 
 
-const FollowingUser = () => {
-  return (
-    <div className="py-6 px-3 sm:mt-0">
-      <button
-        className="bg-blue-600 active:bg-blue-700 uppercase  font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-        type="button"
-      >
-        Following
-      </button>
-    </div>
-  );
-};
+
 
 const UserBio = ({ profile }: any) => {
   return (
