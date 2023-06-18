@@ -1,17 +1,14 @@
 import { useImagePath } from "lib/constants";
 import React, { Suspense } from "react";
 import { FollowButton } from "ui/Buttons/FollowButton";
-import { getProfileCounts } from "lib/hooks/getProfileStats";
 import { getProfileData } from "lib/hooks/getProfileDrops";
 import UserDrops from "./UserDrops";
 
 async function Profile({ profile, username }: any) {
   const imagePath = useImagePath(profile.avatar_url)
-  console.log(profile, 'profile')
 
   const res = await getProfileData(profile?.id)
 
-  console.log(res?.Drops, 'profile count')
   return (
     <div className="">
       <div className=" block h-[300px] bg-black">
@@ -78,18 +75,19 @@ const UserStats = ({ followers, following, drops }: any) => {
         </span>
         <span className="text-sm 0 text-zinc-900 dark:text-zinc-200 ">Followers</span>
       </div>
+      <div className="lg:mr-4 p-3 text-center">
+        <span className="text-xl font-bold block uppercase tracking-wide text-zinc-400">
+          {following}
+        </span>
+        <span className="text-sm text-zinc-900 dark:text-zinc-200 ">Following</span>
+      </div>
       <div className="mr-4 p-3 text-center">
         <span className="text-xl font-bold block uppercase tracking-wide text-zinc-400">
           {drops}
         </span>
         <span className="text-sm text-zinc-900 dark:text-zinc-200 ">Releases</span>
       </div>
-      <div className="lg:mr-4 p-3 text-center">
-        <span className="text-xl font-bold block uppercase tracking-wide text-zinc-400">
-          89
-        </span>
-        <span className="text-sm text-zinc-900 dark:text-zinc-200 ">Comments</span>
-      </div>
+
     </div>
   );
 };
@@ -99,12 +97,12 @@ const UserStats = ({ followers, following, drops }: any) => {
 
 
 const UserBio = ({ profile }: any) => {
+  console.log(profile, 'bio')
   return (
     <div className="flex w-full md:block xl:px-24  mt-0 md:mt-6">
       <UserLocation profile={profile} />
       <p className="flex mb-4 max-w-full text-xs md:text-sm text-zinc-900 dark:text-zinc-200 break-words ">
-        An artist of considerable range, Jenna the name taken by
-        Melbourne-raised, Brooklyn-based Nick Murphy.
+        {profile.bio}
       </p>
     </div>
   );

@@ -14,7 +14,6 @@ const NewUserModal = () => {
     const router = useRouter();
 
     const handle = profile?.username;
-    console.log(handle, "handle");
 
     // Function to handle the creation of a user handle
     const createUserHandle = () => {
@@ -30,7 +29,6 @@ const NewUserModal = () => {
                     updates.username = username;
                     updates.updated_at = new Date().toISOString();
                 }
-                console.log(updates, "update");
                 let { error } = await supabaseAdmin
                     .from("profiles")
                     .update(updates)

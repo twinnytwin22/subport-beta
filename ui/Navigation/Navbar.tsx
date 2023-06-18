@@ -1,14 +1,12 @@
 "use client";
-import { Session, createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useAuthProvider } from "app/context/auth";
 import AddUpdateWallet from "lib/hooks/generateWallet";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import UserAvatar from "ui/User/UserAvatar";
-function Navbar({ session }: { session: Session | null }) {
-  const [walletAddress, setWalletAddress] = useState('');
+function Navbar() {
   const supabase = createClientComponentClient();
-  const [avi, setAvi] = useState('');
-  const { user, profile } = useAuthProvider()
+  const { user } = useAuthProvider()
 
 
 

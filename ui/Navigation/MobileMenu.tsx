@@ -1,10 +1,8 @@
-"use client";
-import { Session } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import React from "react";
 import UserAvatar from "ui/User/UserAvatar";
 
-function MobileMenu({ session }: { session: Session | null }) {
+function MobileMenu() {
   return (
     <>
       <div className="block sm:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0">

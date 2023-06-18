@@ -7,7 +7,8 @@ import { useAuthProvider } from "app/context/auth";
 import { SupbortLogo } from "lib/content/siteSettings";
 import { AdminRoutes, PublicRoutes, UserRoutes } from "./Routes";
 import SocialRow from "ui/Misc/SocialRow";
-function Sidebar({ session }: { session: Session | null }) {
+import PlaylistCreator from "ui/TestUI/PlaylistCreator";
+function Sidebar() {
   const { user } = useAuthProvider()
   return (
 
@@ -26,8 +27,10 @@ function Sidebar({ session }: { session: Session | null }) {
         </ul>
         <hr className="hidden sm:flex sm:-16 lg:w-40 border-zinc-600 mt-24 mb-8" />
         {user?.email ? (
+          <div className="hidden lg:block">
+            <PlaylistCreator />
+          </div>
 
-          <SignOutButton />
         ) : (
           <SignInModal />
         )}

@@ -44,7 +44,7 @@ export const AuthContextProvider = ({
       setIsLoading(true);
       const { data, error } = await supabase
         .from("profiles")
-        .select("id, username, website, avatar_url, wallet_address, city, state, country")
+        .select("id, username, bio, website, avatar_url, wallet_address, city, state, country")
         .eq("id", id)
         .single();
       if (error) {

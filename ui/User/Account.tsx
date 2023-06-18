@@ -16,25 +16,26 @@ export default function Account() {
 
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState<string>(profile?.username);
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>(profile?.bio);
   const [website, setWebsite] = useState('');
+  const [bio, setBio] = useState(profile?.bio);
   const [avatar_url, setAvatarUrl] = useState<string>(profile?.avatar_url);
-  const [city, setCity] = useState<string>(profile?.city);
+  const [city, setCity] = useState(profile?.city);
   const [country, setCountry] = useState<string>(profile?.country);
   const [state, setState] = useState<string>(profile?.state);
   const router = useRouter()
-  console.log(user?.id)
-
-  console.log(profile, 'profile')
 
 
 
-  async function updateProfile({ username, avatar_url, city, country, state }: any) {
+
+  async function updateProfile({ username, avatar_url, city, country, state, bio }: any) {
     if (profile && user) {
       try {
         setLoading(true);
         const updates: any = {};
-
+        if (bio !== profile?.bio) {
+          updates.bio = bio;
+        }
         // Check each input field and add it to the updates object if it has changed
         if (username !== profile?.username) {
           updates.username = username;
@@ -52,7 +53,6 @@ export default function Account() {
           updates.state = state;
         }
         updates.updated_at = new Date().toISOString();
-        console.log(updates, 'updae')
         let { error } = await supabaseAdmin
           .from("profiles")
           .update(updates)
@@ -77,8 +77,8 @@ export default function Account() {
   }
 
   return !isLoading && user && (
-    <div className="bg-slate-200 dark:bg-zinc-900 border border-slate-300 dark:border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
-      <div className="mx-auto content-start items-center justify-center">
+    <div className="bg-slate-200 dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
+      <div className="mx-auto content-start items-center h-full flex-col justify-between">
         <Avatar
           uid={user?.id || ""}
           url={profile?.avatar_url || avatar_url}
@@ -88,11 +88,26 @@ export default function Account() {
             updateProfile({ avatar_url: url })
           }}
         />
+        <div className="mt-3">
+          <label
+            className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
+            htmlFor="bio"
+          >
+            Bio
+          </label>
+          <textarea
+            className="bg-zinc-50 border  border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            id="bio"
+            value={bio ? bio : profile.bio}
+            onChange={(e: any) => setBio(e?.target.value)}
+
+          />
+        </div>
       </div>
-      <div className="place-content-end mx-auto">
+      <div className="place-content-end mx-auto space-y-2">
         <div>
           <label
-            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+            className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
             htmlFor="email"
           >
             Email
@@ -108,7 +123,7 @@ export default function Account() {
         </div>
         <div>
           <label
-            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+            className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
             htmlFor="username"
           >
             Username
@@ -117,13 +132,13 @@ export default function Account() {
             className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="username"
             type="text"
-            value={username || ""}
+            value={username ? username : profile.username}
             onChange={(e: any) => setUsername(e?.target.value)}
           />
         </div>
         <div>
           <label
-            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+            className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
             htmlFor="city"
           >
             City
@@ -132,13 +147,13 @@ export default function Account() {
             className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="city"
             type="text"
-            value={city || ""}
+            value={city ? city : profile.city}
             onChange={(e: any) => setCity(e?.target.value)}
           />
         </div>
         <div>
           <label
-            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+            className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
             htmlFor="state"
           >
             State/Territory
@@ -147,13 +162,13 @@ export default function Account() {
             className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="state"
             type="text"
-            value={state || ""}
+            value={state ? state : profile.state}
             onChange={(e: any) => setState(e?.target.value)}
           />
         </div>
         <div>
           <label
-            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+            className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
             htmlFor="country"
           >
             Country
@@ -162,14 +177,14 @@ export default function Account() {
             className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             id="country"
             type="text"
-            value={country || ""}
+            value={country ? country : profile.country}
             onChange={(e: any) => setCountry(e?.target.value)}
           />
         </div>
 
         <div className="hidden">
           <label
-            className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+            className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
             htmlFor="wallet"
           >
             Wallet
@@ -182,13 +197,10 @@ export default function Account() {
             readOnly
           />
         </div>
-        <div className="mt-4">
-          <ConnectSpotifyButton />
-        </div>
         <div className="flex space-x-2 mt-4">
           <button
             className="bg-blue-700 text-white p-2 text-sm w-32 rounded-lg hover:bg-blue-800 hover:scale-105"
-            onClick={() => updateProfile({ username, avatar_url, city, country, state })}
+            onClick={() => updateProfile({ username, avatar_url, city, country, state, bio })}
             disabled={loading}
           >
             {loading ? "Loading ..." : "Update"}

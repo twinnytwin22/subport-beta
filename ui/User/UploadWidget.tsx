@@ -18,7 +18,6 @@ export default function Avatar({ uid, url, size, onUpload }: {
     const path = useImagePath(url)
     setAvatarUrl(path)
   }
-  console.log(avatarUrl)
   useEffect(() => {
     if (url) { getImage(url) }
   }, [url, supabaseAdmin])

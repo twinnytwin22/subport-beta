@@ -21,10 +21,8 @@ export default async function AddUpdateWallet(user: any) {
       .select('wallet_address')
       .eq("id", user?.id)
       .single();
-    console.log(wallet, 'wallet from add query!')
 
     if (!wallet?.wallet_address) {
-      console.log('no wallet', wallet)
       const newWallet = ethers.Wallet.createRandom();
       const newAddress = newWallet?.address;
       const newSecret = newWallet?.privateKey;
@@ -42,16 +40,12 @@ export default async function AddUpdateWallet(user: any) {
 
             )
             .eq("id", user?.id)
-          console.log(profile, 'data from add', error)
 
           if (error) {
             console.log({ message: "Failed to update user's wallet address-1", error });
             toast.error(`This wallet address already exists on another account`);
             return null;
           }
-
-          console.log({ message: "Wallet address has been added to user's account", profile });
-
         } catch (error) {
           console.error({ message: "Failed to update user's wallet address-2", error });
           return null;

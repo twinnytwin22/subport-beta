@@ -3,7 +3,7 @@ import React from "react";
 function AppStore() {
   return (
     <div>
-      <div className="w-md block p-2 text-center bg-white border border-zinc-200 rounded-lg shadow sm:p-6 dark:bg-zinc-900 dark:border-zinc-700">
+      <div className="w-md block p-2 text-center bg-white border border-zinc-200 rounded-lg shadow sm:p-6 dark:bg-zinc-950 dark:border-zinc-700">
         <h5 className="mb-2 text-lg font-bold text-zinc-900 dark:text-white">
           Coming Soon to App Stores
         </h5>

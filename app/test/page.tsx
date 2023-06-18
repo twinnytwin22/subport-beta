@@ -11,7 +11,7 @@ import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import { supabaseAdmin } from "app/supabase-admin";
 import Image from 'next/image';
-import MusicPlayer from 'ui/Players/MusicPlayer';
+import PlaylistCreator from 'ui/TestUI/PlaylistCreator';
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -50,7 +50,6 @@ function Page(props: any) {
   const [loading, isLoading] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState('')
   const { user } = useAuthProvider()
-  console.log(user)
 
 
 
@@ -176,7 +175,7 @@ function Page(props: any) {
   }
 
   return (
-    <div className="w-full h-[60vh] flex flex-col items-center justify-center">
+    <div className="w-full flex flex-col items-center justify-center">
       <label htmlFor="response">Response</label>
       <textarea
         className="w-full max-w-md mx-auto p-4 mb-4 text-black bg-white rounded-lg border border-gray-300"
@@ -214,6 +213,7 @@ function Page(props: any) {
 
 
       </div>
+      <PlaylistCreator />
     </div>
   )
 }

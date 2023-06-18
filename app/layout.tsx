@@ -37,16 +37,15 @@ export default async function RootLayout({
         <Providers session={session}>
           <div className="mb-16" />
           <div className="flex flex-wrap relative flex-col mx-auto top-0 right-0 left-0 overflow-hidden w-full">
-            <Sidebar session={session} />
+            <Sidebar />
             <div className="w-full mx-auto flex justify-center relative right-0 isolate inset-1 overflow-hidden">
-              <Navbar session={session} />
+              <Navbar />
               <Suspense fallback={<LoadingContainer />}>
                 <ContentWrapper />
               </Suspense>
-
             </div>
           </div>
-          <MobileMenu session={session} />
+          <MobileMenu />
         </Providers>
 
       </body>

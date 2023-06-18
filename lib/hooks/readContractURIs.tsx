@@ -45,10 +45,10 @@ export async function readContractURIs(contractAddresses: any) {
             throw new Error(`All fallback URLs failed for IPFS hash ${ipfsHash}`);
         }));
 
-        console.log('Contract HTTP URLs:');
-        httpUrls.forEach((url, i) => {
-            console.log(`Contract ${i + 1}: ${url}`);
-        });
+        //  console.log('Contract HTTP URLs:');
+        //   httpUrls.forEach((url, i) => {
+        //      console.log(`Contract ${i + 1}: ${url}`);
+        //  });
 
         const contractJsonDataPromises = httpUrls.map(async (url) => {
             try {
@@ -67,10 +67,10 @@ export async function readContractURIs(contractAddresses: any) {
 
         const contractJsonData = await Promise.all(contractJsonDataPromises);
 
-        console.log('Contract JSON Data:');
-        contractJsonData.forEach((data, i) => {
-            console.log(`Contract ${i + 1}:`, data);
-        });
+        // console.log('Contract JSON Data:');
+        // contractJsonData.forEach((data, i) => {
+        //     console.log(`Contract ${i + 1}:`, data);
+        //  });
 
         const coupledData: DropData[] = contractURIs.map((uri, i) => ({
             info: uri,
