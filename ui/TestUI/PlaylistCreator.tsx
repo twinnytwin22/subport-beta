@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-const token = 'BQDh45BkDFYf6IMTbsCh7L9uFS8OtMzJ4V6DwqkyuSNhm-5YqMn3WFCl63NrQNgPr8A_TE859f4p7SzbUOVq8luWprPJRewILSXkWjHjwTlnnbHEgl9zbnWs6pLbMOdpwvU4ap8DwucgIRYPbOu_fM3uDD4elZ_Bef0YXkUYxEpiUFBKI_ucnrE6nPZco24prSmbPxbg3ttr0wG86lRsVxt3fZt60MBOgWOCb7F-IEZpT4hOPSfZW2UNRq4j8AeuCxdKQMcRhW4ZPpHpNMP7';
-
+const token = ''
 async function fetchWebApi(endpoint: any, method: any, body?: any) {
     const res = await fetch(`https://api.spotify.com/${endpoint}`, {
         headers: {

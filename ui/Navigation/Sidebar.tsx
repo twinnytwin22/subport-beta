@@ -1,8 +1,6 @@
 'use client'
 import SignInModal from "ui/Buttons/SignIn";
 import Link from "next/link";
-import { SignOutButton } from "ui/Buttons/SignOut";
-import { Session } from "@supabase/supabase-js";
 import { useAuthProvider } from "app/context/auth";
 import { SupbortLogo } from "lib/content/siteSettings";
 import { AdminRoutes, PublicRoutes, UserRoutes } from "./Routes";
