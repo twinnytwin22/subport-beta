@@ -5,7 +5,7 @@ import { useAuthProvider } from "app/context/auth";
 import { SupbortLogo } from "lib/content/siteSettings";
 import { AdminRoutes, PublicRoutes, UserRoutes } from "./Routes";
 import SocialRow from "ui/Misc/SocialRow";
-import PlaylistCreator from "ui/TestUI/PlaylistCreator";
+import PlaylistCreator from "ui/Playlist/PlaylistCreator";
 function Sidebar() {
   const { user } = useAuthProvider()
   return (

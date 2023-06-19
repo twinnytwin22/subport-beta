@@ -8,6 +8,23 @@ export async function fetchCollectibles() {
   return collectibles;
 }
 
+export async function addPlaylist(userId: any, title: any, uri: any) {
+  let { data: addPlaylist, error: addPlaylistError } = await supabase
+    .from("playlists")
+    .insert([{ title: title }, { user_id: userId }, { uri: uri }]);
+
+  return { addPlaylist, addPlaylistError };
+}
+
+export async function getUsersPlaylist(userId: any) {
+  let { data: addPlaylist, error: addPlaylistError } = await supabase
+    .from("playlists")
+    .select("*")
+    .eq("userId", userId);
+
+  return { addPlaylist, addPlaylistError };
+}
+
 export async function fetchSingleCollectible(slug: any) {
   let { data: drop, error } = await supabase
     .from("drops")

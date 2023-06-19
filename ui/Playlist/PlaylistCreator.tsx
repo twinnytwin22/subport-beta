@@ -1,8 +1,7 @@
 'use client'
-import { fetchWebApi } from 'lib/providers/spotify/spotifyLogic';
+import { fetchSpotifyWebApi } from 'lib/providers/spotify/spotifyLogic';
 import React, { useState } from 'react';
-const token = ''
-
+import { addPlaylist } from 'utils/database';
 function PlaylistCreator() {
     const [trackUri, setTrackUri] = useState<any>('');
     const [addedTracks, setAddedTracks] = useState<any>([]);
@@ -26,25 +25,34 @@ function PlaylistCreator() {
         }
     }
 
-    const createPlaylist = async () => {
-        if (addedTracks.length > 0) {
-            const { id: user_id } = await fetchWebApi('v1/me', 'GET');
+    const createPlaylist = async (userId: any) => {
+        //   if (addedTracks.length > 0) {
+        const { id: user_id } = await fetchSpotifyWebApi('v1/me', 'GET');
 
-            const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {
-                name: playlistName,
-                description: 'Playlist created by the tutorial on subport.xyz',
-                public: false,
-            });
+        const playlist = await fetchSpotifyWebApi(`v1/users/${user_id}/playlists`, 'POST', {
+            name: playlistName,
+            description: 'Playlist created by the tutorial on subport.xyz',
+            public: false,
+        });
 
-            for (const trackUri of addedTracks) {
-                await fetchWebApi(
-                    `v1/playlists/${playlist.id}/tracks?uris=${encodeURIComponent(trackUri)}`,
-                    'POST'
-                );
-            }
+        const addToDb = await addPlaylist(userId, playlist.name, playlist.id)
 
+        if (addToDb.addPlaylist) {
             console.log(playlist.name, playlist.id);
+
         }
+
+        if (addToDb.addPlaylistError) {
+            throw (addToDb.addPlaylistError)
+        }
+        //    for (const trackUri of addedTracks) {
+        //       await fetchSpotifyWebApi(
+        //           `v1/playlists/${playlist.id}/tracks?uris=${encodeURIComponent(trackUri)}`,
+        //           'POST'
+        //        );
+        //      }
+
+        //  }
     };
 
     return (
@@ -68,28 +76,10 @@ function PlaylistCreator() {
                     placeholder="Name Your Playlist"
                     className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-800 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
-                <div className='flex space-x-2'>
-                    <input
-                        type="text"
-                        value={trackUri}
-                        onChange={(e) => setTrackUri(e.target.value)}
-                        placeholder="Enter track URI"
-                        className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-800 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    />
-                    <button
-                        onClick={addTrackToList}
-                        className="bg-blue-700 text-white px-4 py-2 rounded"
-                    >
-                        +
-                    </button></div>
-                <ul>
-                    {addedTracks.map((track: string, index: any) => (
-                        <li key={index}>{track}</li>
-                    ))}
-                </ul>
+
                 <button
                     onClick={createPlaylist}
-                    className="bg-blue-700 text-white px-4 py-2 rounded "
+                    className="bg-blue-700 text-white px-4 py-2 rounded text-xs "
                 >
                     Create Playlist
                 </button></div>}
