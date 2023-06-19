@@ -21,3 +21,17 @@ const res = await fetch(`${baseURL}`, getRequestOptions)
 
 export const spotifyClientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID
 export const spotifySecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET
+export const token = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET
+
+
+
+export async function fetchWebApi(endpoint: any, method: any, body?: any) {
+  const res = await fetch(`https://api.spotify.com/${endpoint}`, {
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+      method,
+      body: JSON.stringify(body)
+  });
+  return await res.json();
+}

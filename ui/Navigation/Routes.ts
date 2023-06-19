@@ -8,6 +8,7 @@ const PublicRoutes: NavigationRoute[] = [
     name: "Home",
     route: "/",
   },
+
   {
     name: "Trending",
     route: "/trending",
@@ -22,6 +23,10 @@ const UserRoutes: NavigationRoute[] = [
 ];
 
 const AdminRoutes: NavigationRoute[] = [
+  {
+    name: "Library",
+    route: "/library",
+  },
   {
     name: "Test Panel",
     route: "/test",

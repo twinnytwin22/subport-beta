@@ -11,7 +11,7 @@ import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import { supabaseAdmin } from "app/supabase-admin";
 import Image from 'next/image';
-import PlaylistCreator from 'ui/TestUI/PlaylistCreator';
+
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -213,7 +213,6 @@ function Page(props: any) {
 
 
       </div>
-      <PlaylistCreator />
     </div>
   )
 }

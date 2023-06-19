@@ -8,7 +8,7 @@ type TabData = {
 };
 
 function Trending() {
-  const [activeTab, setActiveTab] = useState<keyof TabData>("thisWeek");
+  const [activeTab, setActiveTab] = useState<keyof TabData>("today");
 
   const handleTabClick = (tab: keyof TabData) => {
     setActiveTab(tab);

@@ -1,16 +1,7 @@
 'use client'
+import { fetchWebApi } from 'lib/providers/spotify/spotifyLogic';
 import React, { useState } from 'react';
 const token = ''
-async function fetchWebApi(endpoint: any, method: any, body?: any) {
-    const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        method,
-        body: JSON.stringify(body)
-    });
-    return await res.json();
-}
 
 function PlaylistCreator() {
     const [trackUri, setTrackUri] = useState<any>('');
@@ -41,7 +32,7 @@ function PlaylistCreator() {
 
             const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {
                 name: playlistName,
-                description: 'Playlist created by the tutorial on developer.spotify.com',
+                description: 'Playlist created by the tutorial on subport.xyz',
                 public: false,
             });
 
@@ -64,7 +55,7 @@ function PlaylistCreator() {
 
                 <button
                     onClick={handleStartPlaylist}
-                    className="bg-blue-700 text-white px-2  rounded"
+                    className="bg-blue-700 dark:bg-blue-600 text-white px-2  rounded"
                 > {creatingPlaylist ? 'x' : '+'}
 
                 </button>
@@ -75,7 +66,7 @@ function PlaylistCreator() {
                     value={playlistName}
                     onChange={(e) => setPlaylistName(e.target.value)}
                     placeholder="Name Your Playlist"
-                    className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-800 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
                 <div className='flex space-x-2'>
                     <input
@@ -83,7 +74,7 @@ function PlaylistCreator() {
                         value={trackUri}
                         onChange={(e) => setTrackUri(e.target.value)}
                         placeholder="Enter track URI"
-                        className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-800 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
                     <button
                         onClick={addTrackToList}
@@ -92,7 +83,7 @@ function PlaylistCreator() {
                         +
                     </button></div>
                 <ul>
-                    {addedTracks.map((track: any, index: any) => (
+                    {addedTracks.map((track: string, index: any) => (
                         <li key={index}>{track}</li>
                     ))}
                 </ul>

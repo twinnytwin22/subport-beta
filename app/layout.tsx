@@ -8,6 +8,7 @@ import { cookies } from 'next/headers';
 import FooterPlayer from "ui/Players/FooterPlayer";
 import { LoadingContainer } from "ui/LoadingContainer";
 import { NewUserModal } from "ui/User/NewUserModal";
+import { Provider as Redux } from 'react-redux'
 
 
 export default async function RootLayout({
