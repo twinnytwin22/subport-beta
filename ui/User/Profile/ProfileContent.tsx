@@ -1,11 +1,9 @@
-import { fetchCollectibles } from "utils/database";
 import React from "react";
-import AppStore from "ui/Cards/AppStore";
-import CollectCard from "ui/Cards/Collect/CollectCard";
 import { readContractURIs, DropData } from "lib/hooks/readContractURIs";
+import Views from "./Views";
 
 
-async function UserDrops({ drops }: any) {
+async function ProfileContent({ drops }: any) {
     try {
         const contractAddresses = drops?.map((drop: any) => drop.contractAddress);
 
@@ -21,15 +19,7 @@ async function UserDrops({ drops }: any) {
 
             return dropsWithMetaData && (
                 <div className="w-full mx-auto mt-8 mb-20 content-center my-8">
-                    <div className="flex md:grid md:grid-cols-3 justify-center justify-items-center content-center gap-2.5 w-full mx-auto">
-
-
-                        {dropsWithMetaData?.map(({ drop, metaData }: any) => (
-                            <div key={drop?.id}>
-                                <CollectCard drop={drop} metaData={metaData} />
-                            </div>
-                        ))}
-                    </div>
+                    <Views drops={dropsWithMetaData} />
                 </div>
             );
         }
@@ -40,4 +30,4 @@ async function UserDrops({ drops }: any) {
     return null;
 }
 
-export default UserDrops;
+export default ProfileContent;

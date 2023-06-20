@@ -1,12 +1,13 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { supabase as supabaseClient } from "lib/providers/supabase/supabaseClient";
+import { cache } from "react";
 
 const supabase = createClientComponentClient();
 
-export async function fetchCollectibles() {
+export const fetchCollectibles = cache(async () => {
   let { data: collectibles, error } = await supabase.from("drops").select("*");
   return collectibles;
-}
+});
 
 export async function addPlaylist(userId: any, title: any, uri: any) {
   let { data: addPlaylist, error: addPlaylistError } = await supabase
@@ -25,7 +26,7 @@ export async function getUsersPlaylist(userId: any) {
   return { addPlaylist, addPlaylistError };
 }
 
-export async function fetchSingleCollectible(slug: any) {
+export const fetchSingleCollectible = cache(async (slug: any) => {
   let { data: drop, error } = await supabase
     .from("drops")
     .select("*")
@@ -36,15 +37,15 @@ export async function fetchSingleCollectible(slug: any) {
   } else {
     return { error: "Not Found", drop: null };
   }
-}
+});
 
-export async function fetchProfilesForDrops(id: any) {
+export const fetchProfilesForDrops = cache(async (id: any) => {
   let { data: dropProfiles } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", id);
   return dropProfiles;
-}
+});
 
 export async function getAllUsers() {
   let { data: users, error } = await supabaseClient
@@ -56,7 +57,7 @@ export async function getAllUsers() {
   return users;
 }
 
-export async function checkUser(user: any) {
+export const checkUser = cache(async (user: any) => {
   let { data: profiles, error } = await supabase
     .from("profiles")
     .select(
@@ -73,4 +74,4 @@ export async function checkUser(user: any) {
   } else {
     return { exists: false, profile: null };
   }
-}
+});

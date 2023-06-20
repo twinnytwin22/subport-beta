@@ -11,6 +11,7 @@ import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import { supabaseAdmin } from "app/supabase-admin";
 import Image from 'next/image';
+import SpotifyAuth from 'utils/testSpotifyLogic';
 
 
 let getName = 'Always' + Math.random();
@@ -211,8 +212,9 @@ function Page(props: any) {
           className="p-4 bg-red-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">RESET/REFRESH</button>
 
 
-
       </div>
+      <SpotifyAuth />
+
     </div>
   )
 }

@@ -1,5 +1,5 @@
 'use client'
-import { Suspense, createContext, useContext, useEffect, useMemo, useState } from "react";
+import { Suspense, cache, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient, Session } from "@supabase/auth-helpers-nextjs";
 import { supabaseAdmin } from "app/supabase-admin";
@@ -39,7 +39,7 @@ export const AuthContextProvider = ({
   const [activeSession, setActiveSession] = useState<any>('')
   const router = useRouter();
 
-  const fetchProfile = async (id: string) => {
+  const fetchProfile = cache(async (id: string) => {
     try {
       setIsLoading(true);
       const { data, error } = await supabase
@@ -59,7 +59,7 @@ export const AuthContextProvider = ({
       console.error("Error fetching profile data:", error);
       setIsLoading(false);
     }
-  };
+  });
 
   const onAuthStateChanged = async () => {
     if (!user) {

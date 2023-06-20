@@ -2,7 +2,7 @@ import { useImagePath } from "lib/constants";
 import React, { Suspense } from "react";
 import { FollowButton } from "ui/Buttons/FollowButton";
 import { getProfileData } from "lib/hooks/getProfileDrops";
-import UserDrops from "./UserDrops";
+import ProfileContent from "./ProfileContent";
 
 async function Profile({ profile, username }: any) {
   const imagePath = useImagePath(profile.avatar_url)
@@ -57,7 +57,7 @@ async function Profile({ profile, username }: any) {
         </div>
 
         <div>
-          <UserDrops drops={res?.Drops} />
+          <ProfileContent drops={res?.Drops} />
         </div>
 
       </div>
