@@ -4,7 +4,7 @@ import Profile from 'ui/User/Profile/Profile';
 import { checkUser } from 'utils/database';
 export const dynamic = 'force-dynamic';
 
-// export const revalidate = 180 // revalidate this segment every 60 seconds
+export const revalidate = 3600 // revalidate this segment every 60 seconds
 export default async function Page({ params }: { params: { slug: string, user: string } }) {
   const { user } = params;
   try {

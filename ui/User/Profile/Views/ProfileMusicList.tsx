@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import CollectCardMenu from 'ui/Cards/Collect/CollectCardMenu';
 
 interface Drop {
     id: number;
@@ -55,7 +56,7 @@ const ProfileMusicList: React.FC<ProfileMusicListProps> = ({ drops }) => {
                             </button>
                         </div>
                     </div>
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-clip">
                         <table className="w-full text-sm text-left text-zinc-500 dark:text-zinc-400">
                             <thead className="text-xs text-zinc-700 uppercase bg-zinc-50 dark:bg-zinc-800 dark:text-zinc-400">
                                 <tr>
@@ -65,7 +66,9 @@ const ProfileMusicList: React.FC<ProfileMusicListProps> = ({ drops }) => {
                                     <th scope="col" className="px-4 py-3 -mr-20">Track Name</th>
                                     <th scope="col" className="px-4 py-3">Artist</th>
                                     <th scope="col" className="px-4 py-3">Genre</th>
-
+                                    <th scope="col" className="px-4 py-3">
+                                        <span className="sr-only">Menu Dots</span>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -131,7 +134,7 @@ const MusicItem = ({ drop, metaData }: any) => {
             <th scope="row"
                 className="flex items-center px-4 py-2  font-medium text-zinc-900 whitespace-nowrap dark:text-white">
                 <div className="block min-w-[30px] min-h-[30px] rounded-md bg-blue-300 w-fit mr-2">
-                    <img src={imageHash} className='w-8 h-8 rounded-md' />
+                    <img src={imageHash} className='w-10 h-10 rounded-md' />
                 </div>
 
             </th>
@@ -140,6 +143,9 @@ const MusicItem = ({ drop, metaData }: any) => {
             <td className="px-4 py-2 font-medium text-zinc-900 whitespace-nowrap dark:text-white">Twinny Twin</td>
             <td className="px-4 py-2">
                 <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">House</span>
+            </td>
+            <td className="pl-8 py-2">
+                <CollectCardMenu />
             </td>
 
         </tr>

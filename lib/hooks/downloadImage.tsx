@@ -1,9 +1,10 @@
 import { supabaseAdmin } from "app/supabase-admin"
+import { cache } from "react"
 export type SupabaseImage = {
     path: string
 }
 
-export async function downloadImage(path: SupabaseImage) {
+export const downloadImage = cache(async (path: SupabaseImage) => {
     try {
         const { data, error } = await supabaseAdmin.storage.from('avatars').download(path as any)
         if (error) {
@@ -16,4 +17,4 @@ export async function downloadImage(path: SupabaseImage) {
     } catch (error) {
         console.log('Error downloading image: ', error)
     }
-}
+})

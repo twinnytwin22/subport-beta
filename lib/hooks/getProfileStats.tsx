@@ -1,7 +1,8 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cache } from "react";
 
 const supabase = createClientComponentClient()
-async function getProfileCounts(userId: any) {
+const getProfileCounts = cache(async (userId: any) => {
     const { data: Followers, error: FollowersCountError, count: FollowerCount } = await supabase
         .from('followers')
         .select('following_id', { count: 'estimated' })
@@ -34,6 +35,6 @@ async function getProfileCounts(userId: any) {
 
     return { FollowerCount, FollowingCount, DropsCounts }
 
-}
+})
 
 export { getProfileCounts }
