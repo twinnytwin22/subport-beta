@@ -29,7 +29,6 @@ export const AuthContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
-  session: Session | null;
 }) => {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);

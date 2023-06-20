@@ -20,7 +20,7 @@ async function Profile({ profile, username }: any) {
           }}
         ></div>
       </div>
-      <div className=" py-16 mx-auto px-4 ">
+      <div className=" py-16 mx-auto md:px-4 ">
         <div className=" flex flex-col min-w-0 break-words bg-zinc-100 dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-xl rounded-lg -mt-36 pb-8">
           <div className="grid grid-cols-12 px-6">
             <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">

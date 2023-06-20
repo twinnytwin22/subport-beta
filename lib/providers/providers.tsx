@@ -71,11 +71,9 @@ const wagmiConfig = createConfig({
 
 
 
-export const Providers = ({ children, session }: { children: React.ReactNode, session: Session | null }) => {
+export const Providers = ({ children, }: { children: React.ReactNode }) => {
   return (
-    <AuthContextProvider session={
-      session
-    }>
+    <AuthContextProvider>
       <SubportPlayer>
         <Suspense>
           <WagmiConfig config={wagmiConfig}>
