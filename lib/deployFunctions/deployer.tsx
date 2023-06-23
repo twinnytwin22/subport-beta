@@ -1,18 +1,18 @@
 import 'viem/window'
 import { createWalletClient, http, custom, createPublicClient } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
+
 import { polygonMumbai } from 'viem/chains'
 import subportMeta from '../../utils/subport.json';
 import { supabase } from '../providers/supabase/supabaseClient'
 import { uploadHashToIpfs } from './uploadFileIpfs'
 import { supabaseAdmin } from 'app/supabase-admin';
-import dynamic from 'next/dynamic';
 
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID
-const qnKey = process.env.NEXT_PUBLIC_RPC_NODE
 const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
-const transport = http(`https://wiser-bitter-dream.matic-testnet.discover.quiknode.pro/${qnKey}/`)
+const transport = http()
 
 
 export const publicClient = createPublicClient({
@@ -28,11 +28,9 @@ export const publicClient = createPublicClient({
 
 export async function deployContractViem({ deployData }: any) {
   try {
-    const [account] = await walletClient.requestAddresses()
     console.log(deployData, 'dd')
     const hash = await walletClient.deployContract({
       abi: abi,
-      account,
       args: deployData,
       bytecode: bytecode,
     })
@@ -52,10 +50,12 @@ export async function deployContractViem({ deployData }: any) {
   }
 }
 
+const account = privateKeyToAccount(`0x${process.env.PK}`)
 
 export const walletClient = createWalletClient({
+  account,
   chain: polygonMumbai,
-  transport
+  transport: http()
 })
 
 

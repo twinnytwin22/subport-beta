@@ -19,7 +19,7 @@ function UserMenu({ profile, user }: any) {
         <li className="w-full px-4 py-2 border-b border-zinc-200 rounded-t-lg dark:border-zinc-700  text-center justify-center">@{profile?.username}</li>
         <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-700  text-[10px]">{user?.email}</li>
 
-        <Link href={`/users/${profile?.username}`}>
+        <Link href={`/${profile?.username}`}>
           <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-700 hover:dark:bg-zinc-700">Profile</li>
         </Link>
         <Link href='/settings'>

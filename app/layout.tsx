@@ -3,8 +3,6 @@ import Navbar from "ui/Navigation/Navbar";
 import MobileMenu from "ui/Navigation/MobileMenu";
 import Sidebar from "ui/Navigation/Sidebar";
 import { Suspense } from "react";
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
 import FooterPlayer from "ui/Players/FooterPlayer";
 import { LoadingContainer } from "ui/LoadingContainer";
 import { NewUserModal } from "ui/User/NewUserModal";

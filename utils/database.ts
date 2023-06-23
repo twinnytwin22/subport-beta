@@ -4,10 +4,10 @@ import { cache } from "react";
 
 const supabase = createClientComponentClient();
 
-export const fetchCollectibles = cache(async () => {
+export const fetchCollectibles = async () => {
   let { data: collectibles, error } = await supabase.from("drops").select("*");
   return collectibles;
-});
+};
 
 export async function addPlaylist(userId: any, title: any, uri: any) {
   let { data: addPlaylist, error: addPlaylistError } = await supabase
@@ -26,7 +26,7 @@ export async function getUsersPlaylist(userId: any) {
   return { addPlaylist, addPlaylistError };
 }
 
-export const fetchSingleCollectible = cache(async (slug: any) => {
+export const fetchSingleCollectible = async (slug: any) => {
   let { data: drop, error } = await supabase
     .from("drops")
     .select("*")
@@ -37,15 +37,15 @@ export const fetchSingleCollectible = cache(async (slug: any) => {
   } else {
     return { error: "Not Found", drop: null };
   }
-});
+};
 
-export const fetchProfilesForDrops = cache(async (id: any) => {
+export const fetchProfilesForDrops = async (id: any) => {
   let { data: dropProfiles } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", id);
   return dropProfiles;
-});
+};
 
 export async function getAllUsers() {
   let { data: users, error } = await supabaseClient
@@ -57,7 +57,7 @@ export async function getAllUsers() {
   return users;
 }
 
-export const checkUser = cache(async (user: any) => {
+export const checkUser = async (user: any) => {
   let { data: profiles, error } = await supabase
     .from("profiles")
     .select(
@@ -74,4 +74,4 @@ export const checkUser = cache(async (user: any) => {
   } else {
     return { exists: false, profile: null };
   }
-});
+};

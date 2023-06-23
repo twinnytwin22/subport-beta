@@ -20,13 +20,13 @@ async function CollectCard(props: any) {
       <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-lg dark:bg-zinc-950 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-200 dark:shadow-zinc-900 w-full">
         <div className="flex h-8 mb-2 justify-between items-center">
           <div className="flex items-center p-2.5">
-            <Link href={`/users/${user?.username}`}>
+            <Link href={`/${user?.username}`}>
 
               <img className="w-8 h-8 rounded-full" src={profileImagePath} />
             </Link>
             <div className="block">
               <p className="text-[10px] pl-3">Created by</p>
-              <Link href={`/users/${user?.username}`}>
+              <Link href={`/${user?.username}`}>
                 <p className="font-bold text-sm pl-3">@{user?.username}</p>
               </Link>
             </div>
