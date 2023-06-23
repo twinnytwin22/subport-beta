@@ -3,7 +3,7 @@ import React from 'react';
 import Profile from 'ui/User/Profile/Profile';
 import { checkUser } from 'utils/database';
 
-export const revalidate = 3600 // revalidate this segment every hour
+export const revalidate = 60 // revalidate this segment every hour
 export default async function Page({ params }: { params: { slug: string, user: string } }) {
   const { user } = params;
   try {
