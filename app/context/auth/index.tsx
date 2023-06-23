@@ -142,7 +142,7 @@ export const AuthContextProvider = ({
       },
 
     }),
-    [user, profile, router,]
+    [user, profile, router, isLoading]
   );
 
   const { data: { subscription: AuthListener } } = supabaseAdmin.auth.onAuthStateChange(async (event, currentSession) => {
