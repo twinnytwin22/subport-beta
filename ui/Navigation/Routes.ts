@@ -10,8 +10,8 @@ const PublicRoutes: NavigationRoute[] = [
   },
 
   {
-    name: "Trending",
-    route: "/trending",
+    name: "Explore",
+    route: "/explore",
   },
 ];
 
