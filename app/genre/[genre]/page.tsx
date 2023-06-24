@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 import Trending from 'ui/Sections/Trending';
 
-export const revalidate = 60 // revalidate this segment every hour
+export const dynamic = 'force-static'
 export default async function Page({ params }: { params: { genre: string } }) {
     const { genre } = params;
 
