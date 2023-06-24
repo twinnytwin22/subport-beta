@@ -56,7 +56,21 @@ export async function getAllUsers() {
   }
   return users;
 }
+export async function getProfilesWithDrops() {
+  const { data: users, error } = await supabase.from("profiles").select(`
+    id, city, state, country,
+     drops (
+      userId
+    )`);
 
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const filteredProfiles = users?.filter((user) => user.drops.length > 1);
+  return filteredProfiles;
+}
 export const checkUser = async (user: any) => {
   let { data: profiles, error } = await supabase
     .from("profiles")
