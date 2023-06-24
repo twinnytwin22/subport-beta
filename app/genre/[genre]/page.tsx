@@ -3,33 +3,25 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 import Trending from 'ui/Sections/Trending';
 
-export const dynamic = 'force-static'
 export default async function Page({ params }: { params: { genre: string } }) {
     const { genre } = params;
+    const validGenre = allGenres.some(
+        (existingGenre) => existingGenre.toLowerCase() === genre.toLowerCase()
+    );
 
-
-    try {
-        if (!genre) {
-            notFound()
-        }
-
-
-
+    if (validGenre) {
         return (
             <div className='mx-auto w-full'>
                 <Trending />
             </div>
         );
-    } catch (error) {
-        console.error('An error occurred:', error);
-        notFound()
+    } else {
+        notFound();
     }
 }
 
-
 export async function generateStaticParams() {
-
     return allGenres.map((genre) => ({
-        genre: genre,
-    }))
+        genre: genre.toLowerCase(),
+    }));
 }

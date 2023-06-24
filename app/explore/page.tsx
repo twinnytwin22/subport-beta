@@ -28,7 +28,7 @@ async function page() {
       <br />
 
       <div className="flex justify-between w-full items-end">
-        <h1 className="py-2.5 font-bold text-lg md:text-2xl">Location</h1>
+        <h1 className="py-2.5 font-bold text-lg md:text-2xl">Locations</h1>
         <p className="py-2.5 font-bold text-sm">View All</p>
       </div>
       <ByLocation />

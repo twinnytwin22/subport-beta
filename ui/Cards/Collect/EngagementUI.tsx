@@ -1,7 +1,9 @@
-const HeartIcon = async () => {
+const HeartIcon = async ({ className }: any) => {
     return (
         <>
             <svg
+                className={className}
+
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
@@ -19,10 +21,11 @@ const HeartIcon = async () => {
     );
 };
 
-const CommentIcon = () => {
+const CommentIcon = ({ className }: any) => {
     return (
         <>
             <svg
+                className={className}
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
@@ -40,10 +43,11 @@ const CommentIcon = () => {
     );
 };
 
-const CollectIcon = () => {
+const CollectIcon = ({ className }: any) => {
     return (
         <>
             <svg
+                className={className}
                 fill="none"
                 stroke="currentColor"
                 strokeWidth={1.5}

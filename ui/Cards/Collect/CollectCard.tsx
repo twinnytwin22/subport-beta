@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { PureComponent } from "react";
+import React from "react";
 import { HeartIcon, CommentIcon, CollectIcon } from "./EngagementUI";
 import { fetchProfilesForDrops } from "utils/database";
 import { useImagePath } from "lib/constants";
@@ -46,17 +46,18 @@ async function CollectCard(props: any) {
             </h5>
           </a>
           <div className="flex justify-between items-center mb-2">
-            <div className="grid grid-cols-3 max-h-6 max-w-sm space-x-2">
-              <div className="flex h-6 hover:scale-105 space-x-3">
-                45
-                <HeartIcon />
+            <div className="grid grid-cols-3 max-h-6 max-w-sm space-x-2 text-xs place-items-center">
+              <div className="flex h-6 hover:scale-105 space-x-1 items-center">
+                <p>0</p>
+                <HeartIcon className='w-5 h-5' />
               </div>
-              <div className="flex h-6 hover:scale-105 space-x-3">
-                8<CommentIcon />
+              <div className="flex h-6 hover:scale-105 space-x-1 items-center">
+                <p>0</p>
+                <CommentIcon className='w-5 h-5' />
               </div>
-              <div className="flex h-6 hover:scale-105 space-x-3">
-                111
-                <CollectIcon />
+              <div className="flex h-6 hover:scale-105 space-x-1 items-center">
+                <p>0</p>
+                <CollectIcon className='w-5 h-5' />
               </div>
             </div>
             <Link
@@ -66,7 +67,7 @@ async function CollectCard(props: any) {
               Collect
             </Link>
           </div>
-          <p className="text-xs">Collected by You & 67 more</p>
+          <p className="text-xs border-hidden">Collected by You & 67 more</p>
         </div>
       </div>
     </div>
