@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
-import { HeartIcon, CommentIcon, CollectIcon } from "./EngagementUI";
-import { fetchProfilesForDrops } from "utils/database";
+import CardEngagementRow from "ui/Cards/Collect/EngagementWrapper";
+import { fetchProfilesForDrops, getTotalReactions } from "utils/database";
 import { useImagePath } from "lib/constants";
 import CollectCardMenu from "./CollectCardMenu";
 
@@ -10,7 +10,8 @@ async function CollectCard(props: any) {
   const metaData = props?.metaData
   const imageHash = metaData?.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
   const [user]: any = await fetchProfilesForDrops(drop?.userId)
-  const profileImagePath = useImagePath(user.avatar_url)
+  const profileImagePath = useImagePath(user?.avatar_url)
+  const reactionCount = await getTotalReactions(drop?.id)
 
 
 
@@ -46,20 +47,7 @@ async function CollectCard(props: any) {
             </h5>
           </a>
           <div className="flex justify-between items-center mb-2">
-            <div className="grid grid-cols-3 max-h-6 max-w-sm space-x-2 text-xs place-items-center">
-              <div className="flex h-6 hover:scale-105 space-x-1 items-center">
-                <p>0</p>
-                <HeartIcon className='w-5 h-5' />
-              </div>
-              <div className="flex h-6 hover:scale-105 space-x-1 items-center">
-                <p>0</p>
-                <CommentIcon className='w-5 h-5' />
-              </div>
-              <div className="flex h-6 hover:scale-105 space-x-1 items-center">
-                <p>0</p>
-                <CollectIcon className='w-5 h-5' />
-              </div>
-            </div>
+            <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
             <Link
               href={`/nft/${drop?.slug}`}
               className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

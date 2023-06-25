@@ -1,27 +1,74 @@
-const HeartIcon = async ({ className }: any) => {
-    return (
-        <>
-            <svg
-                className={className}
+'use client'
+import { useState } from 'react';
+import { addReaction, deleteReaction } from 'utils/database';
+import { useReactionCheck } from 'lib/hooks/useReactionCheck';
 
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                ></path>
-            </svg>
-        </>
+const HeartIcon = ({ className, dropId, userId }: any) => {
+    const [reactionRowOpen, setReactionRowOpen] = useState(false);
+    const { reactionType, setReactionType } = useReactionCheck(dropId, userId);
+
+    const handleOpenReactionRow = () => {
+        setReactionRowOpen(!reactionRowOpen);
+    };
+
+    const handleReactionClick = async (reaction: string) => {
+        if (!userId) {
+            // User is not authenticated, handle accordingly
+            return;
+        }
+
+        if (reactionType === reaction) {
+            // User clicked on the same reaction, so delete the reaction
+            await deleteReaction(dropId, userId);
+            setReactionRowOpen(false)
+            setReactionType('')
+
+
+        } else {
+            // User clicked on a different reaction, so delete the current reaction (if any) and add the new one
+            if (reactionType) {
+                await deleteReaction(dropId, userId);
+                setReactionRowOpen(false)
+                setReactionType(reaction)
+
+
+            }
+            await addReaction(dropId, reaction, userId);
+            setReactionRowOpen(false)
+            setReactionType(reaction)
+
+        }
+    };
+
+    return (
+        <div className='relative hover:scale-100'>
+            {reactionType.length > 0 ? (
+                <img src={`/emojis/${reactionType}.png`} className={className} onClick={handleOpenReactionRow} />
+            ) : (
+                <img src="/emojis/like.png" className={`${className} grayscale`} onClick={handleOpenReactionRow} />
+            )}
+            {reactionRowOpen && (
+                <div className='flex p-2.5 absolute space-x-3 w-24 bottom-8 bg-blue-300 rounded-md duration-150 ease-in-out'>
+                    <div onClick={() => handleReactionClick('like')}>
+                        {' '}
+                        <img className='hover:scale-125 duration-150 ease-in-out' src="/emojis/like.png" />
+                    </div>
+                    <div onClick={() => handleReactionClick('heart')}>
+                        {' '}
+                        <img className='hover:scale-125 duration-150 ease-in-out' src="/emojis/heart.png" />
+                    </div>
+                    <div onClick={() => handleReactionClick('fire')}>
+                        {' '}
+                        <img className='hover:scale-125 duration-150 ease-in-out' src="/emojis/fire.png" />
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 
-const CommentIcon = ({ className }: any) => {
+
+const CommentIcon = ({ className, dropId, userId }: any) => {
     return (
         <>
             <svg
@@ -43,7 +90,7 @@ const CommentIcon = ({ className }: any) => {
     );
 };
 
-const CollectIcon = ({ className }: any) => {
+const CollectIcon = ({ className, dropId, userId }: any) => {
     return (
         <>
             <svg
@@ -83,5 +130,6 @@ const MenuDots = () => {
         </svg>
     );
 };
+
 
 export { MenuDots, CollectIcon, CommentIcon, HeartIcon }
