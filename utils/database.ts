@@ -123,6 +123,21 @@ async function checkUserReactions(dropId: string, userId: string) {
   return data;
 }
 
+async function checkUserSingleCollect(dropId: string, userId: string) {
+  const { data, error } = await supabase
+    .from("drop_collects")
+    .select()
+    .eq("drop_id", dropId)
+    .eq("user_id", userId);
+
+  if (data?.length == 0) {
+    return false;
+  } else {
+    // Handle error
+    return true;
+  }
+}
+
 async function deleteReaction(dropId: string, userId: string) {
   let { data, error } = await supabaseAdmin
     .from("drop_reactions")
@@ -169,4 +184,5 @@ export {
   getProfilesWithDrops, // getting profiles that have drops
   checkUser, // check if the user exists
   getTotalReactions, // reaction count for each drop
+  checkUserSingleCollect, // check to see if user collected a drop
 };

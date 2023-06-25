@@ -3,7 +3,6 @@ import { useState } from 'react'
 
 function CollectionNav({ props }: any) {
   const [activeTab, setActiveTab] = useState('details')
-  console.log(props, 'cn')
 
 
   return (

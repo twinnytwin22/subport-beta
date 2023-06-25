@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { addReaction, deleteReaction } from 'utils/database';
 import { useReactionCheck } from 'lib/hooks/useReactionCheck';
+import { useCollectCheck } from 'lib/hooks/useCollectCheck';
 
 const HeartIcon = ({ className, dropId, userId }: any) => {
     const [reactionRowOpen, setReactionRowOpen] = useState(false);
@@ -23,15 +24,12 @@ const HeartIcon = ({ className, dropId, userId }: any) => {
             setReactionRowOpen(false)
             setReactionType('')
 
-
         } else {
             // User clicked on a different reaction, so delete the current reaction (if any) and add the new one
             if (reactionType) {
                 await deleteReaction(dropId, userId);
                 setReactionRowOpen(false)
                 setReactionType(reaction)
-
-
             }
             await addReaction(dropId, reaction, userId);
             setReactionRowOpen(false)
@@ -90,24 +88,12 @@ const CommentIcon = ({ className, dropId, userId }: any) => {
     );
 };
 
-const CollectIcon = ({ className, dropId, userId }: any) => {
+const CollectIcon = async ({ className, dropId, userId }: any) => {
+    const collected = useCollectCheck(dropId, userId)
+
     return (
         <>
-            <svg
-                className={className}
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.5}
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-            >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                />
-            </svg>
+            <img className={`w-5 h-5 ${!collected && 'grayscale'}`} src='/emojis/collected.png' />
         </>
     );
 };
