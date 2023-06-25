@@ -35,10 +35,10 @@ export async function DropPage({ props, comments }: any) {
             <p className="text-xs mb-4">Collected by names, names, 67 more</p>
             <div className='w-full'>
               <DropLinksTo />
+              <DropNav dropId={drop?.id} comments={comments} />
 
             </div>
 
-            <DropNav dropId={drop?.id} comments={comments} />
           </div>
         </div>
       </div>
