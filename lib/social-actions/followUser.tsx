@@ -12,11 +12,6 @@ async function FollowProfile(currentUserId: string, profileId: string) {
             throw error;
         }
 
-        const { data: incrementData, error: incrementError } = await supabase.rpc('increment', { follower_count: 1 }).eq('following_id', profileId);;
-
-        if (incrementError) {
-            throw incrementError;
-        }
 
         return true;
     } catch (error) {
@@ -37,11 +32,6 @@ async function UnFollowProfile(currentUserId: string, profileId: string) {
             throw error;
         }
 
-        const { data: decrementData, error: decrementError } = await supabase.rpc('decrement', { follower_count: 1 }).eq('following_id', profileId);;
-
-        if (decrementError) {
-            throw decrementError;
-        }
 
         return true;
     } catch (error) {

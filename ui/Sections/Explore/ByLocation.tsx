@@ -21,7 +21,7 @@ async function ByLocation({ artists }: any) {
                 {states.map((state: string, index: number) => (
                     <Link href={`/location/${state.toLowerCase()}`} key={state} className={`p-8 hover:contrast-125 rounded-md max-h-56 w-56 aspect-square flex justify-center items-center ${colors[Math.floor(Math.random() * colors.length)]
                         }`}>
-                        <p className="capitalize text-center text-xl font-bold">
+                        <p className="capitalize text-center text-xl font-bold text-white">
                             {state}
                         </p>
                     </Link>

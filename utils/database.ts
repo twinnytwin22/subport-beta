@@ -5,10 +5,12 @@ import { supabase as supabaseClient } from "lib/providers/supabase/supabaseClien
 const supabase = createClientComponentClient();
 
 const fetchCollectibles = async () => {
-  let { data: collectibles, error } = await supabase.from("drops").select("*");
-  return collectibles;
+  let { data: drops, error } = await supabase
+    .from("drops")
+    .select("*")
+    .order("created_at", { ascending: false });
+  return drops;
 };
-
 async function addPlaylist(userId: any, title: any, uri: any) {
   let { data: addPlaylist, error: addPlaylistError } = await supabase
     .from("playlists")
@@ -139,7 +141,7 @@ async function checkUserSingleCollect(dropId: string, userId: string) {
 }
 
 async function deleteReaction(dropId: string, userId: string) {
-  let { data, error } = await supabaseAdmin
+  let { data, error } = await supabase
     .from("drop_reactions")
     .delete()
     .eq("drop_id", dropId)
@@ -171,6 +173,62 @@ async function getTotalReactions(dropId: string) {
   }
 }
 
+async function getDropComments(dropId: string) {
+  try {
+    const { data, error } = await supabase
+      .from("drop_comments")
+      .select(
+        `*,
+      profiles (
+        username
+      )
+      `
+      )
+      .eq("drop_id", dropId);
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    return [];
+  }
+}
+
+async function addDropComment(dropId: string, comment: string, userId: string) {
+  if (userId && dropId && comment) {
+    let { data, error } = await supabase
+      .from("drop_comments")
+      .insert([{ drop_id: dropId, comment: comment, user_id: userId }]);
+
+    if (error) {
+      throw error;
+    }
+    return data;
+  }
+}
+
+async function deleteDropComment(
+  dropId: string,
+  userId: string,
+  commentId: string
+) {
+  let { data, error } = await supabase
+    .from("drop_comments")
+    .delete()
+    .eq("drop_id", dropId)
+    .eq("user_id", userId)
+    .eq("id", commentId);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+}
+
 export {
   deleteReaction, // delete reaction from drop
   addReaction, // add reaction to drop
@@ -185,4 +243,7 @@ export {
   checkUser, // check if the user exists
   getTotalReactions, // reaction count for each drop
   checkUserSingleCollect, // check to see if user collected a drop
+  addDropComment,
+  deleteDropComment,
+  getDropComments,
 };

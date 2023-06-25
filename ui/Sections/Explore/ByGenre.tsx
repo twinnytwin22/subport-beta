@@ -20,7 +20,7 @@ async function ByGenre({ drops }: any) {
                 {uniqueGenres.map((genre: any) => (
                     <Link href={`/genre/${genre.toLowerCase()}`} key={genre} className={`p-8 hover:contrast-125 rounded-md max-h-56 w-56 aspect-square flex justify-center items-center ${colors[Math.floor(Math.random() * colors.length)]
                         }`}>
-                        <p className="capitalize text-center text-lg font-bold">
+                        <p className="capitalize text-center text-lg font-bold text-white">
                             {genre}
                         </p>
                     </Link>

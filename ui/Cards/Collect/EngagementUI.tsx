@@ -41,7 +41,9 @@ const HeartIcon = ({ className, dropId, userId }: any) => {
     return (
         <div className='relative hover:scale-100'>
             {reactionType.length > 0 ? (
-                <img src={`/emojis/${reactionType}.png`} className={className} onClick={handleOpenReactionRow} />
+                <div onClick={handleOpenReactionRow}>
+                    <img src={`/emojis/${reactionType}.png`} className={`${className} hover:scale-125 duration-300 ease-in-out`} />
+                </div>
             ) : (
                 <img src="/emojis/like.png" className={`${className} grayscale`} onClick={handleOpenReactionRow} />
             )}
