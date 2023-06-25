@@ -5,6 +5,7 @@ import { fetchProfilesForDrops, getTotalReactions } from "utils/database";
 import { useImagePath } from "lib/constants";
 import CollectCardMenu from "./CollectCardMenu";
 
+
 async function CollectCard(props: any) {
   const drop = props?.drop
   const metaData = props?.metaData
