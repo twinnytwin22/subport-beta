@@ -2,7 +2,8 @@ import React from 'react'
 import DropLinksTo from 'ui/Sections/Drop/DropLInks'
 import { upload } from 'lib/content/mockUpload'
 import DropNav from 'ui/Sections/Drop/DropNav'
-import { getDropComments } from 'utils/database'
+import { getDropComments, getTotalReactions } from 'utils/database'
+import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper'
 
 
 
@@ -11,16 +12,22 @@ export async function DropPage({ props, comments }: any) {
   const drop = props?.drop
   const metaData = props?.metaData.metadata
   const imageUrl = metaData.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
+  const reactionCount = await getTotalReactions(drop?.id)
 
 
 
   return (
     <div className="bg-gray-100 dark:bg-black h-full flex max-w-7xl mx-auto w-full">
       <div className="flex flex-col lg:flex-row mx-auto items-center">
-
-        <div className=" p-8 mx-auto w-full aspect-square">
-          <img className='rounded-2xl shadow-lg dark:shadow-zinc-950 shadow-zinc-300  lg:max-w-2xl w-full aspect-square  object-cover' src={imageUrl} alt="Song-cover" />
+        <div className='relative w-full'>
+          <div className=" p-8 mx-auto w-full aspect-square">
+            <img className='rounded-2xl shadow-lg dark:shadow-zinc-950 shadow-zinc-300  lg:max-w-2xl w-full aspect-square  object-cover' src={imageUrl} alt="Song-cover" />
+          </div>
+          <div className='w-36 absolute bottom-0 pt-8 right-10'>
+            <CardEngagementRow dropId={drop.id} reactionCount={reactionCount} />
+          </div>
         </div>
+
         <div className="w-full max-w-lg lg:max-w-sm md:mt-8 lg:border-l-zinc-600 lg:border-l-2 lg:pl-16 p-4 h-full">
           <div className='flex flex-col'>
             <div className='block'>

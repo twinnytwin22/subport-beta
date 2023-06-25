@@ -50,7 +50,7 @@ async function CollectCard(props: any) {
           <div className="flex justify-between items-center mb-2">
             <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
             <Link
-              href={`/nft/${drop?.slug}`}
+              href={`/drop/${drop?.slug}`}
               className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Collect
