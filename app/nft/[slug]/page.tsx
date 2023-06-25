@@ -31,7 +31,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
 
       if (dropWithMetaData) {
         return (
-          <div className='bg-gray-100 dark:bg-black w-full items-center mb-20'>
+          <div className='bg-gray-100 dark:bg-black w-full items-center mb-20 min-h-full'>
             <DropPage props={dropWithMetaData} comments={dropComments} />
           </div>
         )
