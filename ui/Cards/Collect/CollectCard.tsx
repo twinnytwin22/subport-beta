@@ -4,6 +4,7 @@ import CardEngagementRow from "ui/Cards/Collect/EngagementWrapper";
 import { fetchProfilesForDrops, getTotalReactions } from "utils/database";
 import { useImagePath } from "lib/constants";
 import CollectCardMenu from "./CollectCardMenu";
+import Image from "next/image";
 
 
 async function CollectCard(props: any) {
@@ -23,8 +24,15 @@ async function CollectCard(props: any) {
         <div className="flex h-8 mb-2 justify-between items-center">
           <div className="flex items-center p-2.5">
             <Link href={`/${user?.username}`}>
-
-              <img className="w-8 h-8 rounded-full" src={profileImagePath} />
+              <Image
+                width={32}
+                height={32}
+                className=" shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto  w-8 h-8 rounded-full"
+                src={profileImagePath}
+                style={{ objectFit: 'cover' }}
+                alt="Song-cover"
+                priority={true}
+              />
             </Link>
             <div className="block">
               <p className="text-[10px] pl-3">Created by</p>
@@ -33,14 +41,21 @@ async function CollectCard(props: any) {
               </Link>
             </div>
           </div>
-          <div className="flex h-8 pr-3 relative">
+          <div className="flex h-8 pr-3 relative z-50 ">
             <CollectCardMenu />
           </div>
         </div>
-        <a>
-          <img
-            className='w-full select-none' src={imageHash} alt="" />
-        </a>
+        <div className="w-full relative min-w-md h-full">
+          <Image
+            width={500}
+            height={500}
+            className="w-full"
+            src={imageHash}
+            style={{ objectFit: 'cover' }}
+            alt="Song-cover"
+            priority={true}
+          />
+        </div>
         <div className="p-5 text-zinc-900 dark:text-white">
           <a href="#">
             <h5 className="mb-2 text-lg font-bold tracking-tight ">

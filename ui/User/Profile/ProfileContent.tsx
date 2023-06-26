@@ -3,7 +3,7 @@ import { readContractURIs, DropData } from "lib/hooks/readContractURIs";
 import Views from "./Views";
 
 
-async function ProfileContent({ drops }: any) {
+async function ProfileContent({ drops, currentProfile }: any) {
     try {
         const contractAddresses = drops?.map((drop: any) => drop.contractAddress);
 
@@ -19,7 +19,7 @@ async function ProfileContent({ drops }: any) {
 
             return dropsWithMetaData && (
                 <div className="w-full mx-auto mt-8 mb-20 content-center my-8">
-                    <Views drops={dropsWithMetaData} />
+                    <Views drops={dropsWithMetaData} currentProfile={currentProfile} />
                 </div>
             );
         }

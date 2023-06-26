@@ -64,7 +64,12 @@ const CommentComponent = ({ dropId, comments }: any) => {
                 {[...comments].map((comment: any) => (
                     <div key={comment?.id} className="p-2.5 relative rounded-md text-sm bg-zinc-200 dark:bg-zinc-950 my-2 border-zinc-300 dark:border-zinc-900 border">
 
-                        <Link href={`/${comment.profiles?.username}`} className='text-xs cursor-pointer text-zinc-600 dark:zinc-400'>@{comment?.profiles?.username}</Link>
+                        <Link
+                            href={`/${comment.profiles?.username}`}
+                            className="text-xs cursor-pointer text-zinc-600 dark:zinc-400"
+                        >
+                            {`${userId && userId === comment.user_id ? 'You' : `@${comment?.profiles?.username}`}`}
+                        </Link>
                         <div className='border-l-2 m-2 h-fit border-blue-600  '>
                             <p className='p-1 text-sm'>{comment?.comment}</p></div>
                         {userId && userId === comment.user_id && (

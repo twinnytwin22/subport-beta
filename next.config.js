@@ -12,8 +12,19 @@ const nextConfig = {
         destination: '/users/:user',
       },
     ];
-  }
-,  
+  },
+  images: {
+    remotePatterns: [
+      {
+      protocol: 'https',
+      hostname: 'gateway.ipfscdn.io',
+      },
+      {
+      protocol: 'https',
+      hostname: 'qjfdpaecmjljkboepipm.supabase.co',
+      },
+    ]
+  },
   env:
    {
     supabaseKey: process.env.SUPABASE_SERVICE_ROLE_KEY,

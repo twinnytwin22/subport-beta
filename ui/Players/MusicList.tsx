@@ -100,26 +100,28 @@ export default MusicList
 const MusicItem = ({ drop, metaData }: any) => {
     return (
         <tr key={drop.name} className="border-b dark:border-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-xs md:text-sm min-w-full flex">
-            <td className="w-4 px-4 py-3">
-                <div className="flex items-center">
-                    <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 bg-zinc-100 border-zinc-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-zinc-800 focus:ring-2 dark:bg-zinc-700 dark:border-zinc-600" />
-                    <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
-                </div>
-            </td>
-            <th scope="row" className="flex items-center px-4 py-2  font-medium text-zinc-900 whitespace-nowrap dark:text-white">
-                <div className="block min-w-[30px] min-h-[30px] rounded-md bg-blue-300 w-fit mr-2"></div>
-                {drop?.name}
-            </th>
-            <td className="px-4 py-2 font-medium text-zinc-900 whitespace-nowrap dark:text-white">Twinny Twin</td>
+            <Link href={`/drop/${drop?.slug}`} className='relative'>
+                <td className="w-4 px-4 py-3">
+                    <div className="flex items-center">
+                        <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 bg-zinc-100 border-zinc-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-zinc-800 focus:ring-2 dark:bg-zinc-700 dark:border-zinc-600" />
+                        <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
+                    </div>
+                </td>
+                <th scope="row" className="flex items-center px-4 py-2  font-medium text-zinc-900 whitespace-nowrap dark:text-white">
+                    <div className="block min-w-[30px] min-h-[30px] rounded-md bg-blue-300 w-fit mr-2"></div>
+                    {drop?.name}
+                </th>
+                <td className="px-4 py-2 font-medium text-zinc-900 whitespace-nowrap dark:text-white">Twinny Twin</td>
 
-            <td className="px-4 py-2">
-                <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">House</span>
-            </td>
-            <td className="px-4 py-2 font-medium text-zinc-900 whitespace-nowrap dark:text-white">
-                <div className="flex items-center">
+                <td className="px-4 py-2">
+                    <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">House</span>
+                </td>
+                <td className="px-4 py-2 font-medium text-zinc-900 whitespace-nowrap dark:text-white">
+                    <div className="flex items-center">
 
-                </div>
-            </td>
+                    </div>
+                </td>
+            </Link>
         </tr>
     )
 }

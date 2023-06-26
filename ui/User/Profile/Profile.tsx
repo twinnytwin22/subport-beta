@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 import { FollowButton } from "ui/Buttons/FollowButton";
 import { getProfileData } from "lib/hooks/getProfileDrops";
 import ProfileContent from "./ProfileContent";
+import Image from "next/image";
 
 async function Profile({ profile, username }: any) {
   const imagePath = useImagePath(profile.avatar_url)
@@ -26,11 +27,14 @@ async function Profile({ profile, username }: any) {
             <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">
               <div className="">
                 <Suspense>
-                  <img
-                    alt="avatar"
-                    src={imagePath}
+                  <Image
+                    alt="avatar" width={150} height={150}
                     className="shadow-xl rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
+                    src={imagePath}
+                    style={{ objectFit: 'cover' }}
+                    priority={true}
                   />
+
                 </Suspense>
               </div>
               <div className="block">
@@ -57,7 +61,7 @@ async function Profile({ profile, username }: any) {
         </div>
 
         <div>
-          <ProfileContent drops={res?.Drops} />
+          <ProfileContent drops={res?.Drops} currentProfile={profile} />
         </div>
 
       </div>

@@ -4,7 +4,7 @@ import UserMenu from './UserMenu';
 import { useAuthProvider } from 'app/context/auth';
 import { downloadImage } from 'lib/hooks/downloadImage';
 import { defaultUserImage } from 'lib/constants';
-
+import Image from 'next/image';
 function UserAvatar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, profile } = useAuthProvider();
@@ -50,7 +50,13 @@ function UserAvatar() {
     <div className="relative rounded-full bg-blue-900 select-none">
       {userAvatar && (
         <div onClick={toggleMenu} className="block w-10 bg-blue-900  rounded-full cursor-pointer">
-          <img className="block w-full bg-blue-800 rounded-full" src={userAvatar ?? defaultUserImage} alt="avi" width={50} height={50} />
+          <Image
+            alt="avi" width={50} height={50}
+            className=" shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto  rounded-full"
+            src={userAvatar ?? defaultUserImage}
+            style={{ objectFit: 'cover' }}
+            priority={true}
+          />
         </div>
       )}
 

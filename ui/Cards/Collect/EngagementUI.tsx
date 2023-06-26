@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { addReaction, deleteReaction } from 'utils/database';
 import { useReactionCheck } from 'lib/hooks/useReactionCheck';
 import { useCollectCheck } from 'lib/hooks/useCollectCheck';
-
+import Image from 'next/image';
 const HeartIcon = ({ className, dropId, userId }: any) => {
     const [reactionRowOpen, setReactionRowOpen] = useState(false);
     const { reactionType, setReactionType } = useReactionCheck(dropId, userId);
@@ -42,24 +42,53 @@ const HeartIcon = ({ className, dropId, userId }: any) => {
         <div className='relative hover:scale-100'>
             {reactionType.length > 0 ? (
                 <div onClick={handleOpenReactionRow}>
-                    <img src={`/emojis/${reactionType}.png`} className={`${className} hover:scale-125 duration-300 ease-in-out`} />
+                    <Image
+                        width={20}
+                        height={20}
+                        src={`/emojis/${reactionType}.png`}
+                        className={`${className} hover:scale-125 duration-300 ease-in-out`}
+                        alt="reaction"
+                    />
                 </div>
             ) : (
-                <img src="/emojis/like.png" className={`${className} grayscale`} onClick={handleOpenReactionRow} />
+                <Image
+                    width={20}
+                    height={20}
+                    src="/emojis/like.png" className={`${className} grayscale`} onClick={handleOpenReactionRow}
+                    alt="reaction"
+                />
+
             )}
             {reactionRowOpen && (
                 <div className='flex p-2.5 absolute space-x-3 w-24 bottom-8 bg-blue-300 rounded-md duration-150 ease-in-out'>
                     <div onClick={() => handleReactionClick('like')}>
                         {' '}
-                        <img className='hover:scale-125 duration-150 ease-in-out' src="/emojis/like.png" />
+                        <Image
+                            width={20}
+                            height={20}
+                            className='hover:scale-125 duration-150 ease-in-out'
+                            src="/emojis/like.png"
+                            alt="like"
+                        />
                     </div>
                     <div onClick={() => handleReactionClick('heart')}>
                         {' '}
-                        <img className='hover:scale-125 duration-150 ease-in-out' src="/emojis/heart.png" />
-                    </div>
+                        <Image
+                            width={20}
+                            height={20}
+                            className='hover:scale-125 duration-150 ease-in-out'
+                            src="/emojis/heart.png"
+                            alt="heart"
+                        />                    </div>
                     <div onClick={() => handleReactionClick('fire')}>
                         {' '}
-                        <img className='hover:scale-125 duration-150 ease-in-out' src="/emojis/fire.png" />
+                        <Image
+                            width={20}
+                            height={20}
+                            className='hover:scale-125 duration-150 ease-in-out'
+                            src="/emojis/fire.png"
+                            alt="fire"
+                        />
                     </div>
                 </div>
             )}
@@ -95,7 +124,13 @@ const CollectIcon = async ({ className, dropId, userId }: any) => {
 
     return (
         <>
-            <img className={`w-5 h-5 ${!collected && 'grayscale'}`} src='/emojis/collected.png' />
+            <Image
+                width={20}
+                height={20}
+                className={`w-5 h-5 ${!collected && 'grayscale'}`}
+                src='/emojis/collected.png'
+                alt="collected emoji"
+            />
         </>
     );
 };
