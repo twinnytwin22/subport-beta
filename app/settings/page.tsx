@@ -3,7 +3,7 @@ import { useAuthProvider } from "app/context/auth";
 import React, { useState } from "react";
 import Account from "ui/User/Account";
 
-function page() {
+function Page() {
     const { isLoading } = useAuthProvider()
     const [activeTab, setActiveTab] = useState('profile')
 
@@ -31,4 +31,4 @@ function page() {
         </div>
     )
 }
-export default page;
+export default Page;
