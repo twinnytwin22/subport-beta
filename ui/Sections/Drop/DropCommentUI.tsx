@@ -2,6 +2,7 @@
 import { useAuthProvider } from 'app/context/auth';
 import Link from 'next/link';
 import { useState } from 'react';
+import { FaTrash } from 'react-icons/fa';
 import { addDropComment, deleteDropComment, getDropComments } from 'utils/database';
 
 const CommentComponent = ({ dropId, comments }: any) => {
@@ -71,9 +72,9 @@ const CommentComponent = ({ dropId, comments }: any) => {
                             {`${userId && userId === comment.user_id ? 'You' : `@${comment?.profiles?.username}`}`}
                         </Link>
                         <div className='border-l-2 m-2 h-fit border-blue-600  '>
-                            <p className='p-1 text-sm'>{comment?.comment}</p></div>
+                            <p className='pl-2 text-sm'>{comment?.comment}</p></div>
                         {userId && userId === comment.user_id && (
-                            <p className="text-xs text-blue-500 underline cursor-pointer absolute right-3 bottom-3" onClick={(() => handleDeleteComment(comment.id))}>Delete</p>
+                            <div className="text-sm text-blue-600 underline cursor-pointer absolute right-3 bottom-3 hover:scale-125 duration-300 ease-in-out" onClick={(() => handleDeleteComment(comment.id))}><FaTrash /></div>
                         )}
                     </div>
                 ))}

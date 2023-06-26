@@ -47,9 +47,9 @@ function UserAvatar() {
   };
 
   return profile && (
-    <div className="relative rounded-full bg-blue-900 select-none">
+    <div className="relative rounded-full w-fit select-none">
       {userAvatar && (
-        <div onClick={toggleMenu} className="block w-10 bg-blue-900  rounded-full cursor-pointer">
+        <div onClick={toggleMenu} className="w-fit">
           <Image
             alt="avi" width={50} height={50}
             className=" shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto  rounded-full"
