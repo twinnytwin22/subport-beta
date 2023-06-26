@@ -50,7 +50,7 @@ const CommentComponent = ({ dropId, comments }: any) => {
 
     return (
         <div className="w-full">
-            {showTextarea ? (
+            {profile && showTextarea ? (
                 <div className='w-full'>
                     <textarea className="w-full mb-2" value={comment} onChange={handleCommentChange} />
                     <div className='flex space-x-2 items-center text-white'>
@@ -59,7 +59,7 @@ const CommentComponent = ({ dropId, comments }: any) => {
                     </div>
                 </div>
             ) : (
-                <button className="text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md w-full text-center font-bold text-white" onClick={handleShowTextarea}>Add Comment</button>
+                <button className={`text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md w-full text-center font-bold text-white ${!profile && 'hidden'}`} onClick={profile && handleShowTextarea}>Add Comment</button>
             )}
             <div>
                 {[...comments].map((comment: any) => (

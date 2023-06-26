@@ -3,18 +3,19 @@ import React, { useState, useEffect } from 'react';
 import UserMenu from './UserMenu';
 import { useAuthProvider } from 'app/context/auth';
 import { downloadImage } from 'lib/hooks/downloadImage';
-import { defaultUserImage } from 'lib/constants';
+import { defaultUserImage, useImagePath } from 'lib/constants';
 import Image from 'next/image';
 function UserAvatar() {
   const [isOpen, setIsOpen] = useState(false);
   const { user, profile } = useAuthProvider();
-  const [userAvatar, setUserAvatar] = useState('');
+  const avatar = useImagePath(profile?.avatar_url)
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       const targetElement = event.target as Element;
       if (!targetElement.closest('.user-menu')) {
         setIsOpen(false);
+        return
       }
     };
 
@@ -33,27 +34,16 @@ function UserAvatar() {
     setIsOpen(!isOpen);
   };
 
-  useEffect(() => {
-    if (!userAvatar && profile?.avatar_url) {
-      handleImageLoad();
-    }
-  }, [profile?.avatar_url]);
 
-  const handleImageLoad = async () => {
-    const path = await downloadImage(profile?.avatar_url);
-    if (path) {
-      setUserAvatar(path);
-    }
-  };
 
   return profile && (
     <div className="relative rounded-full w-fit select-none">
-      {userAvatar && (
+      {profile && (
         <div onClick={toggleMenu} className="w-fit">
           <Image
-            alt="avi" width={50} height={50}
-            className=" shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto  rounded-full"
-            src={userAvatar ?? defaultUserImage}
+            alt="avi" width={40} height={40}
+            className=" shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto w-10 h-10 rounded-full"
+            src={avatar}
             style={{ objectFit: 'cover' }}
             priority={true}
           />

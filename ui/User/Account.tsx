@@ -73,11 +73,11 @@ export default function Account() {
 
 
   if (isLoading || !user || loading) {
-    return <LoadingContainer />
+    return
   }
 
   return !isLoading && user && (
-    <div className="bg-slate-200 dark:bg-zinc-950 border border-slate-300 dark:border-zinc-700 rounded-lg p-8 mx-4 max-w-2xl w-full space-y-4 md:flex place-items-center mt-8">
+    <>
       <div className="mx-auto content-start items-center h-full flex-col justify-between">
         <Avatar
           uid={user?.id || ""}
@@ -208,6 +208,6 @@ export default function Account() {
           <SignOutButton />
         </div>
       </div>
-    </div>
+    </>
   );
 }
