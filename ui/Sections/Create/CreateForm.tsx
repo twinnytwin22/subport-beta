@@ -172,13 +172,13 @@ export const CreateForm = () => {
 
   const renderStep1 = () => {
     return (
-      <div className="w-full mx-auto max-w-screen">
+      <div className="w-full mx-auto max-w-5xl">
         <form onSubmit={handleSubmit(onSubmitStep1)}>
           <h2 className="text-center w-full py-4 text-xl">
             Step {step} - Let's get started.
           </h2>
 
-          <div className="grid gap-6 mb-6 md:grid-cols-2">
+          <div className="grid gap-6 mb-6 md:grid-cols-2 mx-auto">
             <div>
               <label
                 htmlFor="name"
@@ -654,21 +654,16 @@ export const CreateForm = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto w-full sm:ml-4 lg:ml-0 p-8 mb-24 md:mb-0">
+    <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0">
       {step !== 4 && (
-        <>
-          <h1 className="text-center text-4xl text-black dark:text-white">Create your collectible</h1>
-          {<div className="text-center text-xs">
-            Your blockchain address:
-            <br />
-            {user?.wallet}
-          </div>}
-        </>
+
+        <h1 className="text-center text-4xl text-black dark:text-white">Create your collectible</h1>
+
       )}
       {step === 4 && (
-        <>
-          <h1 className="text-center text-4xl">Creating your collectible</h1>
-        </>
+
+        <h1 className="text-center text-4xl">Creating your collectible</h1>
+
       )}
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}

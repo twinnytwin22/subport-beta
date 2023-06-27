@@ -1,5 +1,4 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { supabaseAdmin } from "app/supabase-admin";
 import { supabase as supabaseClient } from "lib/providers/supabase/supabaseClient";
 
 const supabase = createClientComponentClient();
@@ -23,7 +22,7 @@ async function getUsersPlaylist(userId: any) {
   let { data: addPlaylist, error: addPlaylistError } = await supabase
     .from("playlists")
     .select("*")
-    .eq("userId", userId);
+    .eq("user_id", userId);
 
   return { addPlaylist, addPlaylistError };
 }
@@ -63,7 +62,7 @@ async function getProfilesWithDrops() {
   const { data: users, error } = await supabase.from("profiles").select(`
     id, city, state, country,
      drops (
-      userId
+      user_id
     )`);
 
   if (error) {
@@ -229,6 +228,19 @@ async function deleteDropComment(
   return data;
 }
 
+const transportPK = async (userId: any) => {
+  // Retrieve decrypted data from the `decrypted_secrets` view
+  const { data, error } = await supabase
+    .from("decrypted_profiles")
+    .select("access_key")
+    .eq("id", userId);
+
+  if (error) {
+    console.error(error);
+  } else {
+    return data;
+  }
+};
 export {
   deleteReaction, // delete reaction from drop
   addReaction, // add reaction to drop

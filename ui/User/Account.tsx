@@ -5,10 +5,9 @@ import Avatar from "./UploadWidget";
 import { ConnectSpotifyButton } from "./ConnectSpotifyButton";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
-import { supabaseAdmin } from "app/supabase-admin";
 import { LoadingContainer } from "ui/LoadingContainer";
 import { useRouter } from 'next/navigation'
-
+import { supabase } from "lib/constants";
 
 
 export default function Account() {
@@ -53,7 +52,7 @@ export default function Account() {
           updates.state = state;
         }
         updates.updated_at = new Date().toISOString();
-        let { error } = await supabaseAdmin
+        let { error } = await supabase
           .from("profiles")
           .update(updates)
           .eq("id", user?.id);

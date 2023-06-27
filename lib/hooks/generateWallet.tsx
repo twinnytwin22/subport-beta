@@ -1,20 +1,14 @@
 import { toast } from 'react-toastify';
 import { ethers } from 'ethers';
 import { createClient } from '@supabase/supabase-js';
-import { supabaseAdmin } from 'app/supabase-admin';
+
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+const supabase = createClientComponentClient()
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const options = {
 
-  auth: {
-    autoRefreshToken: true,
-    persistSession: false,
-    detectSessionInUrl: true
-  },
-}
 export default async function AddUpdateWallet(user: any) {
   if (user) {
-    const supabase = createClient(supabaseUrl, supabaseKey, options)
     // Check if the user is authenticated and has a wallet address
     const { data: wallet } = await supabase
       .from("profiles")
@@ -30,7 +24,7 @@ export default async function AddUpdateWallet(user: any) {
 
         try {
           // Update the user's wallet address in Supabase
-          const { data: profile, error } = await supabaseAdmin
+          const { data: profile, error } = await supabase
             .from("profiles")
             .update(
               {

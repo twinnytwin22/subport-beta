@@ -1,8 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { supabaseAdmin } from 'app/supabase-admin'
 import { SupabaseImage, downloadImage } from 'lib/hooks/downloadImage'
-import { useImagePath } from 'lib/constants'
+import { supabase, useImagePath } from 'lib/constants'
 
 
 export default function Avatar({ uid, url, size, onUpload }: {
@@ -20,7 +19,7 @@ export default function Avatar({ uid, url, size, onUpload }: {
   }
   useEffect(() => {
     if (url) { getImage(url) }
-  }, [url, supabaseAdmin])
+  }, [url, supabase])
 
   const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
     try {
@@ -33,7 +32,7 @@ export default function Avatar({ uid, url, size, onUpload }: {
       const fileExt = file.name.split('.').pop()
       const filePath = `${uid}-${Math.random()}.${fileExt}`
 
-      let { error: uploadError } = await supabaseAdmin.storage.from('avatars').upload(filePath, file)
+      let { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file)
 
       if (uploadError) {
         throw uploadError

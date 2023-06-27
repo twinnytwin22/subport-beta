@@ -11,7 +11,7 @@ async function CollectCard(props: any) {
   const drop = props?.drop
   const metaData = props?.metaData
   const imageHash = metaData?.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
-  const [user]: any = await fetchProfilesForDrops(drop?.userId)
+  const [user]: any = await fetchProfilesForDrops(drop?.user_id)
   const profileImagePath = useImagePath(user?.avatar_url)
   const reactionCount = await getTotalReactions(drop?.id)
 

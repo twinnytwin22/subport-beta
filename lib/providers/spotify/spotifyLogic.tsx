@@ -27,7 +27,9 @@ export const token = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET
 
 
 
-export async function fetchSpotifyWebApi(endpoint: any, method: any, body?: any) {
+
+
+export async function fetchSpotifyWebApi(endpoint: string, method: string, body?: any) {
   const res = await fetch(`https://api.spotify.com/${endpoint}`, {
     headers: {
       Authorization: `Bearer ${token}`,

@@ -2,7 +2,8 @@
 import { Suspense, cache, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient, Session } from "@supabase/auth-helpers-nextjs";
-import { supabaseAdmin } from "app/supabase-admin";
+import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
+
 
 interface AuthContextProps {
   user: any;

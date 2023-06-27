@@ -1,10 +1,10 @@
 'use client'
 import { useAuthProvider } from "app/context/auth";
-import { supabaseAdmin } from "app/supabase-admin";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
+const supabase = createClientComponentClient()
 const NewUserModal = () => {
     const [showModal, setShowModal] = useState(true);
     const [termsChecked, setTermsChecked] = useState(false);
@@ -29,7 +29,7 @@ const NewUserModal = () => {
                     updates.username = username;
                     updates.updated_at = new Date().toISOString();
                 }
-                let { error } = await supabaseAdmin
+                let { error } = await supabase
                     .from("profiles")
                     .update(updates)
                     .eq("id", profile?.id);

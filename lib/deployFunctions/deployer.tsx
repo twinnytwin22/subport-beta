@@ -6,7 +6,6 @@ import { polygonMumbai } from 'viem/chains'
 import subportMeta from '../../utils/subport.json';
 import { supabase } from '../providers/supabase/supabaseClient'
 import { uploadHashToIpfs } from './uploadFileIpfs'
-import { supabaseAdmin } from 'app/supabase-admin';
 
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
@@ -151,12 +150,12 @@ export async function deployCollectible(collectibleData: any) {
       const contractAddress = await deployContractViem({ deployData });
 
       // Add Collection to Supabase
-      const { data: drop, error } = await supabaseAdmin
+      const { data: drop, error } = await supabase
         .from("drops")
         .insert([
           {
             name: collectibleData?.name,
-            userId: collectibleData?.id,
+            user_id: collectibleData?.id,
             contractAddress: contractAddress,
             slug: slug,
             keywords: collectibleData?.keywords,
@@ -164,7 +163,7 @@ export async function deployCollectible(collectibleData: any) {
             spotify_uri: collectibleData.song_uri
           }
         ])
-        .eq("userId", collectibleData?.id);
+        .eq("user_id", collectibleData?.id);
 
       if (error) {
         console.error(error);

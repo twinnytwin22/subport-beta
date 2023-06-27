@@ -3,16 +3,14 @@ import 'viem/window'
 import React, { useEffect, useState } from "react";
 import { deployContractViem } from "lib/deployFunctions/deployer";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { supabase } from "lib/providers/supabase/supabaseClient";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
-import { supabaseAdmin } from "app/supabase-admin";
 import Image from 'next/image';
 import SpotifyAuth from 'utils/testSpotifyLogic';
-
+import { supabase } from 'lib/constants';
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -147,7 +145,7 @@ function Page(props: any) {
     const messages = testMessages({ title: "Supabase Upload" });
     isLoading(true)
     if (user) {
-      const { data: drop, error, status } = await supabaseAdmin
+      const { data: drop, error, status } = await supabase
         .from('drops')
         .insert([
           {

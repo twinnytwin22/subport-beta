@@ -12,7 +12,7 @@ function Create() {
         return <LoadingContainer />
     }
     return (
-        <div className='bg-gray-100 dark:bg-black w-full max-w-screen mx-auto place-items-center items-center min-h-screen'>
+        <div className='bg-gray-100 dark:bg-black w-full max-w-screen mx-auto min-h-screen'>
             <CreateForm />
         </div>
     )
