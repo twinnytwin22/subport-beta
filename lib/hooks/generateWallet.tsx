@@ -1,11 +1,6 @@
 import { toast } from 'react-toastify';
 import { ethers } from 'ethers';
-import { createClient } from '@supabase/supabase-js';
-
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-const supabase = createClientComponentClient()
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+import { supabase } from 'lib/constants';
 
 export default async function AddUpdateWallet(user: any) {
   if (user) {

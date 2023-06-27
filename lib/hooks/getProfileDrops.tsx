@@ -1,6 +1,5 @@
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { supabase } from "lib/constants";
 
-const supabase = createClientComponentClient()
 async function getProfileData(userId: any) {
     const { data: Followers, error: FollowersCountError, count: FollowerCount } = await supabase
         .from('followers')
@@ -25,7 +24,7 @@ async function getProfileData(userId: any) {
     const { data: Drops, count: DropsCounts, error: DropsFetchError } = await supabase
         .from('drops')
         .select('*', { count: 'estimated' })
-        .eq('userId', userId)
+        .eq('user_id', userId)
 
     if (DropsFetchError) {
         console.error('Error fetching profile counts:', DropsFetchError?.message);

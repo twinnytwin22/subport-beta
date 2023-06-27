@@ -25,8 +25,8 @@ const getProfileCounts = cache(async (userId: any) => {
 
     const { data, count: DropsCounts, error: DropCountsError } = await supabase
         .from('drops')
-        .select('userId', { count: 'estimated' })
-        .eq('userId', userId)
+        .select('user_id', { count: 'estimated' })
+        .eq('user_id', userId)
 
     if (DropCountsError) {
         console.error('Error fetching profile counts:', DropCountsError?.message);
