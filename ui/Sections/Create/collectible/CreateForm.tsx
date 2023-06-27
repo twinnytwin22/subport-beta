@@ -7,7 +7,7 @@ import { Media } from "ui/Misc/Media";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
 import { allGenres } from "lib/content/allGenres";
 import { Tooltip } from "ui/Misc/Tooltip";
-import { createFormMessage } from "./createFormMessages";
+import { createFormMessage } from "../createFormMessages";
 import { deployCollectible } from "lib/deployFunctions/deployer";
 import { useAuthProvider } from "app/context/auth";
 import { uploadContractMediaToIpfs } from "lib/deployFunctions/uploadFileIpfs";
