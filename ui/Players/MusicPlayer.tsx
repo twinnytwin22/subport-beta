@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useRef, useEffect } from "react";
 import { useMediaQuery } from 'react-responsive'
-import ReactAudioPlayer from "react-audio-player";
 
 ///Music Player
 const MusicPlayer = () => {
