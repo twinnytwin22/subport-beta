@@ -15,14 +15,17 @@
     "multicall",
     "nextauth",
     "nomicfoundation",
+    "pino",
     "POLYGONSCAN",
     "rainbowkit",
+    "randomcolor",
     "RNZB",
     "SBPRT",
     "siwe",
     "Siwe",
     "supa",
     "Synthwave",
+    "tanstack",
     "testcontracturi",
     "thirdweb",
     "toastify",
@@ -33,6 +36,7 @@
     "Unib",
     "Viem",
     "wagmi",
-    "Wagmi"
+    "Wagmi",
+    "zustand"
   ]
 }

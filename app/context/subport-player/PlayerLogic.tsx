@@ -1,5 +1,27 @@
+'use client'
 import { useEffect } from 'react';
+import { create } from 'zustand'
+export const usePlayerStore = create((set: any) => ({
+    currentTime: 0,
+    position: 0,
+    duration: 0,
+    isPlaying: false,
+    audio: null,
+    volume: 100,
+    isMuted: false,
+    prevVolume: 100,
 
+    setCurrentTime: (currentTime: any) => set(() => ({ currentTime })),
+    setPosition: (position: any) => set(() => ({ position })),
+    setDuration: (duration: any) => set(() => ({ duration })),
+    setIsPlaying: (isPlaying: boolean) => set(() => ({ isPlaying })),
+    setAudio: (audio: any) => set(() => ({ audio })),
+    setVolume: (volume: any) => set(() => ({ volume })),
+    setIsMuted: (isMuted: boolean) => set(() => ({ isMuted })),
+    setPrevVolume: (prevVolume: any) => set(() => ({ prevVolume })),
+
+    // Other state setters...
+}));
 export const usePlaybackTime = (audioRef: any) => {
     useEffect(() => {
         const musicPlayer = audioRef.current;

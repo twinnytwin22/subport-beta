@@ -1,22 +1,7 @@
 "use client";
 import { useAuthProvider } from "app/context/auth";
-import { useEffect, useRef, useState } from "react";
-import { FaPlay, FaPause, FaStop, FaSpeakerDeck } from "react-icons/fa";
+import { FaPlay, FaPause, FaStop } from "react-icons/fa";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
-import {
-    handleLoadedData,
-    handleSeekChange,
-    handleTimeUpdate,
-    handleVolumeChange,
-    useInterval,
-    usePlaybackTime,
-} from "app/context/subport-player/PlayerLogic";
-import {
-    handlePlay,
-    handlePause,
-    handleStop,
-    formatTime,
-} from "app/context/subport-player/PlayerLogic";
 import { useSubportPlayer } from "app/context/subport-player";
 
 const FooterPlayer = () => {
@@ -25,46 +10,25 @@ const FooterPlayer = () => {
         audioUrl,
         audioRef,
         isPlaying,
-        setIsPlaying,
         volumeChange,
         volume,
         isMuted,
         setMute,
-    } =
-        useSubportPlayer();
+        timeUpdate,
+        dataLoad,
+        seekChange,
+        formatTime,
+        currentTime,
+        play,
+        pause,
+        stop
+    } = useSubportPlayer();
 
-    const [currentTime, setCurrentTime] = useState(0);
-    /// Time Logic
-    const [position, setPosition] = useState(0);
-    const [duration, setDuration] = useState(0);
 
-    usePlaybackTime(audioRef);
-    useInterval(audioRef, setCurrentTime, isPlaying);
-    // Event handler for play button
-    const handlePlayButton = () => {
-        handlePlay(audioRef, setIsPlaying);
-    };
 
-    // Event handler for pause button
-    const handlePauseButton = () => {
-        handlePause(audioRef, setIsPlaying);
-    };
 
-    // Event handler for stop button
-    const handleStopButton = () => {
-        handleStop(audioRef, setIsPlaying);
-    };
 
-    const timeUpdate = () => {
-        handleTimeUpdate(audioRef, setPosition);
-    };
-    const dataLoad = () => {
-        handleLoadedData(audioRef, setDuration);
-    };
 
-    const seekChange = () => {
-        handleSeekChange(event, audioRef);
-    };
 
     return (
         user && (
@@ -85,7 +49,7 @@ const FooterPlayer = () => {
                                 <div className="block max-w-[30px] h-[30px] rounded-md bg-blue-300 w-full"></div>
                                 {!isPlaying && (
                                     <button
-                                        onClick={handlePlayButton}
+                                        onClick={play}
                                         className="hover:scale-110 duration-200 ease-in-out"
                                     >
                                         <FaPlay />
@@ -93,14 +57,14 @@ const FooterPlayer = () => {
                                 )}
                                 {isPlaying && (
                                     <button
-                                        onClick={handlePauseButton}
+                                        onClick={pause}
                                         className="hover:scale-110 duration-200 ease-in-out"
                                     >
                                         <FaPause />
                                     </button>
                                 )}
                                 <button
-                                    onClick={handleStopButton}
+                                    onClick={stop}
                                     className="hover:scale-110 duration-200 ease-in-out"
                                 >
                                     <FaStop />

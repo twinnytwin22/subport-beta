@@ -1,19 +1,51 @@
-'use client'
-import { Suspense, createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { useSetupAudio, useAudio, usePlaybackTime, handleVolumeChange } from './PlayerLogic';
+"use client";
+import {
+    Suspense,
+    createContext,
+    useCallback,
+    useContext,
+    useRef,
+} from "react";
+import {
+    usePlaybackTime,
+    useAudio,
+    useSetupAudio,
+    handleVolumeChange,
+    handlePlay,
+    handlePause,
+    handleStop,
+    formatTime,
+    useInterval,
+    handleTimeUpdate,
+    handleLoadedData,
+    handleSeekChange,
+    usePlayerStore
+} from "./PlayerLogic";
 
 // Create the player context
 export const SubportPlayerContext = createContext<any>(null);
 
 // Create a custom provider component
 export const SubportPlayer = ({ children }: { children: React.ReactNode }) => {
-    const audioUrl: string = '/audio/song.mp3';
-    const [currentTime, setCurrentTime] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [audio, setAudio] = useState<any>(null);
-    const [volume, setVolume] = useState(100);
-    const [isMuted, setIsMuted] = useState(false);
-    const [prevVolume, setPrevVolume] = useState(100); // Add previous volume state
+    const {
+        currentTime,
+        position,
+        duration,
+        isPlaying,
+        audio,
+        volume,
+        isMuted,
+        prevVolume,
+        setCurrentTime,
+        setPosition,
+        setDuration,
+        setIsPlaying,
+        setAudio,
+        setVolume,
+        setIsMuted,
+        setPrevVolume,
+    } = usePlayerStore();
+    const audioUrl: string = "/audio/song.mp3";
     const audioRef = useRef<any>(audio);
 
     useAudio(audioUrl, setAudio);
@@ -21,10 +53,34 @@ export const SubportPlayer = ({ children }: { children: React.ReactNode }) => {
     const onLoadedData = useCallback(() => {
         // Set the duration or perform any necessary audio setup
     }, []);
-
     useSetupAudio(audioRef, audioUrl, onLoadedData);
 
     usePlaybackTime(audioRef);
+
+    const play = () => {
+        handlePlay(audioRef, setIsPlaying);
+    };
+
+    // Event handler for pause button
+    const pause = () => {
+        handlePause(audioRef, setIsPlaying);
+    };
+
+    // Event handler for stop button
+    const stop = () => {
+        handleStop(audioRef, setIsPlaying);
+    };
+
+    const timeUpdate = () => {
+        handleTimeUpdate(audioRef, setPosition);
+    };
+    const dataLoad = () => {
+        handleLoadedData(audioRef, setDuration);
+    };
+
+    const seekChange = () => {
+        handleSeekChange(event, audioRef);
+    };
 
     const volumeChange = () => {
         handleVolumeChange(event, audioRef, setVolume);
@@ -40,8 +96,11 @@ export const SubportPlayer = ({ children }: { children: React.ReactNode }) => {
         setIsMuted(!isMuted); // Toggle the mute state
     };
 
+    usePlaybackTime(audioRef);
+    useInterval(audioRef, setCurrentTime, isPlaying);
+
     // Define the value for the context provider
-    const value = {
+    const values = {
         audioUrl,
         audioRef,
         currentTime,
@@ -52,11 +111,28 @@ export const SubportPlayer = ({ children }: { children: React.ReactNode }) => {
         volume,
         isMuted,
         setMute,
+        handlePlay,
+        handlePause,
+        handleStop,
+        formatTime,
+        handleTimeUpdate,
+        handleLoadedData,
+        handleSeekChange,
+        useInterval,
+        usePlaybackTime,
+        setDuration,
+        setPosition,
+        timeUpdate,
+        dataLoad,
+        seekChange,
+        play,
+        pause,
+        stop
         // Other context values...
     };
 
     return (
-        <SubportPlayerContext.Provider value={value}>
+        <SubportPlayerContext.Provider value={values}>
             <Suspense>{children}</Suspense>
         </SubportPlayerContext.Provider>
     );

@@ -1,12 +1,14 @@
+
 import Providers from "lib/providers/providers";
 import Navbar from "ui/Navigation/Navbar";
 import MobileMenu from "ui/Navigation/MobileMenu";
 import Sidebar from "ui/Navigation/Sidebar";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import FooterPlayer from "ui/Players/FooterPlayer";
 import { LoadingContainer } from "ui/LoadingContainer";
 import { NewUserModal } from "ui/User/NewUserModal";
-import { Provider as Redux } from 'react-redux'
+import Head from "next/head";
+
 
 
 export default async function RootLayout({
@@ -26,8 +28,8 @@ export default async function RootLayout({
 
   return (
     <html suppressHydrationWarning={true}>
-      <head />
       <body className="bg-gray-100 dark:bg-black min-w-sm max-w-screen w-full relative">
+
         <Providers>
           <div className="mb-16" />
           <div className="flex flex-wrap relative flex-col mx-auto top-0 right-0 left-0 overflow-hidden w-full">
@@ -41,7 +43,6 @@ export default async function RootLayout({
           </div>
           <MobileMenu />
         </Providers>
-
       </body>
     </html>
   );

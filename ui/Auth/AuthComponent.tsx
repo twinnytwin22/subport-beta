@@ -1,18 +1,21 @@
 "use client";
 
-import { ConnectToSubport } from "ui/Buttons/ConnectButton";
+// import { ConnectToSubport } from "ui/Buttons/ConnectButton";
 import { useAuthProvider } from "app/context/auth";
-
+import { useRouter } from "next/navigation";
 
 // Supabase auth needs to be triggered client-side
 export default function LoginCard() {
+  const router = useRouter()
   const { signInWithSpotify, signInWithGoogle, user } = useAuthProvider()
   async function handleSpotifyLogin() {
     await signInWithSpotify()
+    router.refresh()
   }
 
   async function handleGoogleLogin() {
     await signInWithGoogle()
+    router.refresh()
 
   }
   return (
@@ -112,10 +115,7 @@ export default function LoginCard() {
                 </span>
               </a>
             </li>}
-          {user &&
-            <li>
-              <ConnectToSubport />
-            </li>}
+
         </ul>
         <div>
         </div>
