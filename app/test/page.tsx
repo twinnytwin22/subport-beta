@@ -2,7 +2,6 @@
 import 'viem/window'
 import React, { useEffect, useState } from "react";
 import { deployContractViem } from "lib/deployFunctions/deployer";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -195,7 +194,6 @@ function Page(props: any) {
           <h2 className="text-center font-bold text-xl text-black">Testing...</h2>}
         {avatarUrl && <Image src={avatarUrl} alt="avatar test" width={50} height={50} />}
 
-        <ConnectButton showBalance={false} accountStatus={'avatar'} />
         <button onClick={handleClick}
           className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">DEPLOY WITH CLIENT / METAMASK</button>
         <br />
