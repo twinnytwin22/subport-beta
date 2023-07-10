@@ -79,7 +79,7 @@ function PromotionForm() {
                 </label>
 
             </div>
-            <div className=' min-h-full'>
+            <div className=''>
                 {watch('promotionType') === 'freeTrial' && (
                     <>
                         <h3 className="text-lg font-bold mt-4 mb-2">Free trial details:</h3>
