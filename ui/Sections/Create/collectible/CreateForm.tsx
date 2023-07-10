@@ -657,7 +657,7 @@ export const CreateForm = () => {
     <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0">
       {step !== 4 && (
 
-        <h1 className="text-center text-4xl text-black dark:text-white">Create your collectible</h1>
+        <h1 className="text-center text-4xl text-black dark:text-white">Create your collectible.</h1>
 
       )}
       {step === 4 && (

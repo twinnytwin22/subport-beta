@@ -1,8 +1,9 @@
 import React from 'react'
+import SubscriptionForm from 'ui/Sections/Create/subscription/SubscriptionForm'
 
 function page() {
     return (
-        <div>page</div>
+        <div><SubscriptionForm /></div>
     )
 }
 

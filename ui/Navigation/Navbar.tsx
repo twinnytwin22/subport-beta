@@ -7,7 +7,8 @@ import SearchBar from "ui/Misc/SearchBar";
 import UserAvatar from "ui/User/UserAvatar";
 function Navbar() {
   const supabase = createClientComponentClient();
-  const { user } = useAuthProvider()
+  const { user, profile } = useAuthProvider()
+  console.log(profile)
 
 
 

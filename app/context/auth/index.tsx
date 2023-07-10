@@ -1,6 +1,5 @@
 'use client'
 import { Suspense, createContext, useContext, useMemo } from "react";
-import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
@@ -10,6 +9,7 @@ const refresh = () => {
   window.location.reload();
 };
 
+const supabase = createClientComponentClient();
 interface AuthState {
   user: any;
   profile: any;
@@ -50,24 +50,22 @@ const useAuthStore = create<AuthState>((set) => ({
 export const AuthContext = createContext<AuthState>(useAuthStore.getState());
 
 
-const supabase = createClientComponentClient();
+
+const fetchProfile = async (id: string) => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id, username, bio, website, avatar_url, wallet_address, city, state, country")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter();
-
-  const fetchProfile = async (id: string) => {
-    const { data, error } = await supabase
-      .from("profiles")
-      .select("id, username, bio, website, avatar_url, wallet_address, city, state, country")
-      .eq("id", id)
-      .single();
-
-    if (error) {
-      throw error;
-    }
-
-    return data;
-  };
 
   const { data: user, isLoading: isUserLoading } = useQuery(["user"], async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -77,7 +75,11 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
       if (authUser?.user) {
         const profile = await fetchProfile(authUser.user.id);
+        useAuthStore.setState({ profile });
+        useAuthStore.setState({ user: authUser.user });
+
         return { user: authUser.user, profile };
+
       }
     }
     return null;
@@ -102,7 +104,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const signOut = useAuthStore((state) => async () => {
     try {
       await state.signOut();
-      router.refresh();
+      refresh();
     } catch (error) {
       console.error("Error signing out:", error);
     }
@@ -130,9 +132,21 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       const { data: { subscription: AuthListener } } = supabaseAdmin.auth.onAuthStateChange(
         async (event: string, currentSession: any) => {
           if (event === "SIGNED_IN") {
-            await user
+            useAuthStore.setState({ user: currentSession.user });
+
+            const profile = await fetchProfile(currentSession.user.id);
+            useAuthStore.setState({ profile });
           } else if (event === "SIGNED_OUT") {
             refresh();
+          }
+          if (event == "PASSWORD_RECOVERY") {
+            const newPassword = prompt("What would you like your new password to be?");
+            const { data, error } = await supabaseAdmin.auth
+              .updateUser({ password: newPassword! })
+
+            if (data) alert("Password updated successfully!")
+            if (error) alert("There was an error updating your password.",)
+            console.log(error)
           }
         }
       );
