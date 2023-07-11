@@ -2,7 +2,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-function PromotionForm() {
+function CampaignForm({ close }: any) {
     const { watch, register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = (data: any) => {
@@ -11,7 +11,7 @@ function PromotionForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className='p-8 ' onSubmit={handleSubmit(onSubmit)}>
             <h2 className='font-semibold text-center mb-4 text-2xl'>Create a promotion campaign</h2>
 
 
@@ -57,7 +57,7 @@ function PromotionForm() {
                     <span className="text-lg font-bold">Offer limit:</span>
                     <select
                         {...register('offerLimit')}
-                        className="block w-full mt-1 p-2 border border-gray-300 rounded"
+                        className="block w-full mt-1 p-2 border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 bg-zinc-100 rounded"
                     >
                         <option value="unlimited">Unlimited</option>
                         <option value="0">0</option>
@@ -73,7 +73,7 @@ function PromotionForm() {
                         min="1"
                         max="31"
                         {...register('offerExpiration', { required: true })}
-                        className="block w-full mt-1 p-2 border border-gray-300 rounded"
+                        className="block w-full mt-1 p-2 border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 bg-zinc-100 rounded"
                     />
                     {errors.offerExpiration && <span className="text-red-500">This field is required</span>}
                 </label>
@@ -91,14 +91,20 @@ function PromotionForm() {
             </div>
             <label className="block mt-4 mb-4">
                 <span className="text-lg font-bold">Message (optional):</span>
-                <textarea {...register('message', { maxLength: 500 })} className="block w-full mt-1 p-2 border border-gray-300 rounded" />
+                <textarea {...register('message', { maxLength: 500 })} className="block w-full mt-1 p-2 border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 bg-zinc-100 rounded" />
             </label>
 
-            <div className="flex justify-end">
-                <button type="submit" className="px-4 py-2 bg-blue-600 dark:bg-blue-700  hover:bg-blue-700 dark:hover:bg-blue-600 text-white rounded w-full text-center">Start Campaign</button>
+            <div className="grid grid-cols-2 gap-4 max-w-xs w-full font-bold text-sm">
+                <button type='button'
+                    className=" bg-zinc-100 border-zinc-300 border dark:border-zinc-900 dark:bg-zinc-800 dark:hover:bg-zinc-600 text-center text-black dark:text-white px-4 py-2 rounded relative z-50"
+                    onClick={close}
+                >
+                    Cancel
+                </button>
+                <button type="submit" className="px-4 py-2 bg-blue-600 dark:bg-blue-700  hover:bg-blue-700 dark:hover:bg-blue-600 text-white rounded text-center">Start Campaign</button>
             </div>
         </form>
     );
 }
 
-export default PromotionForm;
+export default CampaignForm;

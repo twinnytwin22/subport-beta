@@ -241,6 +241,67 @@ const transportPK = async (userId: any) => {
     return data;
   }
 };
+
+const checkSubscription = async (id: any) => {
+  try {
+    // Check if a subscription already exists for the user
+    const { data: existingSubscription, error: existingSubscriptionError } =
+      await supabase
+        .from("subscriptions")
+        .select("*")
+        .eq("user_id", id)
+        .single();
+
+    if (existingSubscriptionError) {
+      console.log(existingSubscriptionError.message);
+    }
+
+    return existingSubscription;
+  } catch (error) {
+    console.error("Error checking subscription:", error);
+    return null;
+  }
+};
+
+const createSubscription = async (subData: any, id: any) => {
+  console.log(id, "user_id");
+  try {
+    // Check if a subscription already exists for the user
+    const existingSubscription = await checkSubscription(id);
+
+    if (existingSubscription !== null) {
+      // Delete the existing subscription
+      await supabase.from("subscriptions").delete().eq("user_id", id);
+    }
+
+    // Store the new subscription data in Supabase
+    const { data: newSubscription, error: newSubscriptionError } =
+      await supabase.from("subscriptions").insert([
+        {
+          user_id: id,
+          price_per_month: subData?.pricePerMonth,
+          tier_1: !!subData?.subscriptionBundle?.includes("3"), // Convert to boolean
+          tier_2: !!subData?.subscriptionBundle?.includes("6"), // Convert to boolean
+          tier_3: !!subData?.subscriptionBundle?.includes("12"), // Convert to boolean
+          crypto: !!subData?.paymentMethod?.includes("crypto"), // Convert to boolean
+          cash: !!subData?.paymentMethod?.includes("cash"), // Convert to boolean
+        },
+      ]);
+
+    if (newSubscriptionError) {
+      throw new Error(newSubscriptionError.message);
+    }
+
+    // Do something with the stored subscription data, e.g., redirect to success page
+    console.log("Subscription created:", newSubscription);
+    return { subscription: newSubscription };
+    // Invalidate the subscription tiers query to trigger refetch
+  } catch (error) {
+    console.error("Error creating subscription:", error);
+    return { error };
+  }
+};
+
 export {
   deleteReaction, // delete reaction from drop
   addReaction, // add reaction to drop
@@ -258,4 +319,5 @@ export {
   addDropComment,
   deleteDropComment,
   getDropComments,
+  createSubscription,
 };
