@@ -8,7 +8,6 @@ const FollowButton = ({ currentProfile }: any) => {
     const profileId = currentProfile?.id;
 
     const isAuthedUser: boolean = profile?.id === profileId
-    console.log(profileId, profile?.id, isAuthedUser, 'current profile id ')
 
     const [isAlreadyFollowing, setIsAlreadyFollowing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);

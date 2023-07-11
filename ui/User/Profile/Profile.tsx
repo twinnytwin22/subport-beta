@@ -4,12 +4,15 @@ import { FollowButton } from "ui/Buttons/FollowButton";
 import { getProfileData } from "lib/hooks/getProfileDrops";
 import ProfileContent from "./ProfileContent";
 import Image from "next/image";
+import { checkSubscription } from "utils/database";
+import SubscribeButton from "ui/Buttons/SubscribeButton";
 
 async function Profile({ profile, username }: any) {
   const imagePath = useImagePath(profile.avatar_url)
 
   const res = await getProfileData(profile?.id)
-
+  const sub = await checkSubscription(profile?.id)
+  console.log(sub)
   return (
     <div className="">
       <div className=" block h-[300px] bg-black">
@@ -21,7 +24,7 @@ async function Profile({ profile, username }: any) {
           }}
         ></div>
       </div>
-      <div className=" py-16 mx-auto md:px-4 ">
+      <div className=" py-16 mx-auto md:px-4">
         <div className=" flex flex-col min-w-0 break-words bg-zinc-100 dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-xl rounded-lg -mt-36 pb-8">
           <div className="grid grid-cols-12 px-6">
             <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">
@@ -54,6 +57,7 @@ async function Profile({ profile, username }: any) {
             <div className="flex justify-center items-center col-span-3 md:col-span-2 order-2 md:order-3">
               <Suspense>
                 <FollowButton currentProfile={profile} />
+                <SubscribeButton currentProfile={profile} sub={sub} />
               </Suspense>
             </div>
           </div>

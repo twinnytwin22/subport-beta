@@ -320,4 +320,5 @@ export {
   deleteDropComment,
   getDropComments,
   createSubscription,
+  checkSubscription,
 };

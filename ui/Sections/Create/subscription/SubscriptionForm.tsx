@@ -32,12 +32,12 @@ function SubscriptionForm() {
     ];
 
     return (
-        <div className="max-w-md mx-auto space-y-8 mb-24">
+        <div className="max-w-md mx-auto space-y-8 mb-24 ">
             <h1 className="text-center text-4xl text-black dark:text-white">Create your subscription.</h1>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <h3 className="mb-2 font-bold text-zinc-900 dark:text-white">Accept Payments via</h3>
-                <ul className="items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-lg sm:flex dark:bg-zinc-900 dark:border-zinc-800 dark:text-white">
+                <ul className="items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-lg sm:flex dark:bg-zinc-900 dark:border-zinc-700 dark:text-white">
                     <li className="w-full border-b border-zinc-200 sm:border-b-0 sm:border-r dark:border-zinc-600">
                         <div className="flex items-center pl-3">
                             <input
@@ -129,7 +129,7 @@ function SubscriptionForm() {
                 </button>
             </form>
 
-            {modalOpen && <CampaignModal setModalOpen={setModalOpen} />}
+            {modalOpen && <CampaignModal setModalOpen={setModalOpen} price={pricePerMonth} />}
 
             {successModalOpen &&
                 <div className="fixed inset-0 flex flex-col items-center justify-center z-50">
