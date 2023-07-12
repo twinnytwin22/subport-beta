@@ -1,6 +1,5 @@
 'use client'
 import { MediaRenderer } from "@thirdweb-dev/react";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 export const Media = (data: any) => {
   const audioUrl = data?.audio;
@@ -13,14 +12,12 @@ export const Media = (data: any) => {
     src: audioUrl,
     poster: imageUrl,
     alt: 'Nft Media',
-    requireinteraction: 'false'
+    requireinteraction: false
   };
 
   return (
     <div className="mx-auto block content-center" suppressHydrationWarning>
-      <ThirdwebProvider activeChain="ethereum">
-        <MediaRenderer {...mediaProps} />
-      </ThirdwebProvider>
+      <MediaRenderer {...mediaProps} />
     </div>
   );
 };

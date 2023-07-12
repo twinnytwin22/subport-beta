@@ -19,7 +19,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
 
   if (res?.drop !== null) {
     revalidatePath(slug)
-    const contractAddress = res?.drop?.contractAddress
+    const contractAddress = res?.drop?.contract_address
 
     if (contractAddress) {
       const metaData: any = await readSingleContractURI(contractAddress).catch(console.error);

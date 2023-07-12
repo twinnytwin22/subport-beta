@@ -10,6 +10,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { ThirdwebProvider } from "@thirdweb-dev/react";
 
 const queryClient = new QueryClient()
 
@@ -25,12 +26,15 @@ export const Providers = ({ children, }: { children: React.ReactNode }) => {
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
         <SubportPlayer>
-          <Suspense>
-            <ThemeProvider enableSystem={true} attribute="class" defaultTheme="dark">
-              {children}
-              <ToastContainer />
-            </ThemeProvider>
-          </Suspense>
+          <ThirdwebProvider activeChain="ethereum">
+
+            <Suspense>
+              <ThemeProvider enableSystem={true} attribute="class" defaultTheme="dark">
+                {children}
+                <ToastContainer />
+              </ThemeProvider>
+            </Suspense>
+          </ThirdwebProvider>
         </SubportPlayer>
       </AuthContextProvider>
     </QueryClientProvider>
