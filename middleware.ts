@@ -1,7 +1,9 @@
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function middleware(req: NextRequest) {
+  console.log(cookies, "middleware cookies");
   const res = NextResponse.redirect(new URL("/", req.url));
   const user = NextResponse.next();
 

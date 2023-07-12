@@ -5,6 +5,7 @@ import {
     useCallback,
     useContext,
     useRef,
+    useEffect
 } from "react";
 import {
     usePlaybackTime,
@@ -19,18 +20,20 @@ import {
     handleTimeUpdate,
     handleLoadedData,
     handleSeekChange,
-    usePlayerStore
+    usePlayerStore,
+
 } from "./PlayerLogic";
 
 // Create the player context
 export const SubportPlayerContext = createContext<any>(null);
 
 // Create a custom provider component
-export const SubportPlayer = ({ children }: { children: React.ReactNode }) => {
+export const SubportPlayer = ({ children
+}: {
+    children: React.ReactNode
+}) => {
     const {
         currentTime,
-        position,
-        duration,
         isPlaying,
         audio,
         volume,
@@ -44,9 +47,11 @@ export const SubportPlayer = ({ children }: { children: React.ReactNode }) => {
         setVolume,
         setIsMuted,
         setPrevVolume,
+        audioUrl,
+        setAudioUrl
     } = usePlayerStore();
-    const audioUrl: string = "/audio/song.mp3";
     const audioRef = useRef<any>(audio);
+
 
     useAudio(audioUrl, setAudio);
 
@@ -99,9 +104,19 @@ export const SubportPlayer = ({ children }: { children: React.ReactNode }) => {
     usePlaybackTime(audioRef);
     useInterval(audioRef, setCurrentTime, isPlaying);
 
+
+    const updateAudioUrl = useCallback(
+        (newAudioUrl: string) => {
+            setAudioUrl(newAudioUrl);
+        },
+        [setAudioUrl]
+    );
+
+
     // Define the value for the context provider
     const values = {
         audioUrl,
+        setAudioUrl,
         audioRef,
         currentTime,
         setCurrentTime,

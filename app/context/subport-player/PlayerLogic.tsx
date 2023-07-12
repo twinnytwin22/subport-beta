@@ -10,6 +10,8 @@ export const usePlayerStore = create((set: any) => ({
     volume: 100,
     isMuted: false,
     prevVolume: 100,
+    audioUrl: "/audio/song.mp3",
+
 
     setCurrentTime: (currentTime: any) => set(() => ({ currentTime })),
     setPosition: (position: any) => set(() => ({ position })),
@@ -19,6 +21,7 @@ export const usePlayerStore = create((set: any) => ({
     setVolume: (volume: any) => set(() => ({ volume })),
     setIsMuted: (isMuted: boolean) => set(() => ({ isMuted })),
     setPrevVolume: (prevVolume: any) => set(() => ({ prevVolume })),
+    setAudioUrl: (audioUrl: any) => set({ audioUrl }),
 
     // Other state setters...
 }));

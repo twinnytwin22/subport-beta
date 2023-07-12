@@ -1,7 +1,6 @@
 'use client'
 import React, { useState } from 'react';
 import CardView from './CardView';
-import MusicList from 'ui/Players/MusicList';
 import ProfileMusicList from './ProfileMusicList';
 
 enum View {

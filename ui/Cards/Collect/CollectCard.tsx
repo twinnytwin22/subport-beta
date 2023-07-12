@@ -5,18 +5,15 @@ import { fetchProfilesForDrops, getTotalReactions } from "utils/database";
 import { useImagePath } from "lib/constants";
 import CollectCardMenu from "./CollectCardMenu";
 import Image from "next/image";
-
+import PlayButton from "./PlayButton";
 
 async function CollectCard(props: any) {
-  const drop = props?.drop
-  const metaData = props?.metaData
-  const imageHash = metaData?.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
-  const [user]: any = await fetchProfilesForDrops(drop?.user_id)
-  const profileImagePath = useImagePath(user?.avatar_url)
-  const reactionCount = await getTotalReactions(drop?.id)
-
-
-
+  const drop = props?.drop;
+  const metaData = props?.metaData;
+  const imageHash = metaData?.image.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/");
+  const [user]: any = await fetchProfilesForDrops(drop?.user_id);
+  const profileImagePath = useImagePath(user?.avatar_url);
+  const reactionCount = await getTotalReactions(drop?.id);
 
   return (
     <div className="flex flex-col static mx-auto w-full content-center justify-center">
@@ -27,9 +24,9 @@ async function CollectCard(props: any) {
               <Image
                 width={32}
                 height={32}
-                className=" shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto  w-8 h-8 rounded-full"
+                className="shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto w-8 h-8 rounded-full"
                 src={profileImagePath}
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: "cover" }}
                 alt="Song-cover"
                 priority={true}
               />
@@ -46,24 +43,25 @@ async function CollectCard(props: any) {
           </div>
         </div>
         <div className="w-full relative min-w-md h-full">
-          <Image
-            width={500}
-            height={500}
-            className="w-full"
-            src={imageHash}
-            style={{ objectFit: 'cover' }}
-            alt="Song-cover"
-            priority={true}
-          />
+          <div className="relative">
+            <Image
+              width={500}
+              height={500}
+              className="w-full"
+              src={imageHash}
+              style={{ objectFit: "cover" }}
+              alt="Song-cover"
+              priority={true}
+            />
+            <PlayButton />
+          </div>
         </div>
         <div className="p-5 text-zinc-900 dark:text-white">
           <a href="#">
-            <h5 className="mb-2 text-lg font-bold tracking-tight ">
-              {drop?.name}
-            </h5>
+            <h5 className="mb-2 text-lg font-bold tracking-tight ">{drop?.name}</h5>
           </a>
           <div className="flex justify-between items-center mb-2">
-            <Suspense fallback=''>
+            <Suspense fallback="">
               <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
             </Suspense>
             <Link

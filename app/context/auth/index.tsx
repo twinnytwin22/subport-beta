@@ -10,6 +10,7 @@ const refresh = () => {
 };
 
 const supabase = createClientComponentClient();
+
 interface AuthState {
   user: any;
   profile: any;
@@ -17,6 +18,7 @@ interface AuthState {
   signInWithGoogle: () => Promise<void>;
   signInWithSpotify: () => Promise<void>;
   signOut: () => Promise<void>;
+  unsubscribeAuthListener: () => void;
 }
 
 const useAuthStore = create<AuthState>((set) => ({
@@ -40,16 +42,15 @@ const useAuthStore = create<AuthState>((set) => ({
   signOut: async () => {
     try {
       await supabase.auth.signOut();
-      refresh()
+      refresh();
     } catch (error) {
       console.error("Error signing out:", error);
     }
   },
+  unsubscribeAuthListener: () => { },
 }));
 
 export const AuthContext = createContext<AuthState>(useAuthStore.getState());
-
-
 
 const fetchProfile = async (id: string) => {
   const { data, error } = await supabase
@@ -66,7 +67,6 @@ const fetchProfile = async (id: string) => {
 };
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-
   const { data: user, isLoading: isUserLoading } = useQuery(["user"], async () => {
     const { data: { session } } = await supabase.auth.getSession();
 
@@ -79,7 +79,6 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         useAuthStore.setState({ user: authUser.user });
 
         return { user: authUser.user, profile };
-
       }
     }
     return null;
@@ -110,6 +109,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     }
   });
 
+  const unsubscribeAuthListener = useAuthStore((state) => state.unsubscribeAuthListener);
+
   const value = useMemo(
     () => ({
       user: user?.user || null,
@@ -118,14 +119,10 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       signInWithGoogle,
       signInWithSpotify,
       signOut,
+      unsubscribeAuthListener,
     }),
-    [user,
-      isUserLoading,
-      signInWithGoogle,
-      signInWithSpotify,
-      signOut]
+    [user, isUserLoading, signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener]
   );
-
 
   const { data } = useQuery(["authListener"], async () => {
     try {
@@ -139,17 +136,19 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
           } else if (event === "SIGNED_OUT") {
             refresh();
           }
-          if (event == "PASSWORD_RECOVERY") {
+          if (event === "PASSWORD_RECOVERY") {
             const newPassword = prompt("What would you like your new password to be?");
-            const { data, error } = await supabaseAdmin.auth
-              .updateUser({ password: newPassword! })
+            const { data, error } = await supabaseAdmin.auth.updateUser({ password: newPassword! });
 
-            if (data) alert("Password updated successfully!")
-            if (error) alert("There was an error updating your password.",)
-            console.log(error)
+            if (data) alert("Password updated successfully!");
+            if (error) alert("There was an error updating your password.");
+            console.log(error);
           }
         }
       );
+
+      // Store the unsubscribeAuthListener method in the state
+      useAuthStore.setState({ unsubscribeAuthListener: AuthListener.unsubscribe });
 
       return { subscription: AuthListener };
     } catch (error) {
@@ -157,8 +156,9 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       return null;
     }
   });
+
   return (
-    <Suspense fallback='loading...'>
+    <Suspense fallback="loading...">
       <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
     </Suspense>
   );

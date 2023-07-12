@@ -10,7 +10,6 @@ export const getRequestOptions = {
 
 export const spotifyClientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID
 export const spotifySecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET
-export const token = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET
 
 const authOptions = {
   method: 'POST',
@@ -23,22 +22,33 @@ const authOptions = {
 
 async function spotifyClient() {
   const baseUrl = 'https://accounts.spotify.com/api/token'
-  await fetch(baseUrl, {
+  const res = await fetch(baseUrl, {
     method: authOptions.method,
     headers: authOptions.headers,
     body: authOptions.body,
   })
-    .then((res) => res.json())
-    .then((body) => {
-      if (body && body.access_token) {
-        const token = body.access_token;
-        return token
-      }
-    })
-    .catch((error) => {
-      console.log(error)
-      return null
-    });
+  const data = res.json()
+  if (res) {
+    return data
+  } else {
+    return false
+  }
+}
+export async function fetchSpotifyTestApi(endpoint: string, method: string, body?: any) {
+  const token = await spotifyClient()
+  const res = await fetch(`https://api.spotify.com/${endpoint}`, {
+    method,
+    headers: {
+      Authorization: `Bearer ${token.access_token}`,
+      'Content-Type': 'application/json', // Add Content-Type header if needed
+
+      body: JSON.stringify(body)
+    }
+  });
+
+  if (res) {
+    return res.json()
+  }
 }
 
 export async function CheckFollow(type: any, id: any) {
@@ -53,27 +63,13 @@ export async function CheckFollow(type: any, id: any) {
   const res = await fetch(`${baseURL}`, getRequestOptions)
 }
 
-async function fetchSpotifyUserApi(endpoint: string, method: string, body?: any) {
-  let token = null
-  if (!body.token) {
-    token = await spotifyClient()
-  } else {
-    token = body?.token
-  }
-  const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-
-      body: JSON.stringify(body)
-    }
-  });
-  return await res.json();
-}
 
 
 
 
 export async function fetchSpotifyWebApi(endpoint: string, method: string, body?: any) {
+  const token = await spotifyClient()
+
   const res = await fetch(`https://api.spotify.com/${endpoint}`, {
     headers: {
       Authorization: `Bearer ${token}`,

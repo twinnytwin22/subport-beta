@@ -7,7 +7,6 @@ import React, { Suspense } from "react";
 import FooterPlayer from "ui/Players/FooterPlayer";
 import { LoadingContainer } from "ui/LoadingContainer";
 import { NewUserModal } from "ui/User/NewUserModal";
-import Head from "next/head";
 
 
 

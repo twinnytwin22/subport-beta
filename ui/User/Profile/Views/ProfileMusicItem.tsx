@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 const MusicItem = ({ drop, metaData, profile }: any) => {
     const imageHash = metaData?.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
     const router = useRouter()
-    console.log(drop)
     return (
         <tr key={drop.name}
             className="border-b dark:border-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-xs md:text-sm min-w-full ">
