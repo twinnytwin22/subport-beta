@@ -118,13 +118,16 @@ export const CreateForm = () => {
 
       // Call the deployCollectible function
       const deployResult = await deployCollectible(collectibleData);
+      const res = deployResult?.toString()
 
-      if (deployResult.toString()) {
+
+      if (deployResult) {
+
         // If deployment is successful, display the success message
         toast.success("Collectible deployed successfully");
       } else {
         // If deployment fails, display the error message
-        toast.error(deployResult.toString() as any);
+        toast.error(res as any);
       }
     } catch (error) {
       console.error(error);
