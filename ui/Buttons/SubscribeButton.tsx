@@ -28,17 +28,17 @@ function SubscribeButton({ currentProfile, sub }: any) {
         return <div>Error: {error.message}</div>;
     }
 
-    return user && (
-        <div className="py-6 px-3 sm:scroll-mt-0.5">
+    return user && sub && (
+        <div className=" px-3 sm:scroll-mt-0.5">
             {!isAuthedUser && (
-                <>
+                <>  {isAlreadySubscribed &&
                     <button
                         className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={handleOpenSubscriptionModal}
                     >
-                        {isAlreadySubscribed && "Subscribed"}
-                    </button>
+                        {"Subscribed"}
+                    </button>}
                     <button
                         className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                         type="button"

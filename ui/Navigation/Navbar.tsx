@@ -8,7 +8,6 @@ import UserAvatar from "ui/User/UserAvatar";
 function Navbar() {
   const supabase = createClientComponentClient();
   const { user, profile } = useAuthProvider()
-  console.log(profile)
 
 
 

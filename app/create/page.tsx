@@ -33,7 +33,7 @@ function Create() {
   return (
     <div className='bg-zinc-100 dark:bg-black w-full max-w-screen mx-auto place-items-center items-center min-h-screen mb-24'>
       <p className='mt-8 max-w-lg mx-auto text-center font-normal text-zinc-700 dark:text-zinc-400'>Unleash your creativity! Organize events, run campaigns, design merchandise. Explore and create something extraordinary!</p>
-      <div className='max-w-7xl mx-auto w-full mt-8 justify-center'>
+      <div className='max-w-6xl mx-auto w-full mt-8 justify-center'>
         {Object.entries(createSubport).map(([category, { title, options }], i) => (
           <div key={i} className='mx-auto w-full place-content-center'>
             <h2 className="text-2xl font-bold mb-2.5">{title}</h2>

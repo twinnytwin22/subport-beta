@@ -11,7 +11,11 @@ function SubscriberForm({ close, sub, isAuthedUser }: any) {
 
     const handleSubscriptionBundleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedBundle(e.target.value);
+
     };
+    const handleNullBundles = () => {
+        setSelectedBundle(null)
+    }
     const getTotalPrice = () => {
         if (selectedBundle) {
             const tier = subscriptionTiers.find((tier) => tier.months === parseInt(selectedBundle));
@@ -33,8 +37,8 @@ function SubscriberForm({ close, sub, isAuthedUser }: any) {
     ];
 
     return (
-        <div className="max-w-md mx-auto space-y-8 mb-24 absolute w-full left-0 right-0 z-50 top-12 bg-white dark:bg-black p-8 rounded">
-            <p className=' cursor-pointer absolute p-2.5 border rounded text-sm' onClick={close}>Close</p>
+        <div className="max-w-md mx-auto space-y-8 mb-24 absolute w-full left-0 right-0 z-50 top-12 bg-white dark:bg-black p-8 rounded-lg shadow-lg border-zinc-200  dark:border-zinc-700 border">
+            <p className=' cursor-pointer absolute p-2 border dark:border-zinc-800 border-zinc-200 rounded text-sm' onClick={close}>Close</p>
             <h1 className="text-center text-xl text-black dark:text-white">{isAuthedUser ? 'Your Subscription' : 'Subscribe Now'}</h1>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -45,10 +49,10 @@ function SubscriberForm({ close, sub, isAuthedUser }: any) {
                             <input
                                 disabled={isAuthedUser}
                                 {...register('paymentMethod', { required: 'Payment method is required' })}
-                                type="checkbox"
+                                type="radio"
                                 id="crypto"
                                 value="crypto"
-                                className={`w-4 h-4 text-blue-600 bg-zinc-100 border-zinc-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-zinc-700 dark:focus:ring-offset-zinc-700 focus:ring-2 dark:bg-zinc-600 dark:border-zinc-700 ${errors.paymentMethod ? 'border-red-500' : 'border-zinc-300'
+                                className={`w-4 h-4 text-blue-600 bg-zinc-100 border-zinc-300 rounded  dark:ring-offset-zinc-700 dark:focus:ring-offset-zinc-700 focus:ring-2 dark:bg-zinc-600 dark:border-zinc-700 ${errors.paymentMethod ? 'border-red-500' : 'border-zinc-300'
                                     }`}
                             />
                             <label htmlFor="crypto" className="w-full py-3 ml-2 text-sm font-medium text-zinc-900 dark:text-zinc-300">
@@ -63,10 +67,10 @@ function SubscriberForm({ close, sub, isAuthedUser }: any) {
                             <input
                                 disabled={isAuthedUser}
                                 {...register('paymentMethod', { required: 'Payment method is required' })}
-                                type="checkbox"
+                                type="radio"
                                 id="cash"
                                 value="cash"
-                                className={`w-4 h-4 text-blue-600 bg-zinc-100 border-zinc-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-zinc-700 dark:focus:ring-offset-zinc-700 focus:ring-2 dark:bg-zinc-600 dark:border-zinc-700 ${errors.paymentMethod ? 'border-red-500' : 'border-zinc-300'
+                                className={`w-4 h-4 text-blue-600 bg-zinc-100 border-zinc-300 rounded  dark:ring-offset-zinc-700 dark:focus:ring-offset-zinc-700 focus:ring-2 dark:bg-zinc-600 dark:border-zinc-700 ${errors.paymentMethod ? 'border-red-500' : 'border-zinc-300'
                                     }`}
                             />
                             <label htmlFor="cash" className="w-full py-3 ml-2 text-sm font-medium text-zinc-900 dark:text-zinc-300">
@@ -90,6 +94,14 @@ function SubscriberForm({ close, sub, isAuthedUser }: any) {
                 <div className="space-y-2">
                     <label className="font-bold">Subscription Bundle</label>
                     <ul className="space-y-2">
+                        {selectedBundle &&
+
+                            <li>
+                                <button type='button'
+                                    {...register('subscriptionBundle')}
+                                    onClick={handleNullBundles}>Clear</button>
+
+                            </li>}
                         {subscriptionTiers.filter((tier) => tier.active) // Filter out inactive tiers
                             .map((tier) => (
                                 <li key={tier.months} className="flex items-center">

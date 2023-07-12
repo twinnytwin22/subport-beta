@@ -6,6 +6,7 @@ import ProfileContent from "./ProfileContent";
 import Image from "next/image";
 import { checkSubscription } from "utils/database";
 import SubscribeButton from "ui/Buttons/SubscribeButton";
+import { FaMapPin } from "react-icons/fa";
 
 async function Profile({ profile, username }: any) {
   const imagePath = useImagePath(profile.avatar_url)
@@ -41,7 +42,7 @@ async function Profile({ profile, username }: any) {
                 </Suspense>
               </div>
               <div className="block">
-                <h3 className=" text-xl md:text-2xl font-bold leading-normal text-center text-zinc-900 dark:text-zinc-200 pt-24">
+                <h3 className=" text-lg md:text-xl font-bold leading-normal text-center text-zinc-900 dark:text-zinc-200 pt-24">
                   {profile?.full_name}
                 </h3>
                 <h4 className=" text-lg md:text-xl leading-normal text-center text-zinc-500">
@@ -49,15 +50,16 @@ async function Profile({ profile, username }: any) {
                 </h4>
               </div>
             </div>
-            <div className="flex flex-col md:flex-row  w-full col-span-12 md:col-span-8 items-center order-3 md:order-2 mx-auto">
+            <div className="flex flex-col lg:flex-row   w-full col-span-12 md:col-span-8 items-center order-3 md:order-2 mx-auto">
               <UserStats followers={res?.FollowerCount} following={res?.FollowingCount} drops={res?.DropsCounts} />
 
 
               <UserBio profile={profile} /></div>
-            <div className="flex justify-center items-center col-span-3 md:col-span-2 order-2 md:order-3">
+            <div className="flex flex-col -mr-10 md:-mr-6 lg:-mr-4 md:justify-center items-end col-span-2 order-2 md:order-3 mt-20 md:mt-0">
               <Suspense>
                 <FollowButton currentProfile={profile} />
-                <SubscribeButton currentProfile={profile} sub={sub} />
+                {sub &&
+                  <SubscribeButton currentProfile={profile} sub={sub} />}
               </Suspense>
             </div>
           </div>
@@ -65,7 +67,9 @@ async function Profile({ profile, username }: any) {
         </div>
 
         <div>
-          <ProfileContent drops={res?.Drops} currentProfile={profile} />
+          <Suspense>
+            <ProfileContent drops={res?.Drops} currentProfile={profile} />
+          </Suspense>
         </div>
 
       </div>
@@ -76,20 +80,20 @@ async function Profile({ profile, username }: any) {
 
 const UserStats = ({ followers, following, drops }: any) => {
   return (
-    <div className="flex justify-center py-4 ">
-      <div className="mr-4 p-3 text-center">
+    <div className="flex justify-center py-4 font-semibold ">
+      <div className="mr-3 p-3 text-center">
         <span className="text-xl font-bold block uppercase tracking-wide text-zinc-400 ">
           {followers}
         </span>
         <span className="text-sm 0 text-zinc-900 dark:text-zinc-200 ">Followers</span>
       </div>
-      <div className="lg:mr-4 p-3 text-center">
+      <div className="lg:mr-3 p-3 text-center">
         <span className="text-xl font-bold block uppercase tracking-wide text-zinc-400">
           {following}
         </span>
         <span className="text-sm text-zinc-900 dark:text-zinc-200 ">Following</span>
       </div>
-      <div className="mr-4 p-3 text-center">
+      <div className="mr-3 p-3 text-center">
         <span className="text-xl font-bold block uppercase tracking-wide text-zinc-400">
           {drops}
         </span>
@@ -107,9 +111,9 @@ const UserStats = ({ followers, following, drops }: any) => {
 const UserBio = ({ profile }: any) => {
   console.log(profile, 'bio')
   return (
-    <div className="flex w-full md:block xl:px-24  mt-0 md:mt-6">
+    <div className="flex w-full md:block xl:px-24  mt-0 md:mt-6 mx-auto justify-center content-center place-items-center items-center">
       <UserLocation profile={profile} />
-      <p className="flex mb-4 max-w-full text-xs md:text-sm text-zinc-900 dark:text-zinc-200 break-words ">
+      <p className="flex mb-4 max-w-full text-xs md:text-sm text-zinc-900 dark:text-zinc-200 break-words mx-auto justify-center ">
         {profile.bio}
       </p>
     </div>
@@ -118,12 +122,9 @@ const UserBio = ({ profile }: any) => {
 const UserLocation = ({ profile }: any) => {
   console.log(profile)
   return (
-    <div className="flex w-full text-xs md:text-sm leading-normal mt-0 mb-2 text-zinc-400 font-bold uppercase">
-      <svg className="h-5 pr-2 text-zinc-900 dark:text-zinc-200  " fill="none" stroke="white" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-      </svg>
-      {profile.city},{profile.state ? profile.state : profile.country}
+    <div className="flex w-full text-xs md:text-sm leading-normal mt-0 mb-2 text-zinc-400 font-bold uppercase justify-center mx-auto">
+      <FaMapPin />
+      {profile.city},<br className="hidden xl:visible" />{profile.state ? profile.state : profile.country}
     </div>
   );
 };

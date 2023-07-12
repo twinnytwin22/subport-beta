@@ -1,3 +1,4 @@
+'use client'
 import { useState } from 'react';
 import { addReaction, deleteReaction } from 'utils/database';
 import { useReactionCheck } from 'lib/hooks/useReactionCheck';
@@ -118,7 +119,7 @@ const CommentIcon = ({ className, dropId, userId }: any) => {
     );
 };
 
-const CollectIcon = async ({ className, dropId, userId }: any) => {
+const CollectIcon = ({ className, dropId, userId }: any) => {
     const collected = useCollectCheck(dropId, userId)
     return (
         <>
