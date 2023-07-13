@@ -7,6 +7,7 @@ import React, { Suspense } from "react";
 import FooterPlayer from "ui/Players/FooterPlayer";
 import { LoadingContainer } from "ui/LoadingContainer";
 import { NewUserModal } from "ui/User/NewUserModal";
+import Script from "next/script";
 
 
 
@@ -28,6 +29,7 @@ export default async function RootLayout({
   return (
     <html suppressHydrationWarning={true}>
       <body className="bg-gray-100 dark:bg-black min-w-sm max-w-screen w-full relative">
+        <Script src="https://sdk.scdn.co/spotify-player.js"></Script>
 
         <Providers>
           <div className="mb-16" />

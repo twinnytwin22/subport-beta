@@ -150,19 +150,26 @@ export async function deployCollectible(collectibleData: any) {
       const contractAddress = await deployContractViem({ deployData });
 
       if (contractAddress) {
+
+        const dropData = {
+          name: collectibleData?.name,
+          user_id: collectibleData?.id,
+          contract_address: contractAddress,
+          slug: slug,
+          keywords: collectibleData?.keywords,
+          genre: collectibleData?.genre,
+          spotify_uri: collectibleData.song_uri
+        }
+        if (dropData) {
+          console.log(dropData, collectibleData)
+        }
         // Add Collection to Supabase
         const { data: drop, error } = await supabase
           .from("drops")
           .insert([
-            {
-              name: collectibleData?.name,
-              user_id: collectibleData?.id,
-              contract_address: contractAddress,
-              slug: slug,
-              keywords: collectibleData?.keywords,
-              genre: collectibleData?.genre,
-              spotify_uri: collectibleData.song_uri
-            }
+
+            dropData
+
           ])
           .eq("user_id", collectibleData?.id);
 

@@ -5,7 +5,7 @@ import Views from "./Views";
 
 async function ProfileContent({ drops, currentProfile }: any) {
     try {
-        const contractAddresses = drops?.map((drop: any) => drop.contract_uri);
+        const contractAddresses = drops?.map((drop: any) => drop.contract_address);
 
         if (contractAddresses) {
             const metaData: any = await readContractURIs(contractAddresses).catch(console.error);
