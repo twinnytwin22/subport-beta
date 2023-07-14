@@ -1,4 +1,5 @@
 type Collectible = {
+  contract_address: any;
   image: any;
   audio?: any;
   animation_url?: any;
@@ -8,12 +9,12 @@ type Collectible = {
   genre: string;
   total_collectibles: number;
   website?: string;
-  song_uri: string;
+  spotify_uri: string;
   lyrics?: string;
   description?: string;
   keywords?: string;
   address: string;
-  userId?: string;
+  user_id?: string;
   ipfsHash: any;
   immediate?: boolean;
   start_time?: any;

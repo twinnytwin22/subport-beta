@@ -1,7 +1,7 @@
 'use client'
 import 'viem/window'
 import React, { useEffect, useState } from "react";
-import { deployContractViem } from "lib/deployFunctions/deployer";
+import { deployCollectible, deployContractViem } from "lib/deployFunctions/deployer";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -20,6 +20,10 @@ const contractUri = 'ipfs://testcontracturi';
 const totalSupply = 500;
 const slug = (artistName.toLowerCase() + '-' + name.toLowerCase()).replace(/\s+/g, '-');
 const storage = new ThirdwebStorage();
+const userId = ''
+const genre = 'house'
+const tokenName = 'TEST'
+
 
 
 type TestMessage = {
@@ -34,15 +38,34 @@ const testMessages = ({ title }: TestMessage) => {
 };
 
 
-const deployData = [
+const collectibleData = {
   name,
-  artistName,
+  tokenName,
+  start_date: startDate,
+  address: '0xb58952',
+  artist_name: artistName,
+  end_date: endDate,
+  contractUri: '0xb58952',
+  tokenHash: '0xb58952',
+  total_collectibles: totalSupply,
+  genre,
+  description: 'this is the test description',
+  audio: '/audio/song.mp3',
+  image: 'test.png'
+};
+
+
+const deployDataDefined = {
+  name,
+  tokenName,
   startDate,
   endDate,
-  contractUri,
-  totalSupply
-]
+  contractUri: '0xb58952',
+  tokenHash: '0xb58952',
+  totalSupply,
+};
 
+const deployData = Object.values(deployDataDefined);
 function Page(props: any) {
   const [responseJSON, setResponseJSON] = useState('');
   const [loading, isLoading] = useState(false)
@@ -50,6 +73,11 @@ function Page(props: any) {
   const { user } = useAuthProvider()
 
 
+  const [savedUser, setSavedUser] = useState<any>('')
+
+  if (!savedUser && user) {
+    setSavedUser(user)
+  }
 
   useEffect(() => {
     console.log('getting profile')
@@ -63,31 +91,67 @@ function Page(props: any) {
   }, [avatarUrl, user?.id])
 
 
+  const handleOtherClick = async () => {
+    const collectibleData = {
+      name,
+      keywords: ['testing', 'this', 'thang'],
+      tokenName,
+      start_date: startDate,
+      address: '0xb58952',
+      artist_name: artistName,
+      end_date: endDate,
+      contractUri: '0xb58952',
+      tokenHash: '0xb58952',
+      total_collectibles: totalSupply,
+      genre,
+      description: 'this is the test description',
+      audio: '/audio/song.mp3',
+      image: 'test.png',
+      user_id: savedUser?.id,
+      spotify_uri: 'http://test.uri'
+    };
+    const messages = testMessages({ title: "Deploy" });
+    isLoading(true);
+    try {
+      const address = await deployCollectible(collectibleData)
+      console.log('RES:', address, user);
+
+      if (address) {
+        setResponseJSON(JSON.stringify(address))
+      }
+    } catch (error) {
+      setResponseJSON(JSON.stringify(error)); // JSON response you want to stringify
+      toast(messages.fail);
+    }
+
+    isLoading(false);
+  };
+
   const handleClick = async () => {
     const messages = testMessages({ title: "Deploy" });
     isLoading(true);
     try {
       const address = await deployContractViem({ deployData });
-      if (address && user?.email) {
-        console.log('RES:', address);
-        const { data: drop, error } = await supabase
-          .from("drops")
-          .insert([
-            {
-              userId: user?.id,
-              contractAddress: address
-            }
-          ])
-          .eq("userId", user?.id);
-        if (error) {
-          setResponseJSON(JSON.stringify(error)); // JSON response you want to stringify
-          toast(messages.fail);
-        } else {
-          setResponseJSON(JSON.stringify({ address })); // JSON response you want to stringify
-          toast(messages.success);
-        }
-        return address
+      console.log('RES:', address);
+      const { data: drop, error } = await supabase
+        .from("drops")
+        .insert([
+          {
+            slug: slug,
+            genre: genre,
+            user_id: user?.id,
+            contract_address: address
+          }
+        ])
+        .eq("user_id", user?.id);
+      if (error) {
+        setResponseJSON(JSON.stringify(error)); // JSON response you want to stringify
+        toast(messages.fail);
+      } else {
+        setResponseJSON(JSON.stringify({ address })); // JSON response you want to stringify
+        toast(messages.success);
       }
+      return address
     } catch (error) {
       setResponseJSON(JSON.stringify(error)); // JSON response you want to stringify
       toast(messages.fail);
@@ -194,7 +258,7 @@ function Page(props: any) {
           <h2 className="text-center font-bold text-xl text-black">Testing...</h2>}
         {avatarUrl && <Image src={avatarUrl} alt="avatar test" width={50} height={50} />}
 
-        <button onClick={handleClick}
+        <button onClick={handleOtherClick}
           className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">DEPLOY WITH CLIENT / METAMASK</button>
         <br />
         <button onClick={handleTestSupaUpload}

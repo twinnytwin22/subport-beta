@@ -174,7 +174,7 @@ export const AuthContextProvider = ({
     onAuthStateChanged();
 
     return () => {
-      unsubscribeAuthListener()
+
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [AuthListener, value]);

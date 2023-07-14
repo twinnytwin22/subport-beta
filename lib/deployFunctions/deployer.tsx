@@ -6,6 +6,7 @@ import { polygonMumbai } from 'viem/chains'
 import subportMeta from '../../utils/subport.json';
 import { uploadHashToIpfs } from './uploadFileIpfs'
 import { supabase } from 'lib/constants'
+import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin'
 
 
 const bytecode = subportMeta.bytecode as any;
@@ -167,45 +168,40 @@ export async function deployCollectible(collectibleData: any) {
 
         const contractAddress = await deployContractViem({ deployData });
 
-        if (contractAddress!) {
+        if (contractAddress && collectibleData) {
 
           const dropData = {
-            name: collectibleData?.name,
-            user_id: collectibleData?.id,
+            name: collectibleData.name,
+            user_id: collectibleData.user_id,
             contract_address: contractAddress,
             slug: slug,
-            keywords: collectibleData?.keywords,
-            genre: collectibleData?.genre,
-            spotify_uri: collectibleData.song_uri
+            keywords: collectibleData.keywords,
+            genre: collectibleData.genre,
+            spotify_uri: collectibleData.spotify_uri,
           }
           if (dropData) {
-            console.log(dropData, collectibleData)
-          }
-          // Add Collection to Supabase
-          const { data: drop, error } = await supabase
-            .from("drops")
-            .insert([
-              {
-                name: collectibleData?.name,
-                user_id: collectibleData?.id,
-                contract_address: contractAddress,
-                slug: slug,
-                keywords: collectibleData?.keywords,
-                genre: collectibleData?.genre,
-                spotify_uri: collectibleData.song_uri
-              }
-            ])
-            .select();
-          if (drop) {
-            console.log(drop)
-          }
-          if (error) {
-            console.error(error);
-            return { success: false, error: error };
-          }
+            console.log('SUPA:', dropData, 'Collectible Data:', collectibleData)
 
-          // Return the contract address and collectible data
-          return { success: true, contractAddress, drop };
+            // Add Collection to Supabase
+            const { data: drop, error } = await supabaseAdmin
+              .from("drops")
+              .insert([
+
+                dropData
+
+              ])
+              .select();
+            if (drop) {
+              console.log(drop)
+            }
+            if (error) {
+              console.error(error);
+              return { success: false, error: error };
+            }
+
+            // Return the contract address and collectible data
+            return { success: true, contractAddress, drop };
+          }
         }
       }
     } catch (error) {

@@ -15,6 +15,9 @@ import { useCreateFormStore } from "./CreateFormStore";
 
 export const CreateForm = () => {
   const { user, profile } = useAuthProvider();
+  const [savedUser, setSavedUser] = useState<any>(null)
+
+
   const {
     audioUrl,
     setAudioUrl,
@@ -53,7 +56,7 @@ export const CreateForm = () => {
     mode: "onChange",
     defaultValues: {
       name: "",
-      song_uri: "",
+      spotify_uri: "",
       image: "" || imageUrl || null,
       audio: "" || audioUrl || null,
       artist_name: "",
@@ -63,7 +66,7 @@ export const CreateForm = () => {
       description: "",
       keywords: "",
       address: profile?.wallet_address,
-      userId: user?.id || null,
+      user_id: "" || savedUser || user?.id || profile?.id || null,
       start_date: "",
       end_date: "",
       website: "",
@@ -114,6 +117,7 @@ export const CreateForm = () => {
       // Upload the image and audio files to IPFS
       const image = imageUrl!;
       const audio = audioUrl!;
+      const user = savedUser!
       const keywordsArray = formData.keywords?.split(",");
 
       // Update the form data with the generated URLs
@@ -121,7 +125,7 @@ export const CreateForm = () => {
         ...formData,
         image: image,
         audio: audio,
-        id: user?.id,
+        user_id: user?.id,
         keywords: keywordsArray,
       };
       console.log(collectibleData, "about to deploy");
@@ -151,6 +155,9 @@ export const CreateForm = () => {
   };
 
   const onSubmitStep2 = async (data: any) => {
+    if (!savedUser && user) {
+      setSavedUser(user)
+    }
     toast.info("Uploading Media to IPFS Storage", {
       progress: undefined,
       autoClose: 8000,
@@ -163,6 +170,7 @@ export const CreateForm = () => {
       );
       const formData = {
         ...data,
+        user_id: user?.id || savedUser || profile?.id,
         image: image,
         audio: audio,
       };
@@ -366,10 +374,10 @@ export const CreateForm = () => {
               </label>
               <input
                 type="url"
-                id="song_uri"
+                id="spotify_uri"
                 className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="URI: spotify:artist:EXAMPLE"
-                {...register("song_uri", { required: true })}
+                {...register("spotify_uri", { required: true })}
               />
             </div>
           </div>
@@ -594,7 +602,7 @@ export const CreateForm = () => {
                     >
                       Song URI:
                     </th>
-                    <td className="px-6 py-2"> {watch("song_uri")}</td>
+                    <td className="px-6 py-2"> {watch("spotify_uri")}</td>
                   </tr>
                   <tr className="border-b border-zinc-300 dark:border-zinc-600">
                     <th
