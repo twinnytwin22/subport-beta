@@ -4,8 +4,9 @@ import { createWalletClient, http, createPublicClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { polygonMumbai } from 'viem/chains'
 import subportMeta from '../../utils/subport.json';
-import { supabase } from '../providers/supabase/supabaseClient'
 import { uploadHashToIpfs } from './uploadFileIpfs'
+import { supabase } from 'lib/constants'
+
 
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
@@ -195,7 +196,9 @@ export async function deployCollectible(collectibleData: any) {
               }
             ])
             .select();
-
+          if (drop) {
+            console.log(drop)
+          }
           if (error) {
             console.error(error);
             return { success: false, error: error };
