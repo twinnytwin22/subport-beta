@@ -538,7 +538,7 @@ export const CreateForm = () => {
 
   const renderStep3 = () => {
     console.log(imageUrl, audioUrl);
-    return (
+    return imageUrl && audioUrl && (
       <>
         <h2 className="text-center w-full py-4 text-xl">
           Step {step} - Confirm.
@@ -660,15 +660,7 @@ export const CreateForm = () => {
     );
   };
   const renderMintStatusCard = () => {
-    if (status === "loading") {
-      return <RenderMintStatus status="loading" />;
-    } else if (status === "success") {
-      return <RenderMintStatus status="success" />;
-    } else if (status === "error") {
-      return <RenderMintStatus status="error" />;
-    } else {
-      return null;
-    }
+    return <RenderMintStatus status={status} />;
   };
   return (
     <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0">
@@ -682,7 +674,7 @@ export const CreateForm = () => {
       )}
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}
-      {step === 3 && renderStep3()}
+      {step === 3 && imageUrl && renderStep3()}
       {step === 4 && renderMintStatusCard()}
     </div>
   );
