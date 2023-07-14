@@ -1,4 +1,3 @@
-'use client'
 import 'viem/window'
 import { createWalletClient, http, createPublicClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
@@ -7,7 +6,6 @@ import subportMeta from '../../utils/subport.json';
 import { uploadHashToIpfs } from './uploadFileIpfs'
 import { supabase } from 'lib/constants'
 import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin'
-
 
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
@@ -19,30 +17,38 @@ export const publicClient = createPublicClient({
   transport: publicTransport,
 })
 
+// Statuses
+const Status = {
+  LOADING: 'loading',
+  SUCCESS: 'success',
+  ERROR: 'error',
+};
 
 export async function deployContractViem({ deployData }: any) {
-  if (deployData)
-    try {
+  try {
+    // Set loading status
+    setStatus(Status.LOADING);
 
-      const hash = await walletClient.deployContract({
-        abi: abi,
-        args: deployData,
-        bytecode: bytecode,
-      })
-      if (hash)
-        try {
-          const receipt: any = await publicClient.waitForTransactionReceipt({ hash });
-          console.log(receipt.contractAddress, 'contract address')
-          return receipt?.contractAddress
-            ;
-        } catch (error) {
-          console.error(error);
-          return { success: false, error: "Error creating collectible" };
-        }
-    } catch (error) {
-      console.error(error);
-      return { success: false, error: "Error creating collectible" };
+    const hash = await walletClient.deployContract({
+      abi: abi,
+      args: deployData,
+      bytecode: bytecode,
+    });
+
+    if (hash) {
+      const receipt: any = await publicClient.waitForTransactionReceipt({ hash });
+
+      // Set success status
+      setStatus(Status.SUCCESS);
+      console.log(receipt.contractAddress, 'contract address');
+      return receipt?.contractAddress;
     }
+  } catch (error) {
+    // Set error status
+    setStatus(Status.ERROR);
+    console.error(error);
+    return { success: false, error: "Error creating collectible" };
+  }
 }
 
 const account = privateKeyToAccount(`0x${process.env.PK}`)
@@ -52,7 +58,6 @@ export const walletClient = createWalletClient({
   chain: polygonMumbai,
   transport: http()
 })
-
 
 export async function deployCollectible(collectibleData: any) {
   let metaDataHash = null; // Declare the ipfsHash variable outside the try-catch block
@@ -89,8 +94,11 @@ export async function deployCollectible(collectibleData: any) {
       ]
     };
 
-    /// Upload Collection Data to IPFS
+    // Upload Collection Data to IPFS
     try {
+      // Set loading status
+      setStatus(Status.LOADING);
+
       const metaDataHash: string | undefined = await new Promise((resolve, reject) => {
         setTimeout(async () => {
           try {
@@ -112,11 +120,9 @@ export async function deployCollectible(collectibleData: any) {
           }
 
         }, 1000); // 1-second timeout
-
-
       });
-      if (metaDataHash && tokenDataHash) {
 
+      if (metaDataHash && tokenDataHash) {
         console.log("Upload successful! IPFS hash:");
 
         const getSlug = collectibleData?.artist_name + '-' + collectibleData?.name;
@@ -150,7 +156,7 @@ export async function deployCollectible(collectibleData: any) {
           }
 
           let existingDrops = data;
-          return existingDrops
+          return existingDrops;
         }
 
         // Deploy the contract using the form data
@@ -169,7 +175,6 @@ export async function deployCollectible(collectibleData: any) {
         const contractAddress = await deployContractViem({ deployData });
 
         if (contractAddress && collectibleData) {
-
           const dropData = {
             name: collectibleData.name,
             user_id: collectibleData.user_id,
@@ -178,26 +183,28 @@ export async function deployCollectible(collectibleData: any) {
             keywords: collectibleData.keywords,
             genre: collectibleData.genre,
             spotify_uri: collectibleData.spotify_uri,
-          }
+          };
+
           if (dropData) {
             console.log('SUPA:', dropData, 'Collectible Data:', collectibleData)
 
             // Add Collection to Supabase
             const { data: drop, error } = await supabaseAdmin
               .from("drops")
-              .insert([
-
-                dropData
-
-              ])
+              .insert([dropData])
               .select();
+
             if (drop) {
               console.log(drop)
             }
+
             if (error) {
               console.error(error);
               return { success: false, error: error };
             }
+
+            // Set success status
+            setStatus(Status.SUCCESS);
 
             // Return the contract address and collectible data
             return { success: true, contractAddress, drop };
@@ -205,13 +212,21 @@ export async function deployCollectible(collectibleData: any) {
         }
       }
     } catch (error) {
+      // Set error status
+      setStatus(Status.ERROR);
       console.error("Error deploying:", error);
       return { success: false, error: "Error deploying" };
     }
   } catch (error) {
+    // Set error status
+    setStatus(Status.ERROR);
     console.error(error);
     return { success: false, error: "Error creating collectible" };
   }
 }
 
-
+// Helper function to update the status
+function setStatus(status: string) {
+  // Update the status in the UI or perform any desired action
+  console.log('Status:', status);
+}

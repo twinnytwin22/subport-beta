@@ -16,6 +16,7 @@ import { useCreateFormStore } from "./CreateFormStore";
 export const CreateForm = () => {
   const { user, profile } = useAuthProvider();
   const [savedUser, setSavedUser] = useState<any>(null)
+  const [status, setStatus] = useState<any>(null)
 
 
   const {
@@ -659,13 +660,16 @@ export const CreateForm = () => {
     );
   };
   const renderMintStatusCard = () => {
-    return (
-      <div className="w-full h-[60vh] flex items-center justify-center">
-        <RenderMintStatus />
-      </div>
-    );
+    if (status === "loading") {
+      return <RenderMintStatus status="loading" />;
+    } else if (status === "success") {
+      return <RenderMintStatus status="success" />;
+    } else if (status === "error") {
+      return <RenderMintStatus status="error" />;
+    } else {
+      return null;
+    }
   };
-
   return (
     <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0">
       {step !== 4 && (

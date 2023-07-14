@@ -38,50 +38,29 @@ const IsSuccess = () => {
     </>
   );
 };
-const useStatusUpdates = () => {
-  const [ipfsStatus, setIpfsStatus] = useState('pending');
-  const [supabaseStatus, setSupabaseStatus] = useState('pending');
-  const [deployStatus, setDeployStatus] = useState('pending');
 
-  useEffect(() => {
-    const eventSource = new EventSource('/api/create/stream');
-    eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      switch (data.status) {
-        case 'ipfs':
-          setIpfsStatus(data.message);
-          break;
-        case 'supabase':
-          setSupabaseStatus(data.message);
-          break;
-        case 'deploy':
-          setDeployStatus(data.message);
-          break;
-        default:
-          console.warn('Unknown status:', data.status);
-          break;
-      }
-    };
-    return () => eventSource.close();
-  }, []);
 
-  return { ipfsStatus, supabaseStatus, deployStatus };
-};
-
-export const RenderMintStatus = ({ ipfsStatus, supabaseStatus, deployStatus }: any) => {
-  const [statuses, setStatuses] = useState([]);
+export const RenderMintStatus = ({ status }: { status: string }) => {
+  const renderStatusIcon = () => {
+    if (status === "loading") {
+      return <IsLoading />;
+    } else if (status === "success") {
+      return <IsSuccess />;
+    } else {
+      return <IsPending />;
+    }
+  };
 
   return (
-    <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-8 w-96 border border-zinc-300  dark:border-zinc-700">
+    <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-8 w-96 border border-zinc-300 dark:border-zinc-700">
       <ul className="items-center content-center mx-auto">
         <li className="border-b border-zinc-600 p-2">
           <div className="grid grid-cols-6">
-            <div className=" items-center col-span-5">
+            <div className="items-center col-span-5">
               <div className="flex items-center">
-                <IsSuccess />
+                {renderStatusIcon()}
                 <h1 className="text-xl font-bold">Uploading</h1>
               </div>
-
               <ul>
                 <li>
                   <p className="ml-6 text-xs">Contract Details</p>
@@ -98,9 +77,9 @@ export const RenderMintStatus = ({ ipfsStatus, supabaseStatus, deployStatus }: a
         </li>
         <li className="border-b border-zinc-600 p-2">
           <div className="grid grid-cols-6">
-            <div className=" items-center col-span-5 ">
+            <div className="items-center col-span-5">
               <div className="flex items-center">
-                <IsLoading />
+                {renderStatusIcon()}
                 <h1 className="text-xl font-bold">Sign the transaction</h1>
               </div>
               <ul>
@@ -109,7 +88,6 @@ export const RenderMintStatus = ({ ipfsStatus, supabaseStatus, deployStatus }: a
                 </li>
               </ul>
             </div>
-
             <p className="text-xs font-bold">Status</p>
           </div>
         </li>
@@ -117,9 +95,9 @@ export const RenderMintStatus = ({ ipfsStatus, supabaseStatus, deployStatus }: a
           <div className="grid grid-cols-6">
             <div className="items-center col-span-5">
               <div className="flex items-center">
-
-                <IsPending />
-                <h1 className="text-xl font-bold">Finalizing</h1></div>
+                {renderStatusIcon()}
+                <h1 className="text-xl font-bold">Finalizing</h1>
+              </div>
               <ul>
                 <li>
                   <p className="ml-6 text-xs">Confirming transaction</p>
@@ -131,9 +109,7 @@ export const RenderMintStatus = ({ ipfsStatus, supabaseStatus, deployStatus }: a
             </div>
             <div className="">
               <p className="text-xs font-bold mb-2">Status</p>
-
             </div>
-
           </div>
         </li>
       </ul>
