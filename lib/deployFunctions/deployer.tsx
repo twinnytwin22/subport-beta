@@ -6,6 +6,8 @@ import subportMeta from '../../utils/subport.json';
 import { uploadHashToIpfs } from './uploadFileIpfs'
 import { supabase } from 'lib/constants'
 import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin'
+import { fetchCollectibles } from 'utils/database';
+import { setStatus } from './statusTrack';
 
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
@@ -19,10 +21,13 @@ export const publicClient = createPublicClient({
 
 // Statuses
 const Status = {
+  PENDING: 'pending',
   LOADING: 'loading',
   SUCCESS: 'success',
   ERROR: 'error',
+  FINAL: 'final'
 };
+
 
 export async function deployContractViem({ deployData }: any) {
   try {
@@ -60,6 +65,7 @@ export const walletClient = createWalletClient({
 })
 
 export async function deployCollectible(collectibleData: any) {
+  setStatus(Status.PENDING)
   let metaDataHash = null; // Declare the ipfsHash variable outside the try-catch block
   let tokenDataHash = null; // Declare the ipfsHash variable outside the try-catch block
 
@@ -97,7 +103,6 @@ export async function deployCollectible(collectibleData: any) {
     // Upload Collection Data to IPFS
     try {
       // Set loading status
-      setStatus(Status.LOADING);
 
       const metaDataHash: string | undefined = await new Promise((resolve, reject) => {
         setTimeout(async () => {
@@ -105,6 +110,7 @@ export async function deployCollectible(collectibleData: any) {
             const result = await uploadHashToIpfs({ data: metaData });
             resolve(result);
           } catch (error) {
+            setStatus(Status.ERROR)
             reject(error);
           }
         }, 1000); // 1-second timeout
@@ -116,6 +122,7 @@ export async function deployCollectible(collectibleData: any) {
             const result = await uploadHashToIpfs({ data: tokenURIData });
             resolve(result);
           } catch (error) {
+            setStatus(Status.ERROR)
             reject(error);
           }
 
@@ -135,6 +142,7 @@ export async function deployCollectible(collectibleData: any) {
           .eq("slug", slug);
 
         if (existingDropsError) {
+          setStatus(Status.ERROR)
           return { success: false, error: existingDropsError };
         }
 
@@ -151,7 +159,7 @@ export async function deployCollectible(collectibleData: any) {
             .eq("slug", slug);
 
           if (error) {
-            console.error(error);
+            setStatus(Status.ERROR)
             return { success: false, error: error };
           }
 
@@ -171,6 +179,7 @@ export async function deployCollectible(collectibleData: any) {
         };
 
         const deployData = Object.values(deployDataDefined);
+        setStatus(Status.LOADING);
 
         const contractAddress = await deployContractViem({ deployData });
 
@@ -186,25 +195,24 @@ export async function deployCollectible(collectibleData: any) {
           };
 
           if (dropData) {
-            console.log('SUPA:', dropData, 'Collectible Data:', collectibleData)
-
             // Add Collection to Supabase
             const { data: drop, error } = await supabaseAdmin
               .from("drops")
               .insert([dropData])
               .select();
 
-            if (drop) {
-              console.log(drop)
-            }
+            //   if (drop) {
+            //   console.log(drop)
+            //  }
 
             if (error) {
               console.error(error);
+              setStatus(Status.ERROR)
               return { success: false, error: error };
             }
-
-            // Set success status
             setStatus(Status.SUCCESS);
+            await finalized()
+            // Set success status
 
             // Return the contract address and collectible data
             return { success: true, contractAddress, drop };
@@ -225,8 +233,17 @@ export async function deployCollectible(collectibleData: any) {
   }
 }
 
-// Helper function to update the status
-function setStatus(status: string) {
-  // Update the status in the UI or perform any desired action
-  console.log('Status:', status);
-}
+
+
+const finalized = async () => {
+  await fetchCollectibles();
+  setStatus(Status.FINAL);
+
+  // Wait for 10 seconds using a timeout
+  await new Promise((resolve) => setTimeout(resolve, 10000));
+
+  // Perform any desired action after the timeout
+  // For example, you can update the status or execute additional code
+  // setStatus(Status.SOME_OTHER_STATUS);
+  // ...
+};

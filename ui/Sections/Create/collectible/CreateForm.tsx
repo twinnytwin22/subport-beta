@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Collectible from "types/collectible";
-import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Media } from "ui/Misc/Media";
 import { RenderMintStatus } from "ui/Cards/MintStatusCard";
@@ -18,6 +17,11 @@ export const CreateForm = () => {
   const [savedUser, setSavedUser] = useState<any>(null)
   const [status, setStatus] = useState<any>(null)
 
+  const renderStatuses = {
+    loading: 'pending' || 'loading' || 'done',
+    working: 'pending' || 'loading' || 'done',
+    finalizing: 'pending' || 'loading' || 'done',
+  }
 
   const {
     audioUrl,
@@ -111,7 +115,6 @@ export const CreateForm = () => {
     }
   };
   const onSubmit = async (formData: Collectible) => {
-    toast.info("Submitting", { autoClose: 7500 });
     setStep(4);
 
     try {
@@ -130,6 +133,7 @@ export const CreateForm = () => {
         keywords: keywordsArray,
       };
       console.log(collectibleData, "about to deploy");
+      setStatus("loading");
 
       // Call the deployCollectible function
       const deployResult = await deployCollectible(collectibleData);
@@ -137,14 +141,16 @@ export const CreateForm = () => {
 
       if (deployResult) {
         // If deployment is successful, display the success message
-        toast.success("Collectible deployed successfully");
+        setStatus("success");
+
       } else {
         // If deployment fails, display the error message
-        toast.error(res as any);
+        setStatus("error");
+
       }
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred. Please try again.");
+      setStatus("error");
     }
   };
 
@@ -159,10 +165,6 @@ export const CreateForm = () => {
     if (!savedUser && user) {
       setSavedUser(user)
     }
-    toast.info("Uploading Media to IPFS Storage", {
-      progress: undefined,
-      autoClose: 8000,
-    });
 
     try {
       const { image, audio } = await uploadContractMediaToIpfs(
@@ -182,7 +184,6 @@ export const CreateForm = () => {
       setStep(3);
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred while uploading media to IPFS");
     }
   };
 
@@ -648,6 +649,7 @@ export const CreateForm = () => {
               </button>
 
               <button
+                type="reset"
                 onClick={handleResetClick}
                 className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
               >
@@ -659,8 +661,12 @@ export const CreateForm = () => {
       </>
     );
   };
-  const renderMintStatusCard = () => {
-    return <RenderMintStatus status={status} />;
+  const renderMintStatusCard = async () => {
+    return (
+      <div className="w-full mx-auto justify-center place-items-center mt-12">
+        <RenderMintStatus status={status} />
+      </div>
+    );
   };
   return (
     <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0">

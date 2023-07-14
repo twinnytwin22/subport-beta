@@ -39,6 +39,12 @@ const IsSuccess = () => {
   );
 };
 
+const renderStatuses = {
+  loading: 'pending' || 'loading' || 'done',
+  working: 'pending' || 'loading' || 'done',
+  finalizing: 'pending' || 'loading' || 'done',
+}
+
 
 export const RenderMintStatus = ({ status }: { status: string }) => {
   const renderStatusIcon = () => {
@@ -51,9 +57,11 @@ export const RenderMintStatus = ({ status }: { status: string }) => {
     }
   };
 
+
+
   return (
-    <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-8 w-96 border border-zinc-300 dark:border-zinc-700">
-      <ul className="items-center content-center mx-auto">
+    <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-8 w-96 border border-zinc-300 dark:border-zinc-700 justify-center mx-auto">
+      <ul className="items-center justify-center content-center mx-auto">
         <li className="border-b border-zinc-600 p-2">
           <div className="grid grid-cols-6">
             <div className="items-center col-span-5">
@@ -80,11 +88,11 @@ export const RenderMintStatus = ({ status }: { status: string }) => {
             <div className="items-center col-span-5">
               <div className="flex items-center">
                 {renderStatusIcon()}
-                <h1 className="text-xl font-bold">Sign the transaction</h1>
+                <h1 className="text-xl font-bold">Working the magic</h1>
               </div>
               <ul>
                 <li>
-                  <p className="ml-6 text-xs">Open your wallet and sign</p>
+                  <p className="ml-6 text-xs">Tying all the lose ends to make everything happen!</p>
                 </li>
               </ul>
             </div>

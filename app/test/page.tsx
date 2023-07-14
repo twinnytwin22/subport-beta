@@ -130,6 +130,7 @@ function Page(props: any) {
   const handleClick = async () => {
     const messages = testMessages({ title: "Deploy" });
     isLoading(true);
+
     try {
       const address = await deployContractViem({ deployData });
       console.log('RES:', address);
