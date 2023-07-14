@@ -1,8 +1,6 @@
-import { toast } from 'react-toastify';
 import { ethers } from 'ethers';
 import { supabase } from 'lib/constants';
-
-export default async function AddUpdateWallet(user: any) {
+async function addUpdateWallet(user: any) {
   if (user) {
     // Check if the user is authenticated and has a wallet address
     const { data: wallet } = await supabase
@@ -32,7 +30,7 @@ export default async function AddUpdateWallet(user: any) {
 
           if (error) {
             console.log({ message: "Failed to update user's wallet address-1", error });
-            toast.error(`This wallet address already exists on another account`);
+            console.error(`This wallet address already exists on another account`);
             return null;
           }
         } catch (error) {
@@ -45,3 +43,23 @@ export default async function AddUpdateWallet(user: any) {
     }
   }
 }
+
+
+
+export async function getUserData(user: any) {
+  try {
+    const { data: wallet, error } = await supabase
+      .from("profiles")
+      .select("wallet_address, avatar_url")
+      .eq("id", user?.id)
+      .single();
+
+    if (wallet?.wallet_address === "" || wallet?.wallet_address === null) {
+      await addUpdateWallet(user);
+    }
+  } catch (error) {
+    console.log("Error loading user data:", error);
+  }
+};
+
+

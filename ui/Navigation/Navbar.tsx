@@ -1,41 +1,7 @@
-"use client";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useAuthProvider } from "app/context/auth";
-import AddUpdateWallet from "lib/hooks/generateWallet";
-import React, { useEffect } from "react";
+import React from "react";
 import SearchBar from "ui/Misc/SearchBar";
 import UserAvatar from "ui/User/UserAvatar";
-function Navbar() {
-  const supabase = createClientComponentClient();
-  const { user, profile } = useAuthProvider()
-
-
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const { data: wallet, error } = await supabase
-          .from('profiles')
-          .select('wallet_address, avatar_url')
-          .eq("id", user?.id)
-          .single();
-
-        if (wallet?.wallet_address === '' || wallet?.wallet_address === null) {
-          await AddUpdateWallet(user);
-        }
-
-
-      } catch (error) {
-        console.log('Error loading user data:', error);
-      }
-    };
-
-    if (user) {
-      getData();
-    }
-  }, [user, supabase]);
-
-
+async function Navbar() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 px-6 py-2.5 border-b w-full bg-zinc-100 dark:bg-black">

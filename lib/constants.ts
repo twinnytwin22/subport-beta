@@ -8,4 +8,9 @@ export function useImagePath(url: SupabaseImage) {
 
 export const defaultUserImage = "/images/icons/default_user_image.jpg";
 
-export const supabase = createClientComponentClient();
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+export const supabase = createClientComponentClient({
+  supabaseUrl,
+  supabaseKey,
+});

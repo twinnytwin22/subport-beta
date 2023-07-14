@@ -1,32 +1,28 @@
 import { supabase } from "lib/constants";
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
-
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 const fetchCollectibles = async () => {
-  const { data: drops, error } = await supabase
+  let { data: drops, error } = await supabase
     .from("drops")
     .select("*")
     .order("created_at", { ascending: false });
   return drops;
 };
-
-// const { data: drops, isLoading, error } = useQuery(['drops', fetchCollectibles]);
-
-const addPlaylist = async (userId: any, title: any, uri: any) => {
+async function addPlaylist(userId: any, title: any, uri: any) {
   let { data: addPlaylist, error: addPlaylistError } = await supabase
     .from("playlists")
     .insert([{ title: title, user_id: userId, uri: uri }]);
 
   return { addPlaylist, addPlaylistError };
-};
+}
 
-const getUsersPlaylist = async (userId: any) => {
+async function getUsersPlaylist(userId: any) {
   let { data: addPlaylist, error: addPlaylistError } = await supabase
     .from("playlists")
     .select("*")
     .eq("user_id", userId);
 
   return { addPlaylist, addPlaylistError };
-};
+}
 
 const fetchSingleCollectible = async (slug: any) => {
   let { data: drop, error } = await supabase
@@ -49,7 +45,7 @@ const fetchProfilesForDrops = async (id: any) => {
   return dropProfiles;
 };
 
-const getAllUsers = async () => {
+async function getAllUsers() {
   let { data: users, error } = await supabase
     .from("profiles")
     .select("username, id");
@@ -57,9 +53,9 @@ const getAllUsers = async () => {
     console.error("error", error);
   }
   return users;
-};
+}
 
-const getProfilesWithDrops = async () => {
+async function getProfilesWithDrops() {
   const { data: users, error } = await supabase.from("profiles").select(`
     id, city, state, country,
      drops (
@@ -73,8 +69,7 @@ const getProfilesWithDrops = async () => {
 
   const filteredProfiles = users?.filter((user) => user.drops.length > 1);
   return filteredProfiles;
-};
-
+}
 const checkUser = async (user: any) => {
   let { data: profiles, error } = await supabase
     .from("profiles")
@@ -94,7 +89,11 @@ const checkUser = async (user: any) => {
   }
 };
 
-const addReaction = async ({ dropId, reactionType, userId }: any) => {
+async function addReaction(
+  dropId: string,
+  reactionType: string,
+  userId: string
+) {
   if (userId && dropId && reactionType) {
     let { data, error } = await supabase
       .from("drop_reactions")
@@ -107,9 +106,9 @@ const addReaction = async ({ dropId, reactionType, userId }: any) => {
     }
     return data;
   }
-};
+}
 
-const checkUserReactions = async (dropId: string, userId: string) => {
+async function checkUserReactions(dropId: string, userId: string) {
   const { data, error } = await supabase
     .from("drop_reactions")
     .select()
@@ -120,9 +119,9 @@ const checkUserReactions = async (dropId: string, userId: string) => {
     throw error;
   }
   return data;
-};
+}
 
-const checkUserSingleCollect = async (dropId: string, userId: string) => {
+async function checkUserSingleCollect(dropId: string, userId: string) {
   const { data, error } = await supabase
     .from("drop_collects")
     .select()
@@ -135,15 +134,9 @@ const checkUserSingleCollect = async (dropId: string, userId: string) => {
     // Handle error
     return true;
   }
-};
+}
 
-const deleteReaction = async ({
-  dropId,
-  userId,
-}: {
-  dropId: string;
-  userId: string;
-}) => {
+async function deleteReaction(dropId: string, userId: string) {
   let { data, error } = await supabase
     .from("drop_reactions")
     .delete()
@@ -155,9 +148,8 @@ const deleteReaction = async ({
   }
 
   return data;
-};
-
-const getTotalReactions = async (dropId: string) => {
+}
+async function getTotalReactions(dropId: string) {
   try {
     const { count, error } = await supabase
       .from("drop_reactions")
@@ -175,9 +167,9 @@ const getTotalReactions = async (dropId: string) => {
     // Handle error
     return 0;
   }
-};
+}
 
-const getDropComments = async (dropId: string) => {
+async function getDropComments(dropId: string) {
   try {
     const { data, error } = await supabase
       .from("drop_comments")
@@ -199,13 +191,9 @@ const getDropComments = async (dropId: string) => {
     console.error("Error fetching comments:", error);
     return [];
   }
-};
+}
 
-const addDropComment = async (
-  dropId: string,
-  comment: string,
-  userId: string
-) => {
+async function addDropComment(dropId: string, comment: string, userId: string) {
   if (userId && dropId && comment) {
     let { data, error } = await supabase
       .from("drop_comments")
@@ -216,13 +204,13 @@ const addDropComment = async (
     }
     return data;
   }
-};
+}
 
-const deleteDropComment = async (
+async function deleteDropComment(
   dropId: string,
   userId: string,
   commentId: string
-) => {
+) {
   let { data, error } = await supabase
     .from("drop_comments")
     .delete()
@@ -235,7 +223,7 @@ const deleteDropComment = async (
   }
 
   return data;
-};
+}
 
 const transportPK = async (userId: any) => {
   // Retrieve decrypted data from the `decrypted_secrets` view

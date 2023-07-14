@@ -5,7 +5,6 @@ import {
     useCallback,
     useContext,
     useRef,
-    useEffect
 } from "react";
 import {
     usePlaybackTime,

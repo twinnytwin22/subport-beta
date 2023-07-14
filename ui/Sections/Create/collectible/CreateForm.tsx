@@ -11,18 +11,28 @@ import { createFormMessage } from "../createFormMessages";
 import { deployCollectible } from "lib/deployFunctions/deployer";
 import { useAuthProvider } from "app/context/auth";
 import { uploadContractMediaToIpfs } from "lib/deployFunctions/uploadFileIpfs";
-
+import { useCreateFormStore } from "./CreateFormStore";
 
 export const CreateForm = () => {
-  const { user, profile } = useAuthProvider()
-  const [audioUrl, setAudioUrl] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [songPreview, setSongPreview] = useState(null);
-  const [ipfsMedia, setIpfsMedia] = useState(false);
-  const [step, setStep] = useState(1);
-  const [nowChecked, setNowChecked] = useState(false);
-  const [neverChecked, setNeverChecked] = useState(false);
+  const { user, profile } = useAuthProvider();
+  const {
+    audioUrl,
+    setAudioUrl,
+    imageUrl,
+    setImageUrl,
+    step,
+    setStep,
+    neverChecked,
+    setNeverChecked,
+    songPreview,
+    setSongPreview,
+    ipfsMedia,
+    setIpfsMedia,
+    setImagePreview,
+    imagePreview,
+    nowChecked,
+    setNowChecked
+  } = useCreateFormStore();
 
   const handleNowChange = (event: any) => {
     setNowChecked(event.target.checked);
@@ -56,7 +66,7 @@ export const CreateForm = () => {
       userId: user?.id || null,
       start_date: "",
       end_date: "",
-      website: '',
+      website: "",
     },
   });
   const handleImageUpload = (event: any) => {
@@ -114,15 +124,13 @@ export const CreateForm = () => {
         id: user?.id,
         keywords: keywordsArray,
       };
-      console.log(collectibleData, 'about to deploy')
+      console.log(collectibleData, "about to deploy");
 
       // Call the deployCollectible function
       const deployResult = await deployCollectible(collectibleData);
-      const res = deployResult?.toString()
-
+      const res = deployResult?.toString();
 
       if (deployResult) {
-
         // If deployment is successful, display the success message
         toast.success("Collectible deployed successfully");
       } else {
@@ -143,20 +151,21 @@ export const CreateForm = () => {
   };
 
   const onSubmitStep2 = async (data: any) => {
-    console.log(data);
     toast.info("Uploading Media to IPFS Storage", {
       progress: undefined,
       autoClose: 8000,
     });
 
     try {
-      const { image, audio } = await uploadContractMediaToIpfs(data.image, data.audio);
+      const { image, audio } = await uploadContractMediaToIpfs(
+        data.image,
+        data.audio
+      );
       const formData = {
         ...data,
         image: image,
         audio: audio,
       };
-      console.log(formData);
       setAudioUrl(formData.audio);
       setImageUrl(formData.image);
       setIpfsMedia(true);
@@ -275,8 +284,7 @@ export const CreateForm = () => {
                   htmlFor="countries"
                   className="flex mb-2 text-sm font-medium text-zinc-900 dark:text-white items-center"
                 >
-                  Drop Type?{" "}
-                  <Tooltip message="Drop Type" />
+                  Drop Type? <Tooltip message="Drop Type" />
                 </label>
                 <select
                   id="countries"
@@ -311,7 +319,6 @@ export const CreateForm = () => {
                 >
                   Total Collectibles
                   <Tooltip message={createFormMessage.total} />
-
                 </label>
                 <input
                   type="number"
@@ -356,7 +363,6 @@ export const CreateForm = () => {
               >
                 Song URI
                 <Tooltip message={createFormMessage.songUri} />
-
               </label>
               <input
                 type="url"
@@ -389,7 +395,6 @@ export const CreateForm = () => {
             >
               Other Keywords
               <Tooltip message={createFormMessage.keywords} />
-
             </label>
             <input
               id="keywords"
@@ -571,9 +576,7 @@ export const CreateForm = () => {
                     >
                       Total Collectibles:
                     </th>
-                    <td className="px-6 py-2">
-                      {watch("total_collectibles")}
-                    </td>
+                    <td className="px-6 py-2">{watch("total_collectibles")}</td>
                   </tr>
                   <tr className="border-b border-zinc-300 dark:border-zinc-600">
                     <th
@@ -601,11 +604,10 @@ export const CreateForm = () => {
                       Genre:{" "}
                     </th>
                     <td className="px-6 py-2">
-                      {allGenres.map((genre: any) =>
-                        <div key={genre}>
-                          {watch(genre) === genre && genre}
-                        </div>
-                      )} </td>
+                      {allGenres.map((genre: any) => (
+                        <div key={genre}>{watch(genre) === genre && genre}</div>
+                      ))}{" "}
+                    </td>
                   </tr>
                   <tr className="">
                     <th
@@ -659,14 +661,12 @@ export const CreateForm = () => {
   return (
     <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0">
       {step !== 4 && (
-
-        <h1 className="text-center text-4xl text-black dark:text-white">Create your collectible.</h1>
-
+        <h1 className="text-center text-4xl text-black dark:text-white">
+          Create your collectible.
+        </h1>
       )}
       {step === 4 && (
-
         <h1 className="text-center text-4xl">Creating your collectible</h1>
-
       )}
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}

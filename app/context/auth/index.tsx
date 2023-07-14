@@ -1,169 +1,204 @@
 'use client'
-import { Suspense, createContext, useContext, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Suspense, cache, createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClientComponentClient, Session } from "@supabase/auth-helpers-nextjs";
 import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
-import { create } from "zustand";
+import { AuthChangeEvent } from "@supabase/supabase-js";
+import { getUserData } from "lib/hooks/generateWallet";
 
-const refresh = () => {
-  window.location.reload();
-};
 
-const supabase = createClientComponentClient();
-
-interface AuthState {
+interface AuthContextProps {
   user: any;
-  profile: any;
-  isLoading: boolean;
+  signOut: () => void;
   signInWithGoogle: () => Promise<void>;
   signInWithSpotify: () => Promise<void>;
-  signOut: () => Promise<void>;
-  unsubscribeAuthListener: () => void;
+  profile: any;
+  isLoading: boolean
 }
 
-const useAuthStore = create<AuthState>((set) => ({
+const AuthContext = createContext<AuthContextProps>({
   user: null,
+  signOut: () => { },
   profile: null,
-  isLoading: false,
-  signInWithGoogle: async () => {
+  signInWithGoogle: () => Promise.resolve(),
+  signInWithSpotify: () => Promise.resolve(),
+  isLoading: false
+});
+
+const supabase = createClientComponentClient()
+
+
+export const AuthContextProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [user, setUser] = useState<any>(null);
+  const [profile, setProfile] = useState<any>(null);
+  const [isProfileFetched, setIsProfileFetched] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [signingIn, setIsSigningIn] = useState(false)
+  const [activeSession, setActiveSession] = useState<any>('')
+  const router = useRouter();
+
+  const fetchProfile = cache(async (id: string) => {
     try {
-      await supabase.auth.signInWithOAuth({ provider: "google" });
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, username, bio, website, avatar_url, wallet_address, city, state, country")
+        .eq("id", id)
+        .single();
+      if (error) {
+        throw error;
+      }
+
+      setProfile(data);
+      setIsProfileFetched(true);
+      setIsLoading(false);
+      setIsSigningIn(false)
     } catch (error) {
-      console.error("Error signing in with Google:", error);
+      console.error("Error fetching profile data:", error);
+      setIsLoading(false);
     }
-  },
-  signInWithSpotify: async () => {
-    try {
-      await supabase.auth.signInWithOAuth({ provider: "spotify" });
-    } catch (error) {
-      console.error("Error signing in with Spotify:", error);
-    }
-  },
-  signOut: async () => {
-    try {
-      await supabase.auth.signOut();
-      refresh();
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  },
-  unsubscribeAuthListener: () => { },
-}));
+  });
 
-export const AuthContext = createContext<AuthState>(useAuthStore.getState());
+  const onAuthStateChanged = async () => {
+    if (!user) {
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
-const fetchProfile = async (id: string) => {
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("id, username, bio, website, avatar_url, wallet_address, city, state, country")
-    .eq("id", id)
-    .single();
+        if (sessionError) {
+          throw sessionError;
+        }
 
-  if (error) {
-    throw error;
-  }
+        if (session && !signingIn) {
+          const { data: authUser, error: authError } = await supabase.auth.getUser();
 
-  return data;
-};
+          if (authError) {
+            throw authError;
+          }
 
-export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const { data: user, isLoading: isUserLoading } = useQuery(["user"], async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+          if (authUser?.user) {
+            await getUserData(authUser?.user);
+            setUser(authUser?.user);
 
-    if (session) {
-      const { data: authUser } = await supabase.auth.getUser();
+            if (!isProfileFetched) {
+              await fetchProfile(authUser.user.id);
+            }
 
-      if (authUser?.user) {
-        const profile = await fetchProfile(authUser.user.id);
-        useAuthStore.setState({ profile });
-        useAuthStore.setState({ user: authUser.user });
+            return;
+          }
+        }
 
-        return { user: authUser.user, profile };
+        setUser(null);
+        setProfile(null);
+        setIsProfileFetched(false);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
     }
-    return null;
-  });
+  };
 
-  const signInWithGoogle = useAuthStore((state) => async () => {
-    try {
-      await state.signInWithGoogle();
-    } catch (error) {
-      console.error("Error signing in with Google:", error);
-    }
-  });
 
-  const signInWithSpotify = useAuthStore((state) => async () => {
-    try {
-      await state.signInWithSpotify();
-    } catch (error) {
-      console.error("Error signing in with Spotify:", error);
-    }
-  });
-
-  const signOut = useAuthStore((state) => async () => {
-    try {
-      await state.signOut();
-      refresh();
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  });
-
-  const unsubscribeAuthListener = useAuthStore((state) => state.unsubscribeAuthListener);
 
   const value = useMemo(
     () => ({
-      user: user?.user || null,
-      profile: user?.profile || null,
-      isLoading: isUserLoading,
-      signInWithGoogle,
-      signInWithSpotify,
-      signOut,
-      unsubscribeAuthListener,
+      user,
+      profile,
+      isLoading,
+      signInWithGoogle: async () => {
+        setIsSigningIn(true)
+        try {
+          const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
+          setIsSigningIn(false)
+
+          if (error) {
+            alert('nah')
+            throw error;
+          }
+        } catch (error) {
+          console.error("Error signing in with Google:", error);
+        }
+      },
+      signInWithSpotify: async () => {
+        setIsSigningIn(true)
+        try {
+          const { error } = await supabase.auth.signInWithOAuth({ provider: "spotify" });
+          setIsSigningIn(false)
+          if (error) {
+            throw error;
+          }
+        } catch (error) {
+          console.error("Error signing in with Spotify:", error);
+        }
+      },
+      signOut: async () => {
+        try {
+          await supabase.auth.signOut();
+          setUser(null);
+          setProfile(null);
+          setIsProfileFetched(false);
+          router.refresh()
+        } catch (error) {
+          console.error("Error signing out:", error);
+        }
+      },
+
     }),
-    [user, isUserLoading, signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener]
+    [user, profile, router, isLoading]
   );
 
-  const { data } = useQuery(["authListener"], async () => {
-    try {
-      const { data: { subscription: AuthListener } } = supabaseAdmin.auth.onAuthStateChange(
-        async (event: string, currentSession: any) => {
-          if (event === "SIGNED_IN") {
-            useAuthStore.setState({ user: currentSession.user });
+  const { data: { subscription: AuthListener } } = supabaseAdmin.auth.onAuthStateChange(async (event: AuthChangeEvent, session: Session | null) => {
+    if (event === 'SIGNED_IN') {
 
-            const profile = await fetchProfile(currentSession.user.id);
-            useAuthStore.setState({ profile });
-          } else if (event === "SIGNED_OUT") {
-            refresh();
-          }
-          if (event === "PASSWORD_RECOVERY") {
-            const newPassword = prompt("What would you like your new password to be?");
-            const { data, error } = await supabaseAdmin.auth.updateUser({ password: newPassword! });
-
-            if (data) alert("Password updated successfully!");
-            if (error) alert("There was an error updating your password.");
-            console.log(error);
-          }
-        }
-      );
-
-      // Store the unsubscribeAuthListener method in the state
-      useAuthStore.setState({ unsubscribeAuthListener: AuthListener.unsubscribe });
-
-      return { subscription: AuthListener };
-    } catch (error) {
-      console.error("Error subscribing to auth state change:", error);
-      return null;
+      router.refresh();
+    }
+    if (event === 'SIGNED_OUT') {
+      setUser(null);
+      router.refresh();
     }
   });
 
+  // Optional: Unsubscribe from the AuthListener when it's no longer needed
+  const unsubscribeAuthListener = () => {
+    AuthListener?.unsubscribe();
+  };
+
+  // Call the unsubscribeAuthListener function when necessary
+  // For example, when the component unmounts
+  // unsubscribeAuthListener();
+
+
+  useEffect(() => {
+    onAuthStateChanged();
+
+    return () => {
+      unsubscribeAuthListener()
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [AuthListener, value]);
+
+
   return (
-    <Suspense fallback="loading...">
-      <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+    <Suspense>
+      <AuthContext.Provider value={value}>
+        {
+          children
+        }
+      </AuthContext.Provider>
     </Suspense>
   );
 };
 
 export const useAuthProvider = () => {
-  return useContext(AuthContext);
+  const {
+    user,
+    signOut,
+    profile,
+    signInWithGoogle,
+    signInWithSpotify,
+    isLoading,
+  } = useContext(AuthContext);
+  return { user, signOut, profile, signInWithGoogle, signInWithSpotify, isLoading };
 };

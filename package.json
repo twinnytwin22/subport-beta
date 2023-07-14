@@ -6,7 +6,7 @@
     "dev-turbo": "sh liftoff.sh && next dev --turbo --show-all",
     "build": "next build",
     "install-deps": "npm install",
-    "update-deps": "npm udpate",
+    "update-deps": "npm update",
     "start": "next start",
     "lint": "next lint"
   },
@@ -27,6 +27,7 @@
     "cookie": "^0.5.0",
     "dotenv": "^16.1.4",
     "eslint-config-next": "^12.0.4",
+    "express": "^4.18.2",
     "fs-extra": "^11.1.1",
     "jsonwebtoken": "^9.0.0",
     "next": "^13.4.9",

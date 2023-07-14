@@ -7,13 +7,16 @@ import CollectCardMenu from "./CollectCardMenu";
 import Image from "next/image";
 import PlayButton from "./PlayButton";
 
+
 async function CollectCard(props: any) {
   const drop = props?.drop;
   const metaData = props?.metaData;
-  const imageHash = metaData?.image.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/");
   const [user]: any = await fetchProfilesForDrops(drop?.user_id);
-  const profileImagePath = useImagePath(user?.avatar_url);
   const reactionCount = await getTotalReactions(drop?.id);
+  const imageHash = metaData?.image.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/");
+  const profileImagePath = useImagePath(user?.avatar_url);
+
+
 
   return (
     <div className="flex flex-col static mx-auto w-full content-center justify-center">

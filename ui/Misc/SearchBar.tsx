@@ -1,7 +1,6 @@
+'use client'
 import { useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-
-const supabase = createClientComponentClient();
+import { supabase } from 'lib/constants';
 
 const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState('');

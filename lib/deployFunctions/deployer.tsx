@@ -11,7 +11,6 @@ const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID
 const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
-const transport = http()
 
 
 export const publicClient = createPublicClient({
@@ -35,10 +34,18 @@ export async function deployContractViem({ deployData }: any) {
     })
     console.log(hash, 'hash')
     try {
-      const receipt = await publicClient.waitForTransactionReceipt({ hash })
-
-      console.log(receipt.contractAddress, 'contract address')
-      return receipt?.contractAddress
+      const receipt: any = await new Promise((resolve, reject) => {
+        setTimeout(async () => {
+          try {
+            const result = await publicClient.waitForTransactionReceipt({ hash });
+            resolve(result);
+          } catch (error) {
+            reject(error);
+          }
+        }, 1000); // 1-second timeout      
+        console.log(receipt.contractAddress, 'contract address')
+        return receipt?.contractAddress
+      });
     } catch (error) {
       console.error(error);
       return { success: false, error: "Error creating collectible" };
@@ -95,13 +102,34 @@ export async function deployCollectible(collectibleData: any) {
 
     /// Upload Collection Data to IPFS
     try {
-      metaDataHash = await uploadHashToIpfs({ data: metaData });
-      tokenDataHash = await uploadHashToIpfs({ data: tokenURIData });
+      const metaDataHash: string | undefined = await new Promise((resolve, reject) => {
+        setTimeout(async () => {
+          try {
+            const result = await uploadHashToIpfs({ data: metaData });
+            resolve(result);
+          } catch (error) {
+            reject(error);
+          }
+        }, 1000); // 1-second timeout
+      });
 
+      const tokenDataHash: string | undefined = await new Promise((resolve, reject) => {
+        setTimeout(async () => {
+          try {
+            const result = await uploadHashToIpfs({ data: tokenURIData });
+            resolve(result);
+          } catch (error) {
+            reject(error);
+          }
+
+        }, 1000); // 1-second timeout
+
+
+      });
       console.log("Upload successful! IPFS hash:");
 
       const getSlug = collectibleData?.artist_name + '-' + collectibleData?.name;
-      let slug = (getSlug.toLowerCase()).replace(/[^a-zA-Z0-9-]+/g, "-");
+      let slug: string | undefined = (getSlug.toLowerCase()).replace(/[^a-zA-Z0-9-]+/g, "-");
 
       // Check if slug already exists in Supabase
       const { data: existingDrops, error: existingDropsError } = await supabase
@@ -147,9 +175,17 @@ export async function deployCollectible(collectibleData: any) {
 
       const deployData = Object.values(deployDataDefined);
 
-      const contractAddress = await deployContractViem({ deployData });
-
-      if (contractAddress) {
+      const contractAddress = await new Promise((resolve, reject) => {
+        setTimeout(async () => {
+          try {
+            const result = await deployContractViem({ deployData });
+            resolve(result);
+          } catch (error) {
+            reject(error);
+          }
+        }, 1000); // 1-second timeout
+      });
+      if (contractAddress!) {
 
         const dropData = {
           name: collectibleData?.name,
@@ -168,7 +204,15 @@ export async function deployCollectible(collectibleData: any) {
           .from("drops")
           .insert([
 
-            dropData
+            {
+              name: collectibleData?.name,
+              user_id: collectibleData?.id,
+              contract_address: contractAddress,
+              slug: slug,
+              keywords: collectibleData?.keywords,
+              genre: collectibleData?.genre,
+              spotify_uri: collectibleData.song_uri
+            }
 
           ])
           .eq("user_id", collectibleData?.id);

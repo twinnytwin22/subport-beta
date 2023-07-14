@@ -6,7 +6,6 @@ import Account from "ui/User/Account";
 function Page() {
     const { isLoading, user } = useAuthProvider()
     const [activeTab, setActiveTab] = useState('profile')
-    console.log(user)
 
     return !isLoading && (
         <div className="w-full min-h-[70vh] flex items-center justify-center content-center mb-24 md:mb-0">

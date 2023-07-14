@@ -1,4 +1,5 @@
 
+import 'server-only'
 import Providers from "lib/providers/providers";
 import Navbar from "ui/Navigation/Navbar";
 import MobileMenu from "ui/Navigation/MobileMenu";
@@ -29,7 +30,6 @@ export default async function RootLayout({
   return (
     <html suppressHydrationWarning={true}>
       <body className="bg-gray-100 dark:bg-black min-w-sm max-w-screen w-full relative">
-        <Script src="https://sdk.scdn.co/spotify-player.js"></Script>
 
         <Providers>
           <div className="mb-16" />

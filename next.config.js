@@ -4,6 +4,9 @@ dotenv.config();
 
 
 const nextConfig = {
+  experimental: {
+    appDir: true,
+    },
   reactStrictMode: true,
 
   async rewrites() {
