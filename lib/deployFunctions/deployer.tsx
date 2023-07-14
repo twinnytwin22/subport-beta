@@ -215,7 +215,7 @@ export async function deployCollectible(collectibleData: any) {
             // Set success status
 
             // Return the contract address and collectible data
-            return { success: true, contractAddress, drop };
+            return { success: true, contractAddress, drop, status };
           }
         }
       }
