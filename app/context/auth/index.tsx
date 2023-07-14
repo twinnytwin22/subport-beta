@@ -149,12 +149,12 @@ export const AuthContextProvider = ({
     [user, profile, router, isLoading]
   );
 
-  const { data: { subscription: AuthListener } } = supabaseAdmin.auth.onAuthStateChange(async (event: AuthChangeEvent, session: Session | null) => {
-    if (event === 'SIGNED_IN') {
+  const { data: { subscription: AuthListener } } = supabaseAdmin.auth.onAuthStateChange(async (e: AuthChangeEvent, session: Session | null) => {
+    if (e === 'SIGNED_IN') {
 
       router.refresh();
     }
-    if (event === 'SIGNED_OUT') {
+    if (e === 'SIGNED_OUT') {
       setUser(null);
       router.refresh();
     }

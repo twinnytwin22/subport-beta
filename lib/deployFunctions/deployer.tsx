@@ -126,104 +126,105 @@ export async function deployCollectible(collectibleData: any) {
 
 
       });
-      console.log("Upload successful! IPFS hash:");
+      if (metaDataHash && tokenDataHash) {
 
-      const getSlug = collectibleData?.artist_name + '-' + collectibleData?.name;
-      let slug: string | undefined = (getSlug.toLowerCase()).replace(/[^a-zA-Z0-9-]+/g, "-");
+        console.log("Upload successful! IPFS hash:");
 
-      // Check if slug already exists in Supabase
-      const { data: existingDrops, error: existingDropsError } = await supabase
-        .from("drops")
-        .select()
-        .eq("slug", slug);
+        const getSlug = collectibleData?.artist_name + '-' + collectibleData?.name;
+        let slug: string | undefined = (getSlug.toLowerCase()).replace(/[^a-zA-Z0-9-]+/g, "-");
 
-      if (existingDropsError) {
-        return { success: false, error: existingDropsError };
-      }
-
-      // If there is a matching slug, increment it
-      let increment = 1;
-      while (existingDrops && existingDrops.length > 0) {
-        slug = `${getSlug.toLowerCase()}-${increment}`;
-        increment++;
-
-        // Check again if the incremented slug exists
-        const { data, error } = await supabase
+        // Check if slug already exists in Supabase
+        const { data: existingDrops, error: existingDropsError } = await supabase
           .from("drops")
           .select()
           .eq("slug", slug);
 
-        if (error) {
-          console.error(error);
-          return { success: false, error: error };
+        if (existingDropsError) {
+          return { success: false, error: existingDropsError };
         }
 
-        let existingDrops = data;
-        return existingDrops
-      }
+        // If there is a matching slug, increment it
+        let increment = 1;
+        while (existingDrops && existingDrops.length > 0) {
+          slug = `${getSlug.toLowerCase()}-${increment}`;
+          increment++;
 
-      // Deploy the contract using the form data
-      const deployDataDefined = {
-        name: collectibleData?.name,
-        tokenName: collectibleData?.name.toUpperCase(),
-        startDate: collectibleData?.start_date,
-        endDate: collectibleData.end_date,
-        contractUri: metaDataHash,
-        tokenHash: tokenDataHash?.replace(/^ipfs:\/\//, ''),
-        totalSupply: collectibleData?.total_collectibles,
-      };
+          // Check again if the incremented slug exists
+          const { data, error } = await supabase
+            .from("drops")
+            .select()
+            .eq("slug", slug);
 
-      const deployData = Object.values(deployDataDefined);
-
-      const contractAddress = await new Promise((resolve, reject) => {
-        setTimeout(async () => {
-          try {
-            const result = await deployContractViem({ deployData });
-            resolve(result);
-          } catch (error) {
-            reject(error);
+          if (error) {
+            console.error(error);
+            return { success: false, error: error };
           }
-        }, 1000); // 1-second timeout
-      });
-      if (contractAddress!) {
 
-        const dropData = {
+          let existingDrops = data;
+          return existingDrops
+        }
+
+        // Deploy the contract using the form data
+        const deployDataDefined = {
           name: collectibleData?.name,
-          user_id: collectibleData?.id,
-          contract_address: contractAddress,
-          slug: slug,
-          keywords: collectibleData?.keywords,
-          genre: collectibleData?.genre,
-          spotify_uri: collectibleData.song_uri
-        }
-        if (dropData) {
-          console.log(dropData, collectibleData)
-        }
-        // Add Collection to Supabase
-        const { data: drop, error } = await supabase
-          .from("drops")
-          .insert([
+          tokenName: collectibleData?.name.toUpperCase(),
+          startDate: collectibleData?.start_date,
+          endDate: collectibleData.end_date,
+          contractUri: metaDataHash,
+          tokenHash: tokenDataHash?.replace(/^ipfs:\/\//, ''),
+          totalSupply: collectibleData?.total_collectibles,
+        };
 
-            {
-              name: collectibleData?.name,
-              user_id: collectibleData?.id,
-              contract_address: contractAddress,
-              slug: slug,
-              keywords: collectibleData?.keywords,
-              genre: collectibleData?.genre,
-              spotify_uri: collectibleData.song_uri
+        const deployData = Object.values(deployDataDefined);
+
+        const contractAddress = await new Promise((resolve, reject) => {
+          setTimeout(async () => {
+            try {
+              const result = await deployContractViem({ deployData });
+              resolve(result);
+            } catch (error) {
+              reject(error);
             }
+          }, 1000); // 1-second timeout
+        });
+        if (contractAddress!) {
 
-          ])
-          .eq("user_id", collectibleData?.id);
+          const dropData = {
+            name: collectibleData?.name,
+            user_id: collectibleData?.id,
+            contract_address: contractAddress,
+            slug: slug,
+            keywords: collectibleData?.keywords,
+            genre: collectibleData?.genre,
+            spotify_uri: collectibleData.song_uri
+          }
+          if (dropData) {
+            console.log(dropData, collectibleData)
+          }
+          // Add Collection to Supabase
+          const { data: drop, error } = await supabase
+            .from("drops")
+            .insert([
+              {
+                name: collectibleData?.name,
+                user_id: collectibleData?.id,
+                contract_address: contractAddress,
+                slug: slug,
+                keywords: collectibleData?.keywords,
+                genre: collectibleData?.genre,
+                spotify_uri: collectibleData.song_uri
+              }
+            ])
+            .select();
 
-        if (error) {
-          console.error(error);
-          return { success: false, error: error };
+          if (error) {
+            console.error(error);
+            return { success: false, error: error };
+          }
+
+          // Return the contract address and collectible data
+          return { success: true, contractAddress, drop };
         }
-
-        // Return the contract address and collectible data
-        return { success: true, contractAddress, drop };
       }
     } catch (error) {
       console.error("Error deploying:", error);

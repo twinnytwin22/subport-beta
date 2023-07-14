@@ -2,10 +2,8 @@
 import { useState } from "react";
 import { SignOutButton } from "ui/Buttons/SignOut";
 import Avatar from "./UploadWidget";
-import { ConnectSpotifyButton } from "./ConnectSpotifyButton";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
-import { LoadingContainer } from "ui/LoadingContainer";
 import { useRouter } from 'next/navigation'
 import { supabase } from "lib/constants";
 
