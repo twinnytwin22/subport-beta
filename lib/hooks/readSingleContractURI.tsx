@@ -1,5 +1,5 @@
 import subportMeta from '../../utils/subport.json';
-import { publicClient } from 'lib/deployFunctions/deployer';
+import { publicClient } from './readContractURIs';
 
 export interface DropData {
     info: any;

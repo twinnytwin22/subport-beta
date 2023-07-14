@@ -1,11 +1,26 @@
+import { createPublicClient, http } from 'viem';
 import subportMeta from '../../utils/subport.json';
-import { publicClient } from 'lib/deployFunctions/deployer';
+import { polygonMumbai } from 'viem/chains'
 
 
 export interface DropData {
     info: any;
     metadata: any;
 }
+const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID
+
+const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
+
+
+export const publicClient = createPublicClient({
+    chain: polygonMumbai,
+    transport: publicTransport,
+    batch: {
+        multicall: {
+            batchSize: 100,
+        }
+    }
+})
 
 export async function readContractURIs(contractAddresses: any) {
     const fallbackUrls = [

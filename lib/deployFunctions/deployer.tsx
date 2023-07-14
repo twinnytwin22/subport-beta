@@ -1,7 +1,7 @@
+'use client'
 import 'viem/window'
-import { createWalletClient, http, custom, createPublicClient } from 'viem'
+import { createWalletClient, http, createPublicClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-
 import { polygonMumbai } from 'viem/chains'
 import subportMeta from '../../utils/subport.json';
 import { supabase } from '../providers/supabase/supabaseClient'
@@ -12,48 +12,35 @@ const abi = subportMeta.abi;
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID
 const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
 
-
 export const publicClient = createPublicClient({
   chain: polygonMumbai,
   transport: publicTransport,
-  batch: {
-    multicall: {
-      batchSize: 100,
-    }
-  }
 })
 
 
 export async function deployContractViem({ deployData }: any) {
-  try {
-    console.log(deployData, 'dd')
-    const hash = await walletClient.deployContract({
-      abi: abi,
-      args: deployData,
-      bytecode: bytecode,
-    })
-    console.log(hash, 'hash')
+  if (deployData)
     try {
-      const receipt: any = await new Promise((resolve, reject) => {
-        setTimeout(async () => {
-          try {
-            const result = await publicClient.waitForTransactionReceipt({ hash });
-            resolve(result);
-          } catch (error) {
-            reject(error);
-          }
-        }, 1000); // 1-second timeout      
-        console.log(receipt.contractAddress, 'contract address')
-        return receipt?.contractAddress
-      });
+
+      const hash = await walletClient.deployContract({
+        abi: abi,
+        args: deployData,
+        bytecode: bytecode,
+      })
+      if (hash)
+        try {
+          const receipt: any = await publicClient.waitForTransactionReceipt({ hash });
+          console.log(receipt.contractAddress, 'contract address')
+          return receipt?.contractAddress
+            ;
+        } catch (error) {
+          console.error(error);
+          return { success: false, error: "Error creating collectible" };
+        }
     } catch (error) {
       console.error(error);
       return { success: false, error: "Error creating collectible" };
     }
-  } catch (error) {
-    console.error(error);
-    return { success: false, error: "Error creating collectible" };
-  }
 }
 
 const account = privateKeyToAccount(`0x${process.env.PK}`)
@@ -177,16 +164,8 @@ export async function deployCollectible(collectibleData: any) {
 
         const deployData = Object.values(deployDataDefined);
 
-        const contractAddress = await new Promise((resolve, reject) => {
-          setTimeout(async () => {
-            try {
-              const result = await deployContractViem({ deployData });
-              resolve(result);
-            } catch (error) {
-              reject(error);
-            }
-          }, 1000); // 1-second timeout
-        });
+        const contractAddress = await deployContractViem({ deployData });
+
         if (contractAddress!) {
 
           const dropData = {
