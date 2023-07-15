@@ -1,5 +1,11 @@
 'use client'
-import { useState, useEffect } from 'react';
+import { getStatus } from 'lib/deployFunctions/statusTrack';
+import { useEffect } from 'react';
+import { create } from 'zustand';
+interface StatusStoreState {
+  status: string;
+  setStatus: (newStatus: string) => void;
+}
 
 const IsPending = () => {
   return (
@@ -39,24 +45,25 @@ const IsSuccess = () => {
   );
 };
 
-const renderStatuses = {
-  loading: 'pending' || 'loading' || 'done',
-  working: 'pending' || 'loading' || 'done',
-  finalizing: 'pending' || 'loading' || 'done',
-}
 
 
-export const RenderMintStatus = ({ status }: { status: string }) => {
-  const renderStatusIcon = () => {
-    if (status === "loading") {
-      return <IsLoading />;
-    } else if (status === "success") {
-      return <IsSuccess />;
-    } else {
-      return <IsPending />;
-    }
-  };
+const useStatusStore = create<StatusStoreState>((set) => ({
+  status: getStatus(),
+  setStatus: (newStatus) => set({ status: newStatus }),
+}));
+export const RenderMintStatus = () => {
+  const status = useStatusStore((state) => state.status);
+  const setStatus = useStatusStore((state) => state.setStatus);
+  mountCheck()
 
+  useEffect(() => {
+    const fetchData = () => {
+      const newStatus = getStatus();
+      setStatus(newStatus);
+    };
+
+    fetchData();
+  }, [setStatus]);
 
 
   return (
@@ -66,7 +73,10 @@ export const RenderMintStatus = ({ status }: { status: string }) => {
           <div className="grid grid-cols-6">
             <div className="items-center col-span-5">
               <div className="flex items-center">
-                {renderStatusIcon()}
+                {status === "pending" && <IsLoading />}
+                {status === "loading" && <IsSuccess />}
+                {status === "success" && <IsSuccess />}
+                {status === "final" && <IsSuccess />}
                 <h1 className="text-xl font-bold">Uploading</h1>
               </div>
               <ul>
@@ -87,7 +97,10 @@ export const RenderMintStatus = ({ status }: { status: string }) => {
           <div className="grid grid-cols-6">
             <div className="items-center col-span-5">
               <div className="flex items-center">
-                {renderStatusIcon()}
+                {status === "pending" && <IsPending />}
+                {status === "loading" && <IsLoading />}
+                {status === "success" && <IsSuccess />}
+                {status === "final" && <IsSuccess />}
                 <h1 className="text-xl font-bold">Working the magic</h1>
               </div>
               <ul>
@@ -103,7 +116,10 @@ export const RenderMintStatus = ({ status }: { status: string }) => {
           <div className="grid grid-cols-6">
             <div className="items-center col-span-5">
               <div className="flex items-center">
-                {renderStatusIcon()}
+                {status === "pending" && <IsPending />}
+                {status === "loading" && <IsPending />}
+                {status === "success" && <IsLoading />}
+                {status === "final" && <IsSuccess />}
                 <h1 className="text-xl font-bold">Finalizing</h1>
               </div>
               <ul>

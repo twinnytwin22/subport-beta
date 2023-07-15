@@ -61,6 +61,9 @@ export async function CheckFollow(type: any, id: any) {
   };
   const baseURL = 'https://api.spotify.com/v1/me/following/contains'
   const res = await fetch(`${baseURL}`, getRequestOptions)
+  if (id) {
+    console.log(res, id, type)
+  }
 }
 
 

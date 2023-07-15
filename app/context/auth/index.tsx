@@ -1,12 +1,11 @@
 'use client'
 import { Suspense, cache, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient, Session } from "@supabase/auth-helpers-nextjs";
+import { Session } from "@supabase/auth-helpers-nextjs";
 import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
 import { AuthChangeEvent } from "@supabase/supabase-js";
 import { getUserData } from "lib/hooks/generateWallet";
-
-
+import { supabase } from "lib/constants";
 interface AuthContextProps {
   user: any;
   signOut: () => void;
@@ -25,8 +24,6 @@ const AuthContext = createContext<AuthContextProps>({
   isLoading: false
 });
 
-const supabase = createClientComponentClient()
-
 
 export const AuthContextProvider = ({
   children,
@@ -38,7 +35,6 @@ export const AuthContextProvider = ({
   const [isProfileFetched, setIsProfileFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [signingIn, setIsSigningIn] = useState(false)
-  const [activeSession, setActiveSession] = useState<any>('')
   const router = useRouter();
 
   const fetchProfile = cache(async (id: string) => {

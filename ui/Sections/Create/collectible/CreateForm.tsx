@@ -11,17 +11,11 @@ import { deployCollectible } from "lib/deployFunctions/deployer";
 import { useAuthProvider } from "app/context/auth";
 import { uploadContractMediaToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import { useCreateFormStore } from "./CreateFormStore";
+import Link from "next/link";
 
 export const CreateForm = () => {
   const { user, profile } = useAuthProvider();
   const [savedUser, setSavedUser] = useState<any>(null)
-  const [status, setStatus] = useState<any>(null)
-
-  const renderStatuses = {
-    loading: 'pending' || 'loading' || 'done',
-    working: 'pending' || 'loading' || 'done',
-    finalizing: 'pending' || 'loading' || 'done',
-  }
 
   const {
     audioUrl,
@@ -133,24 +127,19 @@ export const CreateForm = () => {
         keywords: keywordsArray,
       };
       console.log(collectibleData, "about to deploy");
-      setStatus("loading");
 
       // Call the deployCollectible function
       const deployResult = await deployCollectible(collectibleData);
       const res = deployResult?.toString();
 
       if (deployResult) {
-        // If deployment is successful, display the success message
-        setStatus("success");
-
+        console.log(res)
+        setStep(5)
       } else {
-        // If deployment fails, display the error message
-        setStatus("error");
-
+        throw new Error
       }
     } catch (error) {
       console.error(error);
-      setStatus("error");
     }
   };
 
@@ -661,10 +650,10 @@ export const CreateForm = () => {
       </>
     );
   };
-  const renderMintStatusCard = async () => {
+  const renderMintStatusCard = () => {
     return (
       <div className="w-full mx-auto justify-center place-items-center mt-12">
-        <RenderMintStatus status={status} />
+        <RenderMintStatus />
       </div>
     );
   };
@@ -682,6 +671,13 @@ export const CreateForm = () => {
       {step === 2 && renderStep2()}
       {step === 3 && imageUrl && renderStep3()}
       {step === 4 && renderMintStatusCard()}
+      {step === 5 && profile &&
+        <div>
+          <h1 className="dark:text-white text-black"> Your collectible will be available soon! </h1>
+          <Link prefetch={true} href={`/${profile?.username}`}>Go to Profile</Link>
+        </div>
+      }
+
     </div>
   );
 };
