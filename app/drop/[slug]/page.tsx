@@ -6,7 +6,6 @@ import { LoadingContainer } from 'ui/LoadingContainer'
 import { DropPage } from 'ui/Sections/Drop/DropPage'
 import { fetchSingleCollectible, getDropComments } from 'utils/database'
 export const revalidate = 60// revalidate this page every 60 seconds
-export const dynamic = 'force-dynamic'
 
 export default async function Page({ params }: { params: { slug: string, user: string } }) {
   const { slug } = params

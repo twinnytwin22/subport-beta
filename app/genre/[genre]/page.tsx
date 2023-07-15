@@ -4,7 +4,6 @@ import React from 'react';
 import Trending from 'ui/Sections/Trending';
 export const revalidate = 60// revalidate this page every 60 seconds
 
-export const dynamic = 'force-dynamic'
 export default async function Page({ params }: { params: { genre: string } }) {
     const { genre } = params;
     const validGenre = allGenres.some(
