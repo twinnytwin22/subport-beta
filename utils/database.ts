@@ -1,13 +1,14 @@
 import { supabase } from "lib/constants";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { cache } from "react";
 
-const fetchCollectibles = async () => {
+const fetchCollectibles = cache(async () => {
   const { data: drops, error } = await supabase
     .from("drops")
     .select("*")
     .order("created_at", { ascending: false });
   return drops;
-};
+});
 
 // const { data: drops, isLoading, error } = useQuery(['drops', fetchCollectibles]);
 

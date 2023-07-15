@@ -9,6 +9,7 @@ interface CreateFormState {
     step: number;
     nowChecked: boolean;
     neverChecked: boolean;
+    user_id: null | string;
     setAudioUrl: (audioUrl: string | null) => void;
     setImageUrl: (imageUrl: string | null) => void;
     setImagePreview: (imagePreview: string | null) => void;
@@ -28,6 +29,7 @@ export const useCreateFormStore = create<CreateFormState>((set) => ({
     step: 1,
     nowChecked: false,
     neverChecked: false,
+    user_id: null,
     setAudioUrl: (audioUrl) => set({ audioUrl }),
     setImageUrl: (imageUrl) => set({ imageUrl }),
     setImagePreview: (imagePreview) => set({ imagePreview }),

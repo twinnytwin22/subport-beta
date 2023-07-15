@@ -1,10 +1,16 @@
-// statusTracker.ts
-let currentStatus: string;
+"use client";
+import { create } from "zustand";
 
-export function getStatus(): string {
-  return currentStatus;
+interface StatusStoreState {
+  status: string;
+  setStatus: (newStatus: string) => void;
 }
 
-export function setStatus(status: string) {
-  currentStatus = status || "pending";
-}
+export const useStatusStore = create<StatusStoreState>((set) => {
+  const state: StatusStoreState = {
+    status: "pending",
+    setStatus: (newStatus) => set({ status: newStatus }),
+  };
+
+  return state;
+});

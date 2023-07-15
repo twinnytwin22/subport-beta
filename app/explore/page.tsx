@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 import ByGenre from "ui/Sections/Explore/ByGenre";
 import ByLocation from "ui/Sections/Explore/ByLocation";
 import { fetchCollectibles, getProfilesWithDrops } from "utils/database";
+export const revalidate = 60// revalidate this page every 60 seconds
 
 
 async function Page() {

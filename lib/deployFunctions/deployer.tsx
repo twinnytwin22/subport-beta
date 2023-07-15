@@ -7,7 +7,8 @@ import { uploadHashToIpfs } from './uploadFileIpfs'
 import { supabase } from 'lib/constants'
 import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin'
 import { fetchCollectibles } from 'utils/database';
-import { setStatus } from './statusTrack';
+import { useStatusStore } from './statusTrack';
+
 
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
@@ -32,7 +33,7 @@ const Status = {
 export async function deployContractViem({ deployData }: any) {
   try {
     // Set loading status
-    setStatus(Status.LOADING);
+    useStatusStore.setState({ status: Status.LOADING })
 
     const hash = await walletClient.deployContract({
       abi: abi,
@@ -44,13 +45,13 @@ export async function deployContractViem({ deployData }: any) {
       const receipt: any = await publicClient.waitForTransactionReceipt({ hash });
 
       // Set success status
-      setStatus(Status.SUCCESS);
+      useStatusStore.setState({ status: Status.SUCCESS })
       console.log(receipt.contractAddress, 'contract address');
       return receipt?.contractAddress;
     }
   } catch (error) {
     // Set error status
-    setStatus(Status.ERROR);
+    useStatusStore.setState({ status: Status.ERROR })
     console.error(error);
     return { success: false, error: "Error creating collectible" };
   }
@@ -65,7 +66,7 @@ export const walletClient = createWalletClient({
 })
 
 export async function deployCollectible(collectibleData: any) {
-  setStatus(Status.PENDING)
+  useStatusStore.setState({ status: Status.PENDING })
   let metaDataHash = null; // Declare the ipfsHash variable outside the try-catch block
   let tokenDataHash = null; // Declare the ipfsHash variable outside the try-catch block
 
@@ -110,7 +111,7 @@ export async function deployCollectible(collectibleData: any) {
             const result = await uploadHashToIpfs({ data: metaData });
             resolve(result);
           } catch (error) {
-            setStatus(Status.ERROR)
+            useStatusStore.setState({ status: Status.ERROR })
             reject(error);
           }
         }, 1000); // 1-second timeout
@@ -122,7 +123,7 @@ export async function deployCollectible(collectibleData: any) {
             const result = await uploadHashToIpfs({ data: tokenURIData });
             resolve(result);
           } catch (error) {
-            setStatus(Status.ERROR)
+            useStatusStore.setState({ status: Status.ERROR })
             reject(error);
           }
 
@@ -142,7 +143,7 @@ export async function deployCollectible(collectibleData: any) {
           .eq("slug", slug);
 
         if (existingDropsError) {
-          setStatus(Status.ERROR)
+          useStatusStore.setState({ status: Status.ERROR })
           return { success: false, error: existingDropsError };
         }
 
@@ -159,7 +160,7 @@ export async function deployCollectible(collectibleData: any) {
             .eq("slug", slug);
 
           if (error) {
-            setStatus(Status.ERROR)
+            useStatusStore.setState({ status: Status.ERROR })
             return { success: false, error: error };
           }
 
@@ -179,7 +180,7 @@ export async function deployCollectible(collectibleData: any) {
         };
 
         const deployData = Object.values(deployDataDefined);
-        setStatus(Status.LOADING);
+        useStatusStore.setState({ status: Status.LOADING })
 
         const contractAddress = await deployContractViem({ deployData });
 
@@ -207,10 +208,10 @@ export async function deployCollectible(collectibleData: any) {
 
             if (error) {
               console.error(error);
-              setStatus(Status.ERROR)
+              useStatusStore.setState({ status: Status.ERROR })
               return { success: false, error: error };
             }
-            setStatus(Status.SUCCESS);
+            useStatusStore.setState({ status: Status.SUCCESS })
             await finalized()
             // Set success status
 
@@ -221,13 +222,13 @@ export async function deployCollectible(collectibleData: any) {
       }
     } catch (error) {
       // Set error status
-      setStatus(Status.ERROR);
+      useStatusStore.setState({ status: Status.ERROR })
       console.error("Error deploying:", error);
       return { success: false, error: "Error deploying" };
     }
   } catch (error) {
     // Set error status
-    setStatus(Status.ERROR);
+    useStatusStore.setState({ status: Status.ERROR })
     console.error(error);
     return { success: false, error: "Error creating collectible" };
   }
@@ -237,7 +238,7 @@ export async function deployCollectible(collectibleData: any) {
 
 const finalized = async () => {
   await fetchCollectibles();
-  setStatus(Status.FINAL);
+  useStatusStore.setState({ status: Status.FINAL })
 
   // Wait for 10 seconds using a timeout
   await new Promise((resolve) => setTimeout(resolve, 10000));

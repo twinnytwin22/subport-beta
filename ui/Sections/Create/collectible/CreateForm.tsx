@@ -672,9 +672,9 @@ export const CreateForm = () => {
       {step === 3 && imageUrl && renderStep3()}
       {step === 4 && renderMintStatusCard()}
       {step === 5 && profile &&
-        <div>
-          <h1 className="dark:text-white text-black"> Your collectible will be available soon! </h1>
-          <Link prefetch={true} href={`/${profile?.username}`}>Go to Profile</Link>
+        <div className="w-full mx-auto place-items-center dark:text-white text-black text-center">
+          <h1 className=""> Your collectible will be available soon! </h1>
+          <Link className="" prefetch={true} href={`/${profile?.username}`}>Go to Profile</Link>
         </div>
       }
 

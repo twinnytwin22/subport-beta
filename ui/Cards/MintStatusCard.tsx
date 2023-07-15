@@ -1,8 +1,6 @@
 'use client'
-import { getStatus } from 'lib/deployFunctions/statusTrack';
 import { useEffect } from 'react';
-import { useMountCheck } from 'lib/hooks/mountCheck';
-import { create } from 'zustand';
+import { useStatusStore } from 'lib/deployFunctions/statusTrack';
 interface StatusStoreState {
   status: string;
   setStatus: (newStatus: string) => void;
@@ -48,22 +46,14 @@ const IsSuccess = () => {
 
 
 
-const useStatusStore = create<StatusStoreState>((set) => ({
-  status: getStatus(),
-  setStatus: (newStatus) => set({ status: newStatus }),
-}));
 export const RenderMintStatus = () => {
-  const status = useStatusStore((state) => state.status);
-  const setStatus = useStatusStore((state) => state.setStatus);
-  useMountCheck()
-
+  const {
+    setStatus,
+    status,
+  }
+    = useStatusStore()
   useEffect(() => {
-    const fetchData = () => {
-      const newStatus = getStatus();
-      setStatus(newStatus);
-    };
-
-    fetchData();
+    useStatusStore.getState().status;
   }, [setStatus]);
 
 
