@@ -1,6 +1,7 @@
 'use client'
 import { getStatus } from 'lib/deployFunctions/statusTrack';
 import { useEffect } from 'react';
+import { useMountCheck } from 'lib/hooks/mountCheck';
 import { create } from 'zustand';
 interface StatusStoreState {
   status: string;
