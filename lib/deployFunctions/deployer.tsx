@@ -216,7 +216,7 @@ export async function deployCollectible(collectibleData: any) {
             // Set success status
 
             // Return the contract address and collectible data
-            return { success: true, contractAddress, drop };
+            return { success: true, contractAddress, drop, status };
           }
         }
       }
@@ -238,13 +238,10 @@ export async function deployCollectible(collectibleData: any) {
 
 const finalized = async () => {
   await fetchCollectibles();
-
-  await new Promise((resolve) => setTimeout(resolve, 15000));
-
   useStatusStore.setState({ status: Status.FINAL })
 
   // Wait for 10 seconds using a timeout
-  await new Promise((resolve) => setTimeout(resolve, 15000));
+  await new Promise((resolve) => setTimeout(resolve, 10000));
 
   // Perform any desired action after the timeout
   // For example, you can update the status or execute additional code
