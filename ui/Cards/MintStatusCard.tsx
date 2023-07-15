@@ -54,7 +54,7 @@ const useStatusStore = create<StatusStoreState>((set) => ({
 export const RenderMintStatus = () => {
   const status = useStatusStore((state) => state.status);
   const setStatus = useStatusStore((state) => state.setStatus);
-  mountCheck()
+  useMountCheck()
 
   useEffect(() => {
     const fetchData = () => {
