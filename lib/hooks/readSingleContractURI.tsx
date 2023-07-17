@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import subportMeta from '../../utils/subport.json';
 import { publicClient } from './readContractURIs';
 
@@ -6,7 +7,7 @@ export interface DropData {
     metadata: any;
 }
 
-export async function readSingleContractURI(contractAddress: string) {
+export const readSingleContractURI = cache(async (contractAddress: string) => {
     const fallbackUrls = [
         "https://subport.infura-ipfs.io/ipfs/",
         "https://gateway.ipfscdn.io/ipfs/",
@@ -72,3 +73,4 @@ export async function readSingleContractURI(contractAddress: string) {
         throw error;
     }
 }
+)

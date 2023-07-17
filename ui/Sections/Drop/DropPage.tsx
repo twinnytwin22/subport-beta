@@ -2,17 +2,17 @@ import React from 'react';
 import DropLinksTo from 'ui/Sections/Drop/DropLInks';
 import { upload } from 'lib/content/mockUpload';
 import DropNav from 'ui/Sections/Drop/DropNav';
-import { getDropComments, getTotalReactions } from 'utils/database';
 import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper';
 import Image from 'next/image';
 
-export async function DropPage({ props, comments }: any) {
+export async function DropPage({ props }: any) {
   const drop = props?.drop;
-  const metaData = props?.metaData.metadata;
-  const imageUrl = metaData.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
-  const reactionCount = await getTotalReactions(drop?.id);
+  const metaData = props?.metaData;
+  const imageUrl = props?.imageUrl
+  const reactionCount = props.reactionCount
+  const comments = props.comments
 
-  return (
+  return props && (
     <div className="bg-gray-100 dark:bg-black h-full flex max-w-7xl mx-auto w-full mt-4 pb-12">
       <div className="flex flex-col lg:flex-row mx-auto items-center w-full">
         <div className="w-full relative px-4 mx-4 justify-center content-center">

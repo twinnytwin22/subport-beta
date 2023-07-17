@@ -1,14 +1,38 @@
 import { supabase } from "lib/constants";
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { cache } from "react";
+import { readContractURIs } from "lib/hooks/readContractURIs";
+import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
 
-const fetchCollectibles = cache(async () => {
-  const { data: drops, error } = await supabase
-    .from("drops")
-    .select("*")
-    .order("created_at", { ascending: false });
-  return drops;
-});
+const fetchCollectibles = async () => {
+  try {
+    const { data: drops, error } = await supabase
+      .from("drops")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      throw new Error();
+    }
+    if (drops) {
+      const contractAddresses = drops?.map((drop) => drop.contract_address);
+
+      if (contractAddresses) {
+        try {
+          const metaData = await readContractURIs(contractAddresses);
+          const dropsWithMetaData = drops?.map((drop, index) => ({
+            drop,
+            metaData: metaData[index]?.metadata,
+          }));
+
+          return { dropsWithMetaData, drops, contractAddresses, metaData };
+        } catch (error) {
+          console.error("Error fetching metadata:", error);
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching drops:", error);
+  }
+};
 
 // const { data: drops, isLoading, error } = useQuery(['drops', fetchCollectibles]);
 
@@ -30,15 +54,43 @@ const getUsersPlaylist = async (userId: any) => {
 };
 
 const fetchSingleCollectible = async (slug: any) => {
-  let { data: drop, error } = await supabase
-    .from("drops")
-    .select("*")
-    .eq("slug", slug);
+  try {
+    let { data: drop, error } = await supabase
+      .from("drops")
+      .select("*")
+      .eq("slug", slug);
 
-  if (drop !== null && drop.length > 0) {
-    return { error, drop: drop[0] };
-  } else {
-    return { error: "Not Found", drop: null };
+    if (drop !== null && drop.length > 0) {
+      const contractAddress = drop[0]?.contract_address;
+
+      if (contractAddress) {
+        try {
+          const metaData: any = await readSingleContractURI(contractAddress);
+
+          const dropWithMetaData: any = {
+            drop: drop[0],
+            metaData: metaData,
+          };
+
+          const reactionCount = await getTotalReactions(drop[0]?.id);
+          const dropComments = await getDropComments(drop[0]?.id);
+
+          return {
+            error,
+            drop: drop[0],
+            reactionCount,
+            dropComments,
+            dropWithMetaData,
+          };
+        } catch (error) {
+          console.error("Error fetching single contract URI:", error);
+        }
+      } else {
+        return { error: "Not Found", drop: null };
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching single collectible:", error);
   }
 };
 

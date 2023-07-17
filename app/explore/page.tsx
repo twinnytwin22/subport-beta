@@ -11,7 +11,7 @@ async function Page() {
   const drops = await fetchCollectibles()
   const data = await getProfilesWithDrops();
 
-  const filteredDrops = drops?.filter(drop => {
+  const filteredDrops = drops?.drops.filter(drop => {
     const lowercaseGenre = drop.genre.toLowerCase();
     return allGenres.some(genre => genre.toLowerCase() === lowercaseGenre);
   });

@@ -237,6 +237,20 @@ function Page(props: any) {
     }
   }
 
+  async function fetchData() {
+    try {
+      const res = await fetch('/api/getCollectibles')
+      const data = await res.json()
+      if (data) {
+        setResponseJSON(JSON.stringify(data, null, 2)); // Assuming `drop` is the JSON response you want to stringify
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <label htmlFor="response">Response</label>
@@ -262,6 +276,9 @@ function Page(props: any) {
         <button onClick={handleOtherClick}
           className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">DEPLOY WITH CLIENT / METAMASK</button>
         <br />
+        <button onClick={fetchData}
+          className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH</button>
+
         <button onClick={handleTestSupaUpload}
           className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST UPLOAD</button>
         <button onClick={handleTestFileCreation}
