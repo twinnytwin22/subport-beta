@@ -6,7 +6,7 @@ import { promisify } from "util";
 import { redis } from "lib/redis/redis";
 
 // Create a Supabase
-export const supabase = createClient(
+const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!
 );
