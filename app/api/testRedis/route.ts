@@ -1,13 +1,4 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { readContractURIs } from "lib/hooks/readContractURIs";
 import { redis } from "lib/redis/redis";
-import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
 
 export async function GET() {
   let slug = "undefined";

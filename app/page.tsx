@@ -1,11 +1,13 @@
 import React from 'react'
-
 import HomePage from 'ui/Sections/HomePage'
+import { headers } from 'next/headers'
+export const revalidate = 30// revalidate this page every 60 seconds
 
-export const revalidate = 60// revalidate this page every 60 seconds
 
 async function Main() {
-  const res = await fetch('http://localhost:3000/api/getCollectibles', {
+  const host = headers().get('host')
+  const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
+  const res = await fetch(`${protocol}://${host}/api/getCollectibles`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
