@@ -211,11 +211,11 @@ export async function deployCollectible(collectibleData: any) {
               return { success: false, error: error };
             }
             useStatusStore.setState({ status: Status.SUCCESS })
-            await finalized(dropData.contract_address)
+            const res = await finalized(dropData.contract_address)
             // Set success status
 
             // Return the contract address and collectible data
-            return { success: true, contractAddress, drop, status };
+            return { success: true, contractAddress, drop, collectible: res };
           }
         }
       }
@@ -243,7 +243,7 @@ const finalized = async (contractAddress: any) => {
   // Wait for 10 seconds using a timeout
   await new Promise((resolve) => setTimeout(resolve, 10000));
 
-  return data
+  return data?.data
   // Perform any desired action after the timeout
   // For example, you can update the status or execute additional code
   // setStatus(Status.SOME_OTHER_STATUS);
@@ -253,12 +253,15 @@ async function fetchData(contractAddress: string) {
   const host = process?.env.NODE_ENV === "development" ? "localhost:3000" : "subport.vercel.app"
   const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
   try {    // const res = await fetch('/api/v1/getCollectibles')
-    const res = await fetch(`${protocol}://${host}/api/v1/getSingleCollectible?contractAddress=${contractAddress}`)
+    const res = await fetch(`${protocol}://${host}/api/v1/getSingleCollectible?contractAddress=${contractAddress}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
     const data = await res.json()
 
     await new Promise((resolve) => setTimeout(resolve, 10000));
 
-    return data
+    return { data }
   } catch (error) {
     console.log(error)
   }
