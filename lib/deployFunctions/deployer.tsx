@@ -44,7 +44,6 @@ export async function deployContractViem({ deployData }: any) {
       const receipt: any = await publicClient.waitForTransactionReceipt({ hash });
 
       // Set success status
-      useStatusStore.setState({ status: Status.SUCCESS })
       console.log(receipt.contractAddress, 'contract address');
       return receipt?.contractAddress;
     }
@@ -210,7 +209,6 @@ export async function deployCollectible(collectibleData: any) {
               useStatusStore.setState({ status: Status.ERROR })
               return { success: false, error: error };
             }
-            useStatusStore.setState({ status: Status.SUCCESS })
             const res = await finalized(dropData.contract_address)
             // Set success status
 
@@ -237,6 +235,8 @@ export async function deployCollectible(collectibleData: any) {
 
 const finalized = async (contractAddress: any) => {
   if (contractAddress) {
+    useStatusStore.setState({ status: Status.SUCCESS })
+
     try {
       const data = await fetchData(contractAddress)
       useStatusStore.setState({ status: Status.FINAL })
