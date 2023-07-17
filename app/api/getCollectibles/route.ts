@@ -16,7 +16,7 @@ const redisGet = promisify(redis.get).bind(redis);
 const redisSet = promisify(redis.set).bind(redis);
 
 // Define the route handler function
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const cacheKey = "drops_cache"; // Specify a cache key
 
