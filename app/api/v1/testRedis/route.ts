@@ -1,6 +1,5 @@
 // Import necessary dependencies
 import { NextResponse } from "next/server";
-import { readContractURIs } from "lib/hooks/readContractURIs";
 import { createClient } from "@supabase/supabase-js";
 import { promisify } from "util";
 import { redis } from "lib/redis/redis";
@@ -26,6 +25,8 @@ export async function GET() {
       console.log(cachedResponse);
 
       return NextResponse.json(JSON.parse(cachedResponse));
+    } else {
+      return;
     }
   } catch (error) {
     console.error("Error fetching drops:", error);
