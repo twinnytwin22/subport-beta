@@ -236,33 +236,37 @@ export async function deployCollectible(collectibleData: any) {
 
 
 const finalized = async (contractAddress: any) => {
+  if (contractAddress) {
+    try {
+      const data = await fetchData(contractAddress)
+      useStatusStore.setState({ status: Status.FINAL })
+      // Wait for 10 seconds using a timeout
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      return data?.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-  const data = await fetchData(contractAddress)
-  useStatusStore.setState({ status: Status.FINAL })
-
-  // Wait for 10 seconds using a timeout
-  await new Promise((resolve) => setTimeout(resolve, 10000));
-
-  return data?.data
-  // Perform any desired action after the timeout
-  // For example, you can update the status or execute additional code
-  // setStatus(Status.SOME_OTHER_STATUS);
-  // ...
 };
 async function fetchData(contractAddress: string) {
-  const host = process?.env.NODE_ENV === "development" ? "localhost:3000" : "subport.vercel.app"
-  const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
-  try {    // const res = await fetch('/api/v1/getCollectibles')
-    const res = await fetch(`${protocol}://${host}/api/v1/getSingleCollectible?contractAddress=${contractAddress}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await res.json()
+  if (contractAddress) {
 
-    await new Promise((resolve) => setTimeout(resolve, 10000));
+    try {
+      const host = process?.env.NODE_ENV === "development" ? "localhost:3000" : "subport.vercel.app"
+      const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
+      // const res = await fetch('/api/v1/getCollectibles')
+      const res = await fetch(`${protocol}://${host}/api/v1/getSingleCollectible?contractAddress=${contractAddress}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json()
 
-    return { data }
-  } catch (error) {
-    console.log(error)
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+
+      return { data }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
