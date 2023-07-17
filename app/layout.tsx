@@ -9,6 +9,9 @@ import FooterPlayer from "ui/Players/FooterPlayer";
 import { LoadingContainer } from "ui/LoadingContainer";
 import { NewUserModal } from "ui/User/NewUserModal";
 
+export const preferredRegion = 'auto'
+export const revalidate = 0
+export const dynamic = 'force-dynamic'
 
 
 
