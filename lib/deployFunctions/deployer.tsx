@@ -6,7 +6,6 @@ import subportMeta from '../../utils/subport.json';
 import { uploadHashToIpfs } from './uploadFileIpfs'
 import { supabase } from 'lib/constants'
 import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin'
-import { fetchCollectibles } from 'utils/database';
 import { useStatusStore } from './statusTrack';
 
 
@@ -212,7 +211,7 @@ export async function deployCollectible(collectibleData: any) {
               return { success: false, error: error };
             }
             useStatusStore.setState({ status: Status.SUCCESS })
-            await finalized()
+            await finalized(dropData.contract_address)
             // Set success status
 
             // Return the contract address and collectible data
@@ -236,15 +235,31 @@ export async function deployCollectible(collectibleData: any) {
 
 
 
-const finalized = async () => {
-  await fetchCollectibles();
+const finalized = async (contractAddress: any) => {
+
+  const data = await fetchData(contractAddress)
   useStatusStore.setState({ status: Status.FINAL })
 
   // Wait for 10 seconds using a timeout
   await new Promise((resolve) => setTimeout(resolve, 10000));
 
+  return data
   // Perform any desired action after the timeout
   // For example, you can update the status or execute additional code
   // setStatus(Status.SOME_OTHER_STATUS);
   // ...
 };
+async function fetchData(contractAddress: string) {
+  const host = process?.env.NODE_ENV === "development" ? "localhost:3000" : "subport.vercel.app"
+  const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
+  try {    // const res = await fetch('/api/v1/getCollectibles')
+    const res = await fetch(`${protocol}://${host}/api/v1/getSingleCollectible?contractAddress=${contractAddress}`)
+    const data = await res.json()
+
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
