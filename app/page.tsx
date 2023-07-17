@@ -1,7 +1,8 @@
 import React from 'react'
 import HomePage from 'ui/Sections/HomePage'
 import { headers } from 'next/headers'
-export const revalidate = 30// revalidate this page every 60 seconds
+export const revalidate = 0
+export const dynamic = 'force-dynamic' // revalidate this page every 60 seconds
 
 
 async function Main() {
