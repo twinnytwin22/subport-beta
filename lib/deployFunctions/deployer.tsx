@@ -253,7 +253,7 @@ async function fetchData(contractAddress: string) {
   const host = process?.env.NODE_ENV === "development" ? "localhost:3000" : "subport.vercel.app"
   const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
   try {    // const res = await fetch('/api/v1/getCollectibles')
-    const res = await fetch(`${protocol}://${host}/api/v1/getSingleCollectible?contractAddress=${contractAddress}`)
+    const res = await fetch(`/api/v1/getSingleCollectible?contractAddress=${contractAddress}`)
     const data = await res.json()
 
     await new Promise((resolve) => setTimeout(resolve, 10000));
