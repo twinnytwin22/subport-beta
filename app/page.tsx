@@ -11,6 +11,7 @@ async function Main() {
   const res = await fetch(`${protocol}://${host}/api/getCollectibles`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
+    cache: 'no-store',
   });
   const drops = await res.json()
   const dropsWithMetaData = drops?.dropsWithMetaData
