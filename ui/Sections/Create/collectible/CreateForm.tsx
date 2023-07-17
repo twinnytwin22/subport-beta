@@ -126,14 +126,12 @@ export const CreateForm = () => {
         user_id: user?.id,
         keywords: keywordsArray,
       };
-      console.log(collectibleData, "about to deploy");
 
       // Call the deployCollectible function
       const deployResult = await deployCollectible(collectibleData);
       const res = deployResult?.toString();
 
       if (deployResult) {
-        console.log(res)
         setStep(5)
       } else {
         throw new Error
@@ -169,6 +167,8 @@ export const CreateForm = () => {
       setAudioUrl(formData.audio);
       setImageUrl(formData.image);
       setIpfsMedia(true);
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+
       // do something with the form data, e.g. submit it to a server
       setStep(3);
     } catch (error) {
@@ -527,7 +527,8 @@ export const CreateForm = () => {
   };
 
   const renderStep3 = () => {
-    console.log(imageUrl, audioUrl);
+
+
     return imageUrl && audioUrl && (
       <>
         <h2 className="text-center w-full py-4 text-xl">
@@ -536,7 +537,7 @@ export const CreateForm = () => {
         <div className="w-full mx-auto items-center">
           <div className="flex flex-col mx-auto content-center lg:grid lg:grid-cols-2 p-8 mb-8 overflow-x-auto">
             <div className="mx-auto content-center h-fit shadow-xl shadow-zinc-300 dark:shadow-zinc-800 mb-10 max-w-md col-span-1">
-              {ipfsMedia && <Media audio={audioUrl} image={imageUrl} />}
+              {ipfsMedia && <Media audio={songPreview} image={imagePreview} />}
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg dark:bg-zinc-900 border dark:border-zinc-800 bg-zinc-200 border-zinc-300">
               <table className="text-sm text-left text-zinc-700 dark:text-zinc-300">

@@ -12,7 +12,7 @@ const colors = [
     'bg-pink-600',
 ];
 
-async function ByGenre({ drops }: any) {
+function ByGenre({ drops }: any) {
     const uniqueGenres: any[] = drops
         ? [...new Set(drops.map((drop: any) => drop.genre.toLowerCase()))]
         : [];
