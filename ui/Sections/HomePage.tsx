@@ -19,7 +19,7 @@ async function HomePage({ drops }: any) {
           className="flex flex-col space-y-10 md:col-span-10 xl:col-span-6 w-full justify-center content-center mx-auto"
           style={{ scrollbarWidth: "none" }}
         >
-          {drops?.map(({ drop, metaData }: any) => (
+          {drops?.slice(0, 3).map(({ drop, metaData }: any) => (
             <div key={drop?.id}>
               <CollectCard drop={drop} metaData={metaData} />
             </div>

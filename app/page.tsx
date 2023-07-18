@@ -2,7 +2,6 @@ import React from 'react'
 import HomePage from 'ui/Sections/HomePage'
 import { headers } from 'next/headers'
 
-export const runtime = 'edge'
 export const fetchCache = 'force-no-store'
 async function Main() {
   const host = headers().get('host')
