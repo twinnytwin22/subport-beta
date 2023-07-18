@@ -7,7 +7,6 @@ import { supaMiddleware } from "utils/middlewares/withSession";
 
 const middlewares = [withLogging, withHeaders, withApi, supaMiddleware];
 
-export default stackMiddlewares(middlewares);
 export const config = {
   //  matcher: ["/((?!_next/static|favicon.ico).*)"],
 };
