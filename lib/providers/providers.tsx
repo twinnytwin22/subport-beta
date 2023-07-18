@@ -44,7 +44,7 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
       <Suspense>
         <AuthContextProvider>
           <SubportPlayer>
-            <ThirdwebProvider activeChain={Polygon} supportedChains={[Ethereum, Polygon, Optimism]} storageInterface={storage} queryClient={queryClient}>
+            <ThirdwebProvider activeChain={Polygon} supportedChains={[Ethereum, Polygon, Optimism]}>
               <Suspense>
                 <ThemeProvider attribute="class" defaultTheme="dark">
                   <Suspense>
