@@ -14,7 +14,7 @@ import { useCreateFormStore } from "./CreateFormStore";
 import Link from "next/link";
 import { renderProgressBar } from "ui/Misc/ProgressBar";
 import { useStorageUpload } from "@thirdweb-dev/react";
-
+import Image from "next/image";
 export const CreateForm = () => {
   const { user, profile } = useAuthProvider();
   const [savedUser, setSavedUser] = useState<any>(null)
@@ -143,7 +143,7 @@ export const CreateForm = () => {
       // Call the deployCollectible function
       const deployResult = await deployCollectible(collectibleData);
       await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      await fetch('/api/v1/getCollectibles');
       if (deployResult) {
         setStep(5)
       } else {
@@ -697,7 +697,12 @@ export const CreateForm = () => {
   return (
     <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0 relative">
       {isUploading && renderProgressBar(progress, total)}
-      {step !== 4 && (
+      {step == 5 && (
+        <h1 className="text-center text-4xl text-black dark:text-white">
+          Success!
+        </h1>
+      )}
+      {step !== 4 || 5 && (
         <h1 className="text-center text-4xl text-black dark:text-white">
           Create your collectible.
         </h1>
@@ -710,24 +715,19 @@ export const CreateForm = () => {
       {step === 3 && imageUrl && renderStep3()}
       {step === 4 && renderMintStatusCard()}
       {step === 5 && profile &&
-        <div className="w-full mx-auto place-items-center dark:text-white text-black text-center">
-          <h1 className=""> Your collectible will be available soon! </h1>
-          <Link className="" prefetch={true} href={`/${profile?.username}`}>Go to Profile</Link>
+        <div className="w-full mx-auto place-items-center dark:text-white text-black text-center space-y-3">
+          <h1 className="text-lg"> Your collectible will be available soon! </h1>
+          {imagePreview ? (
+            <Image className="rounded-md mx-auto justify-center" alt='image' src={imagePreview ? imagePreview : ''} width={300} height={300} priority />) : ('')}
+          <br />
+          <Link className="" prefetch={true} href={`/${profile?.username}`}>
+            <button role="button" className="p-2.5 ring-blue-600 ring rounded-md">Go to Profile</button>
+          </Link>
         </div>
       }
 
     </div>
   );
 };
-function upload(arg0: { data: any; }) {
-  throw new Error("Function not implemented.");
-}
 
-function setProgress(arg0: number) {
-  throw new Error("Function not implemented.");
-}
-
-function setTotal(arg0: number) {
-  throw new Error("Function not implemented.");
-}
 

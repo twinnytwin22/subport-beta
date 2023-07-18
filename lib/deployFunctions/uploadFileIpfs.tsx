@@ -12,7 +12,7 @@ const uploader = new IpfsUploader();
 const storage = new ThirdwebStorage({ uploader, downloader, gatewayUrls });
 
 export async function uploadHashToIpfs({ data }: any) {
-  const uri = await storage.upload({ data })
+  const uri = await storage.upload(data)
   if (uri) {
     return uri
   }

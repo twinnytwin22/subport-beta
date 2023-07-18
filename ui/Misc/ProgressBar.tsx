@@ -5,7 +5,7 @@ import { useCreateFormStore } from 'ui/Sections/Create/collectible/CreateFormSto
 
 export const renderProgressBar = (progress: any, total: any) => {
 
-    let newTotal = progress / total * 100
+    let newTotal = Math.round((progress / total) * 100);
     return (
         <div className="absolute top-0 left-0 right-0 bottom-0 flex flex-col justify-center items-center z-50 isolate">
             <div className='bg-black opacity-80 h-full z-20 absolute w-full'></div>

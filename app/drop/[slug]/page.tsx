@@ -18,8 +18,8 @@ export default async function Page({ params }: { params: { slug: string, user: s
   if (res?.drop !== null) {
     revalidatePath(slug)
 
-    const imageUrl = res?.dropWithMetaData?.metaData.metadata.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
-
+    const imageUrl = res?.dropWithMetaData?.metaData.metadata?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+      || res?.dropWithMetaData?.metaData.metadata?.data?.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
     const props: any = {
       drop: res?.drop,
       metaData: res?.dropWithMetaData.metaData.metadata,

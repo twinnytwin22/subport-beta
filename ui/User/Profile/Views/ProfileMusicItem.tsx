@@ -3,8 +3,10 @@ import CollectCardMenu from "ui/Cards/Collect/CollectCardMenu"
 import { useRouter } from 'next/navigation'
 
 
+
 const MusicItem = ({ drop, metaData, profile }: any) => {
-    const imageHash = metaData?.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+    const imageHash = metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/') || metaData?.data.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+    console.log("ITEM", drop, metaData)
     const router = useRouter()
     return (
         <tr key={drop.name}

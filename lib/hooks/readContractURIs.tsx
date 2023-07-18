@@ -7,14 +7,14 @@ export interface DropData {
     info: any;
     metadata: any;
 }
-const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID || process.env.ALCHEMY_ID
+const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID! || process.env.ALCHEMY_ID
 
 const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
 
 
 export const publicClient = createPublicClient({
     chain: polygonMumbai,
-    transport: publicTransport!,
+    transport: http('https://polygon-mumbai.g.alchemy.com/v2/4NyYhTtu_4zARxhQQvw6aXni7lkwtBZE'),
     batch: {
         multicall: {
             batchSize: 100,

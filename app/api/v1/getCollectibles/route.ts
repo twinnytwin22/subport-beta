@@ -60,7 +60,7 @@ export async function GET() {
           // Store the response in Redis cache
           await redisSet(cacheKey, JSON.stringify(response));
 
-          return NextResponse.json(response);
+          return new Response(JSON.stringify(response));
         } catch (error) {
           console.error("Error fetching metadata:", error);
           return new Response("Error: fetching metadata");

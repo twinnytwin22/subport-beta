@@ -4,7 +4,7 @@ import { readContractURIs } from "lib/hooks/readContractURIs";
 import { createClient } from "@supabase/supabase-js";
 import { promisify } from "util";
 import { redis } from "lib/redis/redis";
-
+import { NextApiResponse } from "next";
 // Create a Supabase
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -59,7 +59,7 @@ export async function GET() {
           // Store the response in Redis cache
           await redisSet(cacheKey, JSON.stringify(response));
 
-          return NextResponse.json(response);
+          return new Response(JSON.stringify(response));
         } catch (error) {
           console.error("Error fetching metadata:", error);
           return new Response("Error: fetching metadata");

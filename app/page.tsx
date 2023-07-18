@@ -6,9 +6,9 @@ export const fetchCache = 'force-no-store'
 async function Main() {
   const host = headers().get('host')
   const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
-  const res = await fetch(`${protocol}://${host}/api/getCollectibles`, {
+  const res = await fetch(`${protocol}://${host}/api/v1/getCollectibles`, {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    /// headers: { "Content-Type": "application/json" },
     cache: 'no-store',
   });
   const drops = await res.json()

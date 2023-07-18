@@ -13,7 +13,7 @@ import { useStatusStore } from './statusTrack';
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID || process.env.ALCHEMY_ID
-const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
+const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/4NyYhTtu_4zARxhQQvw6aXni7lkwtBZE`)
 
 export const publicClient = createPublicClient({
   chain: polygonMumbai,
@@ -63,10 +63,10 @@ const account = privateKeyToAccount(`0x${process.env.PK!!}`)
 export const walletClient = createWalletClient({
   account,
   chain: polygonMumbai,
-  transport: http()
+  transport: http('https://polygon-mumbai.g.alchemy.com/v2/4NyYhTtu_4zARxhQQvw6aXni7lkwtBZE')
 })
 
-export async function deployCollectible(collectibleData: any) {
+export const deployCollectible = async (collectibleData: any) => {
   useStatusStore.setState({ status: Status.PENDING })
   let metaDataHash = null; // Declare the ipfsHash variable outside the try-catch block
   let tokenDataHash = null; // Declare the ipfsHash variable outside the try-catch block
@@ -252,24 +252,16 @@ const finalized = async (contractAddress: any) => {
   }
 
 };
-async function fetchData(contractAddress: string) {
+export const fetchData = async (contractAddress: string) => {
   if (contractAddress) {
 
     try {
-      const host = process?.env.NODE_ENV === "development" ? "localhost:3000" : "subport.vercel.app"
-      const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
       // const res = await fetch('/api/v1/getCollectibles')
-      const res = await fetch(`/api/v1/getSingleCollectible?contractAddress=${contractAddress}`, {
-        method: "GET",
-        //    headers: { "Content-Type": "application/json" },
-      });
+      const res = await import(`../api/v1/getSingleCollectible?contractAddress=${contractAddress}`);
 
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
-      const data = await res.json()
-
-
-      return { data }
+      return await (await res.GET()).json();
     } catch (error) {
       console.log(error)
     }
