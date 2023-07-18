@@ -3,8 +3,6 @@ import React from 'react';
 import Profile from 'ui/User/Profile/Profile';
 import { checkUser } from 'utils/database';
 
-export const runtime = 'edge'
-export const fetchCache = 'force-no-store'
 export const dynamic = 'force-dynamic'
 
 export default async function Page({ params }: { params: { slug: string, user: string } }) {
