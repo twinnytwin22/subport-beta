@@ -26,9 +26,9 @@ const gatewayUrls = [
   "https://ipfs.io/ipfs/",
 ]
 
-const downloader = new StorageDownloader();
-const uploader = new IpfsUploader();
-const storage = new ThirdwebStorage({ uploader, downloader, gatewayUrls });
+const downloader = new StorageDownloader() as any;
+const uploader = new IpfsUploader() as any;
+const storage = new ThirdwebStorage({ uploader, downloader, gatewayUrls }) as any;
 
 const Providers = ({ children, }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = React.useState(false);
@@ -44,7 +44,16 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
       <Suspense>
         <AuthContextProvider>
           <SubportPlayer>
-            <ThirdwebProvider activeChain={Polygon} supportedChains={[Ethereum, Polygon, Optimism]}>
+            <ThirdwebProvider
+              storageInterface={storage}
+              activeChain={Polygon}
+              supportedChains={[Ethereum, Polygon, Optimism]}
+              queryClient={queryClient}
+              sdkOptions={{
+                thirdwebApiKey: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
+                //           infuraApiKey: process.env,
+                alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID
+              }}>
               <Suspense>
                 <ThemeProvider attribute="class" defaultTheme="dark">
                   <Suspense>

@@ -1,3 +1,4 @@
+'use client'
 import 'viem/window'
 import { createWalletClient, http, createPublicClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
@@ -11,7 +12,7 @@ import { useStatusStore } from './statusTrack';
 
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
-const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID
+const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID || process.env.ALCHEMY_ID
 const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
 
 export const publicClient = createPublicClient({
@@ -30,32 +31,34 @@ const Status = {
 
 
 export async function deployContractViem({ deployData }: any) {
-  try {
-    // Set loading status
-    useStatusStore.setState({ status: Status.LOADING })
+  if (deployData) {
+    try {
+      // Set loading status
+      useStatusStore.setState({ status: Status.LOADING })
 
-    const hash = await walletClient.deployContract({
-      abi: abi,
-      args: deployData,
-      bytecode: bytecode,
-    });
+      const hash = await walletClient.deployContract({
+        abi: abi,
+        args: deployData,
+        bytecode: bytecode,
+      });
 
-    if (hash) {
-      const receipt: any = await publicClient.waitForTransactionReceipt({ hash });
+      if (hash) {
+        const receipt: any = await publicClient.waitForTransactionReceipt({ hash });
 
-      // Set success status
-      console.log(receipt.contractAddress, 'contract address');
-      return receipt?.contractAddress;
+        // Set success status
+        console.log(receipt.contractAddress, 'contract address');
+        return receipt?.contractAddress;
+      }
+    } catch (error) {
+      // Set error status
+      useStatusStore.setState({ status: Status.ERROR })
+      console.error(error);
+      return { success: false, error: "Error creating collectible" };
     }
-  } catch (error) {
-    // Set error status
-    useStatusStore.setState({ status: Status.ERROR })
-    console.error(error);
-    return { success: false, error: "Error creating collectible" };
   }
 }
 
-const account = privateKeyToAccount(`0x${process.env.PK}`)
+const account = privateKeyToAccount(`0x${process.env.PK!!}`)
 
 export const walletClient = createWalletClient({
   account,
@@ -112,7 +115,7 @@ export async function deployCollectible(collectibleData: any) {
             useStatusStore.setState({ status: Status.ERROR })
             reject(error);
           }
-        }, 1000); // 1-second timeout
+        }, 500); // 1-second timeout
       });
 
       const tokenDataHash: string | undefined = await new Promise((resolve, reject) => {
@@ -125,7 +128,7 @@ export async function deployCollectible(collectibleData: any) {
             reject(error);
           }
 
-        }, 1000); // 1-second timeout
+        }, 500); // 1-second timeout
       });
 
       if (metaDataHash && tokenDataHash) {
@@ -258,10 +261,10 @@ async function fetchData(contractAddress: string) {
       // const res = await fetch('/api/v1/getCollectibles')
       const res = await fetch(`/api/v1/getSingleCollectible?contractAddress=${contractAddress}`, {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        //    headers: { "Content-Type": "application/json" },
       });
 
-      await new Promise((resolve) => setTimeout(resolve, 10000));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
 
       const data = await res.json()
 

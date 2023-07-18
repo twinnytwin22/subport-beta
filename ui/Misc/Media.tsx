@@ -12,12 +12,13 @@ export const Media = (data: any) => {
     src: audioUrl,
     poster: imageUrl,
     alt: 'Nft Media',
-    requireinteraction: false
+    requireinteraction: true || undefined,
   };
 
   return (
     <div className="mx-auto block content-center" suppressHydrationWarning>
-      <MediaRenderer {...mediaProps} />
+      ///
+      <MediaRenderer {...mediaProps} requireInteraction={mediaProps.requireinteraction ? true : undefined} />
     </div>
   );
 };

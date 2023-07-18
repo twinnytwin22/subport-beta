@@ -11,10 +11,10 @@ const middlewares = [withLogging, withHeaders, withApi, supaMiddleware];
 
 import { NextResponse } from "next/server";
 
-export function middleware(request: Request) {
+function middleware(request: Request) {
   const origin = request.headers.get("origin");
   console.log(origin);
-
+  request.headers.set("Content-Type", "application/json");
   const response = NextResponse.next();
   response.headers.set("Access-Control-Allow-Origin", "*");
   response.headers.set(
@@ -35,5 +35,5 @@ export function middleware(request: Request) {
 }
 
 export const config = {
-  matcher: "/api/:path*",
+  matcher: "/api/:function*",
 };
