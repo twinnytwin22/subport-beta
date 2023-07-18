@@ -260,9 +260,11 @@ async function fetchData(contractAddress: string) {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
-      const data = await res.json()
 
       await new Promise((resolve) => setTimeout(resolve, 10000));
+
+      const data = await res.json()
+
 
       return { data }
     } catch (error) {

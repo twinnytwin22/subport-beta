@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 interface CreateFormState {
     audioUrl: null | string;
@@ -10,6 +10,11 @@ interface CreateFormState {
     nowChecked: boolean;
     neverChecked: boolean;
     user_id: null | string;
+    isUploading: boolean;
+    progress: number;
+    total: number;
+    logAudio: () => void;
+    logImage: () => void;
     setAudioUrl: (audioUrl: string | null) => void;
     setImageUrl: (imageUrl: string | null) => void;
     setImagePreview: (imagePreview: string | null) => void;
@@ -18,9 +23,12 @@ interface CreateFormState {
     setStep: (step: number) => void;
     setNowChecked: (nowChecked: boolean) => void;
     setNeverChecked: (neverChecked: boolean) => void;
+    setUploading: (isUploading: boolean) => void;
+    setProgress: (progress: number) => void;
+    setTotal: (total: number) => void;
 }
 
-export const useCreateFormStore = create<CreateFormState>((set) => ({
+export const useCreateFormStore = create<CreateFormState>((set, get) => ({
     audioUrl: null,
     imageUrl: null,
     imagePreview: null,
@@ -30,6 +38,9 @@ export const useCreateFormStore = create<CreateFormState>((set) => ({
     nowChecked: false,
     neverChecked: false,
     user_id: null,
+    isUploading: false,
+    progress: 0,
+    total: 0,
     setAudioUrl: (audioUrl) => set({ audioUrl }),
     setImageUrl: (imageUrl) => set({ imageUrl }),
     setImagePreview: (imagePreview) => set({ imagePreview }),
@@ -38,4 +49,13 @@ export const useCreateFormStore = create<CreateFormState>((set) => ({
     setStep: (step) => set({ step }),
     setNowChecked: (nowChecked) => set({ nowChecked }),
     setNeverChecked: (neverChecked) => set({ neverChecked }),
+    setUploading: (isUploading) => set({ isUploading }),
+    setProgress: (progress) => set({ progress }),
+    setTotal: (total) => set({ total }),
+    logAudio: () => {
+        console.log(` Audio URL: ${get().audioUrl}`)
+    },
+    logImage: () => {
+        console.log(` Image URL: ${get().imageUrl}`)
+    }
 }));

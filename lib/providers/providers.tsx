@@ -14,7 +14,21 @@ import {
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
 import { ThemeProvider } from "next-themes";
+import { Ethereum, Polygon, Optimism } from "@thirdweb-dev/chains";
+import { IpfsUploader, StorageDownloader, ThirdwebStorage } from "@thirdweb-dev/storage";
+
 const queryClient = new QueryClient()
+const gatewayUrls = [
+  "https://subport.infura-ipfs.io/ipfs/",
+  "https://ipfs.thirdwebcdn.com/ipfs/",
+  "https://gateway.ipfscdn.io/ipfs/",
+  "https://cloudflare-ipfs.com/ipfs/",
+  "https://ipfs.io/ipfs/",
+]
+
+const downloader = new StorageDownloader();
+const uploader = new IpfsUploader();
+const storage = new ThirdwebStorage({ uploader, downloader, gatewayUrls });
 
 const Providers = ({ children, }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = React.useState(false);
@@ -26,10 +40,11 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Script src="https://sdk.scdn.co/spotify-player.js"></Script>
+
       <Suspense>
         <AuthContextProvider>
           <SubportPlayer>
-            <ThirdwebProvider activeChain="ethereum">
+            <ThirdwebProvider activeChain={Polygon} supportedChains={[Ethereum, Polygon, Optimism]} storageInterface={storage} queryClient={queryClient}>
               <Suspense>
                 <ThemeProvider attribute="class" defaultTheme="dark">
                   <Suspense>

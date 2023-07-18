@@ -10,6 +10,8 @@ import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import Image from 'next/image';
 import SpotifyAuth from 'utils/testSpotifyLogic';
 import { supabase } from 'lib/constants';
+import { renderProgressBar } from 'ui/Misc/ProgressBar';
+import { useStorageUpload } from '@thirdweb-dev/react';
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -71,6 +73,11 @@ function Page(props: any) {
   const [loading, isLoading] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState('')
   const { user } = useAuthProvider()
+  const { mutateAsync: upload } = useStorageUpload({
+    onProgress: (progress) => {
+      console.log(progress);
+    },
+  });
 
 
   const [savedUser, setSavedUser] = useState<any>('')
@@ -250,7 +257,11 @@ function Page(props: any) {
       console.log(error)
     }
   }
+  const handleProgress = async () => {
 
+
+
+  }
 
 
   return (
@@ -274,7 +285,7 @@ function Page(props: any) {
         {loading &&
           <h2 className="text-center font-bold text-xl text-black">Testing...</h2>}
         {avatarUrl && <Image src={avatarUrl} alt="avatar test" width={50} height={50} />}
-
+        <button onClick={handleProgress}>PROGRESS</button>
         <button onClick={handleOtherClick}
           className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">DEPLOY WITH CLIENT / METAMASK</button>
         <br />

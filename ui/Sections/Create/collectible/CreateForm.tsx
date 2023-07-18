@@ -12,10 +12,19 @@ import { useAuthProvider } from "app/context/auth";
 import { uploadContractMediaToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import { useCreateFormStore } from "./CreateFormStore";
 import Link from "next/link";
+import { renderProgressBar } from "ui/Misc/ProgressBar";
+import { useStorageUpload } from "@thirdweb-dev/react";
 
 export const CreateForm = () => {
   const { user, profile } = useAuthProvider();
   const [savedUser, setSavedUser] = useState<any>(null)
+  const { mutateAsync: upload } = useStorageUpload({
+    uploadWithoutDirectory: true,
+    onProgress: (progress) => {
+      setProgress(progress?.progress); // Update the progress state
+      setTotal(progress?.total); // Update the progress state
+    },
+  });
 
   const {
     audioUrl,
@@ -29,11 +38,17 @@ export const CreateForm = () => {
     songPreview,
     setSongPreview,
     ipfsMedia,
+    setProgress,
+    setTotal,
     setIpfsMedia,
     setImagePreview,
     imagePreview,
     nowChecked,
-    setNowChecked
+    setNowChecked,
+    isUploading,
+    setUploading,
+    logAudio,
+    logImage,
   } = useCreateFormStore();
 
   const handleNowChange = (event: any) => {
@@ -56,8 +71,8 @@ export const CreateForm = () => {
     defaultValues: {
       name: "",
       spotify_uri: "",
-      image: "" || imageUrl || null,
-      audio: "" || audioUrl || null,
+      image: imageUrl || null,
+      audio: audioUrl || null,
       artist_name: "",
       release_date: "",
       genre: "house",
@@ -113,23 +128,21 @@ export const CreateForm = () => {
 
     try {
       // Upload the image and audio files to IPFS
-      const image = imageUrl!;
-      const audio = audioUrl!;
       const user = savedUser!
       const keywordsArray = formData.keywords?.split(",");
 
       // Update the form data with the generated URLs
       const collectibleData = {
         ...formData,
-        image: image,
-        audio: audio,
+        image: imageUrl!,
+        audio: audioUrl,
         user_id: user?.id,
         keywords: keywordsArray,
       };
 
       // Call the deployCollectible function
       const deployResult = await deployCollectible(collectibleData);
-      const res = deployResult?.toString();
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (deployResult) {
         setStep(5)
@@ -152,25 +165,15 @@ export const CreateForm = () => {
     if (!savedUser && user) {
       setSavedUser(user)
     }
-
     try {
-      const { image, audio } = await uploadContractMediaToIpfs(
-        data.image,
-        data.audio
-      );
-      const formData = {
-        ...data,
-        user_id: user?.id || savedUser || profile?.id,
-        image: image,
-        audio: audio,
-      };
-      setAudioUrl(formData.audio);
-      setImageUrl(formData.image);
-      setIpfsMedia(true);
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-
-      // do something with the form data, e.g. submit it to a server
-      setStep(3);
+      setUploading(true)
+      if (data.image && data.audio) {
+        await startUpload(data.image, data.audio)
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setUploading(false)
+        setStep(3)
+      }
+      ;
     } catch (error) {
       console.error(error);
     }
@@ -180,6 +183,35 @@ export const CreateForm = () => {
     // Move back to previous step
     setStep(step - 1);
   };
+
+  const startUpload = async (image: any, audio: any) => {
+    setUploading(true);
+    try {
+      if (image) {
+        const imageUri = await upload({ data: [image] });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setImageUrl(imageUri[0]);
+        logImage()
+        setProgress(0);
+        setTotal(0);
+      }
+
+      if (audio) {
+        const audioUri = await upload({ data: [audio] });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        setAudioUrl(audioUri[0]);
+        logAudio()
+        setProgress(100);
+        setTotal(100);
+      }
+    } catch (error) {
+      // Handle the error here if needed
+    } finally {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setIpfsMedia(true)
+    }
+  };
+
 
   const renderStep1 = () => {
     return (
@@ -652,14 +684,19 @@ export const CreateForm = () => {
     );
   };
   const renderMintStatusCard = () => {
+
+
     return (
       <div className="w-full mx-auto justify-center place-items-center mt-12">
         <RenderMintStatus />
       </div>
     );
   };
+  const progress = useCreateFormStore(state => state.progress)
+  const total = useCreateFormStore(state => state.total)
   return (
-    <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0">
+    <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0 relative">
+      {isUploading && renderProgressBar(progress, total)}
       {step !== 4 && (
         <h1 className="text-center text-4xl text-black dark:text-white">
           Create your collectible.
@@ -682,3 +719,15 @@ export const CreateForm = () => {
     </div>
   );
 };
+function upload(arg0: { data: any; }) {
+  throw new Error("Function not implemented.");
+}
+
+function setProgress(arg0: number) {
+  throw new Error("Function not implemented.");
+}
+
+function setTotal(arg0: number) {
+  throw new Error("Function not implemented.");
+}
+
