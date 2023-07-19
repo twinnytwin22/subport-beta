@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 interface CreateFormState {
     audioUrl: null | string;
+    inProgress: null | string
     imageUrl: null | string;
     imagePreview: null | string;
     songPreview: null | string;
@@ -15,6 +16,7 @@ interface CreateFormState {
     total: number;
     logAudio: () => void;
     logImage: () => void;
+    setInProgress: (inProgress: string | null) => void;
     setAudioUrl: (audioUrl: string | null) => void;
     setImageUrl: (imageUrl: string | null) => void;
     setImagePreview: (imagePreview: string | null) => void;
@@ -30,6 +32,7 @@ interface CreateFormState {
 
 export const useCreateFormStore = create<CreateFormState>((set, get) => ({
     audioUrl: null,
+    inProgress: null,
     imageUrl: null,
     imagePreview: null,
     songPreview: null,
@@ -41,6 +44,7 @@ export const useCreateFormStore = create<CreateFormState>((set, get) => ({
     isUploading: false,
     progress: 0,
     total: 0,
+    setInProgress: (inProgress) => set({ inProgress }),
     setAudioUrl: (audioUrl) => set({ audioUrl }),
     setImageUrl: (imageUrl) => set({ imageUrl }),
     setImagePreview: (imagePreview) => set({ imagePreview }),

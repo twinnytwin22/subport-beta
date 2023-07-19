@@ -49,6 +49,8 @@ export const CreateForm = () => {
     setUploading,
     logAudio,
     logImage,
+    setInProgress,
+    inProgress,
   } = useCreateFormStore();
 
   const handleNowChange = (event: any) => {
@@ -188,19 +190,23 @@ export const CreateForm = () => {
     setUploading(true);
     try {
       if (image) {
+        setInProgress('image')
         const imageUri = await upload({ data: [image] });
         await new Promise((resolve) => setTimeout(resolve, 2000));
         setImageUrl(imageUri[0]);
         logImage()
+        setInProgress('')
         setProgress(0);
         setTotal(0);
       }
 
       if (audio) {
+        setInProgress('audio')
         const audioUri = await upload({ data: [audio] });
         await new Promise((resolve) => setTimeout(resolve, 2000));
         setAudioUrl(audioUri[0]);
         logAudio()
+        setInProgress('')
         setProgress(100);
         setTotal(100);
       }
@@ -696,6 +702,9 @@ export const CreateForm = () => {
   const total = useCreateFormStore(state => state.total)
   return (
     <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0 relative">
+      {isUploading && inProgress === 'image' ? <p className="text-center">Uploading your image.</p> : ''}
+      {isUploading && inProgress === 'audio' ? <p className="text-center">Uploading your audio.</p> : ''}
+
       {isUploading && renderProgressBar(progress, total)}
       {step == 5 && (
         <h1 className="text-center text-4xl text-black dark:text-white">

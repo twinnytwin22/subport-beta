@@ -8,6 +8,7 @@ import { uploadHashToIpfs } from './uploadFileIpfs'
 import { supabase } from 'lib/constants'
 import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin'
 import { useStatusStore } from './statusTrack';
+import { fetchSingleCollectible } from 'utils/use-server'
 
 
 const bytecode = subportMeta.bytecode as any;
@@ -117,6 +118,7 @@ export const deployCollectible = async (collectibleData: any) => {
           }
         }, 500); // 1-second timeout
       });
+
 
       const tokenDataHash: string | undefined = await new Promise((resolve, reject) => {
         setTimeout(async () => {
@@ -241,29 +243,15 @@ const finalized = async (contractAddress: any) => {
     useStatusStore.setState({ status: Status.SUCCESS })
 
     try {
-      const data = await fetchData(contractAddress)
+      const data = await fetchSingleCollectible({ contractAddress })
+
       useStatusStore.setState({ status: Status.FINAL })
       // Wait for 10 seconds using a timeout
       await new Promise((resolve) => setTimeout(resolve, 10000));
-      return data?.data
+      return data
     } catch (error) {
       console.log(error)
     }
   }
 
 };
-export const fetchData = async (contractAddress: string) => {
-  if (contractAddress) {
-
-    try {
-      // const res = await fetch('/api/v1/getCollectibles')
-      const res = await import(`../api/v1/getSingleCollectible?contractAddress=${contractAddress}`);
-
-      await new Promise((resolve) => setTimeout(resolve, 5000));
-
-      return await (await res.GET()).json();
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}

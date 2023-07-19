@@ -72,14 +72,14 @@ const fetchSingleCollectible = async (slug: any) => {
             metaData: metaData,
           };
 
-          const reactionCount = await getTotalReactions(drop[0]?.id);
-          const dropComments = await getDropComments(drop[0]?.id);
+          //  const reactionCount = await getTotalReactions(drop[0]?.id);
+          //  const dropComments = await getDropComments(drop[0]?.id);
 
           return {
             error,
             drop: drop[0],
-            reactionCount,
-            dropComments,
+            //  reactionCount,
+            //    dropComments,
             dropWithMetaData,
           };
         } catch (error) {
@@ -205,9 +205,9 @@ const deleteReaction = async ({
 
   if (error) {
     throw error;
+  } else {
+    return data;
   }
-
-  return data;
 };
 
 const getTotalReactions = async (dropId: string) => {

@@ -1,17 +1,23 @@
 'use client'
 import { useAuthProvider } from 'app/context/auth';
 import Link from 'next/link';
-import { useState } from 'react';
-import { FaTrash } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import { FaCommentAlt, FaTrash } from 'react-icons/fa';
 import { addDropComment, deleteDropComment, getDropComments } from 'utils/database';
 
-const CommentComponent = ({ dropId, comments }: any) => {
-    console.log(comments);
+const CommentComponent = ({ dropId }: any) => {
     const { profile } = useAuthProvider();
     const [comment, setComment] = useState('');
     const [showTextarea, setShowTextarea] = useState(false);
-
+    const [comments, setComments] = useState([''])
     const userId = profile?.id;
+    const getComments = async () => {
+        const dropComments = await getDropComments(dropId);
+        setComments(dropComments)
+    }
+    useEffect(() => {
+        getComments()
+    }, [comment])
 
     const handleCommentChange = (e: any) => {
         setComment(e.target.value);
@@ -25,6 +31,7 @@ const CommentComponent = ({ dropId, comments }: any) => {
 
             // Fetch the updated list of comments
             const updatedComments = await getDropComments(dropId);
+            setComments(updatedComments)
             return updatedComments;
         } catch (error) {
             console.error('Error adding comment:', error);
@@ -34,6 +41,7 @@ const CommentComponent = ({ dropId, comments }: any) => {
     const handleDeleteComment = async (commentId: any) => {
         try {
             await deleteDropComment(dropId, userId, commentId);
+            await getComments()
         } catch (error) {
             console.error('Error deleting comment:', error);
         }
@@ -62,7 +70,7 @@ const CommentComponent = ({ dropId, comments }: any) => {
                 <button className={`text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md w-full text-center font-bold text-white ${!profile && 'hidden'}`} onClick={profile && handleShowTextarea}>Add Comment</button>
             )}
             <div>
-                {[...comments].map((comment: any) => (
+                {[...comments]?.map((comment: any) => (
                     <div key={comment?.id} className="p-2.5 relative rounded-md text-sm bg-zinc-200 dark:bg-zinc-950 my-2 border-zinc-300 dark:border-zinc-900 border">
 
                         <Link

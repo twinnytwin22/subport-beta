@@ -39,7 +39,7 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Script src="https://sdk.scdn.co/spotify-player.js"></Script>
+      <Script src="https://sdk.scdn.co/spotify-player.js"></Script> 
 
       <Suspense>
         <AuthContextProvider>

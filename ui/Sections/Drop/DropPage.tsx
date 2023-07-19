@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import DropLinksTo from 'ui/Sections/Drop/DropLInks';
 import { upload } from 'lib/content/mockUpload';
@@ -5,12 +6,13 @@ import DropNav from 'ui/Sections/Drop/DropNav';
 import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper';
 import Image from 'next/image';
 
-export async function DropPage({ props }: any) {
+export function DropPage({ props }: any) {
+  console.log(props)
   const drop = props?.drop;
   const metaData = props?.metaData;
   const imageUrl = props?.imageUrl
-  const reactionCount = props.reactionCount
-  const comments = props.comments
+  const reactionCount = props?.reactionCount || 5
+  const comments = props?.comments || 5
 
   return props && (
     <div className="bg-gray-100 dark:bg-black h-full flex max-w-7xl mx-auto w-full mt-4 pb-12">

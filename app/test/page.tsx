@@ -246,9 +246,10 @@ function Page(props: any) {
 
   async function fetchData() {
     try {
+      const slug = 'twinny-twin-always'
       const contractAddress = "0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85";
       // const res = await fetch('/api/v1/getCollectibles')
-      const res = await fetch(`/api/v1/getSingleCollectible?contractAddress=${contractAddress}`)
+      const res = await fetch(`/api/v1/getSingleCollectibleBySlug?slug=${slug}`)
       const data = await res.json()
       if (data) {
         setResponseJSON(JSON.stringify(data, null, 2)); // Assuming `drop` is the JSON response you want to stringify

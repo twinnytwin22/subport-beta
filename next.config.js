@@ -6,6 +6,8 @@ dotenv.config();
 const nextConfig = {
   experimental: {
     appDir: true,
+    serverActions: true,
+
     },
   reactStrictMode: true,
 
