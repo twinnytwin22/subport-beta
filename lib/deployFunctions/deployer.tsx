@@ -214,7 +214,7 @@ export const deployCollectible = async (collectibleData: any) => {
               useStatusStore.setState({ status: Status.ERROR })
               return { success: false, error: error };
             }
-            const res = await finalized(dropData.contract_address)
+            const res = await finalized(dropData.contract_address, dropData.slug)
             // Set success status
 
             // Return the contract address and collectible data
@@ -238,12 +238,12 @@ export const deployCollectible = async (collectibleData: any) => {
 
 
 
-const finalized = async (contractAddress: any) => {
+const finalized = async (contractAddress: any, slug: any) => {
   if (contractAddress) {
     useStatusStore.setState({ status: Status.SUCCESS })
 
     try {
-      const data = await fetchSingleCollectible({ contractAddress })
+      const data = await fetchSingleCollectible({ contractAddress, slug })
 
       useStatusStore.setState({ status: Status.FINAL })
       // Wait for 10 seconds using a timeout

@@ -205,9 +205,9 @@ const deleteReaction = async ({
 
   if (error) {
     throw error;
-  } else {
-    return data;
   }
+
+  return data;
 };
 
 const getTotalReactions = async (dropId: string) => {

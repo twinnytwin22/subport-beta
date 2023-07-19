@@ -706,12 +706,12 @@ export const CreateForm = () => {
       {isUploading && inProgress === 'audio' ? <p className="text-center">Uploading your audio.</p> : ''}
 
       {isUploading && renderProgressBar(progress, total)}
-      {step == 5 && (
+      {step === 5 && (
         <h1 className="text-center text-4xl text-black dark:text-white">
           Success!
         </h1>
       )}
-      {step !== 4 || 5 && (
+      {step >= 1 && step <= 3 && (
         <h1 className="text-center text-4xl text-black dark:text-white">
           Create your collectible.
         </h1>

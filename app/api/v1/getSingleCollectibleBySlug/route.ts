@@ -39,7 +39,6 @@ export async function GET(request: Request) {
 
     if (drop !== null && drop.length > 0) {
       console.log(drop, "DROP___");
-      const contractAddress = drop;
       const metaData = await readSingleContractURI(slug!);
 
       if (metaData) {
@@ -52,7 +51,7 @@ export async function GET(request: Request) {
         });
       }
     } else if (error) {
-      throw new Error(`${error.message}`);
+      return NextResponse.json({ error });
     }
   } catch (error) {
     console.error("Error fetching single contract URI:", error);
