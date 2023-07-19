@@ -10,7 +10,6 @@ import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import Image from 'next/image';
 import SpotifyAuth from 'utils/testSpotifyLogic';
 import { supabase } from 'lib/constants';
-import { renderProgressBar } from 'ui/Misc/ProgressBar';
 import { useStorageUpload } from '@thirdweb-dev/react';
 import { readSingleContractURI } from 'lib/hooks/readSingleContractURI';
 import { readContractURIs } from 'lib/hooks/readContractURIs';
@@ -253,12 +252,13 @@ function Page(props: any) {
       const slug = 'twinny-twin-always'
       const contractArray = ["0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85"];
       const contractAddress = "0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85";
+      const res = await fetch('/api/v1/refreshCache')
 
       // const res = await fetch('/api/v1/getCollectibles')
       //  const res = await fetch(`/api/v1/getSingleCollectibleBySlug?slug=${slug}`)
-      const res = await readSingleContractURI(contractAddress)
+      //const res = await readSingleContractURI(contractAddress)
       // const res = await readContractURIs(contractArray)
-      const data = res
+      const data = await res.json()
       if (data) {
         setResponseJSON(JSON.stringify(data, null, 2)); // Assuming `drop` is the JSON response you want to stringify
       }
@@ -269,8 +269,6 @@ function Page(props: any) {
 
   }
   const handleProgress = async () => {
-
-
 
   }
 

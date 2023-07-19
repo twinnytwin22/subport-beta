@@ -4,6 +4,8 @@ import { redis } from "lib/redis/redis";
 import { NextResponse } from "next/server";
 import { promisify } from "util";
 
+export const revalidate = 0;
+
 // Promisify Redis get and set methods
 const redisGet = promisify(redis.get).bind(redis);
 const redisSet = promisify(redis.set).bind(redis);

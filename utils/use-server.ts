@@ -11,6 +11,26 @@ type FetchTypes = {
   slug?: string;
 };
 
+export const refreshCache = async () => {
+  try {
+    const slug = "twinny-twin-always";
+    const contractArray = ["0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85"];
+    const contractAddress = "0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85";
+    const res = await fetch("/api/v1/refreshCache");
+
+    // const res = await fetch('/api/v1/getCollectibles')
+    //  const res = await fetch(`/api/v1/getSingleCollectibleBySlug?slug=${slug}`)
+    //const res = await readSingleContractURI(contractAddress)
+    // const res = await readContractURIs(contractArray)
+    const data = await res.json();
+    if (data) {
+      return data;
+    }
+  } catch (error) {
+    return error;
+  }
+};
+
 export const fetchSingleCollectible = async ({
   contractAddress,
   slug,

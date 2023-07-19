@@ -4,6 +4,8 @@ import { redis } from "lib/redis/redis";
 import { NextResponse } from "next/server";
 import { promisify } from "util";
 
+export const revalidate = 0;
+
 // Promisify Redis get and set methods
 const redisGet = promisify(redis.get).bind(redis);
 const supabase = createClient(
@@ -29,33 +31,33 @@ export async function GET(request: Request) {
     if (existingDrop) {
       return NextResponse.json(existingDrop);
     }
-  }
+  } else {
+    try {
+      const { data: drop, error } = await supabase
+        .from("drops")
+        .select("*")
+        .eq("slug", slug);
 
-  try {
-    const { data: drop, error } = await supabase
-      .from("drops")
-      .select("*")
-      .eq("slug", slug);
+      if (drop !== null && drop.length > 0) {
+        console.log(drop, "DROP___");
+        const metaData = await readSingleContractURI(slug!);
 
-    if (drop !== null && drop.length > 0) {
-      console.log(drop, "DROP___");
-      const metaData = await readSingleContractURI(slug!);
-
-      if (metaData) {
-        const dropWithMetaData = {
-          drop,
-          metaData,
-        };
-        return NextResponse.json({
-          drop: dropWithMetaData,
-        });
+        if (metaData) {
+          const dropWithMetaData = {
+            drop,
+            metaData,
+          };
+          return NextResponse.json({
+            drop: dropWithMetaData,
+          });
+        }
+      } else if (error) {
+        return NextResponse.json({ error });
       }
-    } else if (error) {
-      return NextResponse.json({ error });
+    } catch (error) {
+      console.error("Error fetching single contract URI:", error);
     }
-  } catch (error) {
-    console.error("Error fetching single contract URI:", error);
-  }
 
-  return NextResponse.json({ error: "Not Found", drop: null });
+    return NextResponse.json({ error: "Not Found", drop: null });
+  }
 }
