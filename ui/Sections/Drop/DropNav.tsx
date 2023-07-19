@@ -19,7 +19,7 @@ function DropNav({ dropId, comments }: any) {
         </div>
       </div>
       <div className="w-full pt-4 mx-auto">
-        {activeTab === 'comments' && <CommentComponent dropId={dropId} comments={comments} />}
+        {activeTab === 'comments' && <CommentComponent key={dropId} dropId={dropId} comments={comments} />}
         {activeTab === 'collectors' && ''}
 
       </div>

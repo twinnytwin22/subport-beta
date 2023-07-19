@@ -4,21 +4,40 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FaCommentAlt, FaTrash } from 'react-icons/fa';
 import { addDropComment, deleteDropComment, getDropComments } from 'utils/database';
-
+import { Mention, MentionsInput } from "react-mentions";
+import { supabase } from 'lib/constants';
+import mentionStyle from "./mentionInputStyles";
+import mentionsInputStyle from "./mentionInputStyles";
 const CommentComponent = ({ dropId }: any) => {
     const { profile } = useAuthProvider();
     const [comment, setComment] = useState('');
     const [showTextarea, setShowTextarea] = useState(false);
     const [comments, setComments] = useState([''])
+    const [users, setUsers] = useState<any>([''])
     const userId = profile?.id;
     const getComments = async () => {
         const dropComments = await getDropComments(dropId);
         setComments(dropComments)
     }
+    const getUsers = async () => {
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('username, id')
+        if (error) {
+            throw error
+        }
+        if (data) {
+            const allUsers = data.map((user) => ({ display: user.username, id: user.id }))
+            setUsers(allUsers)
+        }
+    }
     useEffect(() => {
         getComments()
     }, [comment])
-
+    useEffect(() => {
+        getUsers()
+        console.log(users)
+    }, [])
     const handleCommentChange = (e: any) => {
         setComment(e.target.value);
     };
@@ -59,11 +78,35 @@ const CommentComponent = ({ dropId }: any) => {
     return (
         <div className="w-full">
             {profile && showTextarea ? (
-                <div className='w-full'>
-                    <textarea className="w-full mb-2" value={comment} onChange={handleCommentChange} />
-                    <div className='flex space-x-2 items-center text-white'>
-                        <button className="text-xs p-1.5 bg-blue-700  hover:bg-blue-600  rounded-md w-full text-center font-bold " onClick={handleAddComment}>Submit</button>
-                        <button className="text-xs p-1.5 bg-red-600  hover:bg-red-500  rounded-md w-full text-center font-bold" onClick={handleDiscardComment}>Discard</button>
+                <div className="w-full">
+                    {/* Use the MentionsInput to handle the textarea with mentions */}
+                    <MentionsInput
+                        style={mentionsInputStyle}
+                        className='w-full max-w-md'
+                        value={comment}
+                        onChange={handleCommentChange}
+                        singleLine={true} // Add this prop to handle single-line comments
+                    >
+                        <Mention
+                            style={mentionStyle}
+                            className='w-full max-w-md'
+                            displayTransform={(username) => `@${username}`}
+                            key={comment}
+                            trigger="@"
+                            data={users} // Pass the users array as the data source for mentions
+                            renderSuggestion={(suggestion, search, highlightedDisplay) => (
+                                // Use 'key' prop here to resolve key error
+                                <div className="user-suggestion h-5" key={suggestion.display}>
+                                    {highlightedDisplay}
+                                </div>
+                            )}
+                            // Optionally, specify the markup prop here to customize the mention format
+                            markup="@[__display__]"
+                        />
+                    </MentionsInput>
+                    <div className="flex space-x-2 items-center text-white">
+                        <button className="text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md w-full text-center font-bold" onClick={handleAddComment}>Submit</button>
+                        <button className="text-xs p-1.5 bg-red-600 hover:bg-red-500 rounded-md w-full text-center font-bold" onClick={handleDiscardComment}>Discard</button>
                     </div>
                 </div>
             ) : (
@@ -89,6 +132,6 @@ const CommentComponent = ({ dropId }: any) => {
             </div>
         </div>
     );
-};
+}
 
 export default CommentComponent;
