@@ -61,7 +61,7 @@ export const readSingleContractURI = cache(async (contractAddress: string) => {
                 //  console.log('Contract JSON Data:', jsonData);
 
                 const coupledData: DropData = {
-                    info: contractURI[0],
+                    info: contractURI,
                     metadata: jsonData,
                 };
 
