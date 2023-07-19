@@ -7,7 +7,7 @@ import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper';
 import Image from 'next/image';
 
 export function DropPage({ props }: any) {
-  console.log(props)
+  console.log(props, "PROPS")
   const drop = props?.drop;
   const metaData = props?.metaData;
   const imageUrl = props?.imageUrl
@@ -32,7 +32,7 @@ export function DropPage({ props }: any) {
             />
           </div>
           <div className="w-36 absolute pt-8 right-10">
-            <CardEngagementRow dropId={drop.id} reactionCount={reactionCount} />
+            <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
           </div>
         </div>
 

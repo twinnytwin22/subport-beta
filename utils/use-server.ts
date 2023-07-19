@@ -36,10 +36,10 @@ export const fetchSingleCollectible = async ({
       const res = await fetch(
         `${protocol}://${host}//api/v1/getSingleCollectibleBySlug?slug=${slug}`
       );
-
+      const data = res.json();
       await new Promise((resolve) => setTimeout(resolve, 5000));
       //  return await res.json()
-      return await res.json();
+      return data;
     } catch (error) {
       console.log(error);
       return error;

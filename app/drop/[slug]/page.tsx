@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic'
 export default async function Page({ params }: { params: { slug: string, user: string } }) {
   const { slug } = params
   const res = await fetchSingleCollectible({ slug })
-  const data = await res.drop
+  const data = await res
   if (res?.error) {
     notFound()
   }
