@@ -62,7 +62,7 @@ export async function GET(request: Request) {
         try {
           const dropWithMetaData = {
             drop,
-            metaData: newMeta,
+            metaData,
           };
 
           const updatedData = updateData(dropWithMetaData, cachedData);
@@ -91,6 +91,9 @@ function updateData(newData: any, cachedData: any) {
   const existingData = cachedData?.dropsWithMetaData || [];
   const updatedData = {
     dropsWithMetaData: [...existingData, newData],
+    drops: cachedData?.drops,
+    contractAddresses: cachedData?.contractAddresses,
+    metaData: cachedData?.metaData,
   };
 
   return updatedData;

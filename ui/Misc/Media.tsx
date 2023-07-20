@@ -17,7 +17,6 @@ export const Media = (data: any) => {
 
   return (
     <div className="mx-auto block content-center" suppressHydrationWarning>
-      ///
       <MediaRenderer {...mediaProps} requireInteraction={mediaProps.requireinteraction ? true : undefined} />
     </div>
   );

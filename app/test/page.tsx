@@ -73,6 +73,7 @@ function Page(props: any) {
   const [responseJSON, setResponseJSON] = useState('');
   const [loading, isLoading] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState('')
+  const [testSlug, setTestSlug] = useState('')
   const { user } = useAuthProvider()
   const { mutateAsync: upload } = useStorageUpload({
     onProgress: (progress) => {
@@ -268,6 +269,32 @@ function Page(props: any) {
     isLoading(false)
 
   }
+
+
+  async function fetchDrop() {
+    isLoading(true)
+
+    try {
+      const slug = testSlug
+      const contractArray = ["0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85"];
+      const contractAddress = "0x5a30a9c62e87ee0ed3c6c1229fe6fe256e70564b"
+        ;
+      // const res = await fetch('/api/v1/refreshCache')
+
+      // const res = await fetch('/api/v1/getCollectibles')
+      const res = await fetch(`/api/v1/getSingleCollectibleBySlug?slug=${slug}`)
+      //const res = await readSingleContractURI(contractAddress)
+      // const res = await readContractURIs(contractArray)
+      const data = await res.json()
+      if (data) {
+        setResponseJSON(JSON.stringify(data, null, 2)); // Assuming `drop` is the JSON response you want to stringify
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    isLoading(false)
+
+  }
   const handleProgress = async () => {
 
   }
@@ -282,6 +309,7 @@ function Page(props: any) {
         readOnly
         id="response"
       />
+      <input value={testSlug} onChange={((e) => setTestSlug(e.target.value))} placeholder='TEST SLUG HERE' />
       <div className="max-w-sm mx-auto border-black">
         <pre className=" whitespace-pre-wrap">{JSON.stringify(user?.email)}
         </pre>
@@ -298,7 +326,7 @@ function Page(props: any) {
         <button onClick={handleOtherClick}
           className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">DEPLOY WITH CLIENT / METAMASK</button>
         <br />
-        <button onClick={fetchData}
+        <button onClick={fetchDrop}
           className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH</button>
 
         <button onClick={handleTestSupaUpload}
