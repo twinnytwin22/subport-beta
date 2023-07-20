@@ -329,6 +329,9 @@ function Page(props: any) {
         <button onClick={fetchDrop}
           className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH</button>
 
+        <button onClick={fetchData}
+          className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">REFRESH CACHE</button>
+
         <button onClick={handleTestSupaUpload}
           className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST UPLOAD</button>
         <button onClick={handleTestFileCreation}

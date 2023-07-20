@@ -11,6 +11,7 @@ export function DropPage({ props }: any) {
   const drop = props?.drop;
   const metaData = props?.metaData;
   const imageUrl = props?.imageUrl
+  const audioUrl = props?.audioUrl
   const reactionCount = props?.reactionCount || 5
   const comments = props?.comments || 5
 

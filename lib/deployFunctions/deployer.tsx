@@ -83,7 +83,6 @@ export const deployCollectible = async (collectibleData: any) => {
       'external_link': collectibleData?.website || null,
       "seller_fee_basis_points": 1000,
       "fee_recipient": collectibleData?.address
-
     };
 
     const tokenURIData = {

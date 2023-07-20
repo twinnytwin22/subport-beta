@@ -10,7 +10,7 @@ export const usePlayerStore = create((set: any) => ({
     volume: 100,
     isMuted: false,
     prevVolume: 100,
-    audioUrl: "/audio/song.mp3",
+    audioUrl: null,
 
 
     setCurrentTime: (currentTime: any) => set(() => ({ currentTime })),

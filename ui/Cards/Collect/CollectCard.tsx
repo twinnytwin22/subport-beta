@@ -13,6 +13,7 @@ async function CollectCard(props: any) {
   const metaData = props?.metaData;
   const [user]: any = await fetchProfilesForDrops(drop?.user_id);
   const reactionCount = await getTotalReactions(drop?.id);
+  const audioUrl = metaData?.animation_url?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
   const imageHash = metaData?.image?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/") || metaData.metadata.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
   const profileImagePath = useImagePath(user?.avatar_url);
 
@@ -54,7 +55,7 @@ async function CollectCard(props: any) {
               alt="Song-cover"
               priority={true}
             />
-            <PlayButton />
+            <PlayButton props={props} />
           </div>
         </div>
         <div className="p-5 text-zinc-900 dark:text-white">
