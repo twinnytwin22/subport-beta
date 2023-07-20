@@ -40,16 +40,15 @@ export async function GET(request: Request) {
 
       if (drop !== null && drop.length > 0) {
         console.log(drop, "DROP___");
-        const metaData = await readSingleContractURI(slug!);
-
+        const metaData = await readSingleContractURI(
+          drop[0]?.contract_address!
+        );
         if (metaData) {
-          const dropWithMetaData = {
+          const newDrop = {
             drop,
             metaData,
           };
-          return NextResponse.json({
-            drop: dropWithMetaData,
-          });
+          return NextResponse.json(newDrop);
         }
       } else if (error) {
         return NextResponse.json({ error });

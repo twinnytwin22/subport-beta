@@ -56,13 +56,13 @@ export async function GET(request: Request) {
 
     if (drop && metaData) {
       const contractAddress = drop.contract_address;
-      const newMeta = metaData?.info?.metadata;
+      const newMeta = metaData?.metadata;
 
       if (contractAddress) {
         try {
           const dropWithMetaData = {
             drop,
-            metaData,
+            metaData: newMeta,
           };
 
           const updatedData = updateData(dropWithMetaData, cachedData);
