@@ -11,7 +11,7 @@ type FetchTypes = {
   slug?: string;
 };
 
-export const refreshCache = async () => {
+const refreshCache = async () => {
   try {
     const slug = "twinny-twin-always";
     const contractArray = ["0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85"];
@@ -31,7 +31,7 @@ export const refreshCache = async () => {
   }
 };
 
-export const fetchSingleCollectible = async ({
+const fetchSingleCollectible = async ({
   contractAddress,
   slug,
 }: FetchTypes) => {
@@ -42,7 +42,7 @@ export const fetchSingleCollectible = async ({
         `${protocol}://${host}/api/v1/getSingleCollectible?contractAddress=${contractAddress}`
       );
 
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       //  return await res.json()
       return await res.json();
     } catch (error) {
@@ -57,7 +57,7 @@ export const fetchSingleCollectible = async ({
         `${protocol}://${host}//api/v1/getSingleCollectibleBySlug?slug=${slug}`
       );
       const data = res.json();
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       //  return await res.json()
       return data;
     } catch (error) {
@@ -66,3 +66,19 @@ export const fetchSingleCollectible = async ({
     }
   }
 };
+
+const fetchCreators = async () => {
+  try {
+    await fetch(`${protocol}://${host}//api/v1/getCollectibles`);
+    const res = await fetch(`${protocol}://${host}//api/v1/getAllCreators`);
+    const data = res.json();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    //  return await res.json()
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+export { fetchCreators, fetchSingleCollectible, refreshCache };

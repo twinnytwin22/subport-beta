@@ -17,17 +17,12 @@ function PlayButton({ props }: any) {
             play()
         }
     }
-    const handleStop = () => {
-        stop()
-        if (audioUrl) {
-            setAudioUrl(null)
-        }
-    }
+
 
     return user && newAudioUrl && (
         <>
             {isPlaying ? (
-                <div onClick={handleStop} className="absolute bottom-3 right-3 hover:scale-110 duration-300 ease-in-out transform -translate-x-1/2 -translate-y-1/2">
+                <div onClick={stop} className="absolute bottom-3 right-3 hover:scale-110 duration-300 ease-in-out transform -translate-x-1/2 -translate-y-1/2">
                     <FaStopCircle size={48} className="text-white opacity-80 cursor-pointer" />
                 </div>
             ) : (

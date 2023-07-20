@@ -69,17 +69,13 @@ const deployDataDefined = {
 };
 
 const deployData = Object.values(deployDataDefined);
-function Page(props: any) {
+function Page() {
   const [responseJSON, setResponseJSON] = useState('');
   const [loading, isLoading] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState('')
   const [testSlug, setTestSlug] = useState('')
   const { user } = useAuthProvider()
-  const { mutateAsync: upload } = useStorageUpload({
-    onProgress: (progress) => {
-      console.log(progress);
-    },
-  });
+
 
 
   const [savedUser, setSavedUser] = useState<any>('')
@@ -245,7 +241,29 @@ function Page(props: any) {
       isLoading(false)
     }
   }
+  async function fetchCreators() {
+    isLoading(true)
 
+    try {
+      const slug = 'twinny-twin-always'
+      const contractArray = ["0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85"];
+      const contractAddress = "0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85";
+      const res = await fetch('/api/v1/getAllCreators')
+
+      // const res = await fetch('/api/v1/getCollectibles')
+      //  const res = await fetch(`/api/v1/getSingleCollectibleBySlug?slug=${slug}`)
+      //const res = await readSingleContractURI(contractAddress)
+      // const res = await readContractURIs(contractArray)
+      const data = await res.json()
+      if (data) {
+        setResponseJSON(JSON.stringify(data, null, 2)); // Assuming `drop` is the JSON response you want to stringify
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    isLoading(false)
+
+  }
   async function fetchData() {
     isLoading(true)
 
@@ -270,14 +288,37 @@ function Page(props: any) {
 
   }
 
+  async function fetchUsers() {
+    isLoading(true)
+
+    try {
+      // const slug = 'twinny-twin-always'
+      // const contractArray = ["0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85"];
+      //  const contractAddress = "0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85";
+      const res = await fetch('/api/v1/getAllUsers')
+
+      // const res = await fetch('/api/v1/getCollectibles')
+      //  const res = await fetch(`/api/v1/getSingleCollectibleBySlug?slug=${slug}`)
+      //const res = await readSingleContractURI(contractAddress)
+      // const res = await readContractURIs(contractArray)
+      const data = await res.json()
+      if (data) {
+        setResponseJSON(JSON.stringify(data, null, 2)); // Assuming `drop` is the JSON response you want to stringify
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    isLoading(false)
+
+  }
 
   async function fetchDrop() {
     isLoading(true)
 
     try {
       const slug = testSlug
-      const contractArray = ["0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85"];
-      const contractAddress = "0x5a30a9c62e87ee0ed3c6c1229fe6fe256e70564b"
+        //   const contractArray = ["0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85"];
+        //  const contractAddress = "0x5a30a9c62e87ee0ed3c6c1229fe6fe256e70564b"
         ;
       // const res = await fetch('/api/v1/refreshCache')
 
@@ -317,32 +358,34 @@ function Page(props: any) {
         </pre>
       </div>
 
-      <div className="space-y-6 bg-zinc-200 rounded-md border-zinc-300 p-8 space-x-4">
+      <div className="space-y-6 bg-zinc-200 rounded-md border-zinc-300 p-8 space-x-4 ">
         <h1 className="text-center font-bold text-2xl text-black">Deployer Tester</h1>
         {loading &&
           <h2 className="text-center font-bold text-xl text-black">Testing...</h2>}
         {avatarUrl && <Image src={avatarUrl} alt="avatar test" width={50} height={50} />}
-        <button onClick={handleProgress}>PROGRESS</button>
-        <button onClick={handleOtherClick}
-          className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">DEPLOY WITH CLIENT / METAMASK</button>
-        <br />
-        <button onClick={fetchDrop}
-          className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH</button>
+        <div className='flex flex-wrap gap-4 max-w-md mx-auto w-full'>
+          <button onClick={handleOtherClick}
+            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">DEPLOY WITH CLIENT / METAMASK</button>
+          <button onClick={fetchDrop}
+            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH DROP BY SLUG</button>
+          <button onClick={fetchUsers}
+            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH USERS</button>
+          <button onClick={fetchCreators}
+            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">REFRESH CREATORS</button>
 
-        <button onClick={fetchData}
-          className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">REFRESH CACHE</button>
+          <button onClick={fetchData}
+            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">REFRESH CACHE</button>
 
-        <button onClick={handleTestSupaUpload}
-          className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST UPLOAD</button>
-        <button onClick={handleTestFileCreation}
-          className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST FILE</button>
-        <button onClick={handleThirdWebIPFS}
-          className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST IPFS</button>
-        <br />
-        <button onClick={handleReset}
-          className="p-4 bg-red-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">RESET/REFRESH</button>
+          <button onClick={handleTestSupaUpload}
+            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST UPLOAD</button>
+          <button onClick={handleTestFileCreation}
+            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST FILE</button>
+          <button onClick={handleThirdWebIPFS}
+            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST IPFS</button>
+          <button onClick={handleReset}
+            className="p-4 bg-red-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">RESET/REFRESH</button>
 
-
+        </div>
       </div>
       <SpotifyAuth />
 
