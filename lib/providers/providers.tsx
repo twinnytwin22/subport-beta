@@ -36,10 +36,10 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
 
 
   if (!mounted) return null;
+  // <Script src="https://sdk.scdn.co/spotify-player.js"></Script> 
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Script src="https://sdk.scdn.co/spotify-player.js"></Script> 
 
       <Suspense>
         <AuthContextProvider>

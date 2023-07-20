@@ -69,8 +69,8 @@ export const walletClient = createWalletClient({
 
 export const deployCollectible = async (collectibleData: any) => {
   useStatusStore.setState({ status: Status.PENDING })
-  let metaDataHash = null; // Declare the ipfsHash variable outside the try-catch block
-  let tokenDataHash = null; // Declare the ipfsHash variable outside the try-catch block
+  // let metaDataHash = null; // Declare the ipfsHash variable outside the try-catch block
+  // let tokenDataHash = null; // Declare the ipfsHash variable outside the try-catch block
 
   try {
     // Get the form data from the request body
@@ -79,6 +79,7 @@ export const deployCollectible = async (collectibleData: any) => {
       'name': collectibleData.name,
       'description': collectibleData.description,
       'image': collectibleData.image,
+      'animation_url': collectibleData.audio,
       'external_link': collectibleData?.website || null,
       "seller_fee_basis_points": 1000,
       "fee_recipient": collectibleData?.address
