@@ -19,10 +19,10 @@ export default async function Page({ params }: { params: { slug: string, user: s
     return <LoadingContainer />
   }
 
-  const imageUrl = data?.metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+  const imageUrl = data?.metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/') || data?.metaData?.info.metadata.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
   const props: any = {
     drop: data?.drop,
-    metaData: data?.metaData,
+    metaData: data?.metaData || data?.metaData?.info.metadata,
     //comments: res?.dropComments,
     //  reactionCount: res?.reactionCount,
     imageUrl,
