@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import CommentComponent from './DropCommentUI'
+import { CommentComponent } from './DropCommentUI'
 
 function DropNav({ dropId, comments }: any) {
   const [activeTab, setActiveTab] = useState('comments')

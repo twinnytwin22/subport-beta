@@ -2,13 +2,13 @@
 import { useAuthProvider } from 'app/context/auth';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { FaCommentAlt, FaTrash } from 'react-icons/fa';
+import { FaCommentAlt, FaPaperPlane, FaTrash } from 'react-icons/fa';
 import { addDropComment, deleteDropComment, getDropComments } from 'utils/database';
 import { Mention, MentionsInput } from "react-mentions";
 import { supabase } from 'lib/constants';
 import mentionStyles from 'styles/mentionStyles';
 import mentionInputStyles from 'styles/mentionInputStyles';
-export const CommentComponent = ({ dropId }: any) => {
+export const CommentModal = ({ dropId, close }: any) => {
     const { profile } = useAuthProvider();
     const [comment, setComment] = useState('');
     const [showTextarea, setShowTextarea] = useState(false);
@@ -66,8 +66,8 @@ export const CommentComponent = ({ dropId }: any) => {
         }
     };
 
-    const handleShowTextarea = () => {
-        setShowTextarea(true);
+    const handleClose = () => {
+        close();
     };
 
     const handleDiscardComment = () => {
@@ -76,22 +76,24 @@ export const CommentComponent = ({ dropId }: any) => {
     };
 
     return (
-        <div className="w-full">
-            {profile && showTextarea ? (
-                <div className="w-full">
+        <div className="absolute top-0 left-0 right-0 bottom-0 justify-center items-center z-50 isolate">
+            <div className='bg-white dark:bg-black opacity-80 h-full w-full z-10 absolute'></div> {/* Updated z-index here */}
+            <p className='cursor-pointer absolute p-2 border dark:border-zinc-700 border-zinc-300 rounded text-sm z-20 left-5 top-5 text-black dark:text-white bg-white dark:bg-black' onClick={close}>Close</p> {/* Updated z-index here */}
+            {profile && (
+                <div className="w-full h-4 rounded max-w-md mx-auto relative z-20 items-center mt-20 text-black"> {/* Updated z-index here */}
                     {/* Use the MentionsInput to handle the textarea with mentions */}
                     <MentionsInput
-                        style={mentionInputStyles}
-                        className='w-full max-w-md'
+                        className='text-black'
                         value={comment}
+                        style={mentionInputStyles}
+                        a11ySuggestionsListLabel={"Suggested mentions"}
                         onChange={handleCommentChange}
-                        singleLine={true} // Add this prop to handle single-line comments
+                    //  singleLine// Add this prop to handle single-line comments
                     >
                         <Mention
                             style={mentionStyles}
-                            className='w-full max-w-md'
                             displayTransform={(username) => `@${username}`}
-                            key={comment}
+                            // key={comment}
                             trigger="@"
                             data={users} // Pass the users array as the data source for mentions
                             renderSuggestion={(suggestion, search, highlightedDisplay) => (
@@ -104,33 +106,37 @@ export const CommentComponent = ({ dropId }: any) => {
                             markup="@[__display__]"
                         />
                     </MentionsInput>
-                    <div className="flex space-x-2 items-center text-white">
-                        <button className="text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md w-full text-center font-bold" onClick={handleAddComment}>Submit</button>
-                        <button className="text-xs p-1.5 bg-red-600 hover:bg-red-500 rounded-md w-full text-center font-bold" onClick={handleDiscardComment}>Discard</button>
+                    <br />
+                    <div className="flex space-x-2 items-center content-end justify-end text-white">
+                        <button className="text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md  text-center font-bold" onClick={handleAddComment}><FaPaperPlane/></button>
+                        <button className="text-xs p-1.5 bg-red-600 hover:bg-red-500 rounded-md  text-center font-bold" onClick={handleDiscardComment}><FaTrash/></button>
                     </div>
                 </div>
-            ) : (
-                <button className={`text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md w-full text-center font-bold text-white ${!profile && 'hidden'}`} onClick={profile && handleShowTextarea}>Add Comment</button>
             )}
-            <div>
+            <div className='relative z-10 mt-28 h-full overflow-y-scroll max-h-96 mx-2.5'> {/* Lower z-index here */}
                 {[...comments]?.map((comment: any, i) => (
-                    <div key={i} className="p-2.5 relative rounded-md text-sm bg-zinc-200 dark:bg-zinc-950 my-2 border-zinc-300 dark:border-zinc-900 border">
-
+                    <div key={i} className="p-2.5 rounded-md text-sm bg-zinc-100 dark:bg-zinc-950 my-2 border-zinc-300 dark:border-zinc-900 border">
                         <Link
                             href={`/${comment.profiles?.username}`}
                             className="text-xs cursor-pointer text-zinc-600 dark:zinc-400"
                         >
                             {`${userId && userId === comment.user_id ? 'You' : `@${comment?.profiles?.username}`}`}
                         </Link>
-                        <div className='border-l-2 m-2 h-fit border-blue-600  '>
-                            <p className='pl-2 text-sm'>{comment?.comment}</p></div>
-                        {userId && userId! === comment.user_id! && (
-                            <div className="text-sm text-blue-600 underline cursor-pointer absolute right-3 bottom-3 hover:scale-125 duration-300 ease-in-out z-50" onClick={(() => handleDeleteComment(comment.id))}><FaTrash /></div>
-                        )}
+                        <div className='border-l-2 m-2 h-fit border-blue-600'>
+                            <p className='pl-2 text-sm'>
+                                {comment?.comment}
+                            </p>
+                        </div>
+                        {userId && userId === comment.user_id ? (
+                            <div className="text-sm text-blue-600 underline cursor-pointer absolute right-3 bottom-3 hover:scale-125 duration-300 ease-in-out" onClick={() => handleDeleteComment(comment.id)}>
+                                <FaTrash />
+                            </div>
+                        ) : ('')}
                     </div>
                 ))}
             </div>
         </div>
     );
+
 }
 

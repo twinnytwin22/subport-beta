@@ -22,7 +22,7 @@ function CardEngagementRow({ dropId, reactionCount }: any) {
                 }
 
             </div>
-            <div className="flex h-6 hover:scale-105 space-x-1 items-center">
+            <div className="flex h-6  space-x-1 items-center isolate">
                 <p>0</p>
                 {profile && <CommentIcon className={`w-5 h-5 ${!collected && 'grayscale'}`} dropId={dropId} userId={profile?.id} />}
             </div>
