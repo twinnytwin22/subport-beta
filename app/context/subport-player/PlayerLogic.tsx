@@ -1,7 +1,31 @@
-'use client'
 import { useEffect } from 'react';
-import { create } from 'zustand'
-export const usePlayerStore = create((set: any) => ({
+import { create } from 'zustand';
+
+interface PlayerStore {
+    currentTime: number;
+    position: number;
+    duration: number;
+    isPlaying: boolean;
+    audio: HTMLAudioElement | null;
+    volume: number;
+    isMuted: boolean;
+    prevVolume: number;
+    audioUrl: string | null;
+    imageUrl: string | null;
+
+    setSongImage: (imageUrl: string | null) => void;
+    setCurrentTime: (currentTime: number) => void;
+    setPosition: (position: number) => void;
+    setDuration: (duration: number) => void;
+    setIsPlaying: (isPlaying: boolean) => void;
+    setAudio: (audio: HTMLAudioElement | null) => void;
+    setVolume: (volume: number) => void;
+    setIsMuted: (isMuted: boolean) => void;
+    setPrevVolume: (prevVolume: number) => void;
+    setAudioUrl: (audioUrl: string | null) => void;
+}
+
+export const usePlayerStore = create<PlayerStore>((set) => ({
     currentTime: 0,
     position: 0,
     duration: 0,
@@ -11,20 +35,22 @@ export const usePlayerStore = create((set: any) => ({
     isMuted: false,
     prevVolume: 100,
     audioUrl: null,
+    imageUrl: null,
 
-
-    setCurrentTime: (currentTime: any) => set(() => ({ currentTime })),
-    setPosition: (position: any) => set(() => ({ position })),
-    setDuration: (duration: any) => set(() => ({ duration })),
-    setIsPlaying: (isPlaying: boolean) => set(() => ({ isPlaying })),
-    setAudio: (audio: any) => set(() => ({ audio })),
-    setVolume: (volume: any) => set(() => ({ volume })),
-    setIsMuted: (isMuted: boolean) => set(() => ({ isMuted })),
-    setPrevVolume: (prevVolume: any) => set(() => ({ prevVolume })),
-    setAudioUrl: (audioUrl: any) => set({ audioUrl }),
+    setSongImage: (imageUrl) => set(() => ({ imageUrl })),
+    setCurrentTime: (currentTime) => set(() => ({ currentTime })),
+    setPosition: (position) => set(() => ({ position })),
+    setDuration: (duration) => set(() => ({ duration })),
+    setIsPlaying: (isPlaying) => set(() => ({ isPlaying })),
+    setAudio: (audio) => set(() => ({ audio })),
+    setVolume: (volume) => set(() => ({ volume })),
+    setIsMuted: (isMuted) => set(() => ({ isMuted })),
+    setPrevVolume: (prevVolume) => set(() => ({ prevVolume })),
+    setAudioUrl: (audioUrl) => set({ audioUrl }),
 
     // Other state setters...
 }));
+
 export const usePlaybackTime = (audioRef: any) => {
     useEffect(() => {
         const musicPlayer = audioRef.current;
@@ -50,13 +76,19 @@ export const usePlaybackTime = (audioRef: any) => {
     }, [audioRef]);
 };
 
-export const useAudio = (audioUrl: any, setAudio: any) => {
+export const useAudio = (audioUrl: string | null, setAudio: (audio: HTMLAudioElement) => void) => {
     useEffect(() => {
-        setAudio(new Audio(audioUrl));
+        if (audioUrl) {
+            setAudio(new Audio(audioUrl));
+        }
     }, [audioUrl, setAudio]);
 };
 
-export const useSetupAudio = (audioRef: any, audioUrl: any, onLoadedData: any) => {
+export const useSetupAudio = (
+    audioRef: any | null,
+    audioUrl: string | null,
+    onLoadedData: () => void
+) => {
     useEffect(() => {
         if (audioUrl) {
             audioRef.current = new Audio(audioUrl);
@@ -71,56 +103,75 @@ export const useSetupAudio = (audioRef: any, audioUrl: any, onLoadedData: any) =
     }, [audioUrl, audioRef, onLoadedData]);
 };
 
-export const handlePlay = (audioRef: any, setIsPlaying: any) => {
-    audioRef.current.play();
+export const handlePlay = (
+    audioRef: React.RefObject<HTMLAudioElement>,
+    setIsPlaying: (isPlaying: boolean) => void
+) => {
+    audioRef.current?.play();
     setIsPlaying(true);
 };
 
-export const handlePause = (audioRef: any, setIsPlaying: any) => {
-    audioRef.current.pause();
+export const handlePause = (
+    audioRef: React.RefObject<HTMLAudioElement>,
+    setIsPlaying: (isPlaying: boolean) => void
+) => {
+    audioRef.current?.pause();
     setIsPlaying(false);
 };
 
-export const handleStop = (audioRef: any, setIsPlaying: any) => {
-    if (audioRef) {
+export const handleStop = (
+    audioRef: React.RefObject<HTMLAudioElement>,
+    setIsPlaying: (isPlaying: boolean) => void
+) => {
+    if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
         setIsPlaying(false);
     }
 };
 
-export function formatTime(time: any) {
+export function formatTime(time: number): string {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
-export const useInterval = (audioRef: any, setCurrentTime: any, isPlaying: any) => {
+export const useInterval = (
+    audioRef: any,
+    setCurrentTime: (currentTime: number) => void,
+    isPlaying: boolean
+) => {
     useEffect(() => {
-        if (audioRef) {
+        if (audioRef.current) {
             const intervalId = setInterval(() => {
-                setCurrentTime(audioRef?.current?.currentTime);
+                setCurrentTime(audioRef.current?.currentTime || 0);
             }, 1000);
             return () => clearInterval(intervalId);
         }
     }, [audioRef, setCurrentTime, isPlaying]);
 };
 
-export const handleVolumeChange = (event: any, audioRef: any, setVolume: any) => {
-    setVolume(event.target.value);
-    audioRef.current.volume = event.target.value / 100;
+export const handleVolumeChange = (
+    event: any,
+    audioRef: React.RefObject<HTMLAudioElement>,
+    setVolume: (volume: number) => void
+) => {
+    setVolume(Number(event.target.value));
+    audioRef.current!.volume = Number(event.target.value) / 100;
 };
 
-export const handleTimeUpdate = (audioRef: any, setPosition: any) => {
-    setPosition(audioRef?.current?.currentTime);
+export const handleTimeUpdate = (audioRef: React.RefObject<HTMLAudioElement>, setPosition: (position: number) => void) => {
+    setPosition(audioRef.current?.currentTime || 0);
 };
 
-export const handleLoadedData = (audioRef: any, setDuration: any) => {
-    audioRef.current.load();
-    setDuration(audioRef?.current?.duration);
+export const handleLoadedData = (
+    audioRef: React.RefObject<HTMLAudioElement>,
+    setDuration: (duration: number) => void
+) => {
+    audioRef.current!.load();
+    setDuration(audioRef.current?.duration || 0);
 };
 
 export const handleSeekChange = (event: any, audioRef: any) => {
-    audioRef.current.currentTime = event?.target?.value;
+    audioRef.current!.currentTime = Number(event?.target?.value);
 };
-

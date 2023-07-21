@@ -3,11 +3,12 @@ import { useAuthProvider } from "app/context/auth";
 import { FaPlay, FaPause, FaStop } from "react-icons/fa";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { useSubportPlayer } from "app/context/subport-player";
-
+import Image from "next/image";
 const FooterPlayer = () => {
     const { user } = useAuthProvider();
     const {
         audioUrl,
+        imageUrl,
         audioRef,
         isPlaying,
         volumeChange,
@@ -24,8 +25,7 @@ const FooterPlayer = () => {
         stop
     } = useSubportPlayer();
 
-
-
+    //  console.log(imageUrl, "IMAGE FROM FOOTER")
 
 
 
@@ -46,7 +46,9 @@ const FooterPlayer = () => {
                                 Your browser does not support the audio element.
                             </audio>
                             <div className="mx-auto w-full space-x-4 relative flex items-center ">
-                                <div className="block max-w-[30px] h-[30px] rounded-md bg-blue-300 w-full"></div>
+                                {!imageUrl ?
+                                    <div className="max-w-[30px] h-[30px] rounded-md bg-blue-300 w-full"></div> :
+                                    <Image src={imageUrl} alt='song-image' width={30} height={30} priority />}
                                 {!isPlaying && (
                                     <button
                                         onClick={play}

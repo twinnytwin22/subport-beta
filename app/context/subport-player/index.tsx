@@ -47,7 +47,9 @@ export const SubportPlayer = ({ children
         setIsMuted,
         setPrevVolume,
         audioUrl,
-        setAudioUrl
+        setAudioUrl,
+        imageUrl,
+        setSongImage,
     } = usePlayerStore();
     const audioRef = useRef<any>(audio);
 
@@ -110,11 +112,24 @@ export const SubportPlayer = ({ children
         },
         [setAudioUrl]
     );
+    const updateImageUrl = useCallback(
+        (newImageUrl: string) => {
+            setSongImage(newImageUrl)
+            console.log(imageUrl, newImageUrl)
+        },
+
+        [setSongImage]
+    );
+
+
 
 
     // Define the value for the context provider
     const values = {
+        updateAudioUrl,
+        updateImageUrl,
         audioUrl,
+        imageUrl,
         setAudioUrl,
         audioRef,
         currentTime,

@@ -1,28 +1,33 @@
 'use client'
 import { useAuthProvider } from 'app/context/auth'
 import { useSubportPlayer } from 'app/context/subport-player'
+import { usePlayerStore } from 'app/context/subport-player/PlayerLogic'
 import React, { useEffect } from 'react'
 import { FaPlayCircle, FaStopCircle } from 'react-icons/fa'
 
 function PlayButton({ props }: any) {
-    const { play, isPlaying, stop, setAudioUrl, audioUrl } = useSubportPlayer()
+    const { play, isPlaying, stop, setAudio, updateAudioUrl, setSongImage, updateImageUrl, audioUrl, useAudio, audioRef, pause, setAudioRef } = useSubportPlayer()
     const { user } = useAuthProvider()
     const newAudioUrl = props?.metaData?.animation_url?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+    const newImageUrl = props?.metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
     const [mounted, setMounted] = React.useState(false);
     React.useEffect(() => setMounted(true), []);
-    const handlePlay = () => {
+
+
+    const handlePlay = async () => {
         if (audioUrl !== newAudioUrl) {
             if (isPlaying) {
                 stop()
-                setAudioUrl()
-                play()
+
             }
-            setAudioUrl(newAudioUrl)
+            updateImageUrl(newImageUrl)
+            updateAudioUrl(newAudioUrl)
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            play()
+        } else {
             play()
         }
-        if (audioUrl === newAudioUrl) {
-            play()
-        }
+
     }
 
 
