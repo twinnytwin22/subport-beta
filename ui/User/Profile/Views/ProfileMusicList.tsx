@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import React from 'react';
-import CollectCardMenu from 'ui/Cards/Collect/CollectCardMenu';
 import MusicItem from './ProfileMusicItem';
 
 interface Drop {

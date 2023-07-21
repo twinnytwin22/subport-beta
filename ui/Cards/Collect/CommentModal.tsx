@@ -36,7 +36,6 @@ export const CommentModal = ({ dropId, close }: any) => {
     }, [comment])
     useEffect(() => {
         getUsers()
-        console.log(users)
     }, [])
     const handleCommentChange = (e: any) => {
         setComment(e.target.value);
@@ -66,9 +65,6 @@ export const CommentModal = ({ dropId, close }: any) => {
         }
     };
 
-    const handleClose = () => {
-        close();
-    };
 
     const handleDiscardComment = () => {
         setShowTextarea(false);
@@ -108,8 +104,8 @@ export const CommentModal = ({ dropId, close }: any) => {
                     </MentionsInput>
                     <br />
                     <div className="flex space-x-2 items-center content-end justify-end text-white">
-                        <button className="text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md  text-center font-bold" onClick={handleAddComment}><FaPaperPlane/></button>
-                        <button className="text-xs p-1.5 bg-red-600 hover:bg-red-500 rounded-md  text-center font-bold" onClick={handleDiscardComment}><FaTrash/></button>
+                        <button className="text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md  text-center font-bold" onClick={handleAddComment}><FaPaperPlane /></button>
+                        <button className="text-xs p-1.5 bg-red-600 hover:bg-red-500 rounded-md  text-center font-bold" onClick={handleDiscardComment}><FaTrash /></button>
                     </div>
                 </div>
             )}

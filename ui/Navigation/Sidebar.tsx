@@ -6,15 +6,17 @@ import { SupbortLogo } from "lib/content/siteSettings";
 import { AdminRoutes, PublicRoutes, UserRoutes } from "./Routes";
 import SocialRow from "ui/Misc/SocialRow";
 import PlaylistCreator from "ui/Playlist/PlaylistCreator";
+import Image from "next/image";
 function Sidebar() {
   const { user } = useAuthProvider()
 
   return (
 
-    <aside className="hidden sm:block bg-gray-100 h-full z-[350] max-h-screen w-[128px] lg:w-[256px] lg:pl-6 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-zinc-800 top-0 fixed float-left left-0">
+    <aside className="hidden sm:block bg-gray-100 h-full z-50 max-h-screen w-[128px] lg:w-[256px] lg:pl-6 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-zinc-800 top-0 fixed float-left left-0">
       <div className="mb-16 mx-auto m-3">
         <Link href="/" className="flex items-center">
-          <img src={SupbortLogo} className="lg:mx-3  w-9 items-center justify-center mx-auto " alt="Subport Logo" />
+          <Image src={SupbortLogo} className="lg:mx-3  w-9 items-center justify-center mx-auto " alt="Subport Logo" width={36} height={18} style={{ width: 'auto', height: 'auto' }}
+          />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white hidden lg:block">
             subport
           </span>
@@ -31,7 +33,9 @@ function Sidebar() {
           </div>
 
         ) : (
-          <SignInModal />
+          <div className="hidden lg:block">
+            <SignInModal />
+          </div>
         )}
       </nav>
       <nav className="flex-grow fixed  bottom-12 left-6 p-2">

@@ -1,19 +1,29 @@
+'use client'
+import { useAuthProvider } from "app/context/auth";
 import React from "react";
+import SignInModal from "ui/Buttons/SignIn";
 import SearchBar from "ui/Misc/SearchBar";
 import UserAvatar from "ui/User/UserAvatar";
-async function Navbar() {
+function Navbar() {
+  const { user } = useAuthProvider()
 
   return (
     <div className="fixed top-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 px-6 py-2.5 border-b w-full bg-zinc-100 dark:bg-black">
       <div className="z-[300]  px-6 py-2.5  mx-auto relative sm:pl-32 lg:pl-64">
-        <div className="flex items-center justify-between max-w-screen-xl mx-auto">
-          <SearchBar />
-          <div className="flex items-center space-x-2">
-            <NotificationIcon />
-            <div className="hidden sm:block">  <UserAvatar /></div>
+        {user ?
+          <div className="flex items-center justify-between max-w-screen-xl mx-auto">
+            <SearchBar />
+            <div className="flex items-center space-x-2">
+              <NotificationIcon />
+              <div className="hidden sm:block">  <UserAvatar /></div>
 
+            </div>
           </div>
-        </div>
+          :
+          <div className="flex items-center justify-end max-w-screen-xl mx-auto h-6">
+            <div className="lg:hidden">
+              <SignInModal /></div></div>}
+
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import { toast } from 'react-toastify';
-import { supabase } from 'lib/providers/supabase/supabaseClient';
 import DarkModeSwitch from 'ui/Buttons/DarkModeSwitch';
 import { useAuthProvider } from 'app/context/auth';
 

@@ -29,7 +29,7 @@ export function DropPage({ props }: any) {
               src={imageUrl}
               style={{ objectFit: 'cover' }}
               alt="Song-cover"
-              priority={true}
+              blurDataURL={"/images/stock/blur.png"}
             />
           </div>
           <div className="w-36 absolute pt-8 right-10">

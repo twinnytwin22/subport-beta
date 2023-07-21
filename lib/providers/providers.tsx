@@ -15,7 +15,7 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 import { Ethereum, Polygon, Optimism } from "@thirdweb-dev/chains";
-import { IpfsUploader, StorageDownloader, ThirdwebStorage } from "@thirdweb-dev/storage";
+import { IpfsUploader, ThirdwebStorage, IpfsDownloaderOptions, StorageDownloader } from "@thirdweb-dev/storage";
 
 const queryClient = new QueryClient()
 const gatewayUrls = [
@@ -25,10 +25,11 @@ const gatewayUrls = [
   "https://cloudflare-ipfs.com/ipfs/",
   "https://ipfs.io/ipfs/",
 ]
+const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID
+const secretKey = process.env.THIRDWEB_SECRET_KEY!
 
-const downloader = new StorageDownloader() as any;
 const uploader = new IpfsUploader() as any;
-const storage = new ThirdwebStorage({ uploader, downloader, gatewayUrls }) as any;
+const storage = new ThirdwebStorage({ uploader, gatewayUrls, clientId, secretKey }) as any;
 
 const Providers = ({ children, }: { children: React.ReactNode }) => {
   const [mounted, setMounted] = React.useState(false);
@@ -45,6 +46,7 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
         <AuthContextProvider>
           <SubportPlayer>
             <ThirdwebProvider
+              clientId={clientId}
               storageInterface={storage}
               activeChain={Polygon}
               supportedChains={[Ethereum, Polygon, Optimism]}

@@ -14,7 +14,7 @@ export default function Account() {
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState<string>(profile?.username);
   const [email, setEmail] = useState<string>(profile?.bio);
-  const [website, setWebsite] = useState('');
+  // const [website, setWebsite] = useState('');
   const [bio, setBio] = useState(profile?.bio);
   const [avatar_url, setAvatarUrl] = useState<string>(profile?.avatar_url);
   const [city, setCity] = useState(profile?.city);

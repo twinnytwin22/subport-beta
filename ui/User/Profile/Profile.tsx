@@ -35,8 +35,8 @@ async function Profile({ profile, username }: any) {
                     alt="avatar" width={150} height={150}
                     className="shadow-xl rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
                     src={imagePath}
-                    style={{ objectFit: 'cover' }}
-                    priority={true}
+                    style={{ objectFit: 'cover', width: 'auto', height: 'auto' }}
+                    blurDataURL={"/images/stock/blur.png"}
                   />
 
                 </Suspense>

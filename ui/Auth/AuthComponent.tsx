@@ -5,7 +5,7 @@ import { useAuthProvider } from "app/context/auth";
 import { useRouter } from "next/navigation";
 
 // Supabase auth needs to be triggered client-side
-export default function LoginCard() {
+export default function LoginCard({ close }: any) {
   const router = useRouter()
   const { signInWithSpotify, signInWithGoogle, user } = useAuthProvider()
   async function handleSpotifyLogin() {
@@ -19,10 +19,12 @@ export default function LoginCard() {
 
   }
   return (
-    <div className="relative">
+    <div className="relative z-[9999999px]">
 
 
-      <div className="flex flex-col px-6 py-4 border-b rounded-t dark:border-zinc-600 relative w-sm md:w-full">
+      <div className="flex flex-col px-6 py-4 border-b rounded-t dark:border-zinc-600 relative w-sm lg:w-full">
+        <div className='cursor-pointer p-2 border dark:border-zinc-700 border-zinc-300 rounded text-sm w-24 text-center text-black dark:text-white bg-white dark:bg-black absolute right-5 top-3' onClick={() => close(false)}>Close</div>
+
         <h3 className="text-base font-semibold text-zinc-900 lg:text-xl dark:text-white">
           Sign in
         </h3>

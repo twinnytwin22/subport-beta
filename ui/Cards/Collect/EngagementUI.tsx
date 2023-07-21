@@ -48,6 +48,7 @@ const HeartIcon = ({ className, dropId, userId }: any) => {
                         src={`/emojis/${reactionType}.png`}
                         className={`${className} hover:scale-125 duration-300 ease-in-out`}
                         alt="reaction"
+
                     />
                 </div>
             ) : (

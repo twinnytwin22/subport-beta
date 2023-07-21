@@ -5,7 +5,7 @@ import { FaDollarSign, FaEthereum } from 'react-icons/fa';
 
 function SubscriberForm({ close, sub, isAuthedUser }: any) {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
-    const [paymentMethod, setPaymentMethod] = useState('');
+    // const [paymentMethod, setPaymentMethod] = useState('');
     const pricePerMonth = sub?.price_per_month;
     const [selectedBundle, setSelectedBundle] = useState<any>(null);
 

@@ -1,8 +1,7 @@
 'use client'
 import { useAuthProvider } from 'app/context/auth'
 import { useSubportPlayer } from 'app/context/subport-player'
-import { usePlayerStore } from 'app/context/subport-player/PlayerLogic'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FaPlayCircle, FaStopCircle } from 'react-icons/fa'
 
 function PlayButton({ props }: any) {

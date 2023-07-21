@@ -31,7 +31,7 @@ async function CollectCard(props: any) {
                 src={profileImagePath}
                 style={{ objectFit: "cover" }}
                 alt="Song-cover"
-                priority={true}
+                blurDataURL={'/images/stock/blur.png'}
               />
             </Link>
             <div className="block">
@@ -48,13 +48,15 @@ async function CollectCard(props: any) {
         <div className="w-full relative min-w-md h-full">
           <div className="relative">
             <Image
+              priority={false}
               width={500}
               height={500}
               className="w-full"
               src={imageHash}
               style={{ objectFit: "cover" }}
               alt="Song-cover"
-              priority={true}
+              placeholder="blur"
+              blurDataURL={'/images/stock/blur.png'}
             />
             <PlayButton props={props} />
           </div>

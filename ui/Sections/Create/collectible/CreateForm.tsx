@@ -17,7 +17,7 @@ import { useStorageUpload } from "@thirdweb-dev/react";
 import Image from "next/image";
 export const CreateForm = () => {
   const { user, profile } = useAuthProvider();
-  const [savedUser, setSavedUser] = useState<any>(null)
+  const [savedUser, setSavedUser] = useState<any>(null);
   const { mutateAsync: upload } = useStorageUpload({
     uploadWithoutDirectory: true,
     onProgress: (progress) => {
@@ -130,7 +130,7 @@ export const CreateForm = () => {
 
     try {
       // Upload the image and audio files to IPFS
-      const user = savedUser!
+      const user = savedUser!;
       const keywordsArray = formData.keywords?.split(",");
 
       // Update the form data with the generated URLs
@@ -145,11 +145,11 @@ export const CreateForm = () => {
       // Call the deployCollectible function
       const deployResult = await deployCollectible(collectibleData);
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      await fetch('/api/v1/getCollectibles');
+      await fetch("/api/v1/getCollectibles");
       if (deployResult) {
-        setStep(5)
+        setStep(5);
       } else {
-        throw new Error
+        throw new Error();
       }
     } catch (error) {
       console.error(error);
@@ -165,17 +165,16 @@ export const CreateForm = () => {
 
   const onSubmitStep2 = async (data: any) => {
     if (!savedUser && user) {
-      setSavedUser(user)
+      setSavedUser(user);
     }
     try {
-      setUploading(true)
+      setUploading(true);
       if (data.image && data.audio) {
-        await startUpload(data.image, data.audio)
+        await startUpload(data.image, data.audio);
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        setUploading(false)
-        setStep(3)
+        setUploading(false);
+        setStep(3);
       }
-      ;
     } catch (error) {
       console.error(error);
     }
@@ -190,23 +189,23 @@ export const CreateForm = () => {
     setUploading(true);
     try {
       if (image) {
-        setInProgress('image')
+        setInProgress("image");
         const imageUri = await upload({ data: [image] });
         await new Promise((resolve) => setTimeout(resolve, 2000));
         setImageUrl(imageUri[0]);
-        logImage()
-        setInProgress('')
+        logImage();
+        setInProgress("");
         setProgress(0);
         setTotal(0);
       }
 
       if (audio) {
-        setInProgress('audio')
+        setInProgress("audio");
         const audioUri = await upload({ data: [audio] });
         await new Promise((resolve) => setTimeout(resolve, 2000));
         setAudioUrl(audioUri[0]);
-        logAudio()
-        setInProgress('')
+        logAudio();
+        setInProgress("");
         setProgress(100);
         setTotal(100);
       }
@@ -214,10 +213,9 @@ export const CreateForm = () => {
       // Handle the error here if needed
     } finally {
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      setIpfsMedia(true)
+      setIpfsMedia(true);
     }
   };
-
 
   const renderStep1 = () => {
     return (
@@ -565,145 +563,158 @@ export const CreateForm = () => {
   };
 
   const renderStep3 = () => {
-
-
-    return imageUrl && audioUrl && (
-      <>
-        <h2 className="text-center w-full py-4 text-xl">
-          Step {step} - Confirm.
-        </h2>
-        <div className="w-full mx-auto items-center">
-          <div className="flex flex-col mx-auto content-center lg:grid lg:grid-cols-2 p-8 mb-8 overflow-x-auto">
-            <div className="mx-auto content-center h-fit shadow-xl shadow-zinc-300 dark:shadow-zinc-800 mb-10 max-w-md col-span-1">
-              {ipfsMedia && <Media audio={songPreview} image={imagePreview} />}
+    return (
+      imageUrl &&
+      audioUrl && (
+        <>
+          <h2 className="text-center w-full py-4 text-xl">
+            Step {step} - Confirm.
+          </h2>
+          <div className="w-full mx-auto items-center">
+            <div className="flex flex-col mx-auto content-center lg:grid lg:grid-cols-2 p-8 mb-8 overflow-x-auto">
+              <div className="mx-auto content-center h-fit shadow-xl shadow-zinc-300 dark:shadow-zinc-800 mb-10 max-w-md col-span-1">
+                {ipfsMedia && (
+                  <Media audio={songPreview} image={imagePreview} />
+                )}
+              </div>
+              <div className="relative overflow-x-auto shadow-md sm:rounded-lg dark:bg-zinc-900 border dark:border-zinc-800 bg-zinc-200 border-zinc-300">
+                <table className="text-sm text-left text-zinc-700 dark:text-zinc-300">
+                  <tbody className="p-8">
+                    <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                      <th
+                        scope="row"
+                        className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                      >
+                        Release Name:
+                      </th>
+                      <td className="px-6 py-2 w-full">{watch("name")}</td>
+                    </tr>
+                    <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                      <th
+                        scope="row"
+                        className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                      >
+                        Artist:
+                      </th>
+                      <td className="px-6 py-2">{watch("artist_name")}</td>
+                    </tr>
+                    <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                      <th
+                        scope="row"
+                        className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                      >
+                        Release Date:
+                      </th>
+                      <td className="px-6 py-2">{watch("release_date")}</td>
+                    </tr>
+                    <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                      <th
+                        scope="row"
+                        className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                      >
+                        Total Collectibles:
+                      </th>
+                      <td className="px-6 py-2">
+                        {watch("total_collectibles")}
+                      </td>
+                    </tr>
+                    <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                      <th
+                        scope="row"
+                        className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                      >
+                        Description:
+                      </th>
+                      <td className="px-6 py-2">{watch("description")}</td>
+                    </tr>
+                    <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                      <th
+                        scope="row"
+                        className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                      >
+                        Song URI:
+                      </th>
+                      <td className="px-6 py-2"> {watch("spotify_uri")}</td>
+                    </tr>
+                    <tr className="border-b border-zinc-300 dark:border-zinc-600">
+                      <th
+                        scope="row"
+                        className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                      >
+                        Genre:{" "}
+                      </th>
+                      <td className="px-6 py-2">
+                        {allGenres.map((genre: any) => (
+                          <div key={genre}>
+                            {watch(genre) === genre && genre}
+                          </div>
+                        ))}{" "}
+                      </td>
+                    </tr>
+                    <tr className="">
+                      <th
+                        scope="row"
+                        className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
+                      >
+                        Keywords:
+                      </th>
+                      <td className="px-6 py-2">{watch("keywords")}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg dark:bg-zinc-900 border dark:border-zinc-800 bg-zinc-200 border-zinc-300">
-              <table className="text-sm text-left text-zinc-700 dark:text-zinc-300">
-                <tbody className="p-8">
-                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
-                    <th
-                      scope="row"
-                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
-                    >
-                      Release Name:
-                    </th>
-                    <td className="px-6 py-2 w-full">{watch("name")}</td>
-                  </tr>
-                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
-                    <th
-                      scope="row"
-                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
-                    >
-                      Artist:
-                    </th>
-                    <td className="px-6 py-2">{watch("artist_name")}</td>
-                  </tr>
-                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
-                    <th
-                      scope="row"
-                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
-                    >
-                      Release Date:
-                    </th>
-                    <td className="px-6 py-2">{watch("release_date")}</td>
-                  </tr>
-                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
-                    <th
-                      scope="row"
-                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
-                    >
-                      Total Collectibles:
-                    </th>
-                    <td className="px-6 py-2">{watch("total_collectibles")}</td>
-                  </tr>
-                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
-                    <th
-                      scope="row"
-                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
-                    >
-                      Description:
-                    </th>
-                    <td className="px-6 py-2">{watch("description")}</td>
-                  </tr>
-                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
-                    <th
-                      scope="row"
-                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
-                    >
-                      Song URI:
-                    </th>
-                    <td className="px-6 py-2"> {watch("spotify_uri")}</td>
-                  </tr>
-                  <tr className="border-b border-zinc-300 dark:border-zinc-600">
-                    <th
-                      scope="row"
-                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
-                    >
-                      Genre:{" "}
-                    </th>
-                    <td className="px-6 py-2">
-                      {allGenres.map((genre: any) => (
-                        <div key={genre}>{watch(genre) === genre && genre}</div>
-                      ))}{" "}
-                    </td>
-                  </tr>
-                  <tr className="">
-                    <th
-                      scope="row"
-                      className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
-                    >
-                      Keywords:
-                    </th>
-                    <td className="px-6 py-2">{watch("keywords")}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex space-x-4">
+                <button
+                  onClick={onBack}
+                  type="submit"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Back
+                </button>
+                <button
+                  type="submit"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Submit
+                </button>
+
+                <button
+                  type="reset"
+                  onClick={handleResetClick}
+                  className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
           </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex space-x-4">
-              <button
-                onClick={onBack}
-                type="submit"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Back
-              </button>
-              <button
-                type="submit"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                Submit
-              </button>
-
-              <button
-                type="reset"
-                onClick={handleResetClick}
-                className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-              >
-                Reset
-              </button>
-            </div>
-          </form>
-        </div>
-      </>
+        </>
+      )
     );
   };
   const renderMintStatusCard = () => {
-
-
     return (
       <div className="w-full mx-auto justify-center place-items-center mt-12">
         <RenderMintStatus />
       </div>
     );
   };
-  const progress = useCreateFormStore(state => state.progress)
-  const total = useCreateFormStore(state => state.total)
+  const progress = useCreateFormStore((state) => state.progress);
+  const total = useCreateFormStore((state) => state.total);
   return (
     <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0 relative">
-      {isUploading && inProgress === 'image' ? <p className="text-center">Uploading your image.</p> : ''}
-      {isUploading && inProgress === 'audio' ? <p className="text-center">Uploading your audio.</p> : ''}
+      {isUploading && inProgress === "image" ? (
+        <p className="text-center">Uploading your image.</p>
+      ) : (
+        ""
+      )}
+      {isUploading && inProgress === "audio" ? (
+        <p className="text-center">Uploading your audio.</p>
+      ) : (
+        ""
+      )}
 
       {isUploading && renderProgressBar(progress, total)}
       {step === 5 && (
@@ -723,20 +734,35 @@ export const CreateForm = () => {
       {step === 2 && renderStep2()}
       {step === 3 && imageUrl && renderStep3()}
       {step === 4 && renderMintStatusCard()}
-      {step === 5 && profile &&
+      {step === 5 && profile && (
         <div className="w-full mx-auto place-items-center dark:text-white text-black text-center space-y-3">
-          <h1 className="text-lg"> Your collectible will be available soon! </h1>
+          <h1 className="text-lg">
+            {" "}
+            Your collectible will be available soon!{" "}
+          </h1>
           {imagePreview ? (
-            <Image className="rounded-md mx-auto justify-center" alt='image' src={imagePreview ? imagePreview : ''} width={300} height={300} priority />) : ('')}
+            <Image
+              className="rounded-md mx-auto justify-center"
+              blurDataURL={"/images/stock/blur.png"}
+              alt="image"
+              src={imagePreview ? imagePreview : ""}
+              width={300}
+              height={300}
+            />
+          ) : (
+            ""
+          )}
           <br />
           <Link className="" prefetch={true} href={`/${profile?.username}`}>
-            <button role="button" className="p-2.5 ring-blue-600 ring rounded-md">Go to Profile</button>
+            <button
+              role="button"
+              className="p-2.5 ring-blue-600 ring rounded-md"
+            >
+              Go to Profile
+            </button>
           </Link>
         </div>
-      }
-
+      )}
     </div>
   );
 };
-
-

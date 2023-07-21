@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import UserMenu from './UserMenu';
 import { useAuthProvider } from 'app/context/auth';
-import { downloadImage } from 'lib/hooks/downloadImage';
-import { defaultUserImage, useImagePath } from 'lib/constants';
+//import { downloadImage } from 'lib/hooks/downloadImage';
+import { useImagePath } from 'lib/constants';
 import Image from 'next/image';
 function UserAvatar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,8 +44,9 @@ function UserAvatar() {
             alt="avi" width={40} height={40}
             className=" shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto w-10 h-10 rounded-full"
             src={avatar}
-            style={{ objectFit: 'cover' }}
-            priority={true}
+            placeholder='blur'
+            style={{ objectFit: 'cover', width: 'auto', height: 'auto' }}
+            blurDataURL={"/images/stock/blur.png"}
           />
         </div>
       )}

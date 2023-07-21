@@ -44,7 +44,7 @@ export const SignInModal = () => {
         <SignInButton />
         {isOpen && (
           <div
-            className="z-50 flex m-4 mx-auto backdrop-blur-md -mt-5"
+            className="z-[99999px] flex m-4 mx-auto backdrop-blur-md -mt-5 isolate relative"
             style={{
               position: "fixed",
               top: "0",
@@ -58,12 +58,10 @@ export const SignInModal = () => {
             tabIndex={-1}
           >
             <div
-              className="flex flex-col p-4 rounded-2xl bg-zinc-200 dark:bg-black opacity-2"
-              onClick={() => setIsOpen(false)}
+              className="flex flex-col p-4 rounded-2xl bg-zinc-200 dark:bg-black opacity-2 max-w-sm"
             >
-              <button className="text-black dark:text-white" onClick={() => setIsOpen(false)}>Close</button>
 
-              <LoginCard />
+              <LoginCard close={setIsOpen} />
             </div>
           </div>
         )}
