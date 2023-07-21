@@ -1,5 +1,13 @@
-'use client'
-import { Suspense, cache, createContext, useContext, useEffect, useMemo, useState } from "react";
+"use client";
+import {
+  Suspense,
+  cache,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useRouter } from "next/navigation";
 import { Session } from "@supabase/auth-helpers-nextjs";
 import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
@@ -12,7 +20,7 @@ interface AuthContextProps {
   signInWithGoogle: () => Promise<void>;
   signInWithSpotify: () => Promise<void>;
   profile: any;
-  isLoading: boolean
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -21,9 +29,8 @@ const AuthContext = createContext<AuthContextProps>({
   profile: null,
   signInWithGoogle: () => Promise.resolve(),
   signInWithSpotify: () => Promise.resolve(),
-  isLoading: false
+  isLoading: false,
 });
-
 
 export const AuthContextProvider = ({
   children,
@@ -34,7 +41,7 @@ export const AuthContextProvider = ({
   const [profile, setProfile] = useState<any>(null);
   const [isProfileFetched, setIsProfileFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [signingIn, setIsSigningIn] = useState(false)
+  const [signingIn, setIsSigningIn] = useState(false);
   const router = useRouter();
 
   const fetchProfile = cache(async (id: string) => {
@@ -42,7 +49,9 @@ export const AuthContextProvider = ({
       setIsLoading(true);
       const { data, error } = await supabase
         .from("profiles")
-        .select("id, username, bio, website, avatar_url, wallet_address, city, state, country")
+        .select(
+          "id, username, bio, website, avatar_url, wallet_address, city, state, country"
+        )
         .eq("id", id)
         .single();
       if (error) {
@@ -52,7 +61,7 @@ export const AuthContextProvider = ({
       setProfile(data);
       setIsProfileFetched(true);
       setIsLoading(false);
-      setIsSigningIn(false)
+      setIsSigningIn(false);
     } catch (error) {
       console.error("Error fetching profile data:", error);
       setIsLoading(false);
@@ -62,14 +71,18 @@ export const AuthContextProvider = ({
   const onAuthStateChanged = async () => {
     if (!user) {
       try {
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        const {
+          data: { session },
+          error: sessionError,
+        } = await supabase.auth.getSession();
 
         if (sessionError) {
           throw sessionError;
         }
 
         if (session && !signingIn) {
-          const { data: authUser, error: authError } = await supabase.auth.getUser();
+          const { data: authUser, error: authError } =
+            await supabase.auth.getUser();
 
           if (authError) {
             throw authError;
@@ -96,21 +109,21 @@ export const AuthContextProvider = ({
     }
   };
 
-
-
   const value = useMemo(
     () => ({
       user,
       profile,
       isLoading,
       signInWithGoogle: async () => {
-        setIsSigningIn(true)
+        setIsSigningIn(true);
         try {
-          const { error } = await supabase.auth.signInWithOAuth({ provider: "google" });
-          setIsSigningIn(false)
+          const { error } = await supabase.auth.signInWithOAuth({
+            provider: "google",
+          });
+          setIsSigningIn(false);
 
           if (error) {
-            alert('nah')
+            alert("nah");
             throw error;
           }
         } catch (error) {
@@ -118,10 +131,20 @@ export const AuthContextProvider = ({
         }
       },
       signInWithSpotify: async () => {
-        setIsSigningIn(true)
+        setIsSigningIn(true);
         try {
-          const { error } = await supabase.auth.signInWithOAuth({ provider: "spotify" });
-          setIsSigningIn(false)
+          const scopes = [
+            "user-read-email",
+            "playlist-read-private",
+            "playlist-read-collaborative",
+            "user-read-currently-playing",
+            "user-modify-playback-state",
+          ].join(",");
+          const { error } = await supabase.auth.signInWithOAuth({
+            provider: "spotify",
+            options: { scopes: scopes },
+          });
+          setIsSigningIn(false);
           if (error) {
             throw error;
           }
@@ -135,26 +158,28 @@ export const AuthContextProvider = ({
           setUser(null);
           setProfile(null);
           setIsProfileFetched(false);
-          router.refresh()
+          router.refresh();
         } catch (error) {
           console.error("Error signing out:", error);
         }
       },
-
     }),
     [user, profile, router, isLoading]
   );
 
-  const { data: { subscription: AuthListener } } = supabaseAdmin.auth.onAuthStateChange(async (e: AuthChangeEvent, session: Session | null) => {
-    if (e === 'SIGNED_IN') {
-
-      router.refresh();
+  const {
+    data: { subscription: AuthListener },
+  } = supabaseAdmin.auth.onAuthStateChange(
+    async (e: AuthChangeEvent, session: Session | null) => {
+      if (e === "SIGNED_IN") {
+        router.refresh();
+      }
+      if (e === "SIGNED_OUT") {
+        setUser(null);
+        router.refresh();
+      }
     }
-    if (e === 'SIGNED_OUT') {
-      setUser(null);
-      router.refresh();
-    }
-  });
+  );
 
   // Optional: Unsubscribe from the AuthListener when it's no longer needed
   const unsubscribeAuthListener = () => {
@@ -165,24 +190,16 @@ export const AuthContextProvider = ({
   // For example, when the component unmounts
   // unsubscribeAuthListener();
 
-
   useEffect(() => {
     onAuthStateChanged();
 
-    return () => {
-
-    };
+    return () => { };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [AuthListener, value]);
 
-
   return (
     <Suspense>
-      <AuthContext.Provider value={value}>
-        {
-          children
-        }
-      </AuthContext.Provider>
+      <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
     </Suspense>
   );
 };
@@ -196,5 +213,12 @@ export const useAuthProvider = () => {
     signInWithSpotify,
     isLoading,
   } = useContext(AuthContext);
-  return { user, signOut, profile, signInWithGoogle, signInWithSpotify, isLoading };
+  return {
+    user,
+    signOut,
+    profile,
+    signInWithGoogle,
+    signInWithSpotify,
+    isLoading,
+  };
 };

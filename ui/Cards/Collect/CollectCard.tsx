@@ -6,6 +6,7 @@ import { useImagePath } from "lib/constants";
 import CollectCardMenu from "./CollectCardMenu";
 import Image from "next/image";
 import PlayButton from "./PlayButton";
+import CollectButton from "./CollectButton";
 
 
 async function CollectCard(props: any) {
@@ -19,7 +20,7 @@ async function CollectCard(props: any) {
 
   return (
     <div className="flex flex-col static mx-auto w-full content-center justify-center">
-      <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-lg dark:bg-zinc-950 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-200 dark:shadow-zinc-900 w-full">
+      <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-lg dark:bg-zinc-950 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-200 dark:shadow-zinc-900 w-full relative">
         <div className="flex h-8 mb-2 justify-between items-center">
           <div className="flex items-center p-2.5">
             <Link href={`/${user?.username}`}>
@@ -66,12 +67,7 @@ async function CollectCard(props: any) {
             <Suspense fallback="">
               <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
             </Suspense>
-            <Link
-              href={`/drop/${drop?.slug}`}
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-              Collect
-            </Link>
+            <CollectButton drop={drop} props={props} />
           </div>
           <p className="text-xs border-hidden">Collected by You & 67 more</p>
         </div>
