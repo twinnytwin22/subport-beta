@@ -115,7 +115,6 @@ export const SubportPlayer = ({ children
     const updateImageUrl = useCallback(
         (newImageUrl: string) => {
             setSongImage(newImageUrl)
-            console.log(imageUrl, newImageUrl)
         },
 
         [setSongImage]

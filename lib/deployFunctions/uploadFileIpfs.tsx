@@ -7,9 +7,11 @@ const gatewayUrls = [
   "https://cloudflare-ipfs.com/ipfs/",
   "https://ipfs.io/ipfs/",
 ]
-const downloader = new StorageDownloader();
+
+const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID
+const secretKey = process.env.THIRDWEB_SECRET_KEY!
 const uploader = new IpfsUploader();
-const storage = new ThirdwebStorage({ uploader, downloader, gatewayUrls });
+const storage = new ThirdwebStorage({ uploader, gatewayUrls, clientId, secretKey });
 
 export async function uploadHashToIpfs({ data }: any) {
   const uri = await storage.upload(data)
