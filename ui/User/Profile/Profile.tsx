@@ -15,7 +15,7 @@ async function Profile({ profile, username }: any) {
   const sub = await checkSubscription(profile?.id)
   console.log(sub)
   return (
-    <div className="relative z-20">
+    <div className="">
       <div className=" block h-[300px] bg-black">
         <div
           className=" w-full h-full bg-center bg-cover bg-fixed rounded-lg"
@@ -30,16 +30,14 @@ async function Profile({ profile, username }: any) {
           <div className="grid grid-cols-12 px-6">
             <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">
               <div className="">
-                <Suspense>
-                  <Image
-                    alt="avatar" width={150} height={150}
-                    className="shadow-xl rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
-                    src={imagePath}
-                    style={{ objectFit: 'cover', width: 'auto', height: 'auto' }}
-                    blurDataURL={"/images/stock/blur.png"}
-                  />
+                <Image
+                  alt="avatar" width={150} height={150}
+                  className="shadow-xl rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
+                  src={imagePath}
+                  style={{ objectFit: 'cover', width: 'auto', height: 'auto' }}
+                  blurDataURL={"/images/stock/blur.png"}
+                />
 
-                </Suspense>
               </div>
               <div className="block">
                 <h3 className=" text-lg md:text-xl font-bold leading-normal text-center text-zinc-900 dark:text-zinc-200 pt-24">
@@ -55,7 +53,7 @@ async function Profile({ profile, username }: any) {
 
 
               <UserBio profile={profile} /></div>
-            <div className="flex absolute top-5 right-5 space-x-2  items-center order-2 md:order-3  md:mt-0 isolate">
+            <div className="flex absolute top-5 right-5 space-x-2  items-center order-2 md:order-3  md:mt-0">
               <FollowButton currentProfile={profile} />
               {sub &&
                 <SubscribeButton currentProfile={profile} sub={sub} />}

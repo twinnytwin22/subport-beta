@@ -12,57 +12,55 @@ function SubscribeButton({ currentProfile, sub }: any) {
     const [error, setError] = useState<any>(null);
     const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
-
     const handleOpenSubscriptionModal = () => {
-        if (!isModalOpen) {
-            setIsModalOpen(true)
-            return
-        } else {
-            setIsModalOpen(false)
-            return
-        }
+        setIsModalOpen(!isModalOpen);
     };
-
 
     if (error) {
         return <div>Error: {error.message}</div>;
     }
 
     return user && sub && (
-        <div className="">
-            {!isAuthedUser && (
-                <>  {isAlreadySubscribed &&
+        <>
+            <div className="relative"> {/* Relative container for the button */}
+                {!isAuthedUser && (
+                    <>
+                        {isAlreadySubscribed &&
+                            <button
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                                type="button"
+                                onClick={handleOpenSubscriptionModal}
+                            >
+                                {"Subscribed"}
+                            </button>
+                        }
+                        <button
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-2.5 py-2.5 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={handleOpenSubscriptionModal}
+                        >
+                            {!isAlreadySubscribed && (<FaStar />)}
+                        </button>
+                    </>
+                )}
+                {isAuthedUser && (
                     <button
-                        className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                        className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs p-2.5 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={handleOpenSubscriptionModal}
                     >
-                        {"Subscribed"}
-                    </button>}
-                    <button
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-2.5 py-2.5 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={handleOpenSubscriptionModal}
-                    >
-                        {!isAlreadySubscribed && (<FaStar />)}
+                        <FaStar />
                     </button>
-                </>
-            )}
-            {isAuthedUser && (
-                <button
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs p-2.5 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={handleOpenSubscriptionModal}
-                >
-                    <FaStar />
-                </button>
-            )}
+                )}
 
-            {/* Modal */}
-            {isModalOpen && (
-                <SubscriberForm sub={sub} close={handleOpenSubscriptionModal} isAuthedUser={isAuthedUser} />
-            )}
-        </div>
+                {/* Modal */}
+                {isModalOpen && (
+                    <div className='absolute -mt-24 top-0 right-5 z-50 mx-auto justify-center'> {/* Absolute positioning for the SubscriberForm */}
+                        <SubscriberForm sub={sub} close={handleOpenSubscriptionModal} isAuthedUser={isAuthedUser} />
+                    </div>
+                )}
+            </div>
+        </>
     );
 }
 

@@ -33,11 +33,11 @@ function PlayButton({ props }: any) {
     return mounted && user && newAudioUrl && (
         <>
             {isPlaying && audioUrl === newAudioUrl ? (
-                <div onClick={stop} className="absolute bottom-3 right-3 hover:scale-110 duration-300 ease-in-out transform -translate-x-1/2 -translate-y-1/2">
+                <div onClick={stop} className="hover:scale-110 duration-300 ease-in-out ">
                     <FaStopCircle size={48} className="text-white opacity-80 cursor-pointer" />
                 </div>
             ) : (
-                <div onClick={handlePlay} className="absolute bottom-3 right-3 hover:scale-110 duration-300 ease-in-out transform -translate-x-1/2 -translate-y-1/2">
+                <div onClick={handlePlay} className="hover:scale-110 duration-300 ease-in-out transform ">
                     <FaPlayCircle size={48} className="text-white opacity-80 cursor-pointer" />
                 </div>
             )}

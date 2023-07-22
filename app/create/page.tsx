@@ -2,14 +2,13 @@ import Link from 'next/link';
 import React from 'react';
 
 const createSubport = {
-  //  events: {
-  //    title: 'Events',
-  //    options: [
-  //      { name: 'Option 1', href: '#' },
-  //      { name: 'Option 2', href: '#' },
-  ///      { name: 'Option 3', href: '#' },
-  //    ],
-  //  },
+  events: {
+    title: 'Events',
+    options: [{ name: 'IRL Event', href: '/create/irl-event', description: 'Promote an upcoming in person event. Collect RSVPs, sell tickets, add perks. ' },
+    { name: 'URL Event', href: '#', description: 'In the Metaverse? Promote an upcoming Web 3 event. Collect RSVPs and add perks.' },
+      //{ name: 'Option 3', href: '#' },
+    ],
+  },
   campaigns: {
     title: 'Campaigns',
     options: [
@@ -30,7 +29,7 @@ const createSubport = {
 
 function Create() {
   return (
-    <div className='bg-zinc-100 dark:bg-black w-full max-w-screen mx-auto place-items-center items-center min-h-screen mb-24'>
+    <div className='bg-zinc-100 dark:bg-black w-full max-w-6xl mx-auto place-items-center items-center min-h-screen mb-24'>
       <p className='mt-8 max-w-lg mx-auto text-center font-normal text-zinc-700 dark:text-zinc-400'>Unleash your creativity! Organize events, run campaigns, design merchandise. Explore and create something extraordinary!</p>
       <div className='max-w-6xl mx-auto w-full mt-8 justify-center'>
         {Object.entries(createSubport).map(([category, { title, options }], i) => (

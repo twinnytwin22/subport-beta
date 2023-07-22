@@ -58,7 +58,10 @@ async function CollectCard(props: any) {
               placeholder="blur"
               blurDataURL={'/images/stock/blur.png'}
             />
-            <PlayButton props={props} />
+            <div className="absolute bottom-5 right-5">
+              <PlayButton props={props} />
+
+            </div>
           </div>
         </div>
         <div className="p-5 text-zinc-900 dark:text-white">

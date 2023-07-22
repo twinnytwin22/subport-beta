@@ -17,7 +17,7 @@ export function DropPage({ props }: any) {
   const comments = props?.comments || 5
 
   return props && (
-    <div className="bg-gray-100 dark:bg-black h-full flex max-w-4xl mx-auto w-full mt-4 pb-12">
+    <div className="bg-gray-100 dark:bg-black h-full flex max-w-4xl mx-auto w-full mt-12 pb-12">
       <div className="flex flex-col lg:flex-row mx-auto items-start w-full relative">
         <div className="w-full relative px-4  justify-center content-center">
           <div className="flex flex-col mb-2 max-w-lg mx-auto w-full">
@@ -33,7 +33,7 @@ export function DropPage({ props }: any) {
           </div>
 
           <div
-            className="mx-auto max-w-lg w-full h-full aspect-square relative justify-center content-center object-contain"
+            className="mx-auto max-w-lg w-full h-fit aspect-square relative justify-center content-center object-contain"
             style={{ position: 'relative' }}
           >
             <Image
@@ -45,11 +45,12 @@ export function DropPage({ props }: any) {
               height={450}
               blurDataURL={"/images/stock/blur.png"}
             />
-            <div className='-mt-16 lg:mt-0'>
+            <div className="absolute bottom-5 right-5">
               <PlayButton props={props} />
+
             </div>
           </div>
-          <div className="w-36 absolute pt-8 right-10 mt-12 lg:mt-0">
+          <div className="w-36 absolute pt-8 right-10">
             <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
           </div>
         </div>
