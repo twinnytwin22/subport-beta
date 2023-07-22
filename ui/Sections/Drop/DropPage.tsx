@@ -5,6 +5,7 @@ import { upload } from 'lib/content/mockUpload';
 import DropNav from 'ui/Sections/Drop/DropNav';
 import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper';
 import Image from 'next/image';
+import PlayButton from 'ui/Cards/Collect/PlayButton';
 
 export function DropPage({ props }: any) {
   console.log(props, "PROPS")
@@ -16,45 +17,51 @@ export function DropPage({ props }: any) {
   const comments = props?.comments || 5
 
   return props && (
-    <div className="bg-gray-100 dark:bg-black h-full flex max-w-7xl mx-auto w-full mt-4 pb-12">
-      <div className="flex flex-col lg:flex-row mx-auto items-center w-full">
-        <div className="w-full relative px-4 mx-4 justify-center content-center">
+    <div className="bg-gray-100 dark:bg-black h-full flex max-w-4xl mx-auto w-full mt-4 pb-12">
+      <div className="flex flex-col lg:flex-row mx-auto items-start w-full relative">
+        <div className="w-full relative px-4  justify-center content-center">
+          <div className="flex flex-col mb-2 max-w-lg mx-auto w-full">
+            <div className="flex lg:items-end space-x-2">
+              <h1 className="text-2xl font-semibold">{drop.name}</h1>
+              <h1 className="text-2xl font-semibold">|</h1>
+
+              <h1 className="text-2xl font-semibold">{upload.artist}</h1>
+            </div>
+            <div className="">
+              <h1 className="text-md mt-2">Available {upload.releaseDate}</h1>
+            </div>
+          </div>
+
           <div
-            className="mx-auto max-w-2xl w-full h-full aspect-square relative justify-center content-center"
+            className="mx-auto max-w-lg w-full h-full aspect-square relative justify-center content-center object-contain"
             style={{ position: 'relative' }}
           >
             <Image
-              fill
-              className="rounded-2xl shadow-lg dark:shadow-zinc-950 shadow-zinc-300  lg:mx-auto w-full"
+              className="rounded-2xl select-none shadow-lg dark:shadow-zinc-950 shadow-zinc-300 object-contain items-start w-full"
               src={imageUrl}
               style={{ objectFit: 'cover' }}
               alt="Song-cover"
+              width={450}
+              height={450}
               blurDataURL={"/images/stock/blur.png"}
             />
+            <div className='-mt-16 lg:mt-0'>
+              <PlayButton props={props} />
+            </div>
           </div>
-          <div className="w-36 absolute pt-8 right-10">
+          <div className="w-36 absolute pt-8 right-10 mt-12 lg:mt-0">
             <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
           </div>
         </div>
 
-        <div className="w-full max-w-lg lg:max-w-sm md:mt-8 lg:border-l-zinc-300 lg:dark:border-l-zinc-600 lg:border-l-2 lg:pl-16 p-4 h-full">
-          <div className="flex flex-col">
-            <div className="block">
-              <h1 className="text-2xl font-extrabold">{drop.name}</h1>
-            </div>
-            <div className="">
-              <h1 className="text-xl font-semibold">{upload.artist}</h1>
-            </div>
-            <div className="">
-              <h1 className="text-md mt-4">Available {upload.releaseDate}</h1>
-            </div>
-          </div>
-          <p className="mb-6 text-sm md:text-md font-light text-gray-500 lg:mb-8 md:text-md dark:text-gray-400">
-            {metaData?.description}
-          </p>
+        <div className="w-full max-w-lg lg:max-w-sm mt-28 lg:mt-8 lg:border-l-zinc-300 lg:dark:border-l-zinc-600 lg:border-l-2 lg:pl-16 p-4 h-full mx-auto">
+
           <div className="flex flex-col w-full mx-auto justify-center place-content-center place-items-center">
+            <p className=" text-left mb-6 text-sm md:text-md font-light text-gray-500 lg:mb-8 md:text-md dark:text-gray-400">
+              {metaData?.description}
+            </p>
             <p className="text-xs mb-4">Collected by names, names, 67 more</p>
-            <div className="w-full">
+            <div className="w-full mx-auto">
               <DropLinksTo />
               <DropNav dropId={drop?.id} comments={comments} />
             </div>

@@ -2,7 +2,7 @@
 import { useAuthProvider } from 'app/context/auth';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { FaCommentAlt, FaTrash } from 'react-icons/fa';
+import { FaCommentAlt, FaPaperPlane, FaTrash } from 'react-icons/fa';
 import { addDropComment, deleteDropComment, getDropComments } from 'utils/database';
 import { Mention, MentionsInput } from "react-mentions";
 import { supabase } from 'lib/constants';
@@ -78,14 +78,14 @@ export const CommentComponent = ({ dropId }: any) => {
     return (
         <div className="w-full">
             {profile && showTextarea ? (
-                <div className="w-full">
+                <div className="w-full mb-4">
                     {/* Use the MentionsInput to handle the textarea with mentions */}
                     <MentionsInput
                         style={mentionInputStyles}
-                        className='w-full max-w-md'
+                        className='w-full max-w-md mb-2'
                         value={comment}
                         onChange={handleCommentChange}
-                        singleLine={true} // Add this prop to handle single-line comments
+                    // singleLine={true} // Add this prop to handle single-line comments
                     >
                         <Mention
                             style={mentionStyles}
@@ -104,17 +104,17 @@ export const CommentComponent = ({ dropId }: any) => {
                             markup="@[__display__]"
                         />
                     </MentionsInput>
-                    <div className="flex space-x-2 items-center text-white">
-                        <button className="text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md w-full text-center font-bold" onClick={handleAddComment}>Submit</button>
-                        <button className="text-xs p-1.5 bg-red-600 hover:bg-red-500 rounded-md w-full text-center font-bold" onClick={handleDiscardComment}>Discard</button>
+                    <div className="flex space-x-2 items-center justify-end text-white">
+                        <button className="text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md  text-center font-bold" onClick={handleAddComment}><FaPaperPlane /></button>
+                        <button className="text-xs p-1.5 bg-red-600 hover:bg-red-500 rounded-md  text-center font-bold" onClick={handleDiscardComment}><FaTrash /></button>
                     </div>
                 </div>
             ) : (
-                <button className={`text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md w-full text-center font-bold text-white ${!profile && 'hidden'}`} onClick={profile && handleShowTextarea}>Add Comment</button>
+                <button className={`text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md w-full text-center font-bold text-white ${!profile && 'hidden'}`} onClick={profile && handleShowTextarea}>Comment</button>
             )}
-            <div>
+            <div className='overflow-y-scroll h-52'>
                 {[...comments]?.map((comment: any, i) => (
-                    <div key={i} className="p-2.5 relative rounded-md text-sm bg-zinc-200 dark:bg-zinc-950 my-2 border-zinc-300 dark:border-zinc-900 border">
+                    <div key={i} className="p-1.5 relative rounded-md text-sm bg-zinc-200 dark:bg-zinc-950 my-2 border-zinc-300 dark:border-zinc-900 border">
 
                         <Link
                             href={`/${comment.profiles?.username}`}

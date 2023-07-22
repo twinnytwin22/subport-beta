@@ -19,6 +19,7 @@ export const CommentModal = ({ dropId, close }: any) => {
         const dropComments = await getDropComments(dropId);
         setComments(dropComments)
     }
+
     const getUsers = async () => {
         const { data, error } = await supabase
             .from('profiles')
@@ -110,11 +111,15 @@ export const CommentModal = ({ dropId, close }: any) => {
                 </div>
             )}
             <div className='relative z-10 mt-28 h-full overflow-y-scroll max-h-96 mx-2.5'> {/* Lower z-index here */}
-                {[...comments]?.map((comment: any, i) => (
-                    <div key={i} className="p-2.5 rounded-md text-sm bg-zinc-100 dark:bg-zinc-950 my-2 border-zinc-300 dark:border-zinc-900 border">
+                {comments[0]?.length > 0 ? 'Be the first to comment' : ''}
+
+                {[...comments]?.reverse()?.map((comment: any, i) => (
+
+                    <div key={i} className="p-2.5 rounded-md text-sm bg-zinc-100 dark:bg-zinc-950 my-2 border-zinc-300 dark:border-zinc-900 border relative">
+
                         <Link
                             href={`/${comment.profiles?.username}`}
-                            className="text-xs cursor-pointer text-zinc-600 dark:zinc-400"
+                            className="text-xs cursor-pointer text-zinc-600  dark:text-zinc-400"
                         >
                             {`${userId && userId === comment.user_id ? 'You' : `@${comment?.profiles?.username}`}`}
                         </Link>
@@ -128,6 +133,7 @@ export const CommentModal = ({ dropId, close }: any) => {
                                 <FaTrash />
                             </div>
                         ) : ('')}
+
                     </div>
                 ))}
             </div>

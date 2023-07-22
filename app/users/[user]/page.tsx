@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
     }
 
     return (
-      <div className='mx-auto w-full'>
+      <div className='mx-auto w-full relative z-0'>
         <Profile profile={res.profile} username={user} />
       </div>
     );

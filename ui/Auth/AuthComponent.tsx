@@ -22,17 +22,16 @@ export default function LoginCard({ close }: any) {
     <div className="relative z-[9999999px]">
 
 
-      <div className="flex flex-col px-6 py-4 border-b rounded-t dark:border-zinc-600 relative w-sm lg:w-full">
+      <div className="flex flex-col px-6 py-4 border-b rounded-t dark:border-zinc-600 relative min-w-full w-sm lg:w-full">
         <div className='cursor-pointer p-2 border dark:border-zinc-700 border-zinc-300 rounded text-sm w-24 text-center text-black dark:text-white bg-white dark:bg-black absolute right-5 top-3' onClick={() => close(false)}>Close</div>
 
         <h3 className="text-base font-semibold text-zinc-900 lg:text-xl dark:text-white">
           Sign in
         </h3>
       </div>
-      <div className="p-6">
+      <div className="p-6 w-full">
         <p className="text-sm font-normal text-zinc-600 dark:text-zinc-400">
-          Connect with one of our available wallet providers or create a
-          new one.
+          Connect with Spotify to login.
         </p>
         <ul className="my-4 space-y-3">
 

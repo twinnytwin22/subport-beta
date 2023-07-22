@@ -1,6 +1,7 @@
 'use client'
 import { useAuthProvider } from 'app/context/auth';
 import React, { useState } from 'react';
+import { FaStar } from 'react-icons/fa';
 import SubscriberForm from 'ui/Sections/Create/subscription/SubscriberForm';
 
 function SubscribeButton({ currentProfile, sub }: any) {
@@ -11,7 +12,6 @@ function SubscribeButton({ currentProfile, sub }: any) {
     const [error, setError] = useState<any>(null);
     const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
-    console.log(user, profile, isAuthedUser);
 
     const handleOpenSubscriptionModal = () => {
         if (!isModalOpen) {
@@ -29,7 +29,7 @@ function SubscribeButton({ currentProfile, sub }: any) {
     }
 
     return user && sub && (
-        <div className=" px-3 sm:scroll-mt-0.5">
+        <div className="">
             {!isAuthedUser && (
                 <>  {isAlreadySubscribed &&
                     <button
@@ -40,21 +40,21 @@ function SubscribeButton({ currentProfile, sub }: any) {
                         {"Subscribed"}
                     </button>}
                     <button
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-2.5 py-2.5 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={handleOpenSubscriptionModal}
                     >
-                        {!isAlreadySubscribed && "Subscribe"}
+                        {!isAlreadySubscribed && (<FaStar />)}
                     </button>
                 </>
             )}
             {isAuthedUser && (
                 <button
-                    className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                    className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs p-2.5 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={handleOpenSubscriptionModal}
                 >
-                    Subscription Active
+                    <FaStar />
                 </button>
             )}
 

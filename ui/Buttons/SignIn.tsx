@@ -58,7 +58,7 @@ export const SignInModal = () => {
             tabIndex={-1}
           >
             <div
-              className="flex flex-col p-4 rounded-2xl bg-zinc-200 dark:bg-black opacity-2 max-w-sm"
+              className="flex flex-col p-4 rounded-2xl bg-zinc-200 dark:bg-black opacity-2 min-w-sm max-w-md w-full"
             >
 
               <LoginCard close={setIsOpen} />
