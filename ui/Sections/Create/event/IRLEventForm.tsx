@@ -83,10 +83,10 @@ const IRLEventCreationForm = () => {
         if (data.image) {
             await startUpload(data.image);
             await new Promise((resolve) => setTimeout(resolve, 2000));
-
+            const uploadedImage = useEventFormStore.getState().imageUrl
             const eventData = {
                 ...data,
-                image: imageUrl
+                image: uploadedImage
             }
 
             const res = await fetch('/api/v1/createIRLEvent', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ eventData }) })
