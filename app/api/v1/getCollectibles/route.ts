@@ -1,19 +1,13 @@
 // Import necessary dependencies
 import { NextResponse } from "next/server";
 import { readContractURIs } from "lib/hooks/readContractURIs";
-import { createClient } from "@supabase/supabase-js";
-import { promisify } from "util";
-import { redis } from "lib/redis/redis";
+import { redis, redisGet, redisSet } from "lib/redis/redis";
+
+import { supabaseApi } from "lib/providers/supabase/supabaseClient";
 
 // Create a Supabase
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
 
 // Promisify Redis get and set methods
-const redisGet = promisify(redis.get).bind(redis);
-const redisSet = promisify(redis.set).bind(redis);
 
 // Define the route handler function
 export async function GET() {
@@ -27,7 +21,7 @@ export async function GET() {
       return NextResponse.json(JSON.parse(cachedResponse));
     }
 
-    const { data: drops, error } = await supabase
+    const { data: drops, error } = await supabaseApi
       .from("drops")
       .select("*")
       .order("created_at", { ascending: false });

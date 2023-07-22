@@ -1,22 +1,15 @@
 import { readContractURIs } from "lib/hooks/readContractURIs";
-import { createClient } from "@supabase/supabase-js";
-import { promisify } from "util";
-import { redis } from "lib/redis/redis";
+import { redis, redisGet, redisSet } from "lib/redis/redis";
+
+import { supabaseApi } from "lib/providers/supabase/supabaseClient";
 
 export const revalidate = 0;
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
-
-const redisSet = promisify(redis.set).bind(redis);
 
 export async function GET() {
   try {
     const cacheKey = "drops_cache";
     // Delete the cache if the "refresh" parameter is set to true    // Check if the response is available in Redis cache
-    const { data: drops, error } = await supabase
+    const { data: drops, error } = await supabaseApi
       .from("drops")
       .select("*")
       .order("created_at", { ascending: false });

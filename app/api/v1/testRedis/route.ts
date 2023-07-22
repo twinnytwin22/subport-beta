@@ -1,12 +1,10 @@
 // Import necessary dependencies
 import { NextResponse } from "next/server";
-import { promisify } from "util";
-import { redis } from "lib/redis/redis";
+import { redis, redisGet, redisSet } from "lib/redis/redis";
 
 // Create a Supabase
 
 // Promisify Redis get and set methods
-const redisGet = promisify(redis.get).bind(redis);
 
 // Define the route handler function
 export async function GET() {

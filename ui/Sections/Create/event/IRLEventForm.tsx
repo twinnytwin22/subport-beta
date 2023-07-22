@@ -1,20 +1,108 @@
 'use client'
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useEventFormStore } from "./EventFormStore";
+import { useStorageUpload } from "@thirdweb-dev/react";
+import { renderProgressBar } from "ui/Misc/ProgressBar";
+import { useRouter } from "next/navigation";
 
+type EventFormData = {
+    image: string | FileList;
+    title: string;
+    description: string;
+    date: string;
+    location: string;
+    category: string;
+    ticket_type: string;
+    price: string;
+    currency_type: string;
+    ticket_quantity: number;
+    ticket_status: string;
+    ticket_terms: string;
+}
+
+
+type FormSubmitHandler = SubmitHandler<EventFormData>;
 
 const IRLEventCreationForm = () => {
-    const { setImagePreview, imagePreview } = useEventFormStore()
+    const router = useRouter()
+    const { setImagePreview, progress, total, imagePreview, setProgress, setTotal, isUploading, setUploading, setInProgress, logImage, setIpfsMedia, setImageUrl, imageUrl } = useEventFormStore()
     const { register,
         handleSubmit,
         watch,
         reset,
         setValue,
-        formState: { errors }, } = useForm()
-    const onSubmit = (data: any) => {
-        // Handle the form submission here with the data object
-        console.log(data);
+        formState: { errors }, } = useForm<EventFormData>({
+            defaultValues: {
+                image: imageUrl || undefined,
+                title: '' || undefined,
+                description: '' || undefined,
+                date: '' || undefined,
+                location: '' || undefined,
+                category: '' || undefined,
+                ticket_type: '' || undefined,
+                price: '' || undefined,
+                currency_type: '' || undefined,
+                ticket_quantity: '' || undefined,
+                ticket_status: '' || undefined,
+                ticket_terms: '' || undefined,
+            }
+        })
+    const { mutateAsync: upload } = useStorageUpload({
+        uploadWithoutDirectory: true,
+        onProgress: (progress) => {
+            setProgress(progress?.progress); // Update the progress state
+            setTotal(progress?.total); // Update the progress state
+        },
+    });
+    const startUpload = async (image: any) => {
+        setUploading(true);
+        try {
+            if (image) {
+                setInProgress("image");
+                const imageUri = await upload({ data: [image] });
+                await new Promise((resolve) => setTimeout(resolve, 2000));
+                setImageUrl(imageUri[0]);
+                logImage();
+                setInProgress("");
+                setProgress(100);
+                setTotal(100);
+            }
+        } catch (error) {
+
+            throw error
+            // Handle the error here if needed
+        } finally {
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            setIpfsMedia(true);
+        }
+    };
+
+    const onSubmit: FormSubmitHandler = async (data: any) => {
+        setUploading(true);
+        if (data.image) {
+            await startUpload(data.image);
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+
+            const eventData = {
+                ...data,
+                image: imageUrl
+            }
+
+            const res = await fetch('/api/v1/createIRLEvent', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ eventData }) })
+            const fetchedData = await res.json()
+
+            console.log(fetchedData);
+            setImageUrl(null)
+            setUploading(false);
+            setProgress(0);
+            setTotal(0);
+            if (fetchedData?.status.success) {
+                router.push(`/event/${fetchedData?.data.slug}`)
+            }
+
+        }
+
     };
     const handleImageUpload = (event: any) => {
         const file = event.target.files[0];
@@ -30,12 +118,14 @@ const IRLEventCreationForm = () => {
             setValue("image", file);
         } else {
             // Clear the preview and the "audio" field value if the file was removed
-            setImagePreview(null);
-            setValue("image", null);
+            setImagePreview('');
+            setValue("image", '');
         }
     };
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto p-4 w-full mb-24">
+            {isUploading && renderProgressBar(progress, total)}
+
             <div className="flex mx-auto w-full gap-4">
                 <div>
                     <div className="mb-4 w-full min-w-md">

@@ -1,4 +1,5 @@
 import { Redis } from "ioredis";
+import { promisify } from "util";
 
 const getRedisUrl = () => {
   if (process.env.REDIS_URL as string) {
@@ -8,3 +9,6 @@ const getRedisUrl = () => {
 };
 
 export const redis = new Redis(getRedisUrl());
+const redisGet = promisify(redis.get).bind(redis);
+const redisSet = promisify(redis.set).bind(redis);
+export { redisGet, redisSet };

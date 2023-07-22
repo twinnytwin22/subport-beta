@@ -1,16 +1,6 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-import { promisify } from "util";
-import { redis } from "lib/redis/redis";
-
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
-
-const redisGet = promisify(redis.get).bind(redis);
-const redisSet = promisify(redis.set).bind(redis);
-const redisDelete = promisify(redis.del).bind(redis);
+import { redis, redisGet, redisSet } from "lib/redis/redis";
+import { supabaseApi } from "lib/providers/supabase/supabaseClient";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -32,7 +22,7 @@ export async function GET(request: Request) {
       return NextResponse.json(JSON.parse(cachedResponse));
     }
 
-    const { data: users, error } = await supabase.from("profiles").select(`
+    const { data: users, error } = await supabaseApi.from("profiles").select(`
       id, city, state, country,
       drops (
         *

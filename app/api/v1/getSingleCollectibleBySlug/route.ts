@@ -1,17 +1,11 @@
-import { createClient } from "@supabase/supabase-js";
 import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
-import { redis } from "lib/redis/redis";
+import { supabaseApi } from "lib/providers/supabase/supabaseClient";
+import { redisGet } from "lib/redis/redis";
 import { NextResponse } from "next/server";
-import { promisify } from "util";
 
 export const revalidate = 0;
 
 // Promisify Redis get and set methods
-const redisGet = promisify(redis.get).bind(redis);
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -33,7 +27,7 @@ export async function GET(request: Request) {
     }
   } else {
     try {
-      const { data: drop, error } = await supabase
+      const { data: drop, error } = await supabaseApi
         .from("drops")
         .select("*")
         .eq("slug", slug);

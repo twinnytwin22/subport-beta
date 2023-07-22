@@ -1,17 +1,9 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-import { promisify } from "util";
-import { redis } from "lib/redis/redis";
+import { redis, redisGet, redisSet } from "lib/redis/redis";
+import { supabaseApi } from "lib/providers/supabase/supabaseClient";
 
 export const revalidate = 0;
 
-const supabase = createClient(
-  process.env.SUPABASE_URL!,
-  process.env.SUPABASE_ANON_KEY!
-);
-
-const redisGet = promisify(redis.get).bind(redis);
-const redisSet = promisify(redis.set).bind(redis);
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const refreshCache = searchParams.get("refreshCache");
@@ -30,7 +22,7 @@ export async function GET(request: Request) {
       return NextResponse.json(JSON.parse(cachedResponse));
     }
 
-    let { data: users, error } = await supabase
+    let { data: users, error } = await supabaseApi
       .from("profiles")
       .select(
         "id, username, bio, website, avatar_url, wallet_address, city, state, country"
