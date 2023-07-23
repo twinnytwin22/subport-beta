@@ -1,18 +1,23 @@
 'use client'
 import { useState, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { useGoogleMapSearchContext } from 'lib/providers/google/maps';
 
 const containerStyle = {
     width: '380px',
     height: '250px'
 };
 
-const center = {
-    lat: -3.745,
-    lng: -38.523
-};
+
 
 function MyGoogleMap() {
+    const { lat, lng } = useGoogleMapSearchContext()
+
+    const center = {
+        lat,
+        lng
+    }
+
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!
@@ -36,7 +41,7 @@ function MyGoogleMap() {
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={center}
-            zoom={10}
+            zoom={12}
             onLoad={onLoad}
             onUnmount={onUnmount}
         >

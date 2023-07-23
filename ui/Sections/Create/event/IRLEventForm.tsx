@@ -332,8 +332,8 @@ const IRLEventCreationForm = () => {
                             />
                         ) : null}
                     </div>
-                    <MyGoogleMap //address="13201 S. Wakial Loop, Phoenix AZ, 85044" />
-                    />
+                    <MyGoogleMap />
+
                     <div>
                         <p>Title:&#160;{watch("title")}</p>
 
