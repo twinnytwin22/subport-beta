@@ -7,6 +7,8 @@
     "Authed",
     "bruh",
     "fimg",
+    "geocode",
+    "googlemaps",
     "gotrue",
     "gravitron",
     "Helia",
@@ -47,6 +49,7 @@
     "Viem",
     "wagmi",
     "Wagmi",
+    "Wakial",
     "zustand"
   ]
 }

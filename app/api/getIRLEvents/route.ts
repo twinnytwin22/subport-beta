@@ -1,10 +1,7 @@
 // Import necessary dependencies
 import { NextResponse } from "next/server";
 import { readContractURIs } from "lib/hooks/readContractURIs";
-import { createClient } from "@supabase/supabase-js";
-import { promisify } from "util";
 import { redis, redisGet, redisSet } from "lib/redis/redis";
-import { NextApiResponse } from "next";
 import { supabaseApi } from "lib/providers/supabase/supabaseClient";
 // Create a Supabase
 
@@ -19,7 +16,7 @@ export async function GET() {
       return NextResponse.json(JSON.parse(cachedResponse));
     }
 
-    const { data: drops, error } = await supabaseApi
+    const { data: events, error } = await supabaseApi
       .from("irl_events")
       .select("*")
       .order("created_at", { ascending: false });
@@ -28,35 +25,15 @@ export async function GET() {
       throw new Error("Error fetching drops");
     }
 
-    if (drops) {
-      const contractAddresses = drops.map((drop: any) => drop.contract_address);
+    if (events) {
+      try {
+        // Store the response in Redis cache
+        await redisSet(cacheKey, JSON.stringify(events));
 
-      if (contractAddresses) {
-        try {
-          const metaData = await readContractURIs(contractAddresses);
-
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-
-          const dropsWithMetaData = drops.map((drop, index) => ({
-            drop,
-            metaData: metaData[index]?.metadata,
-          }));
-          const response = {
-            dropsWithMetaData,
-            drops,
-            contractAddresses,
-            metaData,
-          };
-          await new Promise((resolve) => setTimeout(resolve, 500));
-
-          // Store the response in Redis cache
-          await redisSet(cacheKey, JSON.stringify(response));
-
-          return new Response(JSON.stringify(response));
-        } catch (error) {
-          console.error("Error fetching metadata:", error);
-          return new Response("Error: fetching metadata");
-        }
+        return new Response(JSON.stringify(events));
+      } catch (error) {
+        console.error("Error fetching metadata:", error);
+        return new Response("Error: fetching metadata");
       }
     }
   } catch (error) {

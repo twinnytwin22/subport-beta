@@ -1,10 +1,12 @@
 'use client'
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEventFormStore } from "./EventFormStore";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import { renderProgressBar } from "ui/Misc/ProgressBar";
 import { useRouter } from "next/navigation";
+import { GoogleMapSearch } from "ui/Misc/maps/GoogleMapSearch";
+import MyGoogleMap from "ui/Misc/maps/Map";
 
 type EventFormData = {
     image: string | FileList;
@@ -19,12 +21,14 @@ type EventFormData = {
     ticket_quantity: number;
     ticket_status: string;
     ticket_terms: string;
+    artist_name: string;
 }
 
 
 type FormSubmitHandler = SubmitHandler<EventFormData>;
 
 const IRLEventCreationForm = () => {
+    const inputRef = useRef<any>()
     const router = useRouter()
     const { setImagePreview, progress, total, imagePreview, setProgress, setTotal, isUploading, setUploading, setInProgress, logImage, setIpfsMedia, setImageUrl, imageUrl } = useEventFormStore()
     const { register,
@@ -46,6 +50,7 @@ const IRLEventCreationForm = () => {
                 ticket_quantity: '' || undefined,
                 ticket_status: '' || undefined,
                 ticket_terms: '' || undefined,
+                artist_name: ''
             }
         })
     const { mutateAsync: upload } = useStorageUpload({
@@ -55,6 +60,7 @@ const IRLEventCreationForm = () => {
             setTotal(progress?.total); // Update the progress state
         },
     });
+
     const startUpload = async (image: any) => {
         setUploading(true);
         try {
@@ -80,6 +86,8 @@ const IRLEventCreationForm = () => {
     };
 
     const onSubmit: FormSubmitHandler = async (data: any) => {
+        const getSlug = data?.title// + '-' + data?.name;
+        let slug: string | undefined = (getSlug.toLowerCase()).replace(/[^a-zA-Z0-9-]+/g, "-");
         setUploading(true);
         if (data.image) {
             await startUpload(data.image);
@@ -87,20 +95,20 @@ const IRLEventCreationForm = () => {
             const uploadedImage = useEventFormStore.getState().imageUrl!
             const eventData = {
                 ...data,
-                image: uploadedImage
+                image: uploadedImage,
+                slug: slug
             }
 
             const res = await fetch('/api/v1/createIRLEvent', { method: 'POST', headers: { "Content-Type": "application/json" }, body: JSON.stringify({ eventData }) })
             const fetchedData = await res.json()
 
-            console.log(fetchedData);
-            setImageUrl(null)
             setUploading(false);
             setProgress(0);
             setTotal(0);
             if (fetchedData?.status.success) {
                 router.push(`/event/${fetchedData?.data.slug}`)
             }
+            setImageUrl('')
 
         }
 
@@ -123,11 +131,156 @@ const IRLEventCreationForm = () => {
             setValue("image", '');
         }
     };
-    return (
-        <form onSubmit={handleSubmit(onSubmit)} className="max-w-5xl mx-auto p-4 w-full mb-24">
+    return (<>
+        <h1 className="text-center text-4xl text-black dark:text-white">
+            Create your event.
+        </h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="max-w-6xl mx-auto w-full mb-24 mt-8 justify-between py-4">
             {isUploading && renderProgressBar(progress, total)}
 
-            <div className="flex mx-auto w-full gap-4">
+            <div className="flex mx-auto w-full gap-4 justify-around">
+
+                <div className="w-full max-w-md">
+                    {/* Event Details */}
+                    <div className="mb-4 w-full grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block mb-1">Event Title:</label>
+                            <input
+                                id="title"
+                                {...register("title", { required: true })}
+                                type="text"
+                                placeholder="Event Title"
+                                required
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="block mb-1">Event Date and Time:</label>
+                            <input
+                                type="datetime-local"
+                                id="date"
+                                {...register("date", { required: true })}
+                                required
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block mb-1">Event Description:</label>
+                        <textarea
+                            placeholder="Your event description"
+                            id="description"
+                            {...register("description", { required: true })}
+                            required
+                            className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+
+                    <div className="mb-4">
+
+                        <label className="block mb-1">Event Location (Physical or Virtual):</label>
+
+                        <GoogleMapSearch>
+                            <input
+                                type="text"
+                                placeholder="Location"
+                                id="location"
+                                {...register("location", { required: true })}
+                                required
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </GoogleMapSearch>
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block mb-1">Event Category/Type:</label>
+                        <input
+                            type="text"
+                            placeholder="Event Category/Type"
+                            id="category"
+                            {...register("category", { required: true })}
+                            required
+                            className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+
+                    {/* Ticket Information */}
+                    <div className="mb-4 w-full grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block mb-1">Ticket Types:</label>
+                            <input
+                                type="text"
+                                placeholder="Ticket Type?"
+                                id="ticket_type"
+                                {...register("ticket_type", { required: true })}
+                                required
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="block mb-1">Ticket Prices:</label>
+                            <input
+                                type="text"
+                                id="price"
+                                placeholder="Ticket price?"
+                                {...register("price", { required: true })}
+                                required
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mb-4 w-full grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block mb-1">Ticket Currency Options:</label>
+                            <input
+                                type="text"
+                                placeholder="Currency Type"
+                                id="currency_type"
+                                {...register("currency_type", { required: true })}
+                                required
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                        <div>
+                            <label className="block mb-1">Ticket Quantity (if limited):</label>
+                            <input
+                                type="number"
+                                placeholder="Quantity?"
+                                id="ticket_quantity"
+                                {...register("ticket_quantity", { required: true })}
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block mb-1">Ticket Availability Status:</label>
+                        <select
+                            placeholder="Ticket Status"
+                            id="ticket_status"
+                            {...register("ticket_status", { required: true })}
+                            required
+                            className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="">Select</option>
+                            <option value="On Sale">On Sale</option>
+                            <option value="Sold Out">Sold Out</option>
+                        </select>
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block mb-1">Ticket Terms and Conditions:</label>
+                        <textarea
+                            id="ticket_terms"
+                            placeholder="Ticket Terms"
+                            {...register("ticket_terms", { required: true })}
+                            required
+                            className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                </div>
                 <div>
                     <div className="mb-4 w-full min-w-md">
                         {!imagePreview &&
@@ -179,151 +332,25 @@ const IRLEventCreationForm = () => {
                             />
                         ) : null}
                     </div>
-                </div>
-                <div className="w-full max-w-md">
-                    {/* Event Details */}
-                    <div className="mb-4 w-full">
-                        <label className="block mb-1">Event Title:</label>
-                        <input
-                            id='title'
-                            {...register("title", { required: true })}
-                            type="text"
-                            placeholder="Event Title"                    // onChange={(e) => setEventTitle(e.target.value)}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
+                    <MyGoogleMap //address="13201 S. Wakial Loop, Phoenix AZ, 85044" />
+                    />
+                    <div>
+                        <p>Title:&#160;{watch("title")}</p>
 
-                    <div className="mb-4">
-                        <label className="block mb-1">Event Description:</label>
-                        <textarea
-                            placeholder="Your event description"
-                            id="description"
-                            {...register("description", { required: true })}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
+                        <p>Location:&#160;{watch("location")}</p>
                     </div>
-
-                    <div className="mb-4">
-                        <label className="block mb-1">Event Date and Time:</label>
-                        <input
-                            type="datetime-local"
-                            id='date'
-                            {...register("date", { required: true })}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block mb-1">Event Location (Physical or Virtual):</label>
-                        <input
-                            type="text"
-                            placeholder="Location"
-                            id='location'
-                            {...register("location", { required: true })}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block mb-1">Event Category/Type:</label>
-                        <input
-                            type="text"
-                            placeholder="Event Category/Type"
-                            id='category'
-                            {...register("category", { required: true })}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-
-
-                    {/* Ticket Information */}
-                    <div className="mb-4">
-                        <label className="block mb-1">Ticket Types (comma-separated):</label>
-                        <input
-                            type="text"
-                            placeholder="Ticket Type?"
-                            id='ticket_type'
-                            {...register("ticket_type", { required: true })}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block mb-1">Ticket Prices:</label>
-                        <input
-                            type="text"
-                            id='price'
-                            placeholder="Ticket price?"
-                            {...register("price", { required: true })}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block mb-1">Ticket Currency Options:</label>
-                        <input
-                            type="text"
-                            placeholder="Currency Type"
-                            id='currency_type'
-                            {...register("currency_type", { required: true })}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block mb-1">Ticket Quantity (if limited):</label>
-                        <input
-                            type="number"
-                            placeholder="Quantity?"
-                            id='ticket_quantity'
-                            {...register("ticket_quantity", { required: true })}
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block mb-1">Ticket Availability Status:</label>
-                        <select
-                            placeholder="Ticket Status"
-                            id='ticket_status'
-                            {...register("ticket_status", { required: true })}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="">Select</option>
-                            <option value="On Sale">On Sale</option>
-                            <option value="Sold Out">Sold Out</option>
-                        </select>
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block mb-1">Ticket Terms and Conditions:</label>
-                        <textarea
-                            id='ticket_terms'
-                            placeholder="Ticket Terms"
-                            {...register("ticket_terms", { required: true })}
-                            required
-                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
+                    {/* Submit button */}
+                    <button
+                        type="submit"
+                        className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        Create Event
+                    </button>
                 </div>
             </div>
-            {/* Submit button */}
-            <button
-                type="submit"
-                className="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-                Create Event
-            </button>
+
         </form>
+    </>
     );
 };
 

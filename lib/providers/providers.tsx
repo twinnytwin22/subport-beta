@@ -16,6 +16,7 @@ import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 import { Ethereum, Polygon, Optimism } from "@thirdweb-dev/chains";
 import { IpfsUploader, ThirdwebStorage, IpfsDownloaderOptions, StorageDownloader } from "@thirdweb-dev/storage";
+import GoogleMapWrap from "./google/maps";
 
 const queryClient = new QueryClient()
 const gatewayUrls = [
@@ -59,7 +60,9 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
               <Suspense>
                 <ThemeProvider attribute="class" defaultTheme="dark">
                   <Suspense>
-                    {children}
+                    <GoogleMapWrap>
+                      {children}
+                    </GoogleMapWrap>
                   </Suspense>
                 </ThemeProvider>
               </Suspense>
