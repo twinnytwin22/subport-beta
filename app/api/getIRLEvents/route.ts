@@ -11,7 +11,7 @@ import { supabaseApi } from "lib/providers/supabase/supabaseClient";
 // Define the route handler function
 export async function GET() {
   try {
-    const cacheKey = "drops_cache"; // Specify a cache key
+    const cacheKey = "irl_events_cache"; // Specify a cache key
 
     // Check if the response is available in Redis cache
     const cachedResponse = await redisGet(cacheKey);
@@ -20,7 +20,7 @@ export async function GET() {
     }
 
     const { data: drops, error } = await supabaseApi
-      .from("drops")
+      .from("irl_events")
       .select("*")
       .order("created_at", { ascending: false });
 
