@@ -75,6 +75,7 @@ const IRLEventCreationForm = () => {
         } finally {
             await new Promise((resolve) => setTimeout(resolve, 2000));
             setIpfsMedia(true);
+            return imageUrl
         }
     };
 
@@ -83,7 +84,7 @@ const IRLEventCreationForm = () => {
         if (data.image) {
             await startUpload(data.image);
             await new Promise((resolve) => setTimeout(resolve, 2000));
-            const uploadedImage = useEventFormStore.getState().imageUrl
+            const uploadedImage = useEventFormStore.getState().imageUrl!
             const eventData = {
                 ...data,
                 image: uploadedImage
