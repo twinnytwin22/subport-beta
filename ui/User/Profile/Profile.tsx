@@ -13,7 +13,6 @@ async function Profile({ profile, username }: any) {
 
   const res = await getProfileData(profile?.id)
   const sub = await checkSubscription(profile?.id)
-  console.log(sub)
   return (
     <div className="">
       <div className=" block h-[300px] bg-black">
