@@ -10,23 +10,23 @@ async function Profile({ profile, username, data }: any) {
 
   return (
     <div className="">
-      <div className=" block h-[300px] bg-black">
-        <div
-          className=" w-full h-full bg-center bg-cover bg-fixed rounded-lg"
-          style={{
-            backgroundImage: `url(/images/stock/coverBanner.jpg)`,
-            backgroundPosition: "center",
-          }}
-        ></div>
-      </div>
+
+      <Image
+        className="relative h-60 md:h-80 bg-cover w-full z-0 bg-center bg-no-repeat rounded-md"
+        width={1024}
+        height={300}
+        src={'/images/stock/coverBanner.jpg'}
+        alt='bg-image'
+        style={{ objectFit: 'cover', }}
+      />
       <div className=" pt-16 mx-auto md:px-4">
-        <div className=" flex flex-col min-w-0 break-words bg-zinc-100 dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-xl rounded-lg -mt-36 pb-8 relative">
+        <div className=" flex flex-col min-w-0 break-words bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-lg rounded-lg -mt-36 pb-8 relative">
           <div className="grid grid-cols-12 px-6">
             <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">
               <div className="">
                 <Image
                   alt="avatar" width={150} height={150}
-                  className="shadow-xl rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
+                  className="shadow-lg rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
                   src={imagePath}
                   style={{ objectFit: 'cover', width: 'auto', height: 'auto' }}
                   blurDataURL={"/images/stock/blur.png"}

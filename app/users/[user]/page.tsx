@@ -12,9 +12,9 @@ export const dynamic = 'force-dynamic'
 export default async function Page({ params }: { params: { slug: string, user: string } }) {
   const { user } = params;
   try {
-    const res = await checkUser(user);
+    const res = await checkUser({ user });
 
-    if (!res.exists) {
+    if (!res?.exists) {
       return notFound();
     }
 

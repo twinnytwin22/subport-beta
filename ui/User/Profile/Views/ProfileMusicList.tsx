@@ -26,7 +26,7 @@ const ProfileMusicList = ({ drops, currentProfile }: any) => {
     return (
         <div className=' -z-0'>
             <section className="py-4 mb-20 w-full mx-auto rounded-md justify-center">
-                <div className=" z-20 overflow-hidden bg-white shadow-md dark:bg-zinc-950 sm:rounded-lg w-full border border-zinc-200 dark:border-zinc-800">
+                <div className=" z-20 overflow-hidden bg-white shadow-lg dark:bg-zinc-950 sm:rounded-lg w-full border border-zinc-200 dark:border-zinc-800">
                     <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
                         <div className="flex items-center flex-1 space-x-4 text-sm md:text-base">
                             <h5>

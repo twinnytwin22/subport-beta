@@ -96,22 +96,42 @@ const getProfilesWithDrops = async () => {
   return filteredProfiles;
 };
 
-const checkUser = async (user: any) => {
-  let { data: profiles, error } = await supabase
-    .from("profiles")
-    .select(
-      "id, username, avatar_url, website, full_name, city, state, country, bio"
-    )
-    .eq("username", user);
+const checkUser = async ({ user, id }: any) => {
+  if (user) {
+    let { data: profiles, error } = await supabase
+      .from("profiles")
+      .select(
+        "id, username, avatar_url, website, full_name, city, state, country, bio"
+      )
+      .eq("username", user);
 
-  if (error) {
-    console.error("error", error);
+    if (error) {
+      console.error("error", error);
+    }
+
+    if (profiles !== null && profiles.length > 0) {
+      return { exists: true, profile: profiles[0] };
+    } else {
+      return { exists: false, profile: null };
+    }
   }
+  if (id) {
+    let { data: profiles, error } = await supabase
+      .from("profiles")
+      .select(
+        "id, username, avatar_url, website, full_name, city, state, country, bio"
+      )
+      .eq("id", id);
 
-  if (profiles !== null && profiles.length > 0) {
-    return { exists: true, profile: profiles[0] };
-  } else {
-    return { exists: false, profile: null };
+    if (error) {
+      console.error("error", error);
+    }
+
+    if (profiles !== null && profiles.length > 0) {
+      return { exists: true, profile: profiles[0] };
+    } else {
+      return { exists: false, profile: null };
+    }
   }
 };
 

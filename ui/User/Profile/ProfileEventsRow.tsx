@@ -24,7 +24,7 @@ export async function ProfileEventsRow({ profile }: any) {
     }
 
     return (
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex space-x-2 w-full overflow-x-scroll scroll h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
             {events.map((event: { date: any; id: any; }) => {
                 const inputDate = event.date;
                 const Dates = reformatDate(inputDate);

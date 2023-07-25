@@ -8,9 +8,9 @@ import { checkUser } from 'utils/database';
 async function ProfileLayout(props: { params: { slug: string, user: string }, children: React.ReactNode }) {
     const { user } = props.params;
     try {
-        const res = await checkUser(user);
+        const res = await checkUser({ user });
 
-        if (!res.exists) {
+        if (!res?.exists) {
             throw new Error('User does not exist')
         }
 

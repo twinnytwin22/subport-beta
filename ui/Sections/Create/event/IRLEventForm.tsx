@@ -124,9 +124,10 @@ const IRLEventCreationForm = () => {
             setUploading(false);
             setProgress(0);
             setTotal(0);
+            await new Promise((resolve) => setTimeout(resolve, 1000));
 
             if (fetchedData?.status === "success") {
-                router.push(`/events/irl/${fetchedData?.data.slug}`);
+                router.push(`/events/irl/${eventData.slug}`);
             }
 
             if (fetchedData.error) {
