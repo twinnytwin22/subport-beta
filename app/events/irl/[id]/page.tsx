@@ -41,7 +41,7 @@ export default async function Page({
                 "ipfs://",
                 "https://gateway.ipfscdn.io/ipfs/"
             );
-            const artistImage = useImagePath(user.profile?.avatar_url);
+            const artistImage = useImagePath(user?.profile?.avatar_url);
 
             return user.profile && (
                 <div className="min-h-screen h-full mb-40">
