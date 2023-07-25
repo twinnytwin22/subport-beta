@@ -22,7 +22,7 @@ interface ProfileMusicListProps {
     currentProfile: { currentProfile: Profile }[],
 }
 
-const ProfileMusicList: React.FC<ProfileMusicListProps> = ({ drops, currentProfile }) => {
+const ProfileMusicList = ({ drops, currentProfile }: any) => {
     return (
         <div className=' -z-0'>
             <section className="py-4 mb-20 w-full mx-auto rounded-md justify-center">
@@ -78,7 +78,7 @@ const ProfileMusicList: React.FC<ProfileMusicListProps> = ({ drops, currentProfi
                                 </tr>
                             </thead>
                             <tbody>
-                                {drops?.map(({ drop, metaData }) => (
+                                {drops?.map(({ drop, metaData }: any) => (
 
                                     <MusicItem key={drop?.id} drop={drop} metaData={metaData} profile={currentProfile} />
                                 ))}

@@ -1,16 +1,29 @@
 'use client'
 import { useAuthProvider } from 'app/context/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import SubscriberForm from 'ui/Sections/Create/subscription/SubscriberForm';
+import { checkSubscription } from 'utils/database';
 
-function SubscribeButton({ currentProfile, sub }: any) {
+function SubscribeButton({ currentProfile }: any) {
     const { user, profile } = useAuthProvider();
     const profileId = currentProfile?.id;
     const isAuthedUser: boolean = profile?.id === profileId;
     const [isAlreadySubscribed, setIsAlreadySubscribed] = useState(false);
     const [error, setError] = useState<any>(null);
     const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+    const [sub, setSub] = useState<any>(null)
+
+    useEffect(() => {
+        const checkSub = async () => {
+            const sub = await checkSubscription(currentProfile?.id)
+            if (sub) {
+                setSub(sub)
+            }
+        }
+        checkSub()
+    }, [])
+
 
     const handleOpenSubscriptionModal = () => {
         setIsModalOpen(!isModalOpen);

@@ -2,16 +2,24 @@ import { allGenres } from "lib/content/allGenres";
 import React, { Suspense } from "react";
 import ByGenre from "ui/Sections/Explore/ByGenre";
 import ByLocation from "ui/Sections/Explore/ByLocation";
-import { fetchCollectibles, getProfilesWithDrops } from "utils/database";
+import { getProfilesWithDrops } from "utils/database";
+import { headers } from "next/headers";
 export const revalidate = 60// revalidate this page every 60 seconds
 
 
 async function Page() {
+  const host = headers().get('host')
+  const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
+  const res = await fetch(`${protocol}://${host}/api/v1/getCollectibles`, {
+    method: "GET",
+    /// headers: { "Content-Type": "application/json" },
+    cache: 'no-store',
+  });
+  const drops = await res.json()
 
-  const drops = await fetchCollectibles()
   const data = await getProfilesWithDrops();
 
-  const filteredDrops = drops?.drops.filter(drop => {
+  const filteredDrops = drops?.drops.filter((drop: any) => {
     const lowercaseGenre = drop.genre.toLowerCase();
     return allGenres.some(genre => genre.toLowerCase() === lowercaseGenre);
   });

@@ -1,18 +1,13 @@
 import { useImagePath } from "lib/constants";
-import React, { Suspense } from "react";
+import React from "react";
 import { FollowButton } from "ui/Buttons/FollowButton";
-import { getProfileData } from "lib/hooks/getProfileDrops";
-import ProfileContent from "./ProfileContent";
 import Image from "next/image";
-import { checkSubscription } from "utils/database";
 import SubscribeButton from "ui/Buttons/SubscribeButton";
 import { FaMapPin } from "react-icons/fa";
 
-async function Profile({ profile, username }: any) {
+async function Profile({ profile, username, data }: any) {
   const imagePath = useImagePath(profile.avatar_url)
 
-  const res = await getProfileData(profile?.id)
-  const sub = await checkSubscription(profile?.id)
   return (
     <div className="">
       <div className=" block h-[300px] bg-black">
@@ -24,7 +19,7 @@ async function Profile({ profile, username }: any) {
           }}
         ></div>
       </div>
-      <div className=" py-16 mx-auto md:px-4">
+      <div className=" pt-16 mx-auto md:px-4">
         <div className=" flex flex-col min-w-0 break-words bg-zinc-100 dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-xl rounded-lg -mt-36 pb-8 relative">
           <div className="grid grid-cols-12 px-6">
             <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">
@@ -48,27 +43,17 @@ async function Profile({ profile, username }: any) {
               </div>
             </div>
             <div className="flex flex-col lg:flex-row   w-full col-span-12 md:col-span-8 items-center order-3 md:order-2 mx-auto">
-              <UserStats followers={res?.FollowerCount} following={res?.FollowingCount} drops={res?.DropsCounts} />
+              <UserStats followers={data?.FollowerCount} following={data?.FollowingCount} drops={data?.DropsCounts} />
 
 
               <UserBio profile={profile} /></div>
             <div className="flex absolute top-5 right-5 space-x-2  items-center order-2 md:order-3  md:mt-0">
               <FollowButton currentProfile={profile} />
-              {sub &&
-                <SubscribeButton currentProfile={profile} sub={sub} />}
+              <SubscribeButton currentProfile={profile} />
             </div>
           </div>
-
         </div>
-
-        <div>
-          <Suspense>
-            <ProfileContent drops={res?.Drops} currentProfile={profile} />
-          </Suspense>
-        </div>
-
       </div>
-
     </div>
   );
 }

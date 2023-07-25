@@ -2,38 +2,6 @@ import { supabase } from "lib/constants";
 import { readContractURIs } from "lib/hooks/readContractURIs";
 import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
 
-const fetchCollectibles = async () => {
-  try {
-    const { data: drops, error } = await supabase
-      .from("drops")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      throw new Error();
-    }
-    if (drops) {
-      const contractAddresses = drops?.map((drop) => drop.contract_address);
-
-      if (contractAddresses) {
-        try {
-          const metaData = await readContractURIs(contractAddresses);
-          const dropsWithMetaData = drops?.map((drop, index) => ({
-            drop,
-            metaData: metaData[index]?.metadata,
-          }));
-
-          return { dropsWithMetaData, drops, contractAddresses, metaData };
-        } catch (error) {
-          console.error("Error fetching metadata:", error);
-        }
-      }
-    }
-  } catch (error) {
-    console.error("Error fetching drops:", error);
-  }
-};
-
 // const { data: drops, isLoading, error } = useQuery(['drops', fetchCollectibles]);
 
 const addPlaylist = async (userId: any, title: any, uri: any) => {
@@ -368,7 +336,7 @@ export {
   deleteReaction, // delete reaction from drop
   addReaction, // add reaction to drop
   checkUserReactions, // check if reaction and which on drop
-  fetchCollectibles, // getting all drops
+  // fetchCollectibles, // getting all drops
   addPlaylist, // create playlist name and row in db
   getUsersPlaylist, // getting the users playlist
   fetchSingleCollectible, // fetch drop for page
