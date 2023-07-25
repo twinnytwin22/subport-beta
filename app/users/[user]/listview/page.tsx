@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
     try {
         const res = await checkUser(user);
 
-        if (!res.exists) {
+        if (!res?.exists) {
             return notFound();
         }
 
