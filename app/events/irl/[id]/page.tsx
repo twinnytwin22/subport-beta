@@ -37,11 +37,11 @@ export default async function Page({
             const inputDate = event.date;
             const Dates = reformatDate(inputDate);
             console.log(Dates);
-            const image = event.image?.replace(
+            const image = event?.image?.replace(
                 "ipfs://",
                 "https://gateway.ipfscdn.io/ipfs/"
             );
-            const artistImage = useImagePath(user?.profile?.avatar_url);
+
 
             return user.profile && (
                 <div className="min-h-screen h-full mb-40">
@@ -49,7 +49,7 @@ export default async function Page({
                     <EventHeader image={image} Dates={Dates} event={event} />
                     <div className="flex flex-col md:flex-row w-full  space-x-8">
                         <div className="w-full">
-                            <EventOrganizer user={user} artistImage={artistImage} />
+                            <EventOrganizer user={user} />
                             <EventDetails image={image} Dates={Dates} event={event} />
                         </div>
                         <div className=" col-span-1 mt-8 w-fit rounded-md  relative">

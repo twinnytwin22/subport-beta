@@ -1,8 +1,10 @@
 import React from 'react'
 import Image from 'next/image'
 import { FollowButton } from 'ui/Buttons/FollowButton'
+import { useImagePath } from 'lib/constants';
 
-function EventOrganizer({ user, artistImage }: any) {
+function EventOrganizer({ user }: any) {
+    const artistImage = useImagePath(user?.profile?.avatar_url);
     return (
         <div className="bg-white dark:bg-zinc-950 border-zinc-300 dark:border-zinc-800 border shadow mt-8 rounded-md p-8 max-w-screen mx-auto relative z-20">
             <div className="mb-4 ml-2">
