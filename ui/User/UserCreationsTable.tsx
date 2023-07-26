@@ -9,8 +9,8 @@ function UserCreationsTable({ sortedData }: any) {
     const userData = sortedData.filter((item: any) => item?.user_id === user?.id) // Filter items related to the userId
 
     return (
-        <table className="w-full text-sm text-left text-zinc-500 dark:text-zinc-400 mx-auto max-w-5xl border border-zinc-200 dark:border-zinc-800 rounded-md">
-            <thead className="text-xs text-zinc-700 uppercase bg-zinc-50 dark:bg-zinc-950 dark:text-zinc-400 rounded-t-md">
+        <table className="w-full text-sm text-left text-zinc-500 dark:text-zinc-400 mx-auto max-w-5xl border border-zinc-200 dark:border-zinc-800 rounded-lg">
+            <thead className="text-xs text-zinc-700 uppercase bg-zinc-50 dark:bg-zinc-950 dark:text-zinc-400 rounded-md">
                 <tr>
                     <th scope="col" className="px-6 py-3">
                         Title
