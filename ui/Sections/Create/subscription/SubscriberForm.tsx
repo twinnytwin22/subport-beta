@@ -132,9 +132,9 @@ function SubscriberForm({ close, sub, isAuthedUser }: any) {
                     <div className='flex items-center space-x-2'>
                         <button
                             type="submit"
-                            className="bg-blue-600 text-sm dark:bg-blue-700 text-center hover:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                            className="bg-blue-600 text-sm dark:bg-blue-700 text-center hover:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md"
                         >
-                            Subscribe Now
+                            Subscribe
                         </button>
                         <div className="flex items-center space-x-2">
                             <label className="font-bold" htmlFor="totalPrice">Total Price:</label>

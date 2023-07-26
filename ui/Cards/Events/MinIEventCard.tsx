@@ -26,7 +26,7 @@ async function MinIEventCard({ Dates, event }: any) {
                             </div>
                         </div>
                     </div>
-                    <Link className='w-fit' href={`/events/irl/${event?.slug}`}>
+                    <Link className='w-fit' href={`/events/${event?.slug}`}>
                         <div className=" hover:ring  h-fit hover:ring-blue-700 text-center  text-black dark:text-white font-bold hover:shadow-md  shadow text-xs px-2.5 py-2.5 rounded-lg  sm:mr-2 mb-1 ease-linear transition-all duration-150 w-24">
                             {event.ticket_status}
                         </div>

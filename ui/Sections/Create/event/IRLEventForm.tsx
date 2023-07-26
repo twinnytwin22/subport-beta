@@ -127,7 +127,7 @@ const IRLEventCreationForm = () => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
             if (fetchedData?.status === "success") {
-                router.push(`/events/irl/${eventData.slug}`);
+                router.push(`/events/${eventData.slug}`);
             }
 
             if (fetchedData.error) {
@@ -369,12 +369,14 @@ const IRLEventCreationForm = () => {
                             <p>Location:&#160;{watch("location")}</p>
                         </div>
                         {/* Submit button */}
-                        <button
-                            type="submit"
-                            className="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            Create Event
-                        </button>
+                        <div className="w-full justify-end flex">
+                            <button
+                                type="submit"
+                                className="bg-blue-600 text-sm dark:bg-blue-700 text-center hover:bg-blue-700 dark:hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md"
+                            >
+                                Create
+                            </button>
+                        </div>
                     </div>
                 </div>
             </form>
