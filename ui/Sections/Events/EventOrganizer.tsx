@@ -8,7 +8,7 @@ function EventOrganizer({ user }: any) {
     return (
         <div className="bg-white dark:bg-zinc-950 border-zinc-300 dark:border-zinc-800 border shadow mt-8 rounded-md p-8 max-w-screen mx-auto relative z-20">
             <div className="mb-4 ml-2">
-                <h1 className="text-xl lg:text-2xl font-bold text-white">
+                <h1 className="text-xl lg:text-2xl font-bold text-black dark:text-white">
                     The artist
                 </h1>
                 <div className="flex justify-between mt-2.5">

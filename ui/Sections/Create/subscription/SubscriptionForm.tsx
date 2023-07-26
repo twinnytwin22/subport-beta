@@ -33,7 +33,7 @@ function SubscriptionForm() {
 
     return (
         <div className="max-w-md mx-auto space-y-8 mb-24 ">
-            <h1 className="text-center text-4xl text-black dark:text-white">Create your subscription.</h1>
+            <h1 className="text-center text-2xl font-bold text-black dark:text-white">Create your subscription.</h1>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <h3 className="mb-2 font-bold text-zinc-900 dark:text-white">Accept Payments via</h3>

@@ -1,15 +1,10 @@
 import React from "react";
 import { headers } from "next/headers";
 import { reformatDate } from "lib/hooks/formatDate";
-import { FaBookmark, FaFlag, FaMapPin } from "react-icons/fa";
-import Image from "next/image";
 import EventHeader from "ui/Sections/Events/EventHeader";
 import EventDetails from "ui/Sections/Events/EventDetails";
 import EventGoogleMap from "ui/Sections/Events/EventMap";
 import { checkUser } from "utils/database";
-import { downloadImage } from "lib/hooks/downloadImage";
-import { useImagePath } from "lib/constants";
-import { FollowButton } from "ui/Buttons/FollowButton";
 import EventOrganizer from "ui/Sections/Events/EventOrganizer";
 import EventTicketContainer from "ui/Sections/Events/EventTicketContainer";
 export default async function Page({

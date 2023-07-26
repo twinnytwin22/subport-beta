@@ -156,7 +156,7 @@ const IRLEventCreationForm = () => {
     };
     return (
         <>
-            <h1 className="text-center text-4xl text-black dark:text-white">
+            <h1 className="text-center text-2xl font-bold text-black dark:text-white">
                 Create your event.
             </h1>
             <form

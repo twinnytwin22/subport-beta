@@ -8,7 +8,7 @@ async function MinIEventCard({ Dates, event }: any) {
             <div
                 key={event.title}
                 className="bg-white dark:bg-black shadow-lg rounded-md p-4 mx-auto border border-zinc-100 dark:border-zinc-800 relative mb-6 shadow-zinc-200 dark:shadow-zinc-950 "
-                style={{ minWidth: '375px', maxWidth: '375px' }}
+                style={{ minWidth: '375px', maxWidth: '375px', minHeight: '125px', maxHeight: '125px' }}
             >                <div className="flex justify-between">
                     <div>
                         <div className="mb-4 flex items-center space-x-2">
@@ -20,14 +20,14 @@ async function MinIEventCard({ Dates, event }: any) {
                         </div>
                         <div className="flex justify-between items-center w-full">
                             <div>
-                                <p className="text-zinc-500 text-sm dark:text-zinc-300">
+                                <p className="text-zinc-500 text-xs dark:text-zinc-300">
                                     {event.location}
                                 </p>
                             </div>
                         </div>
                     </div>
-                    <Link href={`/events/irl/${event?.slug}`}>
-                        <div className=" hover:ring  h-fit hover:ring-blue-700 text-center  text-black dark:text-white font-bold hover:shadow-md  shadow text-xs px-2.5 py-2.5 rounded-lg  sm:mr-2 mb-1 ease-linear transition-all duration-150 w-32">
+                    <Link className='w-fit' href={`/events/irl/${event?.slug}`}>
+                        <div className=" hover:ring  h-fit hover:ring-blue-700 text-center  text-black dark:text-white font-bold hover:shadow-md  shadow text-xs px-2.5 py-2.5 rounded-lg  sm:mr-2 mb-1 ease-linear transition-all duration-150 w-24">
                             {event.ticket_status}
                         </div>
                     </Link>

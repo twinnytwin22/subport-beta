@@ -5,7 +5,7 @@ function EventDetails({ event, Dates, image }: any) {
         <div> {/* Event details */}
             <div className="bg-white dark:bg-zinc-950 border-zinc-300 dark:border-zinc-800 border shadow mt-8 rounded-md p-8 max-w-screen mx-auto relative z-20">
                 <div className="mb-4">
-                    <h1 className="text-xl lg:text-2xl font-bold text-white">About this event</h1>
+                    <h1 className="text-xl lg:text-2xl font-bold text-black dark:text-white">About this event</h1>
                     <p className="text-zinc-600 dark:text-zinc-300">
                         {event.description}
                     </p>

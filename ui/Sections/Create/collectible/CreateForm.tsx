@@ -221,7 +221,7 @@ export const CreateForm = () => {
     return (
       <div className="w-full mx-auto max-w-5xl">
         <form onSubmit={handleSubmit(onSubmitStep1)}>
-          <h2 className="text-center w-full py-4 text-xl">
+          <h2 className="text-center w-full py-4 text-lg">
             Step {step} - Let's get started.
           </h2>
 
@@ -461,7 +461,7 @@ export const CreateForm = () => {
     return (
       <div>
         <form onSubmit={handleSubmit(onSubmitStep2)}>
-          <h2 className="text-center w-full py-4 text-xl">
+          <h2 className="text-center w-full py-4 text-lg">
             Step {step} - Upload your media.
           </h2>
           <div className="flex items-center justify-center w-full mb-2 max-w-lg mx-auto">
@@ -567,7 +567,7 @@ export const CreateForm = () => {
       imageUrl &&
       audioUrl && (
         <>
-          <h2 className="text-center w-full py-4 text-xl">
+          <h2 className="text-center w-full py-4 text-lg">
             Step {step} - Confirm.
           </h2>
           <div className="w-full mx-auto items-center">
@@ -718,17 +718,17 @@ export const CreateForm = () => {
 
       {isUploading && renderProgressBar(progress, total)}
       {step === 5 && (
-        <h1 className="text-center text-4xl text-black dark:text-white">
+        <h1 className="text-2xl font-bold text-center  text-black dark:text-white">
           Success!
         </h1>
       )}
       {step >= 1 && step <= 3 && (
-        <h1 className="text-center text-4xl text-black dark:text-white">
+        <h1 className="text-2xl font-bold text-center  text-black dark:text-white">
           Create your collectible.
         </h1>
       )}
       {step === 4 && (
-        <h1 className="text-center text-4xl">Creating your collectible</h1>
+        <h1 className="text-2xl font-bold text-center text-black dark:text-white ">Creating your collectible</h1>
       )}
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}
