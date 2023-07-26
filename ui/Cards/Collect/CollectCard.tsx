@@ -20,7 +20,7 @@ async function CollectCard(props: any) {
 
   return (
     <div className="flex flex-col static mx-auto w-full content-center justify-center overflow-hidden">
-      <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-lg dark:bg-zinc-950 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-200 dark:shadow-zinc-900 w-full relative">
+      <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-md dark:bg-zinc-950 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-200 dark:shadow-zinc-900 w-full relative">
         <div className="flex h-8 mb-2 justify-between items-center">
           <div className="flex items-center p-2.5">
             <Link href={`/${user?.username}`}>

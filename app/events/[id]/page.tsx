@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { headers } from "next/headers";
 import { reformatDate } from "lib/hooks/formatDate";
 import EventHeader from "ui/Sections/Events/EventHeader";
@@ -43,15 +43,19 @@ export default async function Page({
                     {/* Header with blurred image */}
                     <EventHeader image={image} Dates={Dates} event={event} />
                     <div className="flex flex-col md:flex-row w-full  space-x-8">
-                        <div className="w-full">
-                            <EventOrganizer user={user} />
-                            <EventDetails image={image} Dates={Dates} event={event} />
-                        </div>
-                        <div className=" col-span-1 mt-8 w-fit rounded-md  relative">
-                            <EventTicketContainer event={event} />
+                        <Suspense>
+                            <div className="w-full">
+                                <EventOrganizer user={user} />
+                                <EventDetails image={image} Dates={Dates} event={event} />
+                            </div>
+                            <div className=" col-span-1 mt-8 w-fit rounded-md  relative">
+                                <EventTicketContainer event={event} />
+                                <Suspense>
+                                    <EventGoogleMap lat={0} lng={0} />
+                                </Suspense>
 
-                            <EventGoogleMap lat={0} lng={0} />
-                        </div>
+                            </div>
+                        </Suspense>
                     </div>
                 </div>
             );

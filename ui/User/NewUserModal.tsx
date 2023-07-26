@@ -53,7 +53,7 @@ const NewUserModal = () => {
                     }`}
             >
                 <div className="fixed inset-0 bg-zinc-500 dark:bg-zinc-950 opacity-75 blur-3xl"></div>
-                <div className="bg-slate-200 dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-lg p-8 mx-1 md:mx-4 max-w-xl w-full space-y-4 place-items-center mt-8 relative z-10">
+                <div className="bg-slate-200 dark:bg-black border border-slate-300 dark:border-zinc-700 rounded-md p-8 mx-1 md:mx-4 max-w-xl w-full space-y-4 place-items-center mt-8 relative z-10">
                     {/* Content of the modal */}
                     <div className="p-4 md:p-8">
                         <h2 className="text-2xl mb-4">Create User Handle</h2>
@@ -62,7 +62,7 @@ const NewUserModal = () => {
                         </p>
                         <form onSubmit={handleOnSubmit}>
                             <input
-                                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 id="username"
                                 type="text"
                                 value={username || ""}

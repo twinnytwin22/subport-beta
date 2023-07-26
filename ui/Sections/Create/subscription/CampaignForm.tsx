@@ -20,7 +20,7 @@ function CampaignForm({ close, price }: any) {
             <h2 className='font-semibold text-center mb-4 text-xl md:text-2xl'>Create a promotion campaign</h2>
 
             <legend className="font-bold">Subscriber Type:</legend>
-            <ul className="items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-lg sm:flex dark:bg-zinc-900 dark:border-zinc-700 dark:text-white">
+            <ul className="items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-md sm:flex dark:bg-zinc-900 dark:border-zinc-700 dark:text-white">
                 <li className="w-full border-b border-zinc-200 sm:border-b-0 sm:border-r dark:border-zinc-600">
                     <div className="flex items-center pl-3">
                         <input type="radio" value="new" {...register('subscriberType', { required: true })} className="mr-2" />
@@ -43,7 +43,7 @@ function CampaignForm({ close, price }: any) {
             {errors.subscriberType && <span className="text-red-500">This field is required</span>}
 
             <legend className="font-bold">Promotion Type:</legend>
-            <ul className="items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-lg sm:flex dark:bg-zinc-900 dark:border-zinc-700 dark:text-white">
+            <ul className="items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-md sm:flex dark:bg-zinc-900 dark:border-zinc-700 dark:text-white">
                 <li className="w-full border-b border-zinc-200 sm:border-b-0 sm:border-r dark:border-zinc-600">
                     <div className="flex items-center pl-3">
                         <input type="radio" value="freeTrial" {...register('promotionType', { required: true })} className="mr-2" />

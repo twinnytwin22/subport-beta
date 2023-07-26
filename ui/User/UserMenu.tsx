@@ -14,7 +14,7 @@ function UserMenu({ profile, user }: any) {
 
   return (
     <div className='-mr-3 relative z-[9999]'>
-      <ul className="w-48 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-lg dark:bg-zinc-950 dark:border-zinc-700 dark:text-white opacity-[95%]">
+      <ul className="w-48 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-md dark:bg-zinc-950 dark:border-zinc-700 dark:text-white opacity-[95%]">
         <li className="w-full px-4 py-2 border-b border-zinc-200 rounded-t-lg dark:border-zinc-700  text-center justify-center">@{profile?.username}</li>
         <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-700  text-[10px]">{user?.email}</li>
 

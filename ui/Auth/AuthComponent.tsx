@@ -38,7 +38,7 @@ export default function LoginCard({ close }: any) {
           <li onClick={handleSpotifyLogin}>
             <a
               href="#"
-              className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-lg bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
+              className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-md bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
             >
               <img className="w-5" src='/images/icons/spotify.png' />
               <span className="flex-1 ml-3 whitespace-nowrap">
@@ -49,7 +49,7 @@ export default function LoginCard({ close }: any) {
           <li onClick={handleGoogleLogin}>
             <div
 
-              className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-lg bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
+              className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-md bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
             >
 
               <img className="w-5" src="/images/icons/icons8-google-96.png" />
@@ -62,7 +62,7 @@ export default function LoginCard({ close }: any) {
             <li>
               <a
                 href="#"
-                className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-lg bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
+                className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-md bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
               >
                 <svg
                   aria-hidden="true"

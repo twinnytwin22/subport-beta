@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import { SupabaseImage, downloadImage } from 'lib/hooks/downloadImage'
 import { supabase, useImagePath } from 'lib/constants'
+import Image from 'next/image'
+import { FaEdit } from 'react-icons/fa'
 
 
 export default function Avatar({ uid, url, size, onUpload }: {
@@ -10,7 +12,7 @@ export default function Avatar({ uid, url, size, onUpload }: {
   size: number
   onUpload: any
 }) {
-  const [avatarUrl, setAvatarUrl] = useState<any>(url || null)
+  const [avatarUrl, setAvatarUrl] = useState<any>(null)
   const [uploading, setUploading] = useState<boolean>(false)
 
   const getImage = async (url: SupabaseImage) => {
@@ -44,36 +46,44 @@ export default function Avatar({ uid, url, size, onUpload }: {
       setUploading(false)
     }
   }
-  return (
-    <div className='mx-auto justify-center items-center content-center'>
-      {avatarUrl ? (
-        <img
-          src={avatarUrl}
-          alt="Avatar"
-          className="avatar image rounded-lg mb-4"
-          style={{ height: size, width: size }}
-        />
-      ) : (
-        <div className="avatar no-image" style={{ height: size, width: size }} />
-      )}
-      <div style={{ width: size }}>
-        <label
-          className="bg-blue-700 text-white p-2.5 text-sm w-32 rounded-lg hover:bg-blue-800 hover:scale-105"
-          htmlFor="single">
-          {uploading ? 'Uploading ...' : 'Upload'}
-        </label>
-        <input
-          style={{
-            visibility: 'hidden',
-            position: 'absolute',
-          }}
-          type="file"
-          id="single"
-          accept="image/*"
-          onChange={uploadAvatar}
-          disabled={uploading}
-        />
+  if (avatarUrl) {
+    console.log(avatarUrl)
+    return (
+      <div className='mx-auto justify-center items-center content-center relative' style={{ position: 'relative' }}>
+        {avatarUrl ? (
+          <Image
+            priority
+            placeholder='blur'
+            blurDataURL={"/images/stock/blur.png"}
+            src={avatarUrl}
+            alt="Avatar"
+            className="avatar image rounded-md mb-4 mx-auto justify-center hover:brightness-75 duration-300 ease-in-out"
+            width={size}
+            height={size} />
+        ) : (
+          <div className="avatar no-image" style={{ height: size, width: size }} />
+        )}
+        <div className={`absolute bottom-4 right-4 w-[${size}] h-[${size}]`}>
+          <label
+            className=" text-white text-xl hover:scale-105 cursor-pointer"
+            htmlFor="single"
+          >
+            {uploading ? <FaEdit /> : <FaEdit />}
+          </label>
+          <input
+            style={{
+              visibility: 'hidden',
+              position: 'absolute',
+            }}
+            type="file"
+            id="single"
+            accept="image/*"
+            onChange={uploadAvatar}
+            disabled={uploading}
+          />
+        </div>
       </div>
-    </div>
-  )
+    )
+  };
+
 }

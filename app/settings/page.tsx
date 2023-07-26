@@ -8,23 +8,23 @@ function Page() {
     const [activeTab, setActiveTab] = useState('profile')
 
     return !isLoading && (
-        <div className="w-full min-h-[70vh] flex items-center justify-center content-center mb-24 md:mb-0">
-            <div className="flex items-center bg-slate-200 dark:bg-zinc-950 w-full max-w-4xl mx-auto justify-between rounded-lg   border-slate-300 dark:border-zinc-700 border relative">
+        <div className="w-full lg:min-h-[70vh] mt-4 lg:mt-8 flex items-center justify-center content-center mb-24 md:mb-0">
+            <div className="flex items-center bg-white dark:bg-black w-full max-w-4xl mx-auto justify-between rounded-md   border-zinc-300 dark:border-zinc-700 border relative">
                 <div className="w-48">
-                    <ul className="font-bold text-lg dark:text-zinc-200 text-zinc-900 absolute top-16 left-8">
-                        <li onClick={() => setActiveTab('profile')}
+                    <ul className="font-bold  text-base lg:text-lg dark:text-zinc-200 text-zinc-900 absolute top-16 left-3 lg:left-8">
+                        <li className="cursor-pointer" onClick={() => setActiveTab('profile')}
                         >Profile</li>
-                        <li className="hidden" onClick={() => setActiveTab('preferences')}
+                        <li className="cursor-pointer" onClick={() => setActiveTab('preferences')}
                         >Preferences</li>
-                        <li className="hidden" onClick={() => setActiveTab('settings')}
+                        <li className="cursor-pointer" onClick={() => setActiveTab('settings')}
                         >Settings</li>
                     </ul>
                 </div>
-                <div className="bg-slate-200 dark:bg-zinc-950  border-slate-300 dark:border-zinc-700 border-l p-8  max-w-2xl w-full space-y-4 md:flex place-items-center h-full min-h-[400px]">
+                <div className="bg-white dark:bg-black  border-zinc-300 dark:border-zinc-800 border-l p-8  max-w-2xl w-full space-y-4 md:flex place-items-start h-full min-h-[500px]">
 
                     {activeTab === 'profile' && <Account />}
                     {activeTab === 'preferences' && <div className="h-full">Preferences</div>}
-                    {activeTab === 'settings' && 'settings'}
+                    {activeTab === 'settings' && <div className="h-full">settings</div>}
                 </div>
 
             </div>

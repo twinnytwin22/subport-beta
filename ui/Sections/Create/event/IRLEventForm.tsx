@@ -177,7 +177,7 @@ const IRLEventCreationForm = () => {
                                     type="text"
                                     placeholder="Event Title"
                                     required
-                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 />
                             </div>
                             <div>
@@ -187,7 +187,7 @@ const IRLEventCreationForm = () => {
                                     id="date"
                                     {...register("date", { required: true })}
                                     required
-                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 />
                             </div>
                         </div>
@@ -199,7 +199,7 @@ const IRLEventCreationForm = () => {
                                 id="description"
                                 {...register("description", { required: true })}
                                 required
-                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
                         </div>
 
@@ -215,7 +215,7 @@ const IRLEventCreationForm = () => {
                                     id="location"
                                     {...register("location", { required: true })}
                                     required
-                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 />
                             </GoogleMapSearch>
                         </div>
@@ -228,7 +228,7 @@ const IRLEventCreationForm = () => {
                                 id="category"
                                 {...register("category", { required: true })}
                                 required
-                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
                         </div>
 
@@ -242,7 +242,7 @@ const IRLEventCreationForm = () => {
                                     id="ticket_type"
                                     {...register("ticket_type", { required: true })}
                                     required
-                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 />
                             </div>
                             <div>
@@ -253,7 +253,7 @@ const IRLEventCreationForm = () => {
                                     placeholder="Ticket price?"
                                     {...register("price", { required: true })}
                                     required
-                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 />
                             </div>
                         </div>
@@ -267,7 +267,7 @@ const IRLEventCreationForm = () => {
                                     id="currency_type"
                                     {...register("currency_type", { required: true })}
                                     required
-                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 />
                             </div>
                             <div>
@@ -279,7 +279,7 @@ const IRLEventCreationForm = () => {
                                     placeholder="Quantity?"
                                     id="ticket_quantity"
                                     {...register("ticket_quantity", { required: true })}
-                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 />
                             </div>
                         </div>
@@ -291,7 +291,7 @@ const IRLEventCreationForm = () => {
                                 id="ticket_status"
                                 {...register("ticket_status", { required: true })}
                                 required
-                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                                 <option value="">Select</option>
                                 <option value="On Sale">On Sale</option>
@@ -306,7 +306,7 @@ const IRLEventCreationForm = () => {
                                 placeholder="Ticket Terms"
                                 {...register("ticket_terms", { required: true })}
                                 required
-                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             />
                         </div>
                     </div>
@@ -315,7 +315,7 @@ const IRLEventCreationForm = () => {
                             {!imagePreview && (
                                 <label
                                     htmlFor="file"
-                                    className="flex flex-col items-center justify-center w-72 h-72 md:w-96 md:h-96 border-2 border-zinc-300 border-dashed rounded-lg cursor-pointer bg-zinc-50 dark:hover:bg-bray-800 dark:bg-zinc-900 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:border-zinc-800 dark:hover:bg-zinc-600"
+                                    className="flex flex-col items-center justify-center w-72 h-72 md:w-96 md:h-96 border-2 border-zinc-300 border-dashed rounded-md cursor-pointer bg-zinc-50 dark:hover:bg-bray-800 dark:bg-zinc-900 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:border-zinc-800 dark:hover:bg-zinc-600"
                                 >
                                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                         <svg
@@ -355,7 +355,7 @@ const IRLEventCreationForm = () => {
                             )}
                             {imagePreview ? (
                                 <img
-                                    className="w-96 rounded-lg"
+                                    className="w-96 rounded-md"
                                     src={imagePreview}
                                     alt="preview"
                                 />

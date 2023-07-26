@@ -12,15 +12,14 @@ export function DropPage({ props }: any) {
   const drop = props?.drop;
   const metaData = props?.metaData;
   const imageUrl = props?.imageUrl
-  const audioUrl = props?.audioUrl
   const reactionCount = props?.reactionCount || 5
   const comments = props?.comments || 5
 
   return props && (
-    <div className="bg-gray-100 dark:bg-black h-full flex max-w-4xl mx-auto w-full mt-12 pb-12">
-      <div className="flex flex-col lg:flex-row mx-auto items-start w-full relative">
-        <div className="w-full relative px-4  justify-center content-center">
-          <div className="flex flex-col mb-2 max-w-lg mx-auto w-full">
+    <div className="bg-zinc-100 dark:bg-black h-full flex max-w-4xl mx-auto w-full mt-12 pb-12 overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto items-start w-full relative">
+        <div className="w-full relative px-4 justify-center content-center">
+          <div className="flex flex-col mb-2 max-w-lg mx-auto w-full relative">
             <div className="flex lg:items-end space-x-2">
               <h1 className="text-2xl font-semibold">{drop.name}</h1>
               <h1 className="text-2xl font-semibold">|</h1>
@@ -37,7 +36,7 @@ export function DropPage({ props }: any) {
             style={{ position: 'relative' }}
           >
             <Image
-              className="rounded-2xl select-none shadow-lg dark:shadow-zinc-950 shadow-zinc-300 object-contain items-start w-full"
+              className="rounded-md select-none shadow-lg dark:shadow-zinc-950 shadow-zinc-300 object-contain items-start w-full"
               src={imageUrl}
               style={{ objectFit: 'cover' }}
               alt="Song-cover"
@@ -50,15 +49,16 @@ export function DropPage({ props }: any) {
 
             </div>
           </div>
-          <div className="w-36 absolute pt-8 right-10">
+          <div className="relative w-fit mt-4 ml-auto">
             <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
           </div>
+
         </div>
 
-        <div className="w-full max-w-lg lg:max-w-sm mt-28 lg:mt-8 lg:border-l-zinc-300 lg:dark:border-l-zinc-600 lg:border-l-2 lg:pl-16 p-4 h-full mx-auto">
+        <div className="w-full max-w-lg lg:max-w-sm mt-28 lg:mt-8 lg:border-l-zinc-300 lg:dark:border-l-zinc-600 lg:border-l-2 lg:pl-16 p-4 h-full mx-auto overflow-y-auto">
 
           <div className="flex flex-col w-full mx-auto justify-center place-content-center place-items-center">
-            <p className=" text-left mb-6 text-sm md:text-md font-light text-gray-500 lg:mb-8 md:text-md dark:text-gray-400">
+            <p className=" text-left mb-6 text-sm md:text-md font-light text-zinc-500 lg:mb-8 md:text-md dark:text-zinc-400">
               {metaData?.description}
             </p>
             <p className="text-xs mb-4">Collected by names, names, 67 more</p>

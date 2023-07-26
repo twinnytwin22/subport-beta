@@ -105,7 +105,7 @@ const FooterPlayer = () => {
                                         max="100"
                                         value={volume}
                                         onChange={volumeChange}
-                                        className="w-48 bg-gray-200 accent-blue-600 rounded-lg cursor-pointer dark:bg-gray-700 "
+                                        className="w-48 bg-gray-200 accent-blue-600 rounded-md cursor-pointer dark:bg-gray-700 "
                                     />
                                 </div>
                             </div>}

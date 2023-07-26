@@ -58,7 +58,7 @@ export const RenderMintStatus = () => {
 
 
   return (
-    <div className="bg-zinc-200 dark:bg-zinc-900 rounded-lg p-8 w-96 border border-zinc-300 dark:border-zinc-700 justify-center mx-auto">
+    <div className="bg-zinc-200 dark:bg-zinc-900 rounded-md p-8 w-96 border border-zinc-300 dark:border-zinc-700 justify-center mx-auto">
       <ul className="items-center justify-center content-center mx-auto">
         <li className="border-b border-zinc-600 p-2">
           <div className="grid grid-cols-6">

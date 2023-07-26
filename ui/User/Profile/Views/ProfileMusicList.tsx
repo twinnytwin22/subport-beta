@@ -26,7 +26,7 @@ const ProfileMusicList = ({ drops, currentProfile }: any) => {
     return (
         <div className=' -z-0'>
             <section className="py-4 mb-20 w-full mx-auto rounded-md justify-center">
-                <div className=" z-20 overflow-hidden bg-white shadow-lg dark:bg-zinc-950 sm:rounded-lg w-full border border-zinc-200 dark:border-zinc-800">
+                <div className=" z-20 overflow-hidden bg-white shadow-lg dark:bg-zinc-950 sm:rounded-md w-full border border-zinc-200 dark:border-zinc-800">
                     <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4">
                         <div className="flex items-center flex-1 space-x-4 text-sm md:text-base">
                             <h5>
@@ -41,7 +41,7 @@ const ProfileMusicList = ({ drops, currentProfile }: any) => {
                         <div className="flex flex-col flex-shrink-0 space-y-3 md:flex-row md:items-center lg:justify-end md:space-y-0 md:space-x-3">
                             <button
                                 type="button"
-                                className="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-lg focus:outline-none hover:bg-zinc-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-zinc-200 dark:focus:ring-zinc-700 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-600 dark:hover:text-white dark:hover:bg-zinc-700"
+                                className="flex items-center justify-center flex-shrink-0 px-3 py-2 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-md focus:outline-none hover:bg-zinc-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-zinc-200 dark:focus:ring-zinc-700 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-600 dark:hover:text-white dark:hover:bg-zinc-700"
                             >
                                 <svg
                                     className="w-4 h-4 mr-2"

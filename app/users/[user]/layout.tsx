@@ -1,6 +1,6 @@
 import { getProfileData } from 'lib/hooks/getProfileDrops';
 import Link from 'next/link';
-import React from 'react'
+import React, { Suspense } from 'react'
 import Profile from 'ui/User/Profile/Profile';
 import ProfileEventsRow from 'ui/User/Profile/ProfileEventsRow';
 import { checkUser } from 'utils/database';
@@ -17,8 +17,15 @@ async function ProfileLayout(props: { params: { slug: string, user: string }, ch
         const data = await getProfileData(res.profile?.id)
         return (
             <section className='mx-auto w-full relative z-0'>
-                <Profile profile={res.profile} username={user} data={data} />
-                <ProfileEventsRow profile={res.profile} />
+                <Suspense>
+                    <Profile profile={res.profile} username={user} data={data} />
+                </Suspense>
+                <Suspense fallback={<div className='p-16 rounded-md animate-pulse duration-200 ease-in-out bg-zinc-800' />
+                }>
+
+
+                    <ProfileEventsRow profile={res.profile} />
+                </Suspense>
                 {props.children}
             </section>
         );

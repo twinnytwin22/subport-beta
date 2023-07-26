@@ -45,7 +45,7 @@ function CreateHeader() {
 function CreateOptionCard({ option }: any) {
     return (
         <Link href={option.href} passHref>
-            <div className="w-full max-w-md lg:max-w-[250px] p-6 bg-white border border-zinc-200 rounded-lg shadow dark:bg-zinc-900 dark:border-zinc-700 hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-green-700 focus:outline-none">
+            <div className="w-full max-w-md lg:max-w-[250px] p-6 bg-white border border-zinc-200 rounded-md shadow dark:bg-zinc-900 dark:border-zinc-700 hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-green-700 focus:outline-none">
                 <h5 className="mb-2 text-lg font-bold tracking-tight text-zinc-900 dark:text-white select-none">{option.name}</h5>
                 <p className="mb-3 font-normal text-zinc-700 dark:text-zinc-400 text-sm select-none">{option.description}</p>
             </div>

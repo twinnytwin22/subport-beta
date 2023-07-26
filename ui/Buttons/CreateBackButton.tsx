@@ -10,7 +10,7 @@ function CreateBackButton() {
         <>
             {path !== '/create' &&
                 <Link href='/create'>
-                    <button className='font-normal mt-4 flex items-center w-16 justify-between bg-blue-600 hover:bg-blue-800 text-white p-2 rounded-xl text-xs '>
+                    <button className='font-normal mt-4 flex items-center w-16 justify-between bg-blue-600 hover:bg-blue-800 text-white p-2 rounded-md text-xs '>
                         <FaArrowLeft />
                         Back
                     </button>

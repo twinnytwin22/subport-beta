@@ -40,7 +40,7 @@ function SubscribeButton({ currentProfile }: any) {
                     <>
                         {isAlreadySubscribed &&
                             <button
-                                className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                                 type="button"
                                 onClick={handleOpenSubscriptionModal}
                             >
@@ -48,7 +48,7 @@ function SubscribeButton({ currentProfile }: any) {
                             </button>
                         }
                         <button
-                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-2.5 py-2.5 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-2.5 py-2.5 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                             type="button"
                             onClick={handleOpenSubscriptionModal}
                         >
@@ -58,7 +58,7 @@ function SubscribeButton({ currentProfile }: any) {
                 )}
                 {isAuthedUser && (
                     <button
-                        className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs p-2.5 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                        className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs p-2.5 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={handleOpenSubscriptionModal}
                     >

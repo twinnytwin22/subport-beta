@@ -30,7 +30,9 @@ export default async function Page({ params }: { params: { slug: string, user: s
     return (
 
       <div>
-        <Suspense>
+        <Suspense fallback={
+          <div className='p-16 rounded-md animate-pulse duration-200 ease-in-out bg-zinc-800 h-96 mt-4' />
+        }>
           <ProfileMusicList drops={dropsWithMetaData} currentProfile={res.profile} />
         </Suspense>
       </div>

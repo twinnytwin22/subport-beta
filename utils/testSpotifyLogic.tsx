@@ -108,7 +108,7 @@ export default function SpotifyAuth() {
 
   return (
     <div>
-      <button onClick={handleConnectSpotify} className="p-4 bg-green-800 dark:bg-green-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">
+      <button onClick={handleConnectSpotify} className="p-4 bg-green-800 dark:bg-green-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">
         Connect with Spotify</button>
     </div>
   );

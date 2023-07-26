@@ -37,7 +37,7 @@ function SubscriptionForm() {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <h3 className="mb-2 font-bold text-zinc-900 dark:text-white">Accept Payments via</h3>
-                <ul className="items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-lg sm:flex dark:bg-zinc-900 dark:border-zinc-700 dark:text-white">
+                <ul className="items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-md sm:flex dark:bg-zinc-900 dark:border-zinc-700 dark:text-white">
                     <li className="w-full border-b border-zinc-200 sm:border-b-0 sm:border-r dark:border-zinc-600">
                         <div className="flex items-center pl-3">
                             <input
@@ -108,7 +108,7 @@ function SubscriptionForm() {
                                 />
                                 <label
                                     htmlFor={`tier-${tier.months}`}
-                                    className="inline-flex items-center justify-between w-full p-2.5 text-zinc-700 bg-white border border-zinc-200 rounded-lg cursor-pointer dark:hover:text-zinc-300 dark:border-zinc-700 peer-checked:border-blue-600 hover:text-zinc-600 dark:peer-checked:text-zinc-300 peer-checked:text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+                                    className="inline-flex items-center justify-between w-full p-2.5 text-zinc-700 bg-white border border-zinc-200 rounded-md cursor-pointer dark:hover:text-zinc-300 dark:border-zinc-700 peer-checked:border-blue-600 hover:text-zinc-600 dark:peer-checked:text-zinc-300 peer-checked:text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:bg-zinc-900 dark:hover:bg-zinc-800"
                                 >
                                     <div>{tier.discount}</div>
                                     <div className="block text-right">
@@ -134,13 +134,13 @@ function SubscriptionForm() {
 
             {successModalOpen &&
                 <div className="fixed inset-0 flex flex-col items-center justify-center z-50">
-                    <div className="bg-white dark:bg-zinc-950 rounded-lg p-8 place-items-center">
+                    <div className="bg-white dark:bg-zinc-950 rounded-md p-8 place-items-center">
                         <h2 className="text-2xl font-bold text-center mb-4">Subscription Created Successfully!</h2>
                         <p className="mb-4">You can view your active subscription in your profile:</p>
                         <div className="flex flex-col items-center">
                             <Link
                                 href={subscriptionUrl}
-                                className="border border-gray-300 dark:border-zinc-800 dark:bg-black dark:hover:bg-zinc-900 rounded-lg px-4 py-2 w-full mx-auto  text-center justify-center content-center"
+                                className="border border-gray-300 dark:border-zinc-800 dark:bg-black dark:hover:bg-zinc-900 rounded-md px-4 py-2 w-full mx-auto  text-center justify-center content-center"
                             >View Profile</Link>
                             <br />
                             <button

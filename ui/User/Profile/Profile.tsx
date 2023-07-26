@@ -20,7 +20,7 @@ async function Profile({ profile, username, data }: any) {
         style={{ objectFit: 'cover', }}
       />
       <div className=" pt-16 mx-auto md:px-4">
-        <div className=" flex flex-col min-w-0 break-words bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-lg rounded-lg -mt-36 pb-8 relative">
+        <div className=" flex flex-col min-w-0 break-words bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-lg rounded-md -mt-36 pb-8 relative">
           <div className="grid grid-cols-12 px-6">
             <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">
               <div className="">

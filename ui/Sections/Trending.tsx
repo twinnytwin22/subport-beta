@@ -36,7 +36,7 @@ function Trending() {
     const activeTabData = tabData[activeTab];
 
     return activeTabData.map((item) => (
-      <div key={item.id} className="bg-white rounded-lg p-4 shadow">
+      <div key={item.id} className="bg-white rounded-md p-4 shadow">
         <h3 className="text-lg font-medium text-black">{item.title}</h3>
         <p className="text-gray-500">Some description here</p>
       </div>

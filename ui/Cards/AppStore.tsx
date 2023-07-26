@@ -3,14 +3,14 @@ import React from "react";
 function AppStore() {
   return (
     <div>
-      <div className="w-md block p-2 text-center bg-white border border-zinc-200 rounded-lg shadow sm:p-6 dark:bg-zinc-950 dark:border-zinc-700">
+      <div className="w-md block p-2 text-center bg-white border border-zinc-200 rounded-md shadow sm:p-6 dark:bg-zinc-950 dark:border-zinc-700">
         <h5 className="mb-2 text-lg font-bold text-zinc-900 dark:text-white">
           Coming Soon to App Stores
         </h5>
         <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
           <a
             href="#"
-            className="w-full sm:w-auto bg-zinc-800 hover:bg-zinc-700 focus:ring-4 focus:outline-none focus:ring-zinc-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:focus:ring-zinc-700"
+            className="w-full sm:w-auto bg-zinc-800 hover:bg-zinc-700 focus:ring-4 focus:outline-none focus:ring-zinc-300 text-white rounded-md inline-flex items-center justify-center px-4 py-2.5 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:focus:ring-zinc-700"
           >
             <svg
               className="mr-3 w-5 h-5"
@@ -36,7 +36,7 @@ function AppStore() {
           </a>
           <a
             href="#"
-            className="w-full sm:w-auto bg-zinc-800 hover:bg-zinc-700 focus:ring-4 focus:outline-none focus:ring-zinc-300 text-white rounded-lg inline-flex items-center justify-center px-4 py-2.5 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:focus:ring-zinc-700"
+            className="w-full sm:w-auto bg-zinc-800 hover:bg-zinc-700 focus:ring-4 focus:outline-none focus:ring-zinc-300 text-white rounded-md inline-flex items-center justify-center px-4 py-2.5 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:focus:ring-zinc-700"
           >
             <svg
               className="mr-3 w-5 h-5"

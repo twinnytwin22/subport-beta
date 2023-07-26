@@ -44,8 +44,8 @@ function UserAvatar() {
             alt="avi" width={40} height={40}
             className=" shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto w-10 h-10 rounded-full"
             src={avatar}
-            placeholder='blur'
             style={{ objectFit: 'cover', width: 'auto', height: 'auto' }}
+            placeholder='blur'
             blurDataURL={"/images/stock/blur.png"}
           />
         </div>

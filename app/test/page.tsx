@@ -345,7 +345,7 @@ function Page() {
     <div className="w-full flex flex-col items-center justify-center">
       <label htmlFor="response">Response</label>
       <textarea
-        className="w-full max-w-md mx-auto p-4 mb-4 text-black bg-white rounded-lg border border-gray-300"
+        className="w-full max-w-md mx-auto p-4 mb-4 text-black bg-white rounded-md border border-gray-300"
         value={responseJSON}
         readOnly
         id="response"
@@ -365,25 +365,25 @@ function Page() {
         {avatarUrl && <Image src={avatarUrl} alt="avatar test" width={50} height={50} />}
         <div className='flex flex-wrap gap-4 max-w-md mx-auto w-full'>
           <button onClick={handleOtherClick}
-            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">DEPLOY WITH CLIENT / METAMASK</button>
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">DEPLOY WITH CLIENT / METAMASK</button>
           <button onClick={fetchDrop}
-            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH DROP BY SLUG</button>
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH DROP BY SLUG</button>
           <button onClick={fetchUsers}
-            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH USERS</button>
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH USERS</button>
           <button onClick={fetchCreators}
-            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">REFRESH CREATORS</button>
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">REFRESH CREATORS</button>
 
           <button onClick={fetchData}
-            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">REFRESH CACHE</button>
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">REFRESH CACHE</button>
 
           <button onClick={handleTestSupaUpload}
-            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST UPLOAD</button>
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST UPLOAD</button>
           <button onClick={handleTestFileCreation}
-            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST FILE</button>
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST FILE</button>
           <button onClick={handleThirdWebIPFS}
-            className="p-4 bg-blue-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST IPFS</button>
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST IPFS</button>
           <button onClick={handleReset}
-            className="p-4 bg-red-600 justify-center text-white rounded-lg mx-auto font-bold hover:scale-105 duration-200 ease-in-out">RESET/REFRESH</button>
+            className="p-4 bg-red-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">RESET/REFRESH</button>
 
         </div>
       </div>

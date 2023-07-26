@@ -54,7 +54,7 @@ const FollowButton = ({ currentProfile }: any) => {
     return !isAuthedUser && user && (
         <div className=" sm:mt-0">
             <button
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-lg outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                 type="button"
                 onClick={handleFollowButton}
             >

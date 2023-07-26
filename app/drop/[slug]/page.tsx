@@ -18,12 +18,12 @@ export default async function Page({ params }: { params: { slug: string, user: s
   if (!data) {
     return <LoadingContainer />
   }
-  const audioUrl = data?.metaData?.animation_url?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/') || data?.metaData?.info.metadata.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+  const audioUrl = data?.metaData?.animation_url?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
 
-  const imageUrl = data?.metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/') || data?.metaData?.info.metadata.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+  const imageUrl = data?.metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
   const props: any = {
     drop: data?.drop,
-    metaData: data?.metaData || data?.metaData?.info.metadata,
+    metaData: data?.metaData,
     //comments: res?.dropComments,
     //  reactionCount: res?.reactionCount,
     audioUrl,

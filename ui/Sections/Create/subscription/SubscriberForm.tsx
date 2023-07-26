@@ -37,13 +37,13 @@ function SubscriberForm({ close, sub, isAuthedUser }: any) {
     ];
 
     return (
-        <div className="bg-white dark:bg-black p-8 rounded-lg shadow-lg border-zinc-200 dark:border-zinc-700 border max-w-md  w-96 scale-90 md:scale-100 z-[9999] isolate mx-auto">
+        <div className="bg-white dark:bg-black p-8 rounded-md shadow-lg border-zinc-200 dark:border-zinc-700 border max-w-md  w-96 scale-90 md:scale-100 z-[9999] isolate mx-auto">
             <p className=' cursor-pointer absolute p-2 border dark:border-zinc-800 border-zinc-200 rounded text-sm' onClick={close}>Close</p>
             <h1 className="text-center text-xl text-black dark:text-white">{isAuthedUser ? 'Your Subscription' : 'Subscribe Now'}</h1>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 pt-4">
                 <h3 className="mb-2 font-bold text-zinc-900 dark:text-white">{isAuthedUser ? 'Accepted payments' : 'Pay via'}</h3>
-                <ul className="items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-lg sm:flex dark:bg-zinc-900 dark:border-zinc-700 dark:text-white">
+                <ul className="items-center w-full text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-md sm:flex dark:bg-zinc-900 dark:border-zinc-700 dark:text-white">
                     <li className="w-full border-b border-zinc-200 sm:border-b-0 sm:border-r dark:border-zinc-600">
                         <div className="flex items-center pl-3">
                             <input
@@ -116,7 +116,7 @@ function SubscriberForm({ close, sub, isAuthedUser }: any) {
                                     />
                                     <label
                                         htmlFor={`tier-${tier.months}`}
-                                        className="inline-flex items-center justify-between w-full p-2.5 text-zinc-700 bg-white border border-zinc-200 rounded-lg cursor-pointer dark:hover:text-zinc-300 dark:border-zinc-700 peer-checked:border-blue-600 hover:text-zinc-600 dark:peer-checked:text-zinc-300 peer-checked:text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+                                        className="inline-flex items-center justify-between w-full p-2.5 text-zinc-700 bg-white border border-zinc-200 rounded-md cursor-pointer dark:hover:text-zinc-300 dark:border-zinc-700 peer-checked:border-blue-600 hover:text-zinc-600 dark:peer-checked:text-zinc-300 peer-checked:text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:bg-zinc-900 dark:hover:bg-zinc-800"
                                     >
                                         <div>{tier.discount}</div>
                                         <div className="block text-right">

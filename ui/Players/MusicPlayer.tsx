@@ -139,7 +139,7 @@ const MusicPlayer = () => {
 
 
   return (
-    <div className="block max-w-sm m-6 p-6 bg-white border border-gray-200 rounded-2xl shadow  dark:bg-gray-800 dark:border-gray-700 relative">
+    <div className="block max-w-sm m-6 p-6 bg-white border border-gray-200 rounded-md shadow  dark:bg-gray-800 dark:border-gray-700 relative">
       <div className="flex items-center justify-between">
 
 
@@ -244,7 +244,7 @@ const MusicPlayer = () => {
                   max="100"
                   value={volume}
                   onChange={handleVolumeChange}
-                  className="w-full bg-gray-200 accent-red-300 rounded-lg cursor-pointer dark:bg-gray-700"
+                  className="w-full bg-gray-200 accent-red-300 rounded-md cursor-pointer dark:bg-gray-700"
                 />
 
                 <svg className="w-8"
