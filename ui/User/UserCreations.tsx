@@ -73,7 +73,7 @@ async function UserCreations() {
 
     if (sortedData) {
         return (
-            <div className="relative overflow-x-auto mt-12 rounded-md">
+            <div className="relative overflow-x-auto mt-12 rounded-md border border-zinc-200 dark:border-zinc-700 w-full max-w-5xl  mx-auto">
                 <UserCreationsTable sortedData={sortedData} />
             </div>
         );
