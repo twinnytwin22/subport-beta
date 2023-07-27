@@ -46,9 +46,9 @@ export const CommentContextComponent = ({ dropId }: any) => {
   }
 
   return (
-    <div className="comments-modal w-full mx-auto justify-center bg-white border-zinc-200 dark:bg-black border dark:border-zinc-800 max-w-lg p-8 ">
+    <div className="comments-modal w-full mx-auto justify-center bg-white border-zinc-200 dark:bg-black border dark:border-zinc-800 max-w-lg p-8 place-content-evenly items-center ">
 
-      <div className="overflow-y-scroll h-60 w-full pt-4  mx-auto">
+      <div className="overflow-y-scroll h-72 w-full pt-4  mx-auto">
         {[...comments].length === 0 ? <p className="text-xs text-center text-zinc-300 dark:text-zinc-700">Be the first to comment...</p> : ''}
         {[...comments]?.reverse().map((comment: any, i) => (
           <div
@@ -79,14 +79,14 @@ export const CommentContextComponent = ({ dropId }: any) => {
         ))}
       </div>
       {profile && (
-        <div className="w-full mt-4 flex mx-auto justify-center ">
+        <div className="w-full mt-4 flex mx-auto justify-center place-items-center ">
           {/* Use the MentionsInput to handle the textarea with mentions */}
           <MentionsInput
             style={emojiMentionStyles}
             singleLine
             color="white"
             placeholder="Add your comment..."
-            className="w-full max-w-md h-full will-change-auto mb-2 bg-white dark:bg-black text-xs ring-0 ring-white dark:ring-black "
+            className="w-full max-w-md h-full will-change-auto  mt-4 bg-white dark:bg-black text-xs ring-0 ring-white dark:ring-black "
             value={comment}
             onChange={(e: any) => handleCommentChange(e.target.value)}
           >
@@ -113,7 +113,7 @@ export const CommentContextComponent = ({ dropId }: any) => {
               data={queryEmojis}
             />
           </MentionsInput>
-          <div className="flex h-fit justify-end text-white mt-1 pl-2">
+          <div className="flex h-fit justify-end -mt-4 text-white  pl-2">
             <button
               className="text-xs p-1.5 bg-blue-700 hover:bg-blue-600 rounded-md  text-center font-bold"
               onClick={() => handleAddComment(dropId, userId)}

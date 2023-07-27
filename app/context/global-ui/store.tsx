@@ -84,7 +84,7 @@ const useCommentsStore = create<CommentsStore>((set) => ({
     },
 
     handleDiscardComment: () => {
-        set({ showTextarea: false, comment: '' });
+        set({ showTextarea: false, comment: '', comments: [''] });
     },
     useDropId: (dropId: string) => {
         set({ dropId });

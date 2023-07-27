@@ -64,16 +64,18 @@ export const GlobalUI =
 
         return (
             <GlobalUIContext.Provider value={values}>
-                {children}
-                {showModal && (
-                    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-opacity-50 bg-black">
-                        {/* Opaque background */}
-                        <div className=" fixed max-w-screen z-50 min-h-screen justify-center left-0 w-full p-4 top-36 rounded-md place-items-center">
-                            {/* Modal */}
-                            <CommentContextComponent dropId={dropId} />
+                <div className={`${showModal && 'pr-2 w-screen h-screen'}`}>
+                    {children}
+                    {showModal && (
+                        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-opacity-50 bg-black mr-2 ">
+                            {/* Opaque background */}
+                            <div className=" fixed max-w-screen z-50 min-h-screen justify-center left-0 w-full p-4 top-36 rounded-md place-items-center mr-2">
+                                {/* Modal */}
+                                <CommentContextComponent dropId={dropId} />
+                            </div>
                         </div>
-                    </div>
-                )}
+
+                    )}  </div>
             </GlobalUIContext.Provider>
         );
     };
