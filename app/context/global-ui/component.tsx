@@ -29,11 +29,10 @@ export const CommentContextComponent = ({ dropId }: any) => {
 
   useEffect(() => {
     getComments(dropId);
-  }, [comment]);
+  }, [comment, dropId, getComments]);
   useEffect(() => {
     getUsers();
-    console.log(users);
-  }, []);
+  }, [getUsers]);
 
   const queryEmojis = (query: string, callback: any) => {
     if (query.length === 0) return

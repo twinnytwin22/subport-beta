@@ -22,6 +22,8 @@ export const GlobalUI =
         } = useCommentsStore();
 
         const values = {
+            useDropId,
+            dropId,
             comments,
             comment,
             users,
