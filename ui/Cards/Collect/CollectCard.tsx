@@ -65,13 +65,16 @@ async function CollectCard(props: any) {
           </div>
         </div>
         <div className="p-5 text-zinc-900 dark:text-white">
-          <a href="#">
-            <h5 className="mb-2 text-lg font-bold tracking-tight ">{drop?.name}</h5>
-          </a>
-          <div className="flex justify-between items-center mb-2">
-            <Suspense fallback="">
+          <Suspense fallback="">
+            <div className="w-fit scale-110">
               <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
-            </Suspense>
+            </div>
+          </Suspense>
+
+          <div className="flex justify-between items-center mb-2">
+            <Link href={`/drop/${drop.slug}`}>
+              <h5 className="mt-2 text-lg font-bold tracking-tight ">{drop?.name}</h5>
+            </Link>
             <CollectButton drop={drop} props={props} />
           </div>
           <p className="text-xs border-hidden">Collected by You & 67 more</p>

@@ -8,29 +8,16 @@ import { Mention, MentionsInput } from "react-mentions";
 import { supabase } from 'lib/constants';
 import mentionStyles from 'styles/mentionStyles';
 import mentionInputStyles from 'styles/mentionInputStyles';
+import useCommentsStore from 'app/context/comments/store';
 export const CommentComponent = ({ dropId }: any) => {
+    const { comments, comment, users, getUsers, showTextarea } = useCommentsStore()
     const { profile } = useAuthProvider();
-    const [comment, setComment] = useState('');
-    const [showTextarea, setShowTextarea] = useState(false);
-    const [comments, setComments] = useState([''])
-    const [users, setUsers] = useState<any>([''])
     const userId = profile?.id;
     const getComments = async () => {
         const dropComments = await getDropComments(dropId);
-        setComments(dropComments)
+        useCommentsStore.setState({ comments: dropComments })
     }
-    const getUsers = async () => {
-        const { data, error } = await supabase
-            .from('profiles')
-            .select('username, id')
-        if (error) {
-            throw error
-        }
-        if (data) {
-            const allUsers = data.map((user) => ({ display: user.username, id: user.id }))
-            setUsers(allUsers)
-        }
-    }
+
     useEffect(() => {
         getComments()
     }, [comment])
@@ -39,18 +26,19 @@ export const CommentComponent = ({ dropId }: any) => {
         console.log(users)
     }, [])
     const handleCommentChange = (e: any) => {
-        setComment(e.target.value);
+        useCommentsStore.setState({ comment: e.target.value })
+
     };
 
     const handleAddComment = async () => {
         try {
             await addDropComment(dropId, comment, userId);
             // Clear the comment input after successful submission
-            setComment('');
-
+            useCommentsStore.setState({ comment: '' })
             // Fetch the updated list of comments
             const updatedComments = await getDropComments(dropId);
-            setComments(updatedComments)
+            useCommentsStore.setState({ comments: updatedComments })
+
             return updatedComments;
         } catch (error) {
             console.error('Error adding comment:', error);
@@ -67,12 +55,11 @@ export const CommentComponent = ({ dropId }: any) => {
     };
 
     const handleShowTextarea = () => {
-        setShowTextarea(true);
+        useCommentsStore.setState({ showTextarea: true })
     };
 
     const handleDiscardComment = () => {
-        setShowTextarea(false);
-        setComment('');
+        useCommentsStore.setState({ comment: '' })
     };
 
     return (
