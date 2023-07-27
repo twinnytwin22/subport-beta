@@ -9,6 +9,7 @@ interface Comment {
 }
 
 interface CommentsStore {
+    dropId: string;
     comment: string;
     showTextarea: boolean;
     comments: Comment[];
@@ -20,12 +21,15 @@ interface CommentsStore {
     handleAddComment: (dropId: string, userId: string) => Promise<Comment[]>;
     handleDeleteComment: (dropId: string, userId: string, commentId: string) => Promise<void>;
     handleDiscardComment: () => void;
+    useDropId: (dropId: string) => void; //
 }
 
 // Function to fetch comments for a specific drop
 
 
 const useCommentsStore = create<CommentsStore>((set) => ({
+    dropId: '', // Initialize with an empty string
+
     comment: '',
     showTextarea: false,
     comments: [],
@@ -82,6 +86,10 @@ const useCommentsStore = create<CommentsStore>((set) => ({
     handleDiscardComment: () => {
         set({ showTextarea: false, comment: '' });
     },
+    useDropId: (dropId: string) => {
+        set({ dropId });
+    },
+
 }));
 
 export default useCommentsStore;

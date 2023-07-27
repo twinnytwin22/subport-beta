@@ -17,15 +17,15 @@ export function DropPage({ props }: any) {
   const comments = props?.comments || 5
 
   return props && (
-    <div className="bg-zinc-100 dark:bg-black h-full flex max-w-4xl mx-auto w-full mt-12 pb-12 overflow-hidden">
+    <div className="bg-zinc-100 dark:bg-black h-full flex max-w-4xl mx-auto w-full mt-2.5 md:mt-12 pb-12 overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto items-start w-full relative">
         <div className="w-full relative px-4 justify-center content-center">
           <div className="flex flex-col mb-2 max-w-lg mx-auto w-full relative">
             <div className="flex lg:items-end space-x-2">
-              <h1 className="text-2xl font-semibold">{drop.name}</h1>
+              <h1 className="text-xl font-bold">{drop.name}</h1>
               <h1 className="text-2xl font-semibold">|</h1>
 
-              <h1 className="text-2xl font-semibold">{upload.artist}</h1>
+              <h1 className="text-xl font-bold">{upload.artist}</h1>
             </div>
             <div className="hidden">
               <h1 className="text-md mt-2">Available {upload.releaseDate}</h1>

@@ -1,22 +1,26 @@
 'use client'
 import React, { useState } from 'react'
 import { CommentModal } from './CommentModal';
-
+import useCommentsStore from 'app/context/global-ui/store';
 export const CommentIcon = ({ className, dropId, userId }: any) => {
-    const [isOpen, setIsOpen] = React.useState(false);
+    const { useDropId } = useCommentsStore()
+    const isOpen = useCommentsStore.getState().showTextarea
 
-    const handleOpenComments = () => {
-        setIsOpen(true);
+    const handleOpenComments = (dropId: string) => {
+        useDropId(dropId)
+        useCommentsStore.setState({ showTextarea: true })
+
     };
 
-    const handleClose = () => {
-        setIsOpen(false);
+    const handleClose = (dropId: string) => {
+        useDropId('')
+        useCommentsStore.setState({ showTextarea: false })
     };
 
 
     return (
         <div className='isolate'>
-            <svg onClick={handleOpenComments}
+            <svg onClick={(() => handleOpenComments(dropId))}
                 className={className}
                 fill="none"
                 stroke="currentColor"
@@ -31,7 +35,6 @@ export const CommentIcon = ({ className, dropId, userId }: any) => {
                     d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
                 ></path>
             </svg>
-            {isOpen && <CommentModal dropId={dropId} userId={userId} close={handleClose} />}
         </div>
     );
 };
