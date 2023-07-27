@@ -56,13 +56,8 @@ export const GlobalUI =
             return () => {
                 document.removeEventListener('mousedown', handleClick);
             };
-        }, [showModal]);
+        }, [showModal, handleDiscardComment]);
 
-
-        const handleClose = () => {
-            useDropId('')
-            useCommentsStore.setState({ showTextarea: false })
-        };
 
 
         return (
