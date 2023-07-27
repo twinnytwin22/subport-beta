@@ -49,8 +49,8 @@ const useCommentsStore = create<CommentsStore>((set) => ({
         }
     },
 
-    handleCommentChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-        set({ comment: e.target.value });
+    handleCommentChange: (e: any) => {
+        set({ comment: e });
     },
 
     handleAddComment: async (dropId: string, userId: string) => {

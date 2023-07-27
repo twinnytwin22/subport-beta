@@ -6,6 +6,7 @@ import DropNav from 'ui/Sections/Drop/DropNav';
 import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper';
 import Image from 'next/image';
 import PlayButton from 'ui/Cards/Collect/PlayButton';
+import { CommentComponent } from './DropCommentUI';
 
 export function DropPage({ props }: any) {
   console.log(props, "PROPS")
@@ -26,7 +27,7 @@ export function DropPage({ props }: any) {
 
               <h1 className="text-2xl font-semibold">{upload.artist}</h1>
             </div>
-            <div className="">
+            <div className="hidden">
               <h1 className="text-md mt-2">Available {upload.releaseDate}</h1>
             </div>
           </div>
@@ -49,22 +50,27 @@ export function DropPage({ props }: any) {
 
             </div>
           </div>
-          <div className="relative w-fit mt-4 ml-auto">
-            <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
+          <div className='flex w-full relative max-w-lg mx-auto'>
+            <div className='w-[65%]'>
+              <p className=" text-left mt-4 text-sm md:text-md  font-light text-zinc-500 lg:mb-8 md:text-md dark:text-zinc-300">
+                {metaData?.description}
+              </p>
+            </div>
+            <div className=" w-fit mt-4 ml-auto">
+              <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
+            </div>
           </div>
 
         </div>
 
-        <div className="w-full max-w-lg lg:max-w-sm mt-28 lg:mt-8 lg:border-l-zinc-300 lg:dark:border-l-zinc-600 lg:border-l-2 lg:pl-16 p-4 h-full mx-auto overflow-y-auto">
+        <div className="w-full max-w-lg lg:max-w-sm mt-12 lg:mt-4 lg:border-l-zinc-300 lg:dark:border-l-zinc-600 lg:border-l-2 lg:pl-16 p-4 h-full mx-auto overflow-y-auto">
 
           <div className="flex flex-col w-full mx-auto justify-center place-content-center place-items-center">
-            <p className=" text-left mb-6 text-sm md:text-md font-light text-zinc-500 lg:mb-8 md:text-md dark:text-zinc-400">
-              {metaData?.description}
-            </p>
-            <p className="text-xs mb-4">Collected by names, names, 67 more</p>
+
+            <p className="text-xs mb-4 hidden">Collected by names, names, 67 more</p>
             <div className="w-full mx-auto">
               <DropLinksTo />
-              <DropNav dropId={drop?.id} comments={comments} />
+              <CommentComponent key={drop.id} dropId={drop.id} comments={comments} />
             </div>
           </div>
         </div>
