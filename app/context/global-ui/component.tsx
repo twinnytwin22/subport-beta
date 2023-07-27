@@ -46,7 +46,7 @@ export const CommentContextComponent = ({ dropId }: any) => {
   }
 
   return (
-    <div className="comments-modal w-full mx-auto justify-center bg-white border-zinc-200 dark:bg-black border dark:border-zinc-800 max-w-lg p-8 place-content-evenly items-center ">
+    <div className="comments-modal w-full mx-auto justify-center bg-white border-zinc-200 dark:bg-black border dark:border-zinc-800 max-w-lg p-8 place-content-evenly items-center rounded-md ">
 
       <div className="overflow-y-scroll h-72 w-full pt-4  mx-auto">
         {[...comments].length === 0 ? <p className="text-xs text-center text-zinc-300 dark:text-zinc-700">Be the first to comment...</p> : ''}

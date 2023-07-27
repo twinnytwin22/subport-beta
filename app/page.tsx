@@ -14,7 +14,7 @@ async function Main() {
   const drops = await res.json()
   const dropsWithMetaData = drops?.dropsWithMetaData
   return (
-    <div className='bg-gray-100 dark:bg-black p-4  w-full mx-auto justify center'>
+    <div className='bg-gray-100 dark:bg-black p-4  w-full mx-auto justify-center'>
       <HomePage drops={dropsWithMetaData} />
     </div>
   )

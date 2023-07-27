@@ -31,7 +31,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
   };
   console.log(props)
   return (
-    <div className='bg-gray-100 dark:bg-black w-full items-center mb-20 min-h-full'>
+    <div className='bg-gray-100 dark:bg-black w-full items-center mb-20 min-h-full relative mx-auto justify-center'>
       <DropPage props={props ?? []} />
     </div>
   )
