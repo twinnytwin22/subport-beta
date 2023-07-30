@@ -62,11 +62,10 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
                 <Suspense>
                   <ThemeProvider attribute="class" defaultTheme="dark">
                     <Suspense>
-                      <GoogleMapWrap>
-                        <GlobalUI>
-                          {children}
-                        </GlobalUI>
-                      </GoogleMapWrap>
+
+                      <GlobalUI>
+                        {children}
+                      </GlobalUI>
                     </Suspense>
                   </ThemeProvider>
                 </Suspense>
