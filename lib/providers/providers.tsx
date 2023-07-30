@@ -46,32 +46,34 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
 
       <Suspense>
         <AuthContextProvider>
-          <SubportPlayer>
-            <ThirdwebProvider
-              clientId={clientId}
-              storageInterface={storage}
-              activeChain={Polygon}
-              supportedChains={[Ethereum, Polygon, Optimism]}
-              queryClient={queryClient}
-              sdkOptions={{
-                thirdwebApiKey: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
-                //           infuraApiKey: process.env,
-                alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID
-              }}>
-              <Suspense>
-                <ThemeProvider attribute="class" defaultTheme="dark">
-                  <Suspense>
-                    <GoogleMapWrap>
-                      <GlobalUI>
-                        {children}
-                      </GlobalUI>
-                    </GoogleMapWrap>
-                  </Suspense>
-                </ThemeProvider>
-              </Suspense>
-              <ToastContainer />
-            </ThirdwebProvider>
-          </SubportPlayer>
+          <Suspense>
+            <SubportPlayer>
+              <ThirdwebProvider
+                clientId={clientId}
+                storageInterface={storage}
+                activeChain={Polygon}
+                supportedChains={[Ethereum, Polygon, Optimism]}
+                queryClient={queryClient}
+                sdkOptions={{
+                  thirdwebApiKey: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
+                  //           infuraApiKey: process.env,
+                  alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID
+                }}>
+                <Suspense>
+                  <ThemeProvider attribute="class" defaultTheme="dark">
+                    <Suspense>
+                      <GoogleMapWrap>
+                        <GlobalUI>
+                          {children}
+                        </GlobalUI>
+                      </GoogleMapWrap>
+                    </Suspense>
+                  </ThemeProvider>
+                </Suspense>
+                <ToastContainer />
+              </ThirdwebProvider>
+            </SubportPlayer>
+          </Suspense>
         </AuthContextProvider>
       </Suspense >
     </QueryClientProvider>
