@@ -1,5 +1,4 @@
 
-import 'server-only'
 import Providers from "lib/providers/providers";
 import Navbar from "ui/Navigation/Navbar";
 import MobileMenu from "ui/Navigation/MobileMenu";
