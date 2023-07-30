@@ -5,6 +5,7 @@ import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { useSubportPlayer } from "app/context/subport-player";
 import Image from "next/image";
 const FooterPlayer = () => {
+    
     const { user } = useAuthProvider();
     const {
         audioUrl,

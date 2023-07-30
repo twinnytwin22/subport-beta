@@ -12,6 +12,7 @@ async function Profile({ profile, username, data }: any) {
     <div className="w-full mx-auto mt-8 mb-20 content-center my-8">
 
       <Image
+        priority
         className="relative h-60 md:h-80 bg-cover w-full z-0 bg-center bg-no-repeat rounded-md"
         width={1024}
         height={300}
