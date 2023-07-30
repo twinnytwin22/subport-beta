@@ -11,7 +11,6 @@ const refresh = () => {
 };
 
 export const AuthContext = createContext<AuthState>(useAuthStore.getState());
-const router = useRouter()
 const fetchProfile = async (id: string) => {
   const { data, error } = await supabase
     .from("profiles")
@@ -30,6 +29,7 @@ const fetchProfile = async (id: string) => {
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener } = useAuthStore()
+  const router = useRouter()
 
   const { data, isLoading } = useQuery(["user", "subscription", 'subscriptionData', 'authListener'], async () => {
     // Fetch user and authListener data concurrently
