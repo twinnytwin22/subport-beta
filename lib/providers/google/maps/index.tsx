@@ -7,7 +7,7 @@ const GoogleMapSearchContext = createContext<any>(null);
 export function useGoogleMapSearchContext() {
     return useContext(GoogleMapSearchContext);
 }
-const libs: any = ["places"]
+
 const GoogleMapSearchProvider = ({ children }: { children: React.ReactNode }) => {
     const [formattedAddress, setFormattedAddress] = useState<any>(null);
     const [lat, setLat] = useState<any>(0);
@@ -32,7 +32,7 @@ const GoogleMapSearchProvider = ({ children }: { children: React.ReactNode }) =>
         <GoogleMapSearchContext.Provider value={values}>
             <LoadScript
                 googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-                libraries={libs}
+                libraries={["places"]}
             >
                 {children}
             </LoadScript>
