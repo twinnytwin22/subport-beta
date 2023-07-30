@@ -158,8 +158,8 @@ const MobileSidebarArea = ({ isOpen }: any) => {
           </span>
         </Link>
       </div>
-      <div className="mx-auto w-full px-4">
-        <ul className=" w-full justify-center font-bold text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
+      <div className="mx-auto w-full px-4 justify-center relative">
+        <ul className="pl-8 w-full justify-center font-bold text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
 
           {PublicRoutes.map((link) => (
             <Link href={link.route} key={link.name}>
@@ -169,7 +169,7 @@ const MobileSidebarArea = ({ isOpen }: any) => {
               </li>
             </Link>))}
         </ul>
-        <ul className="font-bold text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
+        <ul className="font-bold pl-8 text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
 
           {user && UserRoutes.map((link) => (
             <Link key={link.name} href={link.route}>
