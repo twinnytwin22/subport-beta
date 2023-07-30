@@ -11,7 +11,7 @@ const refresh = () => {
 };
 
 export const AuthContext = createContext<AuthState>(useAuthStore.getState());
-
+const router = useRouter()
 const fetchProfile = async (id: string) => {
   const { data, error } = await supabase
     .from("profiles")
@@ -43,6 +43,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
           if (event === "SIGNED_IN") {
             const profile = await fetchProfile(currentSession.user.id);
             useAuthStore.setState({ user: currentSession.user, profile });
+            router.refresh()
           } else if (event === "SIGNED_OUT") {
             refresh();
           }
