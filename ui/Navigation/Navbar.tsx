@@ -8,12 +8,12 @@ function Navbar() {
   const { user } = useAuthProvider();
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 px-6 py-2.5 border-b w-full bg-zinc-100 dark:bg-black">
-      <div className="z-[300]  px-6 py-2.5  mx-auto relative sm:pl-32 lg:pl-64">
+    <div className="fixed top-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 pl-6 py-2.5 border-b w-full bg-zinc-100 dark:bg-black">
+      <div className="z-[300] w-full px-6 py-2.5  mx-auto relative sm:pl-32 lg:pl-64">
         {user ? (
-          <div className="flex items-center justify-between max-w-screen-xl mx-auto">
+          <div className="flex w-full items-center justify-center max-w-screen-xl mx-auto">
             <SearchBar />
-            <div className="flex items-center space-x-2">
+            <div className="sm:flex items-center space-x-2 hidden ">
               <NotificationIcon />
               <div className="hidden sm:block">
                 {" "}
@@ -22,10 +22,8 @@ function Navbar() {
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-end max-w-screen-xl mx-auto h-6">
-            <div className="lg:hidden">
-              <SignInModal />
-            </div>
+          <div className="flex items-center justify-end max-w-screen-xl mx-auto h-6 lg:hidden" >
+            <SignInModal />
           </div>
         )}
       </div>
@@ -62,7 +60,7 @@ const SearchButton = () => {
 
 const NotificationIcon = () => {
   return (
-    <div className="hidden sm:block group w-8 rounded-full hover:scale-105">
+    <div className="group w-8 rounded-full hover:scale-105">
       <svg
         className="w-8"
         fill="none"
