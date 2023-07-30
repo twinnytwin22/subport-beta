@@ -5,6 +5,7 @@ import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
 import { useAuthStore, AuthState } from "./store";
 import { useRouter } from "next/navigation";
 import { supabase } from "lib/constants";
+import { AuthChangeEvent, Session } from "@supabase/gotrue-js";
 
 const refresh = () => {
   window.location.reload();
@@ -39,13 +40,13 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     ] = await Promise.all([
       supabase.auth.getSession(),
       supabaseAdmin.auth.onAuthStateChange(
-        async (event: string, currentSession: any) => {
-          if (event === "SIGNED_IN") {
-            const profile = await fetchProfile(currentSession.user.id);
-            useAuthStore.setState({ user: currentSession.user, profile });
+        async (event: AuthChangeEvent, currentSession: Session | null) => {
+          if (currentSession && event === "SIGNED_IN") {
+            const profile = await fetchProfile(currentSession?.user.id);
+            useAuthStore.setState({ user: currentSession?.user, profile });
             router.refresh()
           } else if (event === "SIGNED_OUT") {
-            refresh();
+            router.push('/')
           }
           if (event === "PASSWORD_RECOVERY") {
             const newPassword = prompt("What would you like your new password to be?");
