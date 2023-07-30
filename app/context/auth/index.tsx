@@ -1,11 +1,11 @@
-"use client";
-import { Suspense, createContext, useContext, useMemo } from "react";
+'use client'
+import React, { createContext, useContext, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
-import { LoadingContainer } from "ui/LoadingContainer";
 import { useAuthStore, AuthState } from "./store";
 import { useRouter } from "next/navigation";
 import { supabase } from "lib/constants";
+
 const refresh = () => {
   window.location.reload();
 };
@@ -28,81 +28,26 @@ const fetchProfile = async (id: string) => {
   return data;
 };
 
-export const AuthContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const router = useRouter();
-  const { data: user, isLoading: isUserLoading } = useQuery(
-    ["user"],
-    async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const { signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener } = useAuthStore()
 
-      if (session) {
-        const { data: authUser } = await supabase.auth.getUser();
-
-        if (authUser?.user) {
-          const profile = await fetchProfile(authUser.user.id);
-          useAuthStore.setState({ profile });
-          useAuthStore.setState({ user: authUser.user });
-
-          return { user: authUser.user, profile };
-        }
-      }
-      return null;
-    }
-  );
-
-
-  const signInWithGoogle = useAuthStore((state) => state.signInWithGoogle);
-  const signInWithSpotify = useAuthStore((state) => state.signInWithSpotify);
-  const signOut = useAuthStore((state) => state.signOut);
-
-  const unsubscribeAuthListener = useAuthStore(
-    (state) => state.unsubscribeAuthListener
-  );
-
-  const value = useMemo(
-    () => ({
-      user: user?.user || null,
-      profile: user?.profile || null,
-      isLoading: isUserLoading,
-      signInWithGoogle,
-      signInWithSpotify,
-      signOut,
-      unsubscribeAuthListener,
-    }),
-    [
-      user,
-      isUserLoading,
-      signInWithGoogle,
-      signInWithSpotify,
-      signOut,
-      unsubscribeAuthListener,
-    ]
-  );
-
-  const { data } = useQuery(["authListener", "AuthListener"], async () => {
-    try {
-      const {
-        data: { subscription: AuthListener },
-      } = supabaseAdmin.auth.onAuthStateChange(
+  const { data, isLoading } = useQuery(["user", "authListener"], async () => {
+    // Fetch user and authListener data concurrently
+    const [
+      { data: userSessionData },
+      { data: subscriptionData },
+    ] = await Promise.all([
+      supabase.auth.getSession(),
+      supabaseAdmin.auth.onAuthStateChange(
         async (event: string, currentSession: any) => {
           if (event === "SIGNED_IN") {
-            useAuthStore.setState({ user: currentSession.user });
-
             const profile = await fetchProfile(currentSession.user.id);
-            useAuthStore.setState({ profile });
+            useAuthStore.setState({ user: currentSession.user, profile });
           } else if (event === "SIGNED_OUT") {
             refresh();
           }
           if (event === "PASSWORD_RECOVERY") {
-            const newPassword = prompt(
-              "What would you like your new password to be?"
-            );
+            const newPassword = prompt("What would you like your new password to be?");
             const { data, error } = await supabaseAdmin.auth.updateUser({
               password: newPassword!,
             });
@@ -112,25 +57,37 @@ export const AuthContextProvider = ({
             console.log(error);
           }
         }
-      );
+      ),
+    ]);
 
-      // Store the unsubscribeAuthListener method in the state
-      useAuthStore.setState({
-        unsubscribeAuthListener: AuthListener.unsubscribe,
-      });
+    if (userSessionData && userSessionData.session) {
+      const { data: authUser } = await supabase.auth.getUser();
 
-      return { subscription: AuthListener };
-    } catch (error) {
-      console.error("Error subscribing to auth state change:", error);
-      return null;
+      if (authUser?.user) {
+        const profile = await fetchProfile(authUser.user.id);
+        useAuthStore.setState({ profile });
+        useAuthStore.setState({ user: authUser.user });
+
+        return { user: authUser.user, profile };
+      }
     }
+    return { subscription: subscriptionData };
   });
 
-  return (
-    <Suspense fallback={<LoadingContainer />}>
-      <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-    </Suspense>
+  const value = useMemo(
+    () => ({
+      user: data?.user || null,
+      profile: data?.profile || null,
+      isLoading,
+      signInWithGoogle,
+      signInWithSpotify,
+      signOut,
+      unsubscribeAuthListener,
+    }),
+    [data, isLoading, signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuthProvider = () => {

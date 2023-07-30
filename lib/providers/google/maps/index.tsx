@@ -13,9 +13,12 @@ const GoogleMapSearchProvider = ({ children }: { children: React.ReactNode }) =>
     const [lat, setLat] = useState<any>(0);
     const [lng, setLng] = useState<any>(0);
 
-    useEffect(() => {
-        console.log(lat, lng)
-    }, [lat, lng])
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => setMounted(true), []);
+
+
+    if (!mounted) return null;
+
 
     const values = {
         formattedAddress,

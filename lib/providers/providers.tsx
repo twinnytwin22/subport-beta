@@ -34,11 +34,11 @@ const uploader = new IpfsUploader() as any;
 const storage = new ThirdwebStorage({ uploader, gatewayUrls, clientId, secretKey }) as any;
 
 const Providers = ({ children, }: { children: React.ReactNode }) => {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
+  // const [mounted, setMounted] = React.useState(false);
+  // React.useEffect(() => setMounted(true), []);
 
 
-  if (!mounted) return null;
+  // if (!mounted) return null;
   // <Script src="https://sdk.scdn.co/spotify-player.js"></Script> 
 
   return (
