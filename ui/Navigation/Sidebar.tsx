@@ -56,12 +56,12 @@ export function MobileSidebar() {
 
   return (
 
-    <aside className="md:hidden block bg-gray-100 h-full z-50  w-full  px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-zinc-800 top-0 fixed float-left left-0">
+    <aside className="sm:hidden block bg-gray-100 h-full z-50  w-1/2  px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-blue-800 top-0 fixed float-left left-0">
       <div className="mb-16 mx-auto m-3">
         <Link href="/" className="flex items-center">
           <Image src={SupbortLogo} className="lg:mx-3  w-9 items-center justify-center mx-auto " alt="Subport Logo" width={36} height={18} style={{ width: 'auto', height: 'auto' }}
           />
-          <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white hidden lg:block">
+          <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white ">
             subport
           </span>
         </Link>

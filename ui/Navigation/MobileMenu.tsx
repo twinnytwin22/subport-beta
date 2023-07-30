@@ -2,12 +2,17 @@
 import { useAuthProvider } from "app/context/auth";
 import { useSubportPlayer } from "app/context/subport-player";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FaHamburger } from "react-icons/fa";
 import UserAvatar from "ui/User/UserAvatar";
-
+import { MobileSidebar } from "./Sidebar";
+import { AiOutlineMenu } from "react-icons/ai";
+import { SupbortLogo } from "lib/content/siteSettings";
+import Image from "next/image";
+import { PublicRoutes, UserRoutes } from "./Routes";
 
 function MobileMenu() {
+  const [isOpen, setOpen] = useState(false)
   const { user } = useAuthProvider()
   const {
     audioUrl,
@@ -27,18 +32,29 @@ function MobileMenu() {
     pause,
     stop
   } = useSubportPlayer();
+
+  const handleOpenMenu = () => {
+    if (!isOpen) {
+      setOpen(true)
+      return
+    } else {
+      setOpen(false)
+      return
+    }
+  }
+
   return user && (
     <>
-      <div className="block sm:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0">
+      <div className="block sm:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0 z-10">
         <div className="grid grid-cols-5 text-zinc-800 dark:text-zinc-400 justify-items-center pt-3">
           <div className="flex group">
             <Link
               href="/"
               className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white"
             >
-              <span className="px-1 flex flex-col items-center">
-                <FaHamburger className="w-8 pb-2" />
-              </span>
+              <div className="px-1 flex flex-col items-center" onClick={handleOpenMenu}>
+                <AiOutlineMenu className="w-10 h-10 pb-2" />
+              </div>
             </Link>
           </div>
           <div className="flex group">
@@ -121,7 +137,7 @@ function MobileMenu() {
           </div>
         </div>
       </div>
-      <MobileSidebar />
+      <MobileSidebarArea isOpen={isOpen} />
     </>
   );
 }
@@ -129,10 +145,45 @@ function MobileMenu() {
 export default MobileMenu;
 
 
-const MobileSidebar = () => {
-  return (
-    <div className="fixed h-screen left-0 w-1/2 bottom-16 bg-white dark:bg-black block md:hidden">
-      <MobileSidebar />
+const MobileSidebarArea = ({ isOpen }: any) => {
+  const { user } = useAuthProvider()
+  return isOpen && (
+    <div className="fixed h-screen top-0 -z-0 left-0 w-1/2  bg-white dark:bg-black visible sm:hidden">
+      <div className="mb-16 mx-auto m-3 w-fit">
+        <Link href="/" className="flex items-center justify-around">
+          <Image src={SupbortLogo} className="lg:mx-3  w-9 items-center justify-center mx-auto " alt="Subport Logo" width={36} height={18} style={{ width: 'auto', height: 'auto' }}
+          />
+          <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white ">
+            subport
+          </span>
+        </Link>
+      </div>
+      <div className="mx-auto w-full px-4">
+        <ul className=" w-full justify-center font-bold text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
+
+          {PublicRoutes.map((link) => (
+            <Link href={link.route} key={link.name}>
+              <li className="">
+                <p className="block"> {link.name}</p>
+
+              </li>
+            </Link>))}
+        </ul>
+        <ul className="font-bold text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
+
+          {user && UserRoutes.map((link) => (
+            <Link key={link.name} href={link.route}>
+              <li className="">
+                <p className="block">{link.name}</p>
+
+              </li>
+            </Link>)
+          )}
+        </ul>
+        <>
+
+        </>
+      </div>
     </div>
   )
 }
