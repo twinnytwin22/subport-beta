@@ -31,11 +31,11 @@ const fetchProfile = async (id: string) => {
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener } = useAuthStore()
 
-  const { data, isLoading } = useQuery(["user", "authListener"], async () => {
+  const { data, isLoading } = useQuery(["user", "subscription", 'subscriptionData'], async () => {
     // Fetch user and authListener data concurrently
     const [
       { data: userSessionData },
-      { data: subscriptionData },
+      { data: { subscription: subscriptionData } },
     ] = await Promise.all([
       supabase.auth.getSession(),
       supabaseAdmin.auth.onAuthStateChange(
