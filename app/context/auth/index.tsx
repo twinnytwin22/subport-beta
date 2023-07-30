@@ -46,7 +46,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
             useAuthStore.setState({ user: currentSession?.user, profile });
             router.refresh()
           } else if (event === "SIGNED_OUT") {
-            router.push('/')
+            refresh()
           }
           if (event === "PASSWORD_RECOVERY") {
             const newPassword = prompt("What would you like your new password to be?");
