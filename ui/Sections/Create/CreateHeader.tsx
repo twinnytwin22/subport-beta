@@ -22,7 +22,7 @@ const createSubport = {
 
 function CreateHeader() {
     return (
-        <div className='bg-zinc-100 dark:bg-black w-full max-w-7xl mx-auto place-items-center items-center '>
+        <div className='bg-zinc-100 dark:bg-black w-full mx-auto place-items-center items-center '>
 
             <div className='max-w-4xl mx-auto w-full mt-10 justify-center'>
                 <h2 className="text-2xl font-bold text-center ">Get Started</h2>

@@ -16,7 +16,7 @@ async function ProfileLayout(props: { params: { slug: string, user: string }, ch
 
         const data = await getProfileData(res.profile?.id)
         return (
-            <section className='mx-auto w-full relative z-0'>
+            <div className='relative overflow-y-hidden w-full max-w-7xl'>
                 <Suspense>
                     <Profile profile={res.profile} username={user} data={data} />
                 </Suspense>
@@ -27,7 +27,7 @@ async function ProfileLayout(props: { params: { slug: string, user: string }, ch
                     <ProfileEventsRow profile={res.profile} />
                 </Suspense>
                 {props.children}
-            </section>
+            </div>
         );
     } catch (error) {
         console.error('An error occurred:', error);
