@@ -17,8 +17,7 @@ export async function POST(request: Request) {
   if (payload.type === "INSERT" && payload.table === "followers") {
     const { following_id, follower_id } = payload.record;
 
-    let message = "You have a new follower";
-
+    message = "You have a new follower";
     // Insert the new follower into the notifications table
     const { data: newNotification, error } = await supabase
       .from("notifications")
@@ -26,16 +25,17 @@ export async function POST(request: Request) {
         user_id: following_id,
         message,
       })
+      .select()
       .single();
 
     if (error) {
       console.error(error);
       return NextResponse.json("Failed to insert new notification");
     }
-
+    data = newNotification;
     return NextResponse.json({
       status: 200,
-      following_id,
+      data,
       message: `New Follower for`,
     });
   }
