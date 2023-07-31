@@ -15,14 +15,15 @@ export async function GET(req: Request) {
 
 export async function POST(request: Request) {
   const req = await request.json();
-  const notificationData = req.data;
+  const { following_id, follower_id, created_at } = req.data;
 
   // Insert the notification into the Supabase table
   try {
     const { data, error } = await supabaseApi.from("notifications").insert([
       {
-        user_id: notificationData.record.following_id,
+        user_id: following_id,
         message: "You have a new follower.",
+        created_at,
       },
     ]);
 
