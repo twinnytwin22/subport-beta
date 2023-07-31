@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 let data = "";
-let message: any;
+let message = "";
 
 export async function GET(req: Request) {
   return NextResponse.json({
@@ -19,6 +19,6 @@ export async function POST(request: Request) {
   return NextResponse.json({
     status: 200,
     data,
-    message: "New Follower for",
+    message: `New Follower for`,
   });
 }
