@@ -27,8 +27,14 @@ export const useAuthStore = create<AuthState>((set) => ({
                 'user-read-email',
                 'playlist-read-private',
                 'playlist-read-collaborative',
+                'playlist-modify-public',
+                'playlist-modify-private',
                 'user-read-currently-playing',
                 'user-modify-playback-state',
+                'user-library-modify',
+                'user-library-read',
+                'user-follow-read',
+                'user-follow-modify',
             ].join(',');
 
             const { error } = await supabase.auth.signInWithOAuth({
