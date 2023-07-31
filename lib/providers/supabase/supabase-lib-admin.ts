@@ -5,8 +5,10 @@ import { stripe } from "lib/providers/stripe/stripe";
 import { toDateTime } from "lib/helpers";
 
 export const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || "",
-  process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || ""
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY ||
+    ""
 );
 
 const upsertProductRecord = async (product: Stripe.Product) => {

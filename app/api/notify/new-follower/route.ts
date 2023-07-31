@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { supabase } from "lib/constants";
+import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
 let message = "";
 let data = "";
+let related_user = "";
 
 export async function GET(req: Request) {
   return NextResponse.json({
@@ -16,14 +17,17 @@ export async function POST(request: Request) {
 
   if (payload.type === "INSERT" && payload.table === "followers") {
     const { following_id, follower_id } = payload.record;
-
+    let type = "follow";
     message = "You have a new follower";
+    related_user = follower_id;
     // Insert the new follower into the notifications table
-    const { data: newNotification, error } = await supabase
+    const { data: newNotification, error } = await supabaseAdmin
       .from("notifications")
       .insert({
         user_id: following_id,
         message,
+        related_user,
+        type,
       })
       .select()
       .single();
