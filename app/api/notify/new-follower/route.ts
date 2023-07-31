@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-
-let data = "";
+import { supabase } from "lib/constants";
 let message = "";
+let data = "";
 
 export async function GET(req: Request) {
   return NextResponse.json({
@@ -12,13 +12,36 @@ export async function GET(req: Request) {
 }
 
 export async function POST(request: Request) {
-  const req = await request.json();
+  const payload = await request.json();
 
-  data = req;
+  if (payload.type === "INSERT" && payload.table === "followers") {
+    const { following_id, follower_id } = payload.record;
+
+    let message = "You have a new follower";
+
+    // Insert the new follower into the notifications table
+    const { data: newNotification, error } = await supabase
+      .from("notifications")
+      .insert({
+        user_id: following_id,
+        message,
+      })
+      .single();
+
+    if (error) {
+      console.error(error);
+      return NextResponse.json("Failed to insert new notification");
+    }
+
+    return NextResponse.json({
+      status: 200,
+      following_id,
+      message: `New Follower for`,
+    });
+  }
 
   return NextResponse.json({
     status: 200,
-    data,
-    message: `New Follower for`,
+    message: "No action taken",
   });
 }
