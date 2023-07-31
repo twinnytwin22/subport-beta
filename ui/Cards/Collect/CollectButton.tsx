@@ -1,4 +1,5 @@
 'use client'
+import { useHandleOutsideClick } from 'lib/hooks/handleOutsideClick';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
@@ -6,6 +7,7 @@ import DropLinksTo from 'ui/Sections/Drop/DropLInks';
 
 function CollectButton({ props, drop }: any) {
     const [isOpen, setIsOpen] = React.useState(false);
+    useHandleOutsideClick(isOpen, setIsOpen, 'collect-button')
 
     const handleOpenCollectMenu = () => {
         setIsOpen(true);
@@ -15,27 +17,6 @@ function CollectButton({ props, drop }: any) {
         setIsOpen(false);
     };
 
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            const targetElement = event.target as Element;
-            const isLinkOrChild = targetElement.closest('a');
-
-            if (!isLinkOrChild && !targetElement.closest('.collect-button')) {
-                setIsOpen(false);
-                return;
-            }
-        };
-
-        if (isOpen) {
-            document.addEventListener('mousedown', handleClick);
-        } else {
-            document.removeEventListener('mousedown', handleClick);
-        }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClick);
-        };
-    }, [isOpen]);
 
     return (
         <>

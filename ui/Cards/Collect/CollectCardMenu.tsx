@@ -3,9 +3,11 @@ import React from 'react'
 import { MenuDots } from './EngagementUI'
 import { useState } from 'react'
 import { FaTwitter, FaCopy, } from 'react-icons/fa'
+import { useHandleOutsideClick } from 'lib/hooks/handleOutsideClick'
 
 function CollectCardMenu() {
     const [isOpen, setIsOpen] = useState(false)
+    useHandleOutsideClick(isOpen, setIsOpen, 'collect-menu')
 
     const handleMenuClick = () => {
         if (!isOpen) {
@@ -17,7 +19,7 @@ function CollectCardMenu() {
         }
     }
     return (
-        <div className='select-none'>
+        <div className='select-none collect-menu'>
             <div className={`flex h-8 pr-3 ${!isOpen && "hover:scale-110"}`} onClick={handleMenuClick}>
                 <MenuDots />
             </div>
