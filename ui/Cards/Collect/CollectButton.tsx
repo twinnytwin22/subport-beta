@@ -7,7 +7,7 @@ import DropLinksTo from 'ui/Sections/Drop/DropLInks';
 
 function CollectButton({ props, drop }: any) {
     const [isOpen, setIsOpen] = React.useState(false);
-    useHandleOutsideClick(isOpen, setIsOpen, 'collect-button')
+    useHandleOutsideClick(isOpen, setIsOpen, 'collect-button-menu')
 
     const handleOpenCollectMenu = () => {
         setIsOpen(true);
@@ -22,13 +22,12 @@ function CollectButton({ props, drop }: any) {
         <>
             <div
                 onClick={handleOpenCollectMenu}
-                id='collect-button'
-                className="collect-button inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-md hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
                 Collect
             </div>
             {isOpen && (
-                <div className='absolute bottom-24 right-4 border border-zinc-200 dark:border-zinc-800 bg-white  dark:bg-zinc-900 w-fit mx-auto justify-center p-4 rounded-md items-center flex shadow-2xl '>
+                <div className='collect-button-menu  absolute bottom-24 right-4 border border-zinc-200 dark:border-zinc-800 bg-white  dark:bg-zinc-900 w-fit mx-auto justify-center p-4 rounded-md items-center flex shadow-2xl '>
                     <div>
                         <Link href={`/drop/${drop.slug}`}>
                             <div
