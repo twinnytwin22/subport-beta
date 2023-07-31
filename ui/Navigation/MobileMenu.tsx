@@ -10,10 +10,13 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { SupbortLogo } from "lib/content/siteSettings";
 import Image from "next/image";
 import { PublicRoutes, UserRoutes } from "./Routes";
+import { useHandleOutsideClick } from "lib/hooks/handleOutsideClick";
+import { NotificationIcon } from "./NotificationContainer";
 
 function MobileMenu() {
   const [isOpen, setOpen] = useState(false)
   const { user } = useAuthProvider()
+  useHandleOutsideClick(isOpen, setOpen, 'mobile-sidebar')
   const {
     audioUrl,
     imageUrl,
@@ -108,29 +111,13 @@ function MobileMenu() {
             </Link>
           </div>
           <div className="flex flex-row group items-center ">
-            <Link
-              href="/explore"
+            <div
               className="flex items-end justify-center text-center mx-auto px-4 w-full text-zinc-400 group-hover:text-white border-b-2 border-transparent group-hover:border-white"
             >
               <div className="px-1 flex flex-col items-center">
-                <div className="w-8 pb-1">
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-                    />
-                  </svg>
-                </div>
+                <NotificationIcon />
               </div>
-            </Link>
+            </div>
           </div>
           <div className="flex w-8 items-center pb-2">
             <UserAvatar />
@@ -147,16 +134,18 @@ export default MobileMenu;
 
 const MobileSidebarArea = ({ isOpen }: any) => {
   const { user } = useAuthProvider()
+
+
   return isOpen && (
-    <div className="fixed h-screen top-0 -z-0 left-0 w-1/2  bg-white dark:bg-black visible sm:hidden">
+    <div className="mobile-sidebar fixed h-screen top-0 -z-0 left-0 w-1/2  bg-white dark:bg-black visible sm:hidden">
       <div className="mb-16 mx-auto m-3 w-fit">
-        <Link href="/" className="flex items-center justify-around">
+        <div className="flex items-center justify-around">
           <Image src={SupbortLogo} className="lg:mx-3  w-9 items-center justify-center mx-auto " alt="Subport Logo" width={36} height={18} style={{ width: 'auto', height: 'auto' }}
           />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white ">
             subport
           </span>
-        </Link>
+        </div>
       </div>
       <div className="mx-auto w-full px-4 justify-center relative">
         <ul className="pl-8 w-full justify-center font-bold text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
