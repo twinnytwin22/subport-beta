@@ -1,11 +1,13 @@
 import { NextResponse } from "next/server";
 
 let data = "";
+let message: any;
 
 export async function GET(req: Request) {
   return NextResponse.json({
     status: 200,
     data,
+    message,
   });
 }
 
