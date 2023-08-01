@@ -24,10 +24,10 @@ async function Profile({ profile, username, data }: any) {
         <div className=" flex flex-col min-w-0 break-words bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-lg rounded-md -mt-36 pb-8 relative">
           <div className="grid grid-cols-12 px-6">
             <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">
-              <div className="">
+              <div className="aspect-square object-cover">
                 <Image
                   alt="avatar" width={150} height={150}
-                  className="shadow-lg rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px]"
+                  className="shadow-lg rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px] aspect-square object-cover"
                   src={imagePath}
                   style={{ objectFit: 'cover', width: 'auto', height: 'auto' }}
                   blurDataURL={"/images/stock/blur.png"}
