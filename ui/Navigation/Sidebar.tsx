@@ -150,9 +150,11 @@ const SidebarRoutes = ({ user }: any) => {
 
 
 const AdminSidebarRoutes = ({ user }: any) => {
+  const emails = ['randal.herndon@gmail.com', 'djtwinnytwin@gmail.com']
+  const hasAccess = (emails).includes(user?.email)
   return (
     <>
-      {user?.email === 'randal.herndon@gmail.com' && AdminRoutes.map((link) => (
+      {hasAccess && AdminRoutes.map((link) => (
         <div key={link.name} className="font-bold text-lg dark:text-zinc-200 text-zinc-900">
           <Link href={link.route}>
             <p>

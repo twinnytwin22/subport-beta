@@ -10,9 +10,8 @@ import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import Image from 'next/image';
 import SpotifyAuth from 'utils/testSpotifyLogic';
 import { supabase } from 'lib/constants';
-import { useStorageUpload } from '@thirdweb-dev/react';
-import { readSingleContractURI } from 'lib/hooks/readSingleContractURI';
-import { readContractURIs } from 'lib/hooks/readContractURIs';
+import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin';
+import { fetchSpotifyTestApi, fetchSpotifyWebApi } from 'lib/providers/spotify/spotifyLogic';
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -340,9 +339,24 @@ function Page() {
 
   }
 
+  const testingSpotify = async () => {
+    let access_token = null
+    const { data: session, error } = await supabase.auth.getSession()
+    access_token = session?.session?.access_token
+    const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID
+
+    const res = await fetchSpotifyTestApi({ endpoint: 'v1/artists/7w2gMJn1yZ8R7aUvNFbPGF', method: 'GET', token: access_token, body: null })
+    // const session = res
+    if (res) {
+      setResponseJSON(JSON.stringify(res))
+    }
+    // if (error) {
+    //   setResponseJSON(JSON.stringify(error))
+    //   }
+  }
 
   return (
-    <div className="w-full flex flex-col items-center justify-center">
+    <div className="w-full flex flex-col items-center mt-10 overflow-y-scroll max-w-7xl mx-auto">
       <label htmlFor="response">Response</label>
       <textarea
         className="w-full max-w-md mx-auto p-4 mb-4 text-black bg-white rounded-md border border-gray-300"
@@ -350,7 +364,7 @@ function Page() {
         readOnly
         id="response"
       />
-      <input value={testSlug} onChange={((e) => setTestSlug(e.target.value))} placeholder='TEST SLUG HERE' />
+      <input className='p-2 rounded-md' value={testSlug} onChange={((e) => setTestSlug(e.target.value))} placeholder='TEST SLUG HERE' />
       <div className="max-w-sm mx-auto border-black">
         <pre className=" whitespace-pre-wrap">{JSON.stringify(user?.email)}
         </pre>
@@ -382,6 +396,8 @@ function Page() {
             className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST FILE</button>
           <button onClick={handleThirdWebIPFS}
             className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST IPFS</button>
+          <button onClick={testingSpotify}
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST SPOTIFY</button>
           <button onClick={handleReset}
             className="p-4 bg-red-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">RESET/REFRESH</button>
 

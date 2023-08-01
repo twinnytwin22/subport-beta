@@ -34,12 +34,12 @@ async function spotifyClient() {
     return false
   }
 }
-export async function fetchSpotifyTestApi(endpoint: string, method: string, body?: any) {
-  const token = await spotifyClient()
+export async function fetchSpotifyTestApi({ endpoint, method, body, token }: { endpoint: string, method: string, body?: any, token?: string }) {
+  // const token = await spotifyClient()
   const res = await fetch(`https://api.spotify.com/${endpoint}`, {
     method,
     headers: {
-      Authorization: `Bearer ${token.access_token}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json', // Add Content-Type header if needed
 
       body: JSON.stringify(body)
