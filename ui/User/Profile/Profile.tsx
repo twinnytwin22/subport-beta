@@ -9,7 +9,7 @@ async function Profile({ profile, username, data }: any) {
   const imagePath = useImagePath(profile.avatar_url)
 
   return (
-    <div className="w-full mx-auto mt-8 mb-20 content-center my-8">
+    <div className="w-full mx-auto  content-center">
 
       <Image
         priority

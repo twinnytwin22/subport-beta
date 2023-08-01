@@ -7,7 +7,7 @@ async function MinIEventCard({ Dates, event }: any) {
         <div className=''>
             <div
                 key={event.title}
-                className="bg-white dark:bg-black shadow-lg rounded-md p-4 mx-auto border border-zinc-100 dark:border-zinc-800 relative mb-6 shadow-zinc-200 dark:shadow-zinc-950 "
+                className="bg-white dark:bg-black shadow-lg rounded-md p-4 mx-auto border border-zinc-100 dark:border-zinc-800 relative mb-4 shadow-zinc-200 dark:shadow-zinc-950 "
                 style={{ minWidth: '375px', maxWidth: '375px', minHeight: '125px', maxHeight: '125px' }}
             >                <div className="flex justify-between">
                     <div>
