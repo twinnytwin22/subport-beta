@@ -4,6 +4,7 @@ import { useHandleOutsideClick } from 'lib/hooks/handleOutsideClick';
 import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin';
 import React, { useEffect, useState } from 'react';
 
+
 function NotificationContainer({ notifications }: { notifications: string[] }) {
     return (
         <div className="notification-container z-0 bottom-16 md:bottom-10 absolute -mr-2 md:top-20 -mt-1 right-1 h-96 md:h-screen w-72 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-md dark:bg-black dark:border-zinc-800 dark:text-white opacity-[95%] ">
