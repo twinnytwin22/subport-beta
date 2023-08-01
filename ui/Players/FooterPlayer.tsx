@@ -78,7 +78,7 @@ const FooterPlayer = () => {
                                 <div className="mx-auto w-full space-x-4 relative flex items-center ">
                                     {!imageUrl ?
                                         <div className="max-w-[30px] h-[30px] rounded-md bg-blue-300 w-full"></div> :
-                                        <Image src={imageUrl} alt='song-image' width={30} height={30} blurDataURL={'/images/stock/blur.png'}
+                                        <Image src={imageUrl} alt='song-image' width={30} height={30} blurDataURL={'/images/stock/blur.png'} className="aspect-square object-cover"
                                         />}
                                     {!isPlaying && (
                                         <button
@@ -158,8 +158,10 @@ const FooterPlayer = () => {
                                     <br />
                                     {!imageUrl ?
                                         <div className="max-w-sm rounded-md bg-blue-300 w-full mx-auto"></div> :
-                                        <Image src={imageUrl} alt='song-image' width={300} height={300} blurDataURL={'/images/stock/blur.png'} className="mx-auto rounded-md"
-                                        />}                                {/* You can add more content here */}
+                                        <div className="aspect-square object-cover">
+                                            <Image src={imageUrl} alt='song-image' width={300} height={300} blurDataURL={'/images/stock/blur.png'} className="mx-auto rounded-md aspect-square object-cover"
+                                            />
+                                        </div>}                                {/* You can add more content here */}
                                     <div className="flex space-x-2 pt-6 px-4">
                                         <div className="block sm:hidden ">{formatTime(currentTime)}</div>
                                         <div className="w-full block sm:hidden ">
