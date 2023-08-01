@@ -1,6 +1,5 @@
 'use client'
-import React, { useState } from 'react'
-import { CommentModal } from './CommentModal';
+import React from 'react'
 import useCommentsStore from 'app/context/global-ui/store';
 export const CommentIcon = ({ className, dropId, userId }: any) => {
     const { useDropId } = useCommentsStore()

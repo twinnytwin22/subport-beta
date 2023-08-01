@@ -78,7 +78,7 @@ const FooterPlayer = () => {
                                 <div className="mx-auto w-full space-x-4 relative flex items-center ">
                                     {!imageUrl ?
                                         <div className="max-w-[30px] h-[30px] rounded-md bg-blue-300 w-full"></div> :
-                                        <Image src={imageUrl} alt='song-image' width={30} height={30} blurDataURL={'/images/stock/blur.png'} className="aspect-square object-cover"
+                                        <Image src={imageUrl} alt='song-image' width={30} height={30} blurDataURL={'/images/stock/blur.png'} className="aspect-square object-cover rounded-md"
                                         />}
                                     {!isPlaying && (
                                         <button

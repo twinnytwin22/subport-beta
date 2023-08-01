@@ -82,7 +82,8 @@ export const deployCollectible = async (collectibleData: any) => {
       'animation_url': collectibleData.audio,
       'external_link': collectibleData?.website || null,
       "seller_fee_basis_points": 1000,
-      "fee_recipient": collectibleData?.address
+      "fee_recipient": collectibleData?.address,
+      "artist_name": collectibleData?.artist_name
     };
 
     const tokenURIData = {

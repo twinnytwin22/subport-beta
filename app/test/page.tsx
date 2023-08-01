@@ -343,6 +343,7 @@ function Page() {
   }
 
   const testingSpotify = async () => {
+    
 
     const token = await spotifyClient()
     if (token) {
