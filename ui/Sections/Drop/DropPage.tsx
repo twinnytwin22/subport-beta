@@ -2,7 +2,6 @@
 import React from 'react';
 import DropLinksTo from 'ui/Sections/Drop/DropLInks';
 import { upload } from 'lib/content/mockUpload';
-import DropNav from 'ui/Sections/Drop/DropNav';
 import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper';
 import Image from 'next/image';
 import PlayButton from 'ui/Cards/Collect/PlayButton';

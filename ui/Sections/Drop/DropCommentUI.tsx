@@ -3,12 +3,8 @@ import { useAuthProvider } from "app/context/auth";
 import Link from "next/link";
 import { useEffect } from "react";
 import { FaPaperPlane, FaTrash } from "react-icons/fa";
-import {
-    getDropComments,
-} from "utils/database";
 import { Mention, MentionsInput } from "react-mentions";
-import mentionStyles from "styles/mentionStyles";
-import mentionInputStyles from "styles/mentionInputStyles";
+
 import useCommentsStore from "app/context/global-ui/store";
 import emojis from 'utils/emojis.json'
 import emojiMentionStyles from "styles/emojiMentionStyles";
@@ -33,7 +29,7 @@ export const CommentComponent = ({ dropId }: any) => {
 
     useEffect(() => {
         getComments(dropId);
-    }, [comment]);
+    }, [comment, dropId]);
     useEffect(() => {
         getUsers();
         console.log(users);
