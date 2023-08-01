@@ -46,12 +46,12 @@ async function CollectCard(props: any) {
           </div>
         </div>
         <div className="w-full relative min-w-md h-full">
-          <div className="relative">
+          <div className="relative aspect-square object-cover">
             <Image
               priority={false}
               width={500}
               height={500}
-              className="w-full"
+              className="w-full aspect-square"
               src={imageHash}
               style={{ objectFit: "cover" }}
               alt="Song-cover"

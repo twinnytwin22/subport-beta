@@ -6,6 +6,7 @@ import { useAuthProvider } from "app/context/auth";
 import { useRouter } from "next/navigation";
 import { supabase } from "lib/constants";
 import useProfileStore from "./store";
+import { useEffect } from "react";
 
 export default function Account() {
   const { user, profile, isLoading } = useAuthProvider();
@@ -27,6 +28,19 @@ export default function Account() {
     state,
     setState
   } = useProfileStore();
+
+  useEffect(() => {
+    // Load profile data and set it in the store when it's available
+    if (profile) {
+      const { bio, username, avatar_url, city, country, state } = profile;
+      setBio(bio);
+      setUsername(username);
+      setAvatarUrl(avatar_url);
+      setCity(city);
+      setCountry(country);
+      setState(state);
+    }
+  }, [profile]); // 
 
   const router = useRouter();
 
