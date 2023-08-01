@@ -25,7 +25,7 @@ async function Page() {
     const trackUri = `spotify:track:${trackId}`;
 
     console.log(trackUri, 'uri')
-    const trackAudio = await fetchSpotifyTestApi(`v1/audio-features/${trackId}`, 'GET')
+    const trackAudio = await fetchSpotifyTestApi({ endpoint: `v1/audio-features/${trackId}`, method: 'GET' })
 
     if (trackAudio) {
         console.log(trackAudio)
