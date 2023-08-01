@@ -42,23 +42,23 @@ export default function Account() {
       try {
         setLoading(true);
         const updates: any = {};
-        if (bio !== profile?.bio) {
+        if (typeof bio !== 'undefined' && bio !== profile?.bio) {
           updates.bio = bio;
         }
         // Check each input field and add it to the updates object if it has changed
-        if (username !== profile?.username) {
+        if (typeof username !== 'undefined' && username !== profile?.username) {
           updates.username = username;
         }
-        if (avatar_url !== profile?.avatar_url) {
+        if (typeof avatar_url !== 'undefined' && avatar_url !== profile?.avatar_url) {
           updates.avatar_url = avatar_url;
         }
-        if (city !== profile?.city) {
+        if (typeof city !== 'undefined' && city !== profile?.city) {
           updates.city = city;
         }
-        if (country !== profile?.country) {
+        if (typeof country !== 'undefined' && country !== profile?.country) {
           updates.country = country;
         }
-        if (state !== profile?.state) {
+        if (typeof state !== 'undefined' && state !== profile?.state) {
           updates.state = state;
         }
         updates.updated_at = new Date().toISOString();

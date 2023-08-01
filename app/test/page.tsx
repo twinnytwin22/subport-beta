@@ -11,7 +11,7 @@ import Image from 'next/image';
 import SpotifyAuth from 'utils/testSpotifyLogic';
 import { supabase } from 'lib/constants';
 import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin';
-import { fetchSpotifyTestApi, fetchSpotifyWebApi } from 'lib/providers/spotify/spotifyLogic';
+import { fetchSpotifyTestApi, fetchSpotifyWebApi, spotifyClient } from 'lib/providers/spotify/spotifyLogic';
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -335,26 +335,28 @@ function Page() {
     isLoading(false)
 
   }
-  const handleProgress = async () => {
-
+  const handleSpotifyToken = async () => {
+    const res = await spotifyClient()
+    if (res) {
+      setResponseJSON(JSON.stringify(res.access_token))
+    }
   }
 
   const testingSpotify = async () => {
-    let access_token = null
-    const { data: session, error } = await supabase.auth.getSession()
-    access_token = session?.session?.access_token
-    const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID
 
-    const res = await fetchSpotifyTestApi({ endpoint: 'v1/artists/7w2gMJn1yZ8R7aUvNFbPGF', method: 'GET', token: access_token, body: null })
-    // const session = res
-    if (res) {
-      setResponseJSON(JSON.stringify(res))
+    const token = await spotifyClient()
+    if (token) {
+
+      const res = await fetchSpotifyTestApi({ endpoint: 'v1/artists/7w2gMJn1yZ8R7aUvNFbPGF', method: 'GET', token: token.access_token, body: null })
+      // const session = res
+      if (res) {
+        setResponseJSON(JSON.stringify(res))
+      }
+      // if (error) {
+      //   setResponseJSON(JSON.stringify(error))
+      //   }
     }
-    // if (error) {
-    //   setResponseJSON(JSON.stringify(error))
-    //   }
   }
-
   return (
     <div className="w-full flex flex-col items-center mt-10 overflow-y-scroll max-w-7xl mx-auto">
       <label htmlFor="response">Response</label>
@@ -398,6 +400,8 @@ function Page() {
             className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST IPFS</button>
           <button onClick={testingSpotify}
             className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST SPOTIFY</button>
+          <button onClick={handleSpotifyToken}
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST SPOTIFY TOKEN</button>
           <button onClick={handleReset}
             className="p-4 bg-red-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">RESET/REFRESH</button>
 

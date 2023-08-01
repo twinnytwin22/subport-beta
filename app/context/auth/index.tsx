@@ -1,5 +1,5 @@
 'use client'
-import React, { createContext, useContext, useMemo } from "react";
+import React, { createContext, useContext, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
 import { useAuthStore, AuthState } from "./store";
@@ -31,6 +31,18 @@ const fetchProfile = async (id: string) => {
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener } = useAuthStore()
   const router = useRouter()
+
+  useEffect(() => {
+
+    const testSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+
+      if (session) {
+        console.log(session)
+      }
+    }
+    testSession()
+  }, [])
 
   const { data, isLoading } = useQuery(["user", "subscription", 'subscriptionData', 'authListener'], async () => {
     // Fetch user and authListener data concurrently
