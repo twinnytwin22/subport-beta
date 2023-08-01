@@ -37,7 +37,7 @@ export function DropPage({ props }: any) {
             style={{ position: 'relative' }}
           >
             <Image
-              className="rounded-md select-none shadow-lg dark:shadow-zinc-950 shadow-zinc-300 object-contain items-start w-full"
+              className="rounded-md select-none shadow-lg dark:shadow-zinc-950 shadow-zinc-300 object-cover aspect-square items-start w-full"
               src={imageUrl}
               style={{ objectFit: 'cover' }}
               alt="Song-cover"
