@@ -1,10 +1,24 @@
 import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse, NextRequest, NextFetchEvent } from "next/server";
 import countries from "utils/countries.json";
-export async function middleware(req: NextRequest) {
+import { Ratelimit } from '@upstash/ratelimit'
+import { Redis } from "@upstash/redis"
+const cache = new Map()
+const ratelimit = new Ratelimit({
+ // ephemeralCache: cache,
+  redis: Redis.fromEnv(),
+  analytics: true,
+    // 5 requests from the same IP in 10 seconds
+  limiter: Ratelimit.slidingWindow(5,'10 s'),
+})
+
+export async function middleware(req: NextRequest, event: NextFetchEvent): Promise<Response | undefined> {
+  const ip = req.ip ?? "127.0.0.1";
+
   const { pathname, host, hostname, basePath, protocol } = req.nextUrl;
-  console.log(`${req.nextUrl.protocol}//${req.nextUrl.host}/`);
-  if (req.nextUrl.pathname === "/") {
+  //console.log(`${req.nextUrl.protocol}//${req.nextUrl.host}/`);
+
+  if (req.nextUrl.pathname === `/`) {
     const { nextUrl: url, geo } = req;
     const country: string = geo?.country || "US";
     const city: string = geo?.city || "Phoenix";
@@ -24,7 +38,12 @@ export async function middleware(req: NextRequest) {
 
     return NextResponse.rewrite(url);
   }
+ // const { success, limit, remaining, reset } = await ratelimit.blockUntilReady(ip, 30_000);
 
+ // if (!success) {
+ //   return NextResponse.json("Unable to process at this time");
+ // }
+  
   const res = NextResponse.next();
   const supabase = createMiddlewareClient({ req, res });
   const {
@@ -36,5 +55,10 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(`${protocol}//${host}/`);
     }
   }
+
+ // res.headers.set("X-RateLimit-Limit", limit.toString());
+ // res.headers.set("X-RateLimit-Remaining", remaining.toString());
+//  res.headers.set("X-RateLimit-Reset", reset.toString());
+
   return res;
 }

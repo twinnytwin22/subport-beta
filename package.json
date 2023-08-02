@@ -9,6 +9,8 @@
     "update-deps": "npm update",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postinstall": "patch-package"
   },
   "dependencies": {
@@ -24,6 +26,9 @@
     "@thirdweb-dev/react": "^3.14.20",
     "@thirdweb-dev/sdk": "^3.9.5",
     "@thirdweb-dev/storage": "^1.2.0",
+    "@upstash/qstash": "^0.3.6",
+    "@upstash/ratelimit": "^0.4.3",
+    "@vercel/edge": "^0.3.4",
     "@vercel/edge-config": "^0.1.9",
     "alchemy-sdk": "^2.9.0",
     "autoprefixer": "^10.4.14",

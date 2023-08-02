@@ -32,17 +32,15 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const { signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener } = useAuthStore()
   const router = useRouter()
 
-  useEffect(() => {
-
-    const testSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-
-      if (session) {
-        console.log(session)
-      }
-    }
-    testSession()
-  }, [])
+  //useEffect(() => {
+  //  const testSession = async () => {
+  //    const { data: { session } } = await supabase.auth.getSession()
+  //    if (session) {
+  //      console.log(session)
+  //    }
+  //  }
+  //  testSession()
+  //}, [])
 
   const { data, isLoading } = useQuery(["user", "subscription", 'subscriptionData', 'authListener'], async () => {
     // Fetch user and authListener data concurrently

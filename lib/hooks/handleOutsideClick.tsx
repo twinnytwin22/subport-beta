@@ -20,6 +20,6 @@ export function useHandleOutsideClick(isOpen: boolean, setIsOpen: any, id: strin
     return () => {
       document.removeEventListener('mousedown', handleClick);
     };
-  }, [isOpen]);
+  }, [isOpen, setIsOpen, id]);
 
 }

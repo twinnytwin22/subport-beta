@@ -3,6 +3,7 @@ import HomePage from 'ui/Sections/HomePage'
 import { headers } from 'next/headers'
 
 export const fetchCache = 'force-no-store'
+export const dynamic = 'force-dynamic'
 async function Main() {
   const host = headers().get('host')
   const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
