@@ -59,7 +59,7 @@ const MusicItem = ({ drop, metaData, profile }: any) => {
                 </span>
             </td>
             <td className="pl-8 py-2 hidden md:block">
-                <CollectCardMenu />
+                <CollectCardMenu drop={drop} />
             </td>
         </tr>
     );
