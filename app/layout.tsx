@@ -47,7 +47,7 @@ export default async function RootLayout({
           </div>
           <MobileMenu />
         </Providers>
-        <ToastContainer style={{ position: 'absolute' }} theme="dark" />
+        <ToastContainer theme="dark" />
 
       </body>
     </html>
