@@ -4,6 +4,7 @@ import { SupabaseImage, downloadImage } from 'lib/hooks/downloadImage'
 import { supabase, useImagePath } from 'lib/constants'
 import Image from 'next/image'
 import { FaEdit } from 'react-icons/fa'
+import { toast } from 'react-toastify'
 
 
 export default function Avatar({ uid, url, size, onUpload }: {
@@ -36,18 +37,19 @@ export default function Avatar({ uid, url, size, onUpload }: {
 
       let { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file)
 
+
+
       if (uploadError) {
         throw uploadError
       }
       onUpload(filePath)
     } catch (error) {
-      alert('Error uploading avatar!')
+      toast.error('Error uploading avatar!')
     } finally {
       setUploading(false)
     }
   }
   if (avatarUrl) {
-    console.log(avatarUrl)
     return (
       <div className='mx-auto justify-center items-center content-center relative' style={{ position: 'relative' }}>
         {avatarUrl ? (

@@ -3,6 +3,7 @@ import { useAuthProvider } from "app/context/auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { toast } from "react-toastify";
 
 const supabase = createClientComponentClient()
 const NewUserModal = () => {
@@ -35,7 +36,7 @@ const NewUserModal = () => {
                     .eq("id", profile?.id);
 
                 if (error) throw error;
-                alert("Profile updated!");
+                toast.success("Profile updated!");
             } catch (error) {
                 console.error(error);
             } finally {
