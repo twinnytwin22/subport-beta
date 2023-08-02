@@ -1,22 +1,20 @@
-// Import necessary dependencies
 import { NextResponse } from "next/server";
 import { readContractURIs } from "lib/hooks/readContractURIs";
 import { redis, redisGet, redisSet } from "lib/redis/redis";
 
 import { supabaseApi } from "lib/providers/supabase/supabaseClient";
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const refreshCache = searchParams.get("refreshCache");
 
-// Create a Supabase
-
-// Promisify Redis get and set methods
-
-// Define the route handler function
-export async function GET() {
   try {
     const cacheKey = "drops_cache"; // Specify a cache key
 
-    // Check if the response is available in Redis cache
+    if (refreshCache) {
+      await redis.del(cacheKey);
+    }
     const cachedResponse = await redisGet(cacheKey);
-    if (cachedResponse) {
+    if (cachedResponse && !refreshCache) {
       console.log(cachedResponse);
       return NextResponse.json(JSON.parse(cachedResponse));
     }
@@ -51,7 +49,6 @@ export async function GET() {
           };
           await new Promise((resolve) => setTimeout(resolve, 500));
 
-          // Store the response in Redis cache
           await redisSet(cacheKey, JSON.stringify(response));
 
           return new Response(JSON.stringify(response));

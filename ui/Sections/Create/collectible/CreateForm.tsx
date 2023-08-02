@@ -15,6 +15,7 @@ import Link from "next/link";
 import { renderProgressBar } from "ui/Misc/ProgressBar";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import Image from "next/image";
+import { toast } from 'react-toastify'
 export const CreateForm = () => {
   const { user, profile } = useAuthProvider();
   const [savedUser, setSavedUser] = useState<any>(null);
@@ -125,6 +126,8 @@ export const CreateForm = () => {
       setValue("audio", null);
     }
   };
+
+
   const onSubmit = async (formData: Collectible) => {
     setStep(4);
 
@@ -143,9 +146,21 @@ export const CreateForm = () => {
       };
 
       // Call the deployCollectible function
-      const deployResult = await deployCollectible(collectibleData);
+      const deployPromise = deployCollectible(collectibleData);
+
+      toast.promise(
+        deployPromise,
+        {
+          pending: 'Creating Collectible...',
+          success: 'Collectible created successfully!',
+          error: 'Deployment failed! Please try again.',
+        }
+      );
+
+      const deployResult = await deployPromise;
+
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      await fetch("/api/v1/getCollectibles");
+      await fetch("/api/v1/getCollectibles?refreshCache");
       if (deployResult) {
         setStep(5);
       } else {
@@ -155,6 +170,7 @@ export const CreateForm = () => {
       console.error(error);
     }
   };
+
 
   const handleResetClick = () => {
     reset();
@@ -168,17 +184,44 @@ export const CreateForm = () => {
       setSavedUser(user);
     }
     try {
-      setUploading(true);
-      if (data.image && data.audio) {
-        await startUpload(data.image, data.audio);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        setUploading(false);
-        setStep(3);
-      }
+      const uploadPromise = startUpload(data.image, data.audio);
+
+      toast.promise(
+        uploadPromise,
+        {
+          pending: 'Uploading...',
+          success: 'Upload successful! Prepping Preview...',
+          error: 'Upload failed! Please try again.',
+        }
+      );
+
+      await uploadPromise;
+
+      const previewPromise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve('Preview Ready')
+        }, 2000);
+      });
+
+      toast.promise(
+        previewPromise,
+        {
+          pending: 'Prepping Preview...',
+          success: 'Preview Ready!',
+          error: 'Preview Failed! Please try again.',
+        }
+      );
+
+      await previewPromise;
+      setUploading(false);
+      setStep(3);
     } catch (error) {
       console.error(error);
+      setUploading(false);
+      toast.error('An error occurred! Please try again.');
     }
   };
+
 
   const onBack = () => {
     // Move back to previous step

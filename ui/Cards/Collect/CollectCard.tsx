@@ -42,7 +42,7 @@ async function CollectCard(props: any) {
             </div>
           </div>
           <div className="flex h-8 pr-3 relative z-50 ">
-            <CollectCardMenu />
+            <CollectCardMenu drop={drop} />
           </div>
         </div>
         <div className="w-full relative min-w-md h-full">

@@ -3,7 +3,6 @@ import "styles/globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import React from "react";
-import { ToastContainer } from "react-toastify";
 import { AuthContextProvider } from "app/context/auth";
 import { SubportPlayer } from "app/context/subport-player";
 import { Suspense } from "react";
@@ -12,10 +11,9 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { ThirdwebProvider } from "@thirdweb-dev/react";
-import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 import { Ethereum, Polygon, Optimism } from "@thirdweb-dev/chains";
-import { IpfsUploader, ThirdwebStorage, IpfsDownloaderOptions, StorageDownloader } from "@thirdweb-dev/storage";
+import { IpfsUploader, ThirdwebStorage } from "@thirdweb-dev/storage";
 import GoogleMapWrap from "./google/maps";
 import { GlobalUI } from "app/context/global-ui";
 
@@ -65,12 +63,12 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
                       <GoogleMapWrap>
                         <GlobalUI>
                           {children}
+
                         </GlobalUI>
                       </GoogleMapWrap>
                     </Suspense>
                   </ThemeProvider>
                 </Suspense>
-                <ToastContainer />
               </ThirdwebProvider>
             </SubportPlayer>
           </Suspense>

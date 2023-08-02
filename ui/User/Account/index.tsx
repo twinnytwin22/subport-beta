@@ -82,7 +82,7 @@ export default function Account() {
           .eq("id", user?.id);
 
         if (error) throw error;
-        alert("Profile updated!");
+        toast.success("Profile updated!");
       } catch (error) {
         toast.error(error as any);
         console.log(error);
