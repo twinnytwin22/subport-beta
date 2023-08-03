@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { GoogleMapSearch } from "ui/Misc/maps/GoogleMapSearch";
 import MyGoogleMap from "ui/Misc/maps/Map";
 import { useAuthProvider } from "app/context/auth";
+import { toast } from "react-toastify";
 
 type EventFormData = {
     image: string;
@@ -104,7 +105,17 @@ const IRLEventCreationForm = () => {
         let slug: string = getSlug.toLowerCase().replace(/[^a-zA-Z0-9-]+/g, "-");
         setUploading(true);
         if (data.image) {
-            await startUpload(data.image);
+            const uploadPromise = startUpload(data.image);
+
+            toast.promise(
+                uploadPromise, {
+                pending: 'Uploading Event...',
+                success: 'Event Uploaded',
+                error: 'Error Uploading Event'
+            }
+            )
+
+            await uploadPromise
             await new Promise((resolve) => setTimeout(resolve, 2000));
             const uploadedImage = useEventFormStore.getState().imageUrl!;
             const eventData = {
@@ -114,17 +125,30 @@ const IRLEventCreationForm = () => {
                 user_id: user.id!,
             };
 
-            const res = await fetch("/api/v1/createIRLEvent", {
+            const fetchRes = fetch("/api/v1/createIRLEvent", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ eventData }),
             });
-            const fetchedData = await res.json();
+
+            toast.promise(
+                fetchRes, {
+                pending: 'Finalizing event...',
+                success: 'Event finalized!',
+                error: 'Error finalizing event...'
+            }
+            )
+
+            const fetchedData = await (await fetchRes).json();
 
             setUploading(false);
             setProgress(0);
             setTotal(0);
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            const redirectPromise = new Promise((resolve) => setTimeout(resolve, 1000));
+            toast.promise(redirectPromise, {
+                pending: 'Redirecting you to your event...'
+            })
+            await redirectPromise
 
             if (fetchedData?.status === "success") {
                 router.push(`/events/${eventData.slug}`);

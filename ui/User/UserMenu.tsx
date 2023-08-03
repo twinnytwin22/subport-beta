@@ -8,7 +8,6 @@ import { useAuthProvider } from 'app/context/auth';
 function UserMenu({ profile, user }: any) {
   const { signOut } = useAuthProvider()
   const handleLogout = async () => {
-    toast("Signing Out");
     signOut();
   };
 

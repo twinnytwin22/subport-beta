@@ -8,7 +8,6 @@ export const SignInModal = () => {
 
   const handleLogin = () => {
     setIsOpen(true)
-    toast('Signing In')
   }
 
   function SignInButton() {

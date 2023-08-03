@@ -1,4 +1,5 @@
 import { supabase } from "lib/constants";
+import { toast } from "react-toastify";
 import { create } from 'zustand'
 export interface AuthState {
     user: any;
@@ -15,6 +16,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     profile: null,
     isLoading: false,
     signInWithGoogle: async () => {
+        toast.info('Signing In')
         try {
             await supabase.auth.signInWithOAuth({ provider: "google" });
         } catch (error) {
@@ -22,6 +24,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         }
     },
     signInWithSpotify: async () => {
+        toast.info('Signing In')
         try {
             const scopes = [
                 'user-read-email',
@@ -50,6 +53,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         }
     },
     signOut: async () => {
+        toast.info('Signing Out')
         try {
             await supabase.auth.signOut();
         } catch (error) {

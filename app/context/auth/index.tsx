@@ -6,6 +6,7 @@ import { useAuthStore, AuthState } from "./store";
 import { useRouter } from "next/navigation";
 import { supabase } from "lib/constants";
 import { AuthChangeEvent, Session } from "@supabase/gotrue-js";
+import { toast } from "react-toastify";
 
 const refresh = () => {
   window.location.reload();
@@ -64,8 +65,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
               password: newPassword!,
             });
 
-            if (data) alert("Password updated successfully!");
-            if (error) alert("There was an error updating your password.");
+            if (data) toast.success("Password updated successfully!");
+            if (error) toast.error("There was an error updating your password.");
             console.log(error);
           }
         }
