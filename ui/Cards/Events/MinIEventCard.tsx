@@ -11,7 +11,11 @@ async function MinIEventCard({ Dates, event }: any) {
             >                <div className="flex justify-between">
                     <div>
                         <div className="mb-4 flex items-center space-x-2">
-                            <h1 className="text-base font-bold">{event.title}</h1>
+                            <Link href={`/events/${event?.slug}`}>
+                                <h1 className="text-base font-bold">
+                                    {event.title}
+                                </h1>
+                            </Link>
                             <p>|</p>
                             <p className="text-zinc-500  dark:text-zinc-300 text-base">
                                 {Dates.mmdd}
