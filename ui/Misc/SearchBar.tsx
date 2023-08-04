@@ -97,7 +97,7 @@ const SearchBar = () => {
             </div>
             <SearchButton />
             {isOpen &&
-                <div className="absolute top-10 left-0 right-0 mt-2  bg-white max-h-[300px] overflow-y-scroll dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl rounded-md z-[99990] shadow-zinc-300 dark:shadow-black search-results">
+                <div className="absolute top-10 left-0 right-0 mt-6  bg-white max-h-[300px] overflow-y-scroll dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl rounded-md z-[99990] shadow-zinc-300 dark:shadow-black search-results mx-auto">
 
                     {searchResults?.profiles?.length > 0 && (
                         <div className='relative'>
@@ -132,7 +132,7 @@ const SearchBar = () => {
                                 <h1 className='text-sm font-bold'>Events</h1>
                             </div>
                             {searchResults.irl_events.map((event: any) => (
-                                <Link href={`/irl-events/${event.slug}`} key={event.id} className="flex items-center p-2 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                                <div onClick={(() => handleLink(`/events/${event.slug}`))} key={event.id} className="flex items-center p-2 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800">
                                     <Image
                                         width={100}
                                         height={100}
@@ -148,7 +148,7 @@ const SearchBar = () => {
                                             {event.location}
                                         </div>
                                     </div>
-                                </Link>
+                                </div>
                             ))}
                         </div>
                     )}
