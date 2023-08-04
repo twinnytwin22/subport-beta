@@ -1,37 +1,80 @@
 'use client'
-import { useState } from 'react';
-import { supabase } from 'lib/constants';
-
+import { useState, useEffect, useRef } from 'react';
+import { supabase, useImagePath, useIpfsImage } from 'lib/constants';
+import Image from 'next/image';
+import { useHandleOutsideClick } from 'lib/hooks/handleOutsideClick';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 const SearchBar = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState<any>([]);
+    const router = useRouter()
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [searchResults, setSearchResults] = useState<any>({
+        profiles: [],
+        irl_events: [],
+        drops: [],
+    });
+    const [isOpen, setIsOpen] = useState(false)
+    const [isInputFocused, setIsInputFocused] = useState(false); // New state variable to track input focus
+    const searchInputRef = useRef<HTMLInputElement>(null);
 
-    const handleSearch = async (e: any) => {
-        const searchString = e.target.value;
-        setSearchTerm(searchString);
-
-        if (searchString.length > 4) {
-            // Make a request to Supabase to search for profiles
-            const { data, error } = await supabase
-                .from('profiles')
-                .select()
-                .match({ 'username': searchString });
-
-            if (error) {
-                console.error('Error searching profiles:', error.message);
-                return;
-            }
-
-            if (data) {
-                setSearchResults(data);
-            }
+    useEffect(() => {
+        // This function will be called whenever searchTerm or isInputFocused changes
+        if ((searchTerm?.length >= 2) && searchInputRef?.current) {
+            //  console.log('Search Active', searchResults, searchTerm);
+            // Call the search function here
+            search();
         } else {
-            setSearchResults([]);
+            setSearchResults({ profiles: [], irl_events: [], drops: [] });
+            setIsOpen(true);
         }
+    }, [searchTerm, isInputFocused]);
+
+    const search = async () => {
+        // Make a request to Supabase to search for profiles, irl_events, and drops separately
+        let { data: profileData, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .ilike('username', `%${searchTerm}%`)
+            .limit(10);
+
+        let { data: eventsData, error: eventsError, } = await supabase
+            .from('irl_events')
+            .select('*')
+            .ilike('title', `%${searchTerm}%`)
+            .limit(10);
+
+        //  const res = await fetch('/api/v1/getCollectibles')
+        //  let drops = await res.json()
+
+        //  if (drops) {
+
+        //      console.log(drops.dropsWithMetaData, 'DROPS')
+        //  }
+
+        if (profileError || eventsError) {
+            console.error('Error searching:', profileError || eventsError);
+            return;
+        }
+        setSearchResults({ profiles: profileData || [], irl_events: eventsData || [], drops: [] });
     };
 
+    const handleInputFocus = () => {
+        setIsOpen(true);
+    };
+
+    const handleInputBlur = () => {
+        setIsOpen(false);
+    };
+    useHandleOutsideClick(isOpen, setIsOpen, 'search-results')
+
+    const handleLink = (href: string) => {
+        router.push(href)
+        setSearchTerm('')
+        setIsOpen(false)
+    }
+
     return (
-        <form className="flex items-center flex-grow mr-4" onSubmit={handleSearch}>
+        <form className="flex items-center flex-grow mr-4 relative" >
             <label htmlFor="simple-search" className="sr-only">Search</label>
             <div className="relative flex-grow">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -40,26 +83,105 @@ const SearchBar = () => {
                     </svg>
                 </div>
                 <input
+                    autoComplete='off'
                     type="text"
-                    id="simple-search"
                     className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Search"
                     value={searchTerm}
-                    onChange={(event) => setSearchTerm(event.target.value)}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                     required
+                    onFocus={handleInputFocus} // Add onFocus and onBlur event handlers
+                    //   onBlur={handleInputBlur}
+                    ref={searchInputRef}
                 />
             </div>
             <SearchButton />
-            {searchResults.length > 0 && (
-                <div className="absolute mt-2 p-2 bg-white shadow-lg rounded-md z-[99999]">
-                    {searchResults.map((result: any) => (
-                        <div key={result.id}>{result.username}</div>
-                    ))}
-                </div>
-            )}
+            {isOpen &&
+                <div className="absolute top-10 left-0 right-0 mt-2  bg-white max-h-[300px] overflow-y-scroll dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xl rounded-md z-[99990] shadow-zinc-300 dark:shadow-black search-results">
+
+                    {searchResults?.profiles?.length > 0 && (
+                        <div className='relative'>
+                            <div className='p-1 pl-4 bg-white dark:bg-black w-full'>
+                                <h1 className='text-sm font-bold'>Profiles</h1>
+                            </div>
+                            {searchResults.profiles.map((profile: any) => (
+                                <div onClick={(() => handleLink(`/${profile.username}`))} key={profile.id} className="flex items-center p-2.5 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 relative z-[99999]">
+                                    <Image
+                                        width={100}
+                                        height={100}
+                                        src={useImagePath(profile?.avatar_url)}
+                                        alt={profile?.username || ''}
+                                        className="w-8 h-8 rounded-full mr-2 aspect-square object-cover"
+                                    />
+                                    <div>
+                                        <div className="text-black dark:text-white font-medium">
+                                            {profile.username}
+                                        </div>
+                                        <div className="text-gray-500 dark:text-gray-400 text-sm">
+                                            {profile.email}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {searchResults?.irl_events?.length > 0 && (
+                        <div className='mt-4'>
+                            <div className='p-1 pl-4 bg-white dark:bg-black'>
+                                <h1 className='text-sm font-bold'>Events</h1>
+                            </div>
+                            {searchResults.irl_events.map((event: any) => (
+                                <Link href={`/irl-events/${event.slug}`} key={event.id} className="flex items-center p-2 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                                    <Image
+                                        width={100}
+                                        height={100}
+                                        src={useIpfsImage(event?.image)}
+                                        alt={event.title}
+                                        className="w-8 h-8 rounded-full mr-2 aspect-square object-cover"
+                                    />
+                                    <div>
+                                        <div className="text-black dark:text-white font-medium">
+                                            {event.title}
+                                        </div>
+                                        <div className="text-gray-500 dark:text-gray-400 text-sm">
+                                            {event.location}
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    )}
+
+                    {searchResults?.drops?.length > 0 && (
+                        <div>
+                            {searchResults.drops.map((drop: any) => (
+
+                                <div key={drop.slug} className="flex items-center p-2 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                                    <Image
+                                        width={100}
+                                        height={100}
+                                        src={useIpfsImage(drop?.image)}
+                                        alt={drop.name}
+                                        className="w-8 h-8 rounded-full mr-2 aspect-square object-cover"
+                                    />
+                                    <div>
+                                        <div className="text-black dark:text-white font-medium">
+                                            {drop.name}
+                                        </div>
+                                        <div className="text-gray-500 dark:text-gray-400 text-sm">
+                                            {drop.genres.toString()}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>}
         </form>
     );
 };
+
 
 const SearchButton = () => {
     return (

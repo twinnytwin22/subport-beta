@@ -6,6 +6,11 @@ export function useImagePath(url: SupabaseImage) {
   return imagePath;
 }
 
+
+export function useIpfsImage(url: string) {
+  const imagePath = url.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
+  return imagePath
+}
 export const defaultUserImage = "/images/icons/default_user_image.jpg";
 export const homePath = 'https://subport.vercel.app'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;

@@ -14,6 +14,7 @@
     "Helia",
     "hmset",
     "http",
+    "ilike",
     "ipfs",
     "Kjgoe",
     "lrange",
@@ -53,6 +54,7 @@
     "wagmi",
     "Wagmi",
     "Wakial",
+    "websearch",
     "zustand"
   ]
 }
