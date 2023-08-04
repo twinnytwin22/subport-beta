@@ -23,30 +23,27 @@ async function Profile({ profile, username, data }: any) {
       <div className=" pt-16 mx-auto md:px-4">
         <div className=" flex flex-col min-w-0 break-words bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-lg rounded-md -mt-36 pb-8 relative">
           <div className="grid grid-cols-12 px-6">
-            <div className="flex w-full col-span-9 md:col-span-2 justify-start order-1">
-              <div className="aspect-square object-cover">
-                <Image
-                  alt="avatar" width={150} height={150}
-                  className="shadow-lg rounded-full h-auto align-middle border-none absolute -mt-20 max-w-[150px] aspect-square object-cover"
-                  src={imagePath}
-                  style={{ objectFit: 'cover', width: 'auto', height: 'auto' }}
-                  blurDataURL={"/images/stock/blur.png"}
-                />
-
-              </div>
-              <div className="block">
-                <h3 className=" text-lg md:text-xl font-bold leading-normal text-center text-zinc-900 dark:text-zinc-200 pt-24">
-                  {profile?.full_name}
+            <div className="flex flex-col items-start w-full col-span-9 md:col-span-2 justify-start order-1  -mt-20">
+              <Image
+                alt="avatar"
+                width={150}
+                height={150}
+                className="shadow-lg rounded-full h-auto align-middle border-none   max-w-[150px] aspect-square object-cover"
+                src={imagePath}
+                style={{ objectFit: 'cover', width: 'auto', height: 'auto' }}
+                blurDataURL={"/images/stock/blur.png"}
+              />
+              <div className="block text-center md:text-left ">
+                <h3 className="text-lg md:text-xl font-bold leading-normal text-zinc-900 dark:text-zinc-200">
+                  {profile?.full_name || ''}
                 </h3>
-                <h4 className=" text-lg md:text-xl leading-normal text-center text-zinc-500">
+                <h4 className="text-sm md:text-base leading-normal text-zinc-500">
                   @{username}
                 </h4>
               </div>
             </div>
             <div className="flex flex-col lg:flex-row   w-full col-span-12 md:col-span-8 items-center order-3 md:order-2 mx-auto">
               <UserStats followers={data?.FollowerCount} following={data?.FollowingCount} drops={data?.DropsCounts} />
-
-
               <UserBio profile={profile} /></div>
             <div className="flex absolute top-5 right-5 space-x-2  items-center order-2 md:order-3  md:mt-0">
               <FollowButton currentProfile={profile} />
