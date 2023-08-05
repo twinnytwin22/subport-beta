@@ -6,7 +6,6 @@ export function useImagePath(url: SupabaseImage) {
   return imagePath;
 }
 
-
 export function useIpfsImage(url: string) {
   const imagePath = url.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
   return imagePath

@@ -1,7 +1,6 @@
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { supabase } from "lib/constants";
 import { toast } from "react-toastify";
 
-const supabase = createClientComponentClient()
 
 async function FollowProfile(currentUserId: string, profileId: string) {
     try {
@@ -33,6 +32,7 @@ async function UnFollowProfile(currentUserId: string, profileId: string) {
             throw error;
         }
 
+        toast('Unfollowing.', { hideProgressBar: true, autoClose: 1000 })
 
         return true;
     } catch (error) {

@@ -1,10 +1,10 @@
 import React from 'react'
-import IRLEventCreationForm from 'ui/Sections/Create/event/IRLEventForm'
+import EventCreationForm from 'ui/Sections/Create/event/CreateEventForm'
 
 function page() {
     return (
         <div>
-            <IRLEventCreationForm />
+            <EventCreationForm />
         </div>
     )
 }

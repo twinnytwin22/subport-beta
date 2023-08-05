@@ -1,3 +1,4 @@
+import { useIpfsImage } from 'lib/constants'
 import { readSingleContractURI } from 'lib/hooks/readSingleContractURI'
 import { revalidatePath } from 'next/cache'
 import { notFound } from 'next/navigation'
@@ -20,7 +21,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
   }
   const audioUrl = data?.metaData?.animation_url?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
 
-  const imageUrl = data?.metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+  const imageUrl = useIpfsImage(data?.metaData?.image)
   const props: any = {
     drop: data?.drop,
     metaData: data?.metaData,
@@ -31,7 +32,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
   };
   console.log(props)
   return (
-    <div className='bg-gray-100 dark:bg-black w-full items-center mb-20 min-h-full relative mx-auto justify-center'>
+    <div className='bg-zinc-100 dark:bg-black w-full items-center mb-20 min-h-full relative mx-auto justify-center'>
       <DropPage props={props ?? []} />
     </div>
   )

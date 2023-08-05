@@ -27,7 +27,7 @@ type EventFormData = {
 
 type FormSubmitHandler = SubmitHandler<EventFormData>;
 
-const IRLEventCreationForm = () => {
+const EventCreationForm = () => {
     const { user } = useAuthProvider();
     const inputRef = useRef<any>();
     const router = useRouter();
@@ -125,7 +125,7 @@ const IRLEventCreationForm = () => {
                 user_id: user.id!,
             };
 
-            const fetchRes = fetch("/api/v1/createIRLEvent", {
+            const fetchRes = fetch("/api/v1/createEvent", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ eventData }),
@@ -408,4 +408,4 @@ const IRLEventCreationForm = () => {
     );
 };
 
-export default IRLEventCreationForm;
+export default EventCreationForm;

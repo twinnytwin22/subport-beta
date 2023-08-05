@@ -7,7 +7,7 @@ export const revalidate = 0;
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const refreshCache = searchParams.get("refreshCache");
-  const cacheKey = "irl_events_cache"; // Specify a cache key for all users' data
+  const cacheKey = "events_cache"; // Specify a cache key for all users' data
 
   try {
     // Check if the query parameter "refreshCache" is set to true
@@ -23,7 +23,7 @@ export async function GET(request: Request) {
     }
 
     let { data: events, error: eventsError } = await supabaseApi
-      .from("irl_events")
+      .from("events")
       .select("*");
 
     if (eventsError) {

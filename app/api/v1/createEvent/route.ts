@@ -6,10 +6,10 @@ import { redisGet, redisSet } from "lib/redis/redis";
 export async function POST(req: Request) {
   const supabaseApi = createRouteHandlerClient({ cookies });
   const { eventData } = await req.json();
-  const cacheKey = "irl_events_cache";
+  const cacheKey = "events_cache";
 
   const { data: event, error: eventError } = await supabaseApi
-    .from("irl_events")
+    .from("events")
     .insert([eventData])
     .select();
 
