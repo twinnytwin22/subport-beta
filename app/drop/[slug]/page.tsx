@@ -1,4 +1,3 @@
-import { useIpfsImage } from 'lib/constants'
 import { readSingleContractURI } from 'lib/hooks/readSingleContractURI'
 import { revalidatePath } from 'next/cache'
 import { notFound } from 'next/navigation'
@@ -21,7 +20,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
   }
   const audioUrl = data?.metaData?.animation_url?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
 
-  const imageUrl = useIpfsImage(data?.metaData?.image)
+  const imageUrl = data?.metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
   const props: any = {
     drop: data?.drop,
     metaData: data?.metaData,
