@@ -73,7 +73,7 @@ async function CollectCard(props: any) {
 
           <div className="flex justify-between items-center mb-2">
             <Link href={`/drop/${drop.slug}`}>
-              <h5 className="mt-2 text-lg font-bold tracking-tight ">{drop?.name}</h5>
+              <h5 className="mt-2 text-lg font-bold tracking-tight ">{drop?.title}</h5>
             </Link>
             <CollectButton drop={drop} props={props} />
           </div>
