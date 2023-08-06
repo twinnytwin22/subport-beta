@@ -14,7 +14,7 @@ async function CollectCard(props: any) {
   const metaData = props?.metaData;
   const [user]: any = await fetchProfilesForDrops(drop?.user_id);
   const reactionCount = await getTotalReactions(drop?.id);
-  const audioUrl = metaData?.animation_url?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+  // const audioUrl = metaData?.animation_url?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
   const imageHash = metaData?.image?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/") || metaData.metadata.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
   const profileImagePath = useImagePath(user?.avatar_url);
 

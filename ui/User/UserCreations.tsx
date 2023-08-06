@@ -60,7 +60,7 @@ async function UserCreations() {
         method: 'GET',
         cache: 'no-store',
     });
-    const res2 = await fetch(`${protocol}://${host}/api/v1/getIRLEvents`, {
+    const res2 = await fetch(`${protocol}://${host}/api/v1/getEvents`, {
         method: 'GET',
         cache: 'no-store',
     });
