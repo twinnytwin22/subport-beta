@@ -19,7 +19,7 @@ const MusicItem = ({ drop, metaData, profile }: any) => {
 
     return (
         <tr
-            key={drop.name}
+            key={drop.title}
             className="border-b dark:border-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-xs md:text-sm min-w-full"
         >
             <th
@@ -45,7 +45,7 @@ const MusicItem = ({ drop, metaData, profile }: any) => {
                 onClick={() => router.push(`/drop/${drop?.slug}`)}
                 className="px-4 py-2 font-medium text-zinc-900 whitespace-nowrap dark:text-white cursor-pointer"
             >
-                {drop?.name}
+                {drop?.title}
             </td>
             <td
                 onClick={() => router.push(`/${profile?.username}`)}

@@ -21,10 +21,10 @@ const combineAndSortData = (request1Data: any, request2Data: any) => {
                 slug: item.slug,
                 type: 'event', // We'll add a type field to distinguish between events and collectibles
             };
-        } else if (item?.drop.name) {
+        } else if (item?.drop.title) {
             // This is a collectible item
             return {
-                title: item.drop.name,
+                title: item.drop.title,
                 created_at: new Date(item.drop.created_at).getTime(),
                 slug: item.drop.slug,
                 type: 'collectible', // We'll add a type field to distinguish between events and collectibles

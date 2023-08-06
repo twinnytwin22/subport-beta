@@ -1,5 +1,3 @@
-import { readSingleContractURI } from 'lib/hooks/readSingleContractURI'
-import { revalidatePath } from 'next/cache'
 import { notFound } from 'next/navigation'
 import React from 'react'
 import { LoadingContainer } from 'ui/LoadingContainer'

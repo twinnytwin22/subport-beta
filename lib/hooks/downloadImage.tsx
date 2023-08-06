@@ -18,3 +18,4 @@ export const downloadImage = cache(async (path: SupabaseImage) => {
         console.log('Error downloading image: ', error)
     }
 })
+

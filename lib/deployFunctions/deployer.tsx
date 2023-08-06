@@ -190,7 +190,7 @@ export const deployCollectible = async (collectibleData: any) => {
 
         if (contractAddress && collectibleData) {
           const dropData = {
-            name: collectibleData.name,
+            title: collectibleData.name,
             user_id: collectibleData.user_id,
             contract_address: contractAddress,
             slug: slug,

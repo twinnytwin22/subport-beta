@@ -162,12 +162,12 @@ const SearchBar = () => {
                                         width={100}
                                         height={100}
                                         src={useIpfsImage(drop?.image)}
-                                        alt={drop.name}
+                                        alt={drop.title}
                                         className="w-8 h-8 rounded-full mr-2 aspect-square object-cover"
                                     />
                                     <div>
                                         <div className="text-black dark:text-white font-medium">
-                                            {drop.name}
+                                            {drop.title}
                                         </div>
                                         <div className="text-gray-500 dark:text-gray-400 text-sm">
                                             {drop.genres.toString()}

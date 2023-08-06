@@ -17,7 +17,7 @@ const fetchProfile = async (id: string) => {
   const { data, error } = await supabase
     .from("profiles")
     .select(
-      "id, username, bio, website, avatar_url, wallet_address, city, state, country"
+      "id, username, bio, website, avatar_url, wallet_address, city, state, country, bg_url"
     )
     .eq("id", id)
     .single();

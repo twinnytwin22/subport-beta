@@ -21,7 +21,7 @@ export function DropPage({ props }: any) {
         <div className="w-full relative px-4 justify-end content-end">
           <div className="flex flex-col mb-2 max-w-lg mx-auto w-full relative">
             <div className="flex lg:items-end space-x-2">
-              <h1 className="text-xl font-bold">{drop.name}</h1>
+              <h1 className="text-xl font-bold">{drop.title}</h1>
               <h1 className="text-2xl font-semibold">|</h1>
 
               <h1 className="text-xl font-bold">{upload.artist}</h1>

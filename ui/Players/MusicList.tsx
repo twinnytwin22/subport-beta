@@ -99,7 +99,7 @@ export default MusicList
 
 const MusicItem = ({ drop, metaData }: any) => {
     return (
-        <tr key={drop.name} className="border-b dark:border-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-xs md:text-sm min-w-full flex">
+        <tr key={drop.title} className="border-b dark:border-zinc-600 hover:bg-zinc-100 dark:hover:bg-zinc-700 text-xs md:text-sm min-w-full flex">
             <Link href={`/drop/${drop?.slug}`} className='relative'>
                 <td className="w-4 px-4 py-3">
                     <div className="flex items-center">
@@ -109,7 +109,7 @@ const MusicItem = ({ drop, metaData }: any) => {
                 </td>
                 <th scope="row" className="flex items-center px-4 py-2  font-medium text-zinc-900 whitespace-nowrap dark:text-white">
                     <div className="block min-w-[30px] min-h-[30px] rounded-md bg-blue-300 w-fit mr-2"></div>
-                    {drop?.name}
+                    {drop?.title}
                 </th>
                 <td className="px-4 py-2 font-medium text-zinc-900 whitespace-nowrap dark:text-white">Twinny Twin</td>
 

@@ -30,8 +30,18 @@ async function getProfileData(userId: any) {
         console.error('Error fetching profile counts:', DropsFetchError?.message);
         return null;
     }
+    const { data: Profile, error: ProfileFetchError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
 
-    return { FollowerCount, FollowingCount, DropsCounts, Drops }
+    if (ProfileFetchError) {
+        console.error('Error fetching profile counts:', ProfileFetchError?.message);
+        return null;
+    }
+
+    return { FollowerCount, FollowingCount, DropsCounts, Drops, Profile }
 
 }
 

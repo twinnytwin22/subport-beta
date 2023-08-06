@@ -5,9 +5,9 @@ export async function POST(req: Request) {
   const res = await req.json();
 
   try {
-    const { name, jsonContent } = res;
-    console.log(name, jsonContent);
-    const file = `/tmp/${name}-metadata.json`;
+    const { title, jsonContent } = res;
+    console.log(title, jsonContent);
+    const file = `/tmp/${title}-metadata.json`;
 
     await fs.outputFileSync(file, jsonContent);
     const data = await fs.readFileSync(file, "utf8");

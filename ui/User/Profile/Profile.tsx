@@ -4,22 +4,15 @@ import { FollowButton } from "ui/Buttons/FollowButton";
 import Image from "next/image";
 import SubscribeButton from "ui/Buttons/SubscribeButton";
 import { FaMapPin } from "react-icons/fa";
+import ProfileBackgroundImage from "./ProfileBackgroundImage";
 
 async function Profile({ profile, username, data }: any) {
   const imagePath = useImagePath(profile.avatar_url)
+  const bgImagePath = useImagePath(profile?.bg_url)
 
   return (
     <div className="w-full mx-auto  content-center">
-
-      <Image
-        priority
-        className="relative h-60 md:h-80 bg-cover w-full z-0 bg-center bg-no-repeat rounded-md"
-        width={1024}
-        height={300}
-        src={'/images/stock/coverBanner.jpg'}
-        alt='bg-image'
-        style={{ objectFit: 'cover', }}
-      />
+      <ProfileBackgroundImage uid={profile?.id} url={data?.Profile?.bg_url} publicData={data} />
       <div className=" pt-16 mx-auto md:px-4">
         <div className=" flex flex-col min-w-0 break-words bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-lg rounded-md -mt-36 pb-8 relative">
           <div className="grid grid-cols-12 px-6">
