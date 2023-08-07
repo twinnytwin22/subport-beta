@@ -25,7 +25,7 @@ function CollectCard({ metaData, drop }: any) {
   const imageHash = metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/') || metaData.metadata.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
   const profileImagePath = useImagePath(user?.avatar_url);
 
-  return (
+  return user && (
     <div className="flex flex-col static mx-auto w-full content-center justify-center overflow-hidden">
       <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-md dark:bg-zinc-950 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-200 dark:shadow-zinc-900 w-full relative">
         <div className="flex h-8 mb-2 justify-between items-center">
