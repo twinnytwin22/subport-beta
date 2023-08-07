@@ -31,8 +31,8 @@ function Layout({ children }: { children: React.ReactNode }) {
 
                     {children}
                 </div>
-                <aside className='hidden lg:block lg:w-1/4 relative float-right right-0 h-screen top-36'>
-                    <div className='fixed right-0 h-full w-full max-w-xs border-l border-zinc-200 dark:border-zinc-800'>
+                <aside className='hidden lg:block lg:w-full max-w-xs relative float-right right-0 h-screen top-36'>
+                    <div className='fixed right-0 h-full border-l border-zinc-200 dark:border-zinc-800'>
                         <Suspense fallback={<LoadingContainer />}>
                             <UserSuggestions />
                         </Suspense>
