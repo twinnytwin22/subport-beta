@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 import { LoadingContainer } from 'ui/LoadingContainer';
+import FilterOptions from 'ui/Sections/Explore/FilterOptions';
 import UserSuggestions from 'ui/Sections/Explore/UserSuggestions';
 
 function Layout({ children }: { children: React.ReactNode }) {
@@ -34,6 +35,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                 <aside className='hidden lg:block lg:w-full max-w-xs relative float-right right-0 h-screen top-36'>
                     <div className='fixed right-0 h-full border-l border-zinc-200 dark:border-zinc-800'>
                         <Suspense fallback={<LoadingContainer />}>
+                            <FilterOptions />
                             <UserSuggestions />
                         </Suspense>
                     </div>

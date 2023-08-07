@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import React, { Suspense } from 'react';
 import Profile from 'ui/User/Profile/Profile';
 import ProfileContent from 'ui/User/Profile/ProfileContent';
+import Views from 'ui/User/Profile/Views';
 import ProfileMusicList from 'ui/User/Profile/Views/ProfileMusicList';
 import { checkUser } from 'utils/database';
 
@@ -33,7 +34,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
         <Suspense fallback={
           <div className='p-16 rounded-md animate-pulse duration-200 ease-in-out bg-zinc-800 h-96 mt-4' />
         }>
-          <ProfileMusicList drops={dropsWithMetaData} currentProfile={res.profile} />
+          <Views drops={dropsWithMetaData} currentProfile={res.profile} />
         </Suspense>
       </div>
 

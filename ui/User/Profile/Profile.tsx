@@ -8,7 +8,6 @@ import ProfileBackgroundImage from "./ProfileBackgroundImage";
 
 async function Profile({ profile, username, data }: any) {
   const imagePath = useImagePath(profile.avatar_url)
-  const bgImagePath = useImagePath(profile?.bg_url)
 
   return (
     <div className="w-full mx-auto  content-center">
