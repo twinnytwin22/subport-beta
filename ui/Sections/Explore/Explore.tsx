@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import EventCard from 'ui/Cards/Events/EventCard';
 const EventList = ({ events }: any) => {
     const citiesStates = events.map((event: any) => {
-        const locationData = useLocationExtractor(event.location);
+        const locationData = useLocationExtractor(event?.location);
         const city = locationData?.city;
         const state = locationData?.state;
         console.log(city, state, 'LOCATION DATA');

@@ -1,26 +1,28 @@
-import Link from "next/link";
-import React, { Suspense } from "react";
-import CardEngagementRow from "ui/Cards/Collect/EngagementWrapper";
-import { getTotalReactions } from "utils/database";
-import { fetchProfilesForDrops } from "utils/use-server";
+'use client'
+import React, { Suspense } from 'react';
+import { useQuery } from '@tanstack/react-query'; // Importing from react-query
+import Image from 'next/image';
+import Link from 'next/link';
+import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper';
+import CollectCardMenu from './CollectCardMenu';
+import PlayButton from './PlayButton';
+import CollectButton from './CollectButton';
+import { getTotalReactions } from 'utils/database';
+import { fetchProfilesForDrops } from 'utils/use-server';
+import { useImagePath } from 'lib/constants';
 
-import { useImagePath } from "lib/constants";
-import CollectCardMenu from "./CollectCardMenu";
-import Image from "next/image";
-import PlayButton from "./PlayButton";
-import CollectButton from "./CollectButton";
 
 
-async function CollectCard({ metaData, drop }: any) {
+function CollectCard({ metaData, drop }: any) {
+  const { data: user } = useQuery(['user', drop?.user_id], () => fetchProfilesForDrops(drop?.user_id));
+  const { data: reactionCount } = useQuery(['reactionCount', drop?.id], () => getTotalReactions(drop?.id));
+
   const props = {
     metaData,
-    drop
-  }
+    drop,
+  };
 
-  const user = await fetchProfilesForDrops(drop?.user_id);
-  const reactionCount = await getTotalReactions(drop?.id);
-  // const audioUrl = metaData?.animation_url?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
-  const imageHash = metaData?.image?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/") || metaData.metadata.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
+  const imageHash = metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/') || metaData.metadata.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
   const profileImagePath = useImagePath(user?.avatar_url);
 
   return (
@@ -34,7 +36,7 @@ async function CollectCard({ metaData, drop }: any) {
                 height={32}
                 className="shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto w-8 h-8 rounded-full"
                 src={profileImagePath}
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: 'cover' }}
                 alt="Song-cover"
                 blurDataURL={'/images/stock/blur.png'}
               />
@@ -58,14 +60,13 @@ async function CollectCard({ metaData, drop }: any) {
               height={500}
               className="w-full aspect-square"
               src={imageHash}
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: 'cover' }}
               alt="Song-cover"
               placeholder="blur"
               blurDataURL={'/images/stock/blur.png'}
             />
             <div className="absolute bottom-5 right-5">
               <PlayButton props={props} />
-
             </div>
           </div>
         </div>
@@ -75,7 +76,6 @@ async function CollectCard({ metaData, drop }: any) {
               <CardEngagementRow dropId={drop?.id} reactionCount={reactionCount} />
             </div>
           </Suspense>
-
           <div className="flex justify-between items-center mb-2">
             <Link href={`/drop/${drop.slug}`}>
               <h5 className="mt-2 text-lg font-bold tracking-tight ">{drop?.title}</h5>

@@ -34,7 +34,7 @@ async function Page() {
 
 
 
-  return filteredDrops && states && (
+  return filteredDrops && states && events && (
     <div className="mx-auto p-8 mb-24">
       <EventList events={events} />
 

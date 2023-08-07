@@ -26,8 +26,8 @@ export const useLocationExtractor = (text: string) => {
                 }, {});
                 // Update the state with the extracted location data
                 setLocationData({
-                    city: locationInfo.city,
-                    state: locationInfo.state,
+                    city: locationInfo?.city,
+                    state: locationInfo?.state,
                     lat,
                     lng,
                     formatted_address,
@@ -45,26 +45,4 @@ export const useLocationExtractor = (text: string) => {
     return locationData;
 };
 
-const LocationExtractor = ({ text }: { text: string }) => {
-    const locationData = useLocationExtractor(text);
 
-    // Wait until locationData is available
-    if (!locationData) {
-        return <div>Location Extraction in Progress...</div>;
-    }
-
-    // Do something with city, state, lat, lng, and formatted_address
-    console.log('City:', locationData.city);
-    console.log('State:', locationData.state);
-    console.log('Latitude:', locationData.lat);
-    console.log('Longitude:', locationData.lng);
-    console.log('Formatted Address:', locationData.formatted_address);
-
-    return (
-        <div>
-            Location Extraction in Progress...
-        </div>
-    );
-};
-
-export default LocationExtractor;

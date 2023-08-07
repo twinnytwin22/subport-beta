@@ -1,18 +1,21 @@
-import React from 'react'
-import Image from 'next/image'
-import { useImagePath, useIpfsImage } from 'lib/constants'
-import { FaBookmark } from 'react-icons/fa'
-import { fetchProfilesForDrops } from 'utils/use-server'
-import Link from 'next/link'
+'use client'
+import React from 'react';
+import Image from 'next/image';
+import { useImagePath, useIpfsImage } from 'lib/constants';
+import { FaBookmark } from 'react-icons/fa';
+import { fetchProfilesForDrops } from 'utils/use-server';
+import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query'; // Importing from react-query
 
-async function EventCard({ event }: any) {
 
-    const imagePath = event.image || event.data.image
-    const user = await fetchProfilesForDrops(event?.user_id);
+
+function EventCard({ event }: any) {
+    const imagePath = event.image || event.data.image;
+
+    const { data: user } = useQuery(['user', event?.user_id], () => fetchProfilesForDrops(event?.user_id));
     const profileImagePath = useImagePath(user?.avatar_url);
 
-    return (
-
+    return user && (
         <div key={event.id} className="flex flex-col static mx-auto w-full content-center justify-center overflow-hidden">
             <div className="max-w-lg mx-auto bg-white border border-zinc-200 rounded-md dark:bg-zinc-950 dark:border-zinc-700 pt-3 shadow-xl shadow-zinc-200 dark:shadow-zinc-900 w-full relative">
                 <div className="flex h-8 mb-2 justify-between items-center">
@@ -61,14 +64,13 @@ async function EventCard({ event }: any) {
                         </div>
                         <FaBookmark className="w-12" />
                     </div>
-
                     <p className="text-xs">
                         {event.location}
                     </p>
                 </div>
-
             </div>
-        </div>)
+        </div>
+    );
 }
 
-export default EventCard
+export default EventCard;
