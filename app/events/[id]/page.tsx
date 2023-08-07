@@ -51,7 +51,7 @@ export default async function Page({
                             <div className=" col-span-1 mt-8 w-fit rounded-md  relative">
                                 <EventTicketContainer event={event} />
                                 <Suspense>
-                                    <EventGoogleMap lat={0} lng={0} />
+                                    <EventGoogleMap address={event.location} />
                                 </Suspense>
 
                             </div>

@@ -2,6 +2,7 @@
 import { useState, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import { useGoogleMapSearchContext } from 'lib/providers/google/maps';
+import { useLocationExtractor } from 'lib/hooks/useLocationExtractor';
 
 const containerStyle = {
     width: '380px',
@@ -11,11 +12,11 @@ const containerStyle = {
 
 
 
-function EventGoogleMap({ lat, lng }: any) {
-
+function EventGoogleMap({ lat, lng, address }: any) {
+    const data = useLocationExtractor(address)
     const center = {
-        lat,
-        lng
+        lat: data?.lat || 0 as number,
+        lng: data?.lng || 0 as number,
     }
 
     const { isLoaded } = useJsApiLoader({
