@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { useAuthProvider } from "app/context/auth";
 import { FollowProfile, UnFollowProfile, isFollowing } from "lib/social-actions/followUser";
+import { toast } from "react-toastify";
+import { SlUserFollow, SlUserFollowing } from 'react-icons/sl'
 
 const FollowButton = ({ currentProfile }: any) => {
     const { user, profile } = useAuthProvider();
@@ -47,19 +49,31 @@ const FollowButton = ({ currentProfile }: any) => {
             setIsAlreadyFollowing(false)
         } else {
             FollowProfile(profile?.id, profileId)
+            toast(`Now following @${currentProfile.username}.`, { hideProgressBar: true, autoClose: 1000 })
+
             setIsAlreadyFollowing(true)
         }
     }
 
     return !isAuthedUser && user && (
         <div className=" sm:mt-0">
-            <button
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
-                type="button"
-                onClick={handleFollowButton}
-            >
-                {isAlreadyFollowing ? "Unfollow" : "Follow"}
-            </button>
+            {isAlreadyFollowing ?
+                <button
+                    className="bg-green-600 hover:bg-green-700 text-white font-extrabold  hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={handleFollowButton}
+                >
+                    <SlUserFollowing className="follow-button" strokeWidth={10} />
+                </button> :
+
+                <button
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold  hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={handleFollowButton}
+                >
+                    <SlUserFollow className="follow-button" strokeWidth={10} />
+                </button>
+            }
         </div>
     );
 };

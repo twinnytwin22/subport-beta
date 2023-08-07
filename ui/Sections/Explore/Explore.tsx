@@ -1,8 +1,7 @@
 "use client"
 import { useLocationExtractor } from 'lib/hooks/useLocationExtractor';
 import { useState, useEffect } from 'react';
-import EventCard from './EventCard';
-
+import EventCard from 'ui/Cards/Events/EventCard';
 const EventList = ({ events }: any) => {
     const citiesStates = events.map((event: any) => {
         const locationData = useLocationExtractor(event.location);

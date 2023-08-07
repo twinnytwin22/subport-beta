@@ -12,7 +12,6 @@ async function FollowProfile(currentUserId: string, profileId: string) {
             throw error;
         }
 
-        toast('Now following.', { hideProgressBar: true, autoClose: 1000 })
         return true;
     } catch (error) {
         console.error("FollowProfile Error:", error);

@@ -81,4 +81,32 @@ const fetchCreators = async () => {
   }
 };
 
-export { fetchCreators, fetchSingleCollectible, refreshCache };
+const fetchProfilesForDrops = async (id: any) => {
+  try {
+  let res = await fetch(`${protocol}://${host}//api/v1/getProfilesForDrops?userId=${id}`);
+  const data = await res.json();
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  //  return await res.json()
+  return data;
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+};
+
+const fetchProfileForEvent = async (id: any) => {
+  try {
+  let res = await fetch(`${protocol}://${host}//api/v1/getProfileForEvent?userId=${id}`);
+  const data = await res.json();
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  //  return await res.json()
+  return data;
+} catch (error) {
+  console.log(error);
+  return error;
+}
+
+};
+
+export { fetchCreators, fetchSingleCollectible, refreshCache, fetchProfilesForDrops, fetchProfileForEvent };
