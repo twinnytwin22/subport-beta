@@ -1,4 +1,3 @@
-import { useLocationExtractor } from 'lib/hooks/useLocationExtractor';
 import { create } from 'zustand';
 
 interface ExploreStore {
@@ -7,12 +6,10 @@ interface ExploreStore {
         states: string[];
     };
     setFilters: ({ cities, states }: { cities: string[], states: string[] }) => void; // Update the action signature
-
     activeFilters: string[];
     setActiveFilters: (newFilters: string[]) => void;
     handleClear: () => void;
     handleClearItem: (filter: string) => void; // Add the new function here
-
     handleFilterClick: (filter: string) => void;
 }
 

@@ -9,6 +9,7 @@ const EventList: React.FC<{ events: any }> = ({ events }) => {
     const [locationData, setLocationData] = useState<any[]>([]);
 
     const {
+        setActiveFilters,
         activeFilters,
         setFilters,
         filters
@@ -26,13 +27,13 @@ const EventList: React.FC<{ events: any }> = ({ events }) => {
         setFilters({ cities, states });
     };
 
-    const filteredEvents = events.filter((event: any) => {
-        const [city] = filters.cities.map((city) => city)
-        const [state] = filters.states.map((state) => state)
+    const filteredEvents = events.filter(() => {
+        const city: any = [...filters.cities.map((city) => city)]
+        const state: any = [...filters.states.map((state) => state)]
         return (
             activeFilters.length === 0 ||
-            activeFilters.includes(city) ||
-            activeFilters.includes(state)
+            activeFilters?.includes(city) ||
+            activeFilters?.includes(state)
         );
     });
 
@@ -53,13 +54,13 @@ const EventList: React.FC<{ events: any }> = ({ events }) => {
             .catch((error) => {
                 console.error('Error:', error);
             });
-    }, [events, setFilters]);
+    }, [events, setFilters, setActiveFilters]);
 
     // Filter the events based on active filters
     console.log(filters)
 
 
-    return (
+    return locationData.length === events.length && (
         <div className='space-y-4 w-full relative mx-auto justify-center'>
             <div className='flex flex-wrap gap-4 w-full mx-auto justify-center'>
                 {filteredEvents.map((event: any) => (
