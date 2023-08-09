@@ -1,10 +1,12 @@
+'use client'
 import Link from 'next/link';
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { LoadingContainer } from 'ui/LoadingContainer';
 import FilterOptions from 'ui/Sections/Explore/FilterOptions';
 import UserSuggestions from 'ui/Sections/Explore/UserSuggestions';
-
+import BsFillFilterSquareFill from 'react-icons/bs'
 function Layout({ children }: { children: React.ReactNode }) {
+    const [isOpen, setIsOpen] = useState(false)
     return (
         <div className="">
             {/* Navigation Menu */}
@@ -25,6 +27,9 @@ function Layout({ children }: { children: React.ReactNode }) {
                                 </li>
                                 <li>
                                     <Link href="/explore/events" className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Events</Link>
+                                </li>
+                                <li className='block lg:hidden' onClick={(() => setIsOpen(true))}>
+                                    <div className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300"><BsFillFilterSquareFill/></div>
                                 </li>
                             </ul>
                         </div>

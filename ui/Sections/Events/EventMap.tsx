@@ -1,7 +1,7 @@
 'use client'
 import { useState, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-import { useLocationExtractorSingle } from 'lib/hooks/useLocationExtractor';
+import { useLocationExtractorSingle } from 'lib/hooks/useLocationExtractorSingle';
 
 const containerStyle = {
     width: '380px',
