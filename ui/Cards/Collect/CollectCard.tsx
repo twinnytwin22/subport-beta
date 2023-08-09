@@ -53,12 +53,12 @@ function CollectCard({ metaData, drop }: any) {
           </div>
         </div>
         <div className="w-full relative min-w-md h-full">
-          <div className="relative aspect-square object-cover">
+          <div className="relative aspect-square object-cover min-w-full">
             <Image
               priority={false}
               width={500}
               height={500}
-              className="w-full aspect-square"
+              className="min-w-full aspect-square object-cover"
               src={imageHash}
               style={{ objectFit: 'cover' }}
               alt="Song-cover"

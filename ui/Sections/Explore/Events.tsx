@@ -4,7 +4,7 @@ import EventCard from 'ui/Cards/Events/EventCard';
 import { useExploreStore } from './ExploreStore';
 import { useLocationExtractor } from 'lib/hooks/useLocationExtractor'; // Update the import path
 
-const EventList: React.FC<{ events: any }> = ({ events }) => {
+const EventFeed: React.FC<{ events: any }> = ({ events }) => {
     const [filtersSet, setFiltersSet] = useState(false); // Track if filters have been set
     const {
         setActiveFilters,
@@ -57,4 +57,4 @@ const EventList: React.FC<{ events: any }> = ({ events }) => {
     );
 };
 
-export default EventList;
+export default EventFeed;

@@ -49,7 +49,7 @@ function EventCard({ event }: any) {
                         blurDataURL={'/images/stock/blur.png'}
                         src={useIpfsImage(imagePath)}
                         alt={event.title}
-                        className="object-center aspect-square object-cover w-full"
+                        className="object-center aspect-square object-cover min-w-full"
                         width={500}
                         height={500}
                     />

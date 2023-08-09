@@ -2,8 +2,8 @@ import { allGenres } from "lib/content/allGenres";
 import React, { Suspense } from "react";
 import { getProfilesWithDrops } from "utils/database";
 import { headers } from "next/headers";
-import EventList from "ui/Sections/Explore/Explore";
-export const revalidate = 60// revalidate this page every 60 seconds
+import EventFeed from "ui/Sections/Explore/Events"
+export const revalidate = 0// revalidate this page every 60 seconds
 
 
 async function Page() {
@@ -36,7 +36,7 @@ async function Page() {
 
   return filteredDrops && states && events && (
     <div className="mx-auto p-8 mb-24">
-      <EventList events={events} />
+      <EventFeed events={events} />
 
 
     </div>

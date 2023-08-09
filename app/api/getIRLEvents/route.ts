@@ -1,14 +1,13 @@
 // Import necessary dependencies
 import { NextResponse } from "next/server";
-import { readContractURIs } from "lib/hooks/readContractURIs";
-import { redis, redisGet, redisSet } from "lib/redis/redis";
+import { redisGet, redisSet } from "lib/redis/redis";
 import { supabaseApi } from "lib/providers/supabase/supabaseClient";
 // Create a Supabase
 
 // Define the route handler function
 export async function GET() {
   try {
-    const cacheKey = "irl_events_cache"; // Specify a cache key
+    const cacheKey = "events_cache"; // Specify a cache key
 
     // Check if the response is available in Redis cache
     const cachedResponse = await redisGet(cacheKey);
@@ -17,7 +16,7 @@ export async function GET() {
     }
 
     const { data: events, error } = await supabaseApi
-      .from("irl_events")
+      .from("events")
       .select("*")
       .order("created_at", { ascending: false });
 

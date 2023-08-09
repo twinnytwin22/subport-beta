@@ -10,7 +10,7 @@ const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [searchResults, setSearchResults] = useState<any>({
         profiles: [],
-        irl_events: [],
+        events: [],
         drops: [],
     });
     const [isOpen, setIsOpen] = useState(false)
@@ -24,7 +24,7 @@ const SearchBar = () => {
             // Call the search function here
             search();
         } else {
-            setSearchResults({ profiles: [], irl_events: [], drops: [] });
+            setSearchResults({ profiles: [], events: [], drops: [] });
             setIsOpen(true);
         }
     }, [searchTerm, isInputFocused]);
@@ -38,7 +38,7 @@ const SearchBar = () => {
             .limit(10);
 
         let { data: eventsData, error: eventsError, } = await supabase
-            .from('irl_events')
+            .from('events')
             .select('*')
             .ilike('title', `%${searchTerm}%`)
             .limit(10);
@@ -55,7 +55,7 @@ const SearchBar = () => {
             console.error('Error searching:', profileError || eventsError);
             return;
         }
-        setSearchResults({ profiles: profileData || [], irl_events: eventsData || [], drops: [] });
+        setSearchResults({ profiles: profileData || [], events: eventsData || [], drops: [] });
     };
 
     const handleInputFocus = () => {
@@ -126,12 +126,12 @@ const SearchBar = () => {
                         </div>
                     )}
 
-                    {searchResults?.irl_events?.length > 0 && (
+                    {searchResults?.events?.length > 0 && (
                         <div className='mt-4'>
                             <div className='p-1 pl-4 bg-white dark:bg-black'>
                                 <h1 className='text-sm font-bold'>Events</h1>
                             </div>
-                            {searchResults.irl_events.map((event: any) => (
+                            {searchResults.events.map((event: any) => (
                                 <div onClick={(() => handleLink(`/events/${event.slug}`))} key={event.id} className="flex items-center p-2 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800">
                                     <Image
                                         width={100}

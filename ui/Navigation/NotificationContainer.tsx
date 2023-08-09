@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 
 function NotificationContainer({ notifications }: { notifications: string[] }) {
     return (
-        <div className="notification-container z-0 bottom-16 md:bottom-10 absolute -mr-2 md:top-20 -mt-1 right-1 h-96 md:h-screen w-72 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-md dark:bg-black dark:border-zinc-800 dark:text-white opacity-[95%] ">
+        <div className="notification z-0 bottom-16 md:bottom-10 absolute -mr-2 md:top-20 -mt-1 right-1 h-96 md:h-full min-h-[500px] w-72 text-sm font-medium text-zinc-900 bg-white border border-zinc-200 rounded-md dark:bg-black dark:border-zinc-800 dark:text-white opacity-[95%] ">
             <div className='relative h-full overflow-y-scroll'>
                 <div className='sticky top-0 left-0 right-0 dark:bg-black bg-white'>
                     <h1 className='text-center dark:text-zinc-100 text-zinc-800 py-2 '>Notifications</h1>
@@ -59,7 +59,7 @@ export const NotificationIcon = () => {
 
     return (
         <>
-            <div className="relative w-8" onClick={handleOpenMenu}>
+            <div className="relative w-8 notification" onClick={handleOpenMenu}>
                 {/* Red bubble with notification count */}
                 {notificationCount > 0 && (
                     <div className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 w-6 h-6 flex items-center justify-center bg-red-500 text-white rounded-full text-xs">
