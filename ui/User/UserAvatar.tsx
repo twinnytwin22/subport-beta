@@ -13,16 +13,19 @@ function UserAvatar() {
   useHandleOutsideClick(isOpen, setIsOpen, 'user-menu')
 
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
+  const handleToggle = () => {
+    if (!isOpen) {
+      setIsOpen(true)
+      return
+    } else setIsOpen(false)
+    return
+  }
 
 
   return profile && (
     <div className="relative rounded-full w-fit select-none">
       {profile && (
-        <div onClick={toggleMenu} className="w-fit">
+        <div onClick={handleToggle} className="w-fit user-menu">
           <Image
             alt="avi" width={40} height={40}
             className=" shadow-lg dark:shadow-zinc-950 shadow-zinc-300 mx-4 lg:mx-auto w-10 h-10 rounded-full"
