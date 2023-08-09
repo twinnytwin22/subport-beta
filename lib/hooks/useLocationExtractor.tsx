@@ -1,48 +1,42 @@
-'use client'
-import React, { useEffect, useState } from 'react';
 import Geocode from 'react-geocode';
 
-export const useLocationExtractor = (text: string) => {
-    const [locationData, setLocationData] = useState<any>(null);
+export const useLocationExtractor = async (events: string[]): Promise<any[]> => {
+    // Initialize Google Maps Geocoding API with your API key
+    Geocode.setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!);
 
+    const locationPromises = events.map(async (text) => {
+        try {
+            const response = await Geocode.fromAddress(text);
+            const { lat, lng, formatted_address } = response.results[0].geometry.location;
+            const addressComponents = response.results[0].address_components;
 
-    useEffect(() => {
-        // Initialize Google Maps Geocoding API with your API key
-        Geocode.setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!);
+            const locationInfo = addressComponents.reduce((acc: any, component: any) => {
+                if (component.types.includes('locality')) {
+                    acc.city = component.long_name;
+                } else if (component.types.includes('administrative_area_level_1')) {
+                    acc.state = component.short_name;
+                }
+                return acc;
+            }, {});
 
-        // Call the geocode function to extract location information
-        Geocode.fromAddress(text).then(
-            (response) => {
-                const { lat, lng, formatted_address } = response.results[0].geometry.location;
-                const addressComponents = response.results[0].address_components;
+            return {
+                city: locationInfo?.city,
+                state: locationInfo?.state,
+                lat,
+                lng,
+                formatted_address,
+            };
+        } catch (error) {
+            console.error('Error:', error);
+            return null;
+        }
+    });
 
-                const locationInfo = addressComponents.reduce((acc: any, component: any) => {
-                    if (component.types.includes('locality')) {
-                        acc.city = component.long_name;
-                    } else if (component.types.includes('administrative_area_level_1')) {
-                        acc.state = component.short_name;
-                    }
-                    return acc;
-                }, {});
-                // Update the state with the extracted location data
-                setLocationData({
-                    city: locationInfo?.city,
-                    state: locationInfo?.state,
-                    lat,
-                    lng,
-                    formatted_address,
-                });
-            },
+    // Wait for all promises to be resolved
+    const locationDataArray = await Promise.all(locationPromises);
 
-            (error) => {
-                console.error('Error:', error);
-            }
+    // Filter out null values (failed location extraction)
+    const filteredLocationData = locationDataArray.filter((locationData) => locationData !== null);
 
-        );
-
-    }, [text]);
-
-    return locationData;
+    return filteredLocationData;
 };
-
-

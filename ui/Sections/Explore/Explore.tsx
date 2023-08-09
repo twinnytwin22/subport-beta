@@ -1,31 +1,17 @@
 'use client'
-import { useLocationExtractor } from 'lib/hooks/useLocationExtractor';
 import React, { useEffect, useState } from 'react';
 import EventCard from 'ui/Cards/Events/EventCard';
 import { useExploreStore } from './ExploreStore';
+import { useLocationExtractor } from 'lib/hooks/useLocationExtractor'; // Update the import path
 
 const EventList: React.FC<{ events: any }> = ({ events }) => {
-    const locationData2 = events.map((event: any) => useLocationExtractor(event.location))
-    const [locationData, setLocationData] = useState<any[]>([]);
-
+    const [filtersSet, setFiltersSet] = useState(false); // Track if filters have been set
     const {
         setActiveFilters,
         activeFilters,
         setFilters,
         filters
     } = useExploreStore();
-
-
-    // Calculate cities and states from events
-    const calculateFilters = (events: any[]) => {
-        const cities: any = [...new Set(locationData2.map((item: any) => item?.city))].filter(
-            Boolean
-        );
-        const states: any = [...new Set(locationData2.map((item: any) => item?.state))].filter(
-            Boolean
-        );
-        setFilters({ cities, states });
-    };
 
     const filteredEvents = events.filter(() => {
         const city: any = [...filters.cities.map((city) => city)]
@@ -37,30 +23,30 @@ const EventList: React.FC<{ events: any }> = ({ events }) => {
         );
     });
 
-    const locationPromises = events.map((event: any) => useLocationExtractor(event.location));
-
-    // Set the filters when events change
     useEffect(() => {
-        // Create an array of promises for location data extraction
-        // Wait for all promises to be resolved
-        Promise.all(locationPromises)
-            .then((extractedData) => {
-                setLocationData(extractedData);
-                // Calculate cities and states from events
-                const cities = [...new Set(extractedData.map((item: any) => item?.city))].filter(Boolean);
-                const states = [...new Set(extractedData.map((item: any) => item?.state))].filter(Boolean);
-                setFilters({ cities, states });
-            })
-            .catch((error) => {
+        // Call the useLocationExtractor function asynchronously
+        async function fetchData() {
+            try {
+                const locationDataArray = await useLocationExtractor(events.map((event: any) => event.location));
+                const cities = [...new Set(locationDataArray.map((item: any) => item?.city))].filter(Boolean);
+                const states = [...new Set(locationDataArray.map((item: any) => item?.state))].filter(Boolean);
+
+                if (events.length === (cities.length + states.length)) {
+                    if (!filtersSet) {
+                        setFilters({ cities, states });
+                        setFiltersSet(true);
+                        console.log(cities, states);
+                    }
+                }
+            } catch (error) {
                 console.error('Error:', error);
-            });
-    }, [events, setFilters, setActiveFilters]);
+            }
+        }
 
-    // Filter the events based on active filters
-    console.log(filters)
+        fetchData();
+    }, [events, setFilters, setActiveFilters, filtersSet]);
 
-
-    return locationData.length === events.length && (
+    return (
         <div className='space-y-4 w-full relative mx-auto justify-center'>
             <div className='flex flex-wrap gap-4 w-full mx-auto justify-center'>
                 {filteredEvents.map((event: any) => (

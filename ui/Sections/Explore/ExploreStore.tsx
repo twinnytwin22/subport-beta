@@ -5,12 +5,13 @@ interface ExploreStore {
         cities: string[];
         states: string[];
     };
-    setFilters: ({ cities, states }: { cities: string[], states: string[] }) => void; // Update the action signature
+    setFilters: ({ cities, states }: { cities: string[]; states: string[] }) => void;
     activeFilters: string[];
     setActiveFilters: (newFilters: string[]) => void;
     handleClear: () => void;
-    handleClearItem: (filter: string) => void; // Add the new function here
+    handleClearItem: (filter: string) => void;
     handleFilterClick: (filter: string) => void;
+    fetchInitialData: () => void;
 }
 
 export const useExploreStore = create<ExploreStore>((set) => ({
@@ -25,8 +26,7 @@ export const useExploreStore = create<ExploreStore>((set) => ({
         }));
     },
     activeFilters: [],
-    setActiveFilters: (newFilters) =>
-        set(() => ({ activeFilters: newFilters })),
+    setActiveFilters: (newFilters) => set(() => ({ activeFilters: newFilters })),
     handleClear: () => set(() => ({ activeFilters: [] })),
     handleClearItem: (filter) =>
         set((state) => ({
@@ -42,6 +42,21 @@ export const useExploreStore = create<ExploreStore>((set) => ({
                 return { activeFilters: newFilters };
             }
         }),
-}));
+    fetchInitialData: () => {
+        // Use the filters from the state when cities and states length is greater than 0
+        const initialCities = useExploreStore.getState().filters.cities.length > 0
+            && useExploreStore.getState().filters.cities;
 
+        const initialStates = useExploreStore.getState().filters.states.length > 0
+            && useExploreStore.getState().filters.states;
+        if (initialCities && initialStates)
+            set(() => ({
+                filters: {
+                    cities: initialCities,
+                    states: initialStates,
+                },
+                activeFilters: [],
+            }));
+    },
+}));
 

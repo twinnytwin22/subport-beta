@@ -16,7 +16,6 @@ function UserSuggestions() {
         const getUsers = async () => {
             const res = await fetch('/api/v1/getAllUsers')
             const data = await res.json()
-
             if (data) {
                 setUsers(data)
                 setLoading(false)
@@ -33,11 +32,10 @@ function UserSuggestions() {
     if (isLoading || loading) {
         return <LoadingContainer />
     }
-
     return (
-        <div className="mx-auto p-4 max-w-xs w-full space-y-4">
+        <div className="mx-auto p-4 w-full space-y-4">
             {filteredUsers.slice(0, 4).map((user) => (
-                <div className='flex items-center p-2.5 justify-between  bg-white border border-zinc-200 rounded-md dark:bg-zinc-950 dark:border-zinc-700  shadow-sm shadow-zinc-200 dark:shadow-zinc-900 w-56 xl:w-72 space-x-4 relative' key={user?.id}>
+                <div className='flex items-center p-2.5 justify-between  bg-white border border-zinc-200 rounded-md dark:bg-zinc-950 dark:border-zinc-700  shadow-sm shadow-zinc-200 dark:shadow-zinc-900 w-full max-w-[288px] space-x-4 relative' key={user?.id}>
                     <Link href={`/${user?.username}`}>
                         <Image
                             width={32}

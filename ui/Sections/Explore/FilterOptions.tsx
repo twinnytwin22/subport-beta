@@ -1,23 +1,26 @@
 'use client'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useExploreStore } from './ExploreStore';
 
 function FilterOptions() {
     const {
         activeFilters,
         handleClear,
-        filters,
         handleFilterClick,
-        handleClearItem
+        handleClearItem,
+        fetchInitialData
     } = useExploreStore();
 
+    const states = useExploreStore((state) => state.filters.states)
+    const cities = useExploreStore((state) => state.filters.cities)
+
     return (
-        <div className='max-w-xs w-full p-4 space-y-1 text-xs'>
+        <div className=' w-full p-4 space-y-1 text-xs'>
             <div>
                 <button onClick={handleClear}>Clear</button>
                 <ul className='flex space-x-4 items-center flex-wrap'>
                     <h2>States:</h2>
-                    {filters?.states.map((state: any) => (
+                    {states.length > 0 && states?.map((state: any) => (
                         <li
                             key={state}
                             onClick={() => handleFilterClick(state)}
@@ -42,7 +45,7 @@ function FilterOptions() {
             <div>
                 <ul className='flex space-x-4 items-center flex-wrap space-y-2'>
                     <h2>Cities:</h2>
-                    {filters?.cities.map((city: any) => (
+                    {cities.length > 0 && cities?.map((city: any) => (
                         <li
                             key={city}
                             onClick={() => handleFilterClick(city)}
