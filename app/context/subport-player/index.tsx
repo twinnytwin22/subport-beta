@@ -127,7 +127,7 @@ export const SubportPlayer = ({ children
             setMetaData(newMetadata)
         },
 
-        [setSongImage]
+        [setMetaData]
     );
 
 
