@@ -59,7 +59,8 @@ function EventCard({ event }: any) {
                 <div className="p-4 text-zinc-800 dark:text-zinc-200">
                     <div className='flex justify-between items-center'>
                         <div>
-                            <h3 className="text-xl font-semibold mb-2 text-zinc-900 dark:text-zinc-100">{event.title}</h3>
+                            <Link href={`/events/${event.slug}`}>
+                                <h3 className="text-xl font-semibold mb-2 text-zinc-900 dark:text-zinc-100">{event.title}</h3></Link>
                             <p className="">
                                 {event.date || event?.data?.date}
                             </p>
