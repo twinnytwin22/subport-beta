@@ -40,3 +40,27 @@
 body.modal-open {
   overflow: hidden;
 }
+
+
+/* styles.css */
+.scrolling-text-container {
+  width: 160px; /* Set the desired width */
+  overflow: hidden;
+}
+
+.scrolling-text {
+  white-space: nowrap;
+}
+
+.scroll {
+  animation: scroll 10s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}

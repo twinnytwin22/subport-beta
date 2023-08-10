@@ -50,6 +50,8 @@ export const SubportPlayer = ({ children
         setAudioUrl,
         imageUrl,
         setSongImage,
+        setMetaData,
+        metaData
     } = usePlayerStore();
     const audioRef = useRef<any>(audio);
 
@@ -120,6 +122,14 @@ export const SubportPlayer = ({ children
         [setSongImage]
     );
 
+    const updateMetaData = useCallback(
+        (newMetadata: any) => {
+            setMetaData(newMetadata)
+        },
+
+        [setSongImage]
+    );
+
 
 
 
@@ -127,6 +137,8 @@ export const SubportPlayer = ({ children
     const values = {
         updateAudioUrl,
         updateImageUrl,
+        updateMetaData,
+        metaData,
         audioUrl,
         imageUrl,
         setAudioUrl,

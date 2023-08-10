@@ -12,6 +12,7 @@ interface PlayerStore {
     prevVolume: number;
     audioUrl: string | null;
     imageUrl: string | null;
+    metaData: any[] | null;
 
     setSongImage: (imageUrl: string | null) => void;
     setCurrentTime: (currentTime: number) => void;
@@ -23,6 +24,8 @@ interface PlayerStore {
     setIsMuted: (isMuted: boolean) => void;
     setPrevVolume: (prevVolume: number) => void;
     setAudioUrl: (audioUrl: string | null) => void;
+    setMetaData: (metaData: any[] | null) => void;
+
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
@@ -36,6 +39,7 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
     prevVolume: 100,
     audioUrl: null,
     imageUrl: null,
+    metaData: null,
 
     setSongImage: (imageUrl) => set(() => ({ imageUrl })),
     setCurrentTime: (currentTime) => set(() => ({ currentTime })),
@@ -47,6 +51,7 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
     setIsMuted: (isMuted) => set(() => ({ isMuted })),
     setPrevVolume: (prevVolume) => set(() => ({ prevVolume })),
     setAudioUrl: (audioUrl) => set({ audioUrl }),
+    setMetaData: (metaData) => set(() => ({ metaData }))
 
     // Other state setters...
 }));

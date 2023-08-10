@@ -55,7 +55,7 @@ function MobileMenu() {
               href="/"
               className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white"
             >
-              <div className="px-1 flex flex-col items-center" onClick={handleOpenMenu}>
+              <div className="px-1 flex flex-col items-center mobile-sidebar" onClick={handleOpenMenu}>
                 <AiOutlineMenu className="w-10 h-10 pb-2" />
               </div>
             </Link>
