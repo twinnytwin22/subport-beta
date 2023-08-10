@@ -52,7 +52,7 @@ body.modal-open {
   white-space: nowrap;
 }
 
-.scroll-text {
+.scroll-text .scrolling-text {
   animation: scroll 10s linear infinite;
 }
 

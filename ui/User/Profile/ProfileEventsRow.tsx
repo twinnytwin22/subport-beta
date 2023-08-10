@@ -24,12 +24,12 @@ export async function ProfileEventsRow({ profile }: any) {
     }
 
     return (
-        <div className="flex space-x-2 w-full overflow-x-scroll scroll h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
+        <div className="flex space-x-2 w-full overflow-x-scroll  h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
             {events.map((event: { date: any; id: any; }) => {
                 const inputDate = event.date;
                 const Dates = reformatDate(inputDate);
 
-                return <MinIEventCard key={event.id} Dates={Dates} event={event} />;
+                return (<MinIEventCard key={event.id} Dates={Dates} event={event} />);
             })}
         </div>
     );

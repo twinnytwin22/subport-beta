@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { FaBookmark } from 'react-icons/fa'
-async function MinIEventCard({ Dates, event }: any) {
+function MinIEventCard({ Dates, event }: any) {
     return (
         <div className=''>
             <div
