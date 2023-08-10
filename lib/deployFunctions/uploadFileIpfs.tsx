@@ -1,18 +1,4 @@
-'use client'
-import { IpfsUploader, StorageDownloader, ThirdwebStorage } from "@thirdweb-dev/storage";
-const gatewayUrls = [
-  "https://subport.infura-ipfs.io/ipfs/",
-  "https://ipfs.thirdwebcdn.com/ipfs/",
-  "https://gateway.ipfscdn.io/ipfs/",
-  "https://cloudflare-ipfs.com/ipfs/",
-  "https://ipfs.io/ipfs/",
-]
-
-const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID
-const secretKey = process.env.THIRDWEB_SECRET_KEY!
-const uploader = new IpfsUploader();
-const storage = new ThirdwebStorage({ uploader, gatewayUrls, clientId, secretKey });
-
+import { storage } from "lib/providers/providers";
 export async function uploadHashToIpfs({ data }: any) {
   const uri = await storage.upload(data)
   if (uri) {

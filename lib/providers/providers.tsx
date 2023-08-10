@@ -25,11 +25,11 @@ const gatewayUrls = [
   "https://cloudflare-ipfs.com/ipfs/",
   "https://ipfs.io/ipfs/",
 ]
-const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID
+const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID!
 const secretKey = process.env.THIRDWEB_SECRET_KEY!
 
-const uploader = new IpfsUploader() as any;
-const storage = new ThirdwebStorage({ uploader, gatewayUrls, clientId, secretKey }) as any;
+export const uploader = new IpfsUploader();
+export const storage = new ThirdwebStorage({ uploader, gatewayUrls, clientId, secretKey });
 
 const Providers = ({ children, }: { children: React.ReactNode }) => {
   // const [mounted, setMounted] = React.useState(false);
@@ -47,13 +47,15 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
           <Suspense>
             <SubportPlayer>
               <ThirdwebProvider
+                secretKey={secretKey}
                 clientId={clientId}
                 storageInterface={storage}
                 activeChain={Polygon}
                 supportedChains={[Ethereum, Polygon, Optimism]}
                 queryClient={queryClient}
                 sdkOptions={{
-                  thirdwebApiKey: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
+
+                  thirdwebApiKey: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID!,
                   //           infuraApiKey: process.env,
                   alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID
                 }}>
