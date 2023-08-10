@@ -13,23 +13,12 @@ import {
 import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { ThemeProvider } from "next-themes";
 import { Ethereum, Polygon, Optimism } from "@thirdweb-dev/chains";
-import { IpfsUploader, ThirdwebStorage } from "@thirdweb-dev/storage";
 import GoogleMapWrap from "./google/maps";
 import { GlobalUI } from "app/context/global-ui";
-
+import { storage, clientId, secretKey } from "./thirdweb/thirdweb";
 const queryClient = new QueryClient()
-const gatewayUrls = [
-  "https://subport.infura-ipfs.io/ipfs/",
-  "https://ipfs.thirdwebcdn.com/ipfs/",
-  "https://gateway.ipfscdn.io/ipfs/",
-  "https://cloudflare-ipfs.com/ipfs/",
-  "https://ipfs.io/ipfs/",
-]
-const clientId = process.env.THIRDWEB_CLIENT_ID || process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID!
-const secretKey = process.env.THIRDWEB_SECRET_KEY || process.env.NEXT_PUBLIC_THIRDWEB_SECRET_KEY!
 
-export const uploader = new IpfsUploader();
-export const storage = new ThirdwebStorage({ uploader, gatewayUrls, clientId, secretKey });
+
 
 const Providers = ({ children, }: { children: React.ReactNode }) => {
   // const [mounted, setMounted] = React.useState(false);
@@ -47,16 +36,13 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
           <Suspense>
             <SubportPlayer>
               <ThirdwebProvider
-                secretKey={secretKey}
-                clientId={clientId}
+                secretKey={secretKey!}
+                clientId={clientId!}
                 storageInterface={storage}
                 activeChain={Polygon}
                 supportedChains={[Ethereum, Polygon, Optimism]}
                 queryClient={queryClient}
                 sdkOptions={{
-
-                  thirdwebApiKey: clientId!,
-                  //           infuraApiKey: process.env,
                   alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID
                 }}>
                 <Suspense>

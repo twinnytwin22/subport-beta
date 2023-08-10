@@ -1,4 +1,4 @@
-import { storage } from "lib/providers/providers";
+import { storage } from "lib/providers/thirdweb/thirdweb";
 export async function uploadHashToIpfs({ data }: any) {
   const uri = await storage.upload(data)
   if (uri) {
