@@ -13,15 +13,16 @@ const EventFeed: React.FC<{ events: any }> = ({ events }) => {
         filters
     } = useExploreStore();
 
-    const filteredEvents = events.filter(() => {
-        const city: any = [...filters.cities.map((city) => city)]
-        const state: any = [...filters.states.map((state) => state)]
-        return (
-            activeFilters.length === 0 ||
-            activeFilters?.includes(city) ||
-            activeFilters?.includes(state)
-        );
+    const filteredEvents = events.filter((event: any) => {
+        const location = event?.location;
+        const activeFilter = activeFilters.map(a => a.toLowerCase())
+        // Check if any city or state is present in the location
+        const locationLower = location.toLowerCase();
+        const includesFilters = activeFilter.some(stateName => locationLower.includes(stateName));
+        //   console.log(activeFilters)
+        return includesFilters || activeFilters.length === 0
     });
+
 
     useEffect(() => {
         // Call the useLocationExtractor function asynchronously
@@ -35,7 +36,7 @@ const EventFeed: React.FC<{ events: any }> = ({ events }) => {
                     if (!filtersSet) {
                         setFilters({ cities, states });
                         setFiltersSet(true);
-                        console.log(cities, states);
+                        //console.log(cities, states);
                     }
                 }
             } catch (error) {

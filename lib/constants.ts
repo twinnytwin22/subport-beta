@@ -12,7 +12,7 @@ export function useBgImagePath(url: SupabaseImage) {
 }
 
 export function useIpfsImage(url: string) {
-  const imagePath = url.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
+  const imagePath = url?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
   return imagePath
 }
 export const defaultUserImage = "/images/icons/default_user_image.jpg";

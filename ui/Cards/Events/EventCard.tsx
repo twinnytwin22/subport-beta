@@ -1,11 +1,13 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { useImagePath, useIpfsImage } from 'lib/constants';
-import { FaBookmark } from 'react-icons/fa';
+import { supabase, useImagePath, useIpfsImage } from 'lib/constants';
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
 import { fetchProfilesForDrops } from 'utils/use-server';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query'; // Importing from react-query
+import { toast } from 'react-toastify';
+import { useAuthProvider } from 'app/context/auth';
 
 
 
@@ -59,13 +61,13 @@ function EventCard({ event }: any) {
                         <div>
                             <h3 className="text-xl font-semibold mb-2 text-zinc-900 dark:text-zinc-100">{event.title}</h3>
                             <p className="">
-                                {event.date}
+                                {event.date || event?.data?.date}
                             </p>
                         </div>
-                        <FaBookmark className="w-12" />
+                        <EventSave event={event} />
                     </div>
                     <p className="text-xs">
-                        {event.location}
+                        {event?.location || event?.data?.location}
                     </p>
                 </div>
             </div>
@@ -74,3 +76,60 @@ function EventCard({ event }: any) {
 }
 
 export default EventCard;
+
+
+const EventSave = ({ event }: { event: any }) => {
+    const { profile } = useAuthProvider()
+    const [saved, setSaved] = useState(false)
+    const id = event?.id || event?.data.id
+    const title = event?.title || event?.data.title
+    useEffect(() => {
+        if (profile) {
+            const checkSave = async () => {
+                const { data, error } = await supabase
+                    .from('user_saved_events')
+                    .select()
+                    .eq('saved_by', profile.id)
+                    .eq('event_id', id);
+
+                if (data && data.length > 0) {
+                    setSaved(true);
+                }
+            };
+
+            checkSave();
+        }
+    }, [id, profile.id]);
+
+    const handleSaveEvent = async () => {
+
+        if (!saved) {
+            const { data } = await supabase
+                .from('user_saved_events')
+                .insert({ saved_by: profile.id, event_id: event.id || event.data.id })
+                .select()
+                .single()
+
+            setSaved(true)
+            toast(`You have bookmarked - ${title}`)
+            return
+        } else {
+            const { data, error } = await supabase
+                .from('user_saved_events')
+                .delete()
+                .eq('saved_by', profile.id)
+            if (!error) {
+                setSaved(false)
+                toast(`Removed ${title} from event bookmarks`)
+            }
+        }
+    }
+
+    return profile && (
+        <div onClick={handleSaveEvent}>
+            {saved ?
+                <FaBookmark className="w-fit text-xl" /> :
+                <FaRegBookmark className="w-fit text-xl" />}
+        </div>
+    )
+}

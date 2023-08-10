@@ -43,6 +43,13 @@ const SearchBar = () => {
             .ilike('title', `%${searchTerm}%`)
             .limit(10);
 
+        let { data: dropsData, error: dropsError } = await supabase
+            .from('drops')
+            .select('*')
+            .ilike('title', `%${searchTerm}%`)
+            .limit(10);
+
+
         //  const res = await fetch('/api/v1/getCollectibles')
         //  let drops = await res.json()
 
@@ -51,11 +58,11 @@ const SearchBar = () => {
         //      console.log(drops.dropsWithMetaData, 'DROPS')
         //  }
 
-        if (profileError || eventsError) {
-            console.error('Error searching:', profileError || eventsError);
+        if (profileError || eventsError || dropsError) {
+            console.error('Error searching:', profileError || eventsError || dropsError);
             return;
         }
-        setSearchResults({ profiles: profileData || [], events: eventsData || [], drops: [] });
+        setSearchResults({ profiles: profileData || [], events: eventsData || [], drops: dropsData });
     };
 
     const handleInputFocus = () => {
@@ -105,7 +112,7 @@ const SearchBar = () => {
                                 <h1 className='text-sm font-bold'>Profiles</h1>
                             </div>
                             {searchResults.profiles.map((profile: any) => (
-                                <div onClick={(() => handleLink(`/${profile.username}`))} key={profile.id} className="flex items-center p-2.5 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 relative z-[99999]">
+                                <div onClick={(() => handleLink(`/${profile.username}`))} key={profile.id} className="flex items-center p-2.5 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 relative z-[99999] cursor-pointer">
                                     <Image
                                         width={100}
                                         height={100}
@@ -132,7 +139,7 @@ const SearchBar = () => {
                                 <h1 className='text-sm font-bold'>Events</h1>
                             </div>
                             {searchResults.events.map((event: any) => (
-                                <div onClick={(() => handleLink(`/events/${event.slug}`))} key={event.id} className="flex items-center p-2 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                                <div onClick={(() => handleLink(`/events/${event.slug}`))} key={event.id} className="flex items-center p-2 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800  cursor-pointer">
                                     <Image
                                         width={100}
                                         height={100}
@@ -154,10 +161,13 @@ const SearchBar = () => {
                     )}
 
                     {searchResults?.drops?.length > 0 && (
-                        <div>
+                        <div className='mt-4'>
+                            <div className='p-1 pl-4 bg-white dark:bg-black'>
+                                <h1 className='text-sm font-bold'>Drops</h1>
+                            </div>
                             {searchResults.drops.map((drop: any) => (
 
-                                <div key={drop.slug} className="flex items-center p-2 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+                                <div key={drop.slug} onClick={(() => handleLink(`/drop/${drop.slug}`))} className="flex items-center p-2 border-b border-zinc-300 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer">
                                     <Image
                                         width={100}
                                         height={100}
@@ -170,7 +180,7 @@ const SearchBar = () => {
                                             {drop.title}
                                         </div>
                                         <div className="text-gray-500 dark:text-gray-400 text-sm">
-                                            {drop.genres.toString()}
+                                            {drop?.genres?.toString()}
                                         </div>
                                     </div>
                                 </div>
