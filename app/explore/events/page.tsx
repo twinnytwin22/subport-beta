@@ -31,10 +31,11 @@ async function Page() {
   });
 
   const states = data?.map((profile: any) => profile.state);
+  const cities = data?.map((profile) => profile.city)
 
 
 
-  return filteredDrops && states && events && (
+  return filteredDrops && events && (
     <div className="mx-auto p-8 mb-24">
       <EventFeed events={events} />
 

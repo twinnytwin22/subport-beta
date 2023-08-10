@@ -25,7 +25,7 @@ async function page() {
         return (
 
             <div className="mx-auto p-8 mb-24">
-                <Feed data={sortedData} />
+                <Feed data={sortedData} events={events} />
             </div>
         )
     };

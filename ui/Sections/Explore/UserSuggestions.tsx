@@ -30,7 +30,13 @@ function UserSuggestions() {
     const filteredUsers = users.filter((u) => u.id !== user?.id)
 
     if (isLoading || loading) {
-        return <LoadingContainer />
+
+
+        return (
+            <div className='mx-auto p-4 w-full animate-pulse'>
+                <div className='mx-auto p-4 w-full space-y-4 h-72 bg-white rounded-md dark:bg-zinc-900' />
+
+            </div>)
     }
     return (
         <div className="mx-auto p-4 w-full space-y-4">
