@@ -9,17 +9,19 @@ const PublicRoutes: NavigationRoute[] = [
     route: "/",
   },
 
+];
+
+const UserRoutes: NavigationRoute[] = [
+
   {
     name: "Explore",
     route: "/explore",
   },
-];
-
-const UserRoutes: NavigationRoute[] = [
   {
     name: "Create",
     route: "/create",
   },
+  
 ];
 
 const AdminRoutes: NavigationRoute[] = [

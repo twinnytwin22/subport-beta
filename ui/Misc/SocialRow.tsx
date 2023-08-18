@@ -15,7 +15,7 @@ function SocialRow() {
                 <span className="sr-only">Twitter</span>
             </Link>
 
-            <Link href="https://www.instagram.com/subportxyz/" data-tooltip-target="tooltip-github" className="inline-flex justify-center p-2  cursor-pointer   hover:text-blue-500   duration-300 ease-in-out ">
+            <Link href="https://www.instagram.com/subport.xyz/" data-tooltip-target="tooltip-github" className="inline-flex justify-center p-2  cursor-pointer   hover:text-blue-500   duration-300 ease-in-out ">
                 <AiFillInstagram className='w-5 h-5' />
 
             </Link>

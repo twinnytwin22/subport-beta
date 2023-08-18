@@ -10,6 +10,7 @@ import CollectButton from './CollectButton';
 import { getTotalReactions } from 'utils/database';
 import { fetchProfilesForDrops } from 'utils/use-server';
 import { useImagePath } from 'lib/constants';
+import { useHandleDoubleClick } from 'lib/hooks/handleDoubleClick';
 
 
 
@@ -24,6 +25,11 @@ function CollectCard({ metaData, drop }: any) {
 
   const imageHash = metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/') || metaData.metadata.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
   const profileImagePath = useImagePath(user?.avatar_url);
+
+  const handleDoubleClick = (event: any) => {
+    useHandleDoubleClick(event, { dropId: drop?.id, userId: drop?.user_id });
+  };
+
 
   return user && (
     <div className="flex flex-col static mx-auto w-full content-center justify-center overflow-hidden">
@@ -55,6 +61,7 @@ function CollectCard({ metaData, drop }: any) {
         <div className="w-full relative min-w-md h-full">
           <div className="relative aspect-square object-cover min-w-full">
             <Image
+              onClick={handleDoubleClick}
               priority={false}
               width={500}
               height={500}

@@ -41,7 +41,7 @@
     "googleapis": "^122.0.0",
     "ioredis": "^5.3.2",
     "jsonwebtoken": "^9.0.0",
-    "next": "^13.4.13",
+    "next": "^13.4.18",
     "next-themes": "^0.2.1",
     "patch-package": "^8.0.0",
     "randomcolor": "^0.6.2",
