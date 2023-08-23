@@ -1,8 +1,6 @@
 "use client";
 
-// import { ConnectToSubport } from "ui/Buttons/ConnectButton";
 import { useAuthProvider } from "app/context/auth";
-import { useRouter } from "next/navigation";
 
 // Supabase auth needs to be triggered client-side
 export default function LoginCard({ close }: any) {

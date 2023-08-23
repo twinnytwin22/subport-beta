@@ -17,15 +17,13 @@ const fetchProfile = async (id: string) => {
   let { data, error } = await supabase
     .from("profiles")
     .select(
-      "id, username, bio, website, avatar_url, wallet_address, city, state, country, bg_url"
+      "*"
     )
     .eq("id", id)
     .single();
-
   if (error) {
     throw error;
   }
-
   return data;
 };
 
@@ -33,15 +31,6 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const { signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener } = useAuthStore()
   const router = useRouter()
 
-  //useEffect(() => {
-  //  const testSession = async () => {
-  //    const { data: { session } } = await supabase.auth.getSession()
-  //    if (session) {
-  //      console.log(session)
-  //    }
-  //  }
-  //  testSession()
-  //}, [])
 
   const { data, isLoading } = useQuery(["user", "subscription", 'subscriptionData', 'authListener'], async () => {
     // Fetch user and authListener data concurrently
@@ -74,7 +63,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     ]);
 
     if (userSessionData && userSessionData.session) {
-      let { data: authUser } = await supabase.auth.getUser();
+      let { data: authUser } = await supabaseAdmin.auth.getUser();
 
       if (authUser?.user) {
         const profile = await fetchProfile(authUser.user.id);
