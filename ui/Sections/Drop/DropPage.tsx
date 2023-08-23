@@ -6,12 +6,13 @@ import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper';
 import Image from 'next/image';
 import PlayButton from 'ui/Cards/Collect/PlayButton';
 import { CommentComponent } from './DropCommentUI';
+import { useIpfsImage } from 'lib/constants';
 
 export function DropPage({ props }: any) {
   console.log(props, "PROPS")
   const drop = props?.drop;
   const metaData = props?.metaData;
-  const imageUrl = props?.imageUrl
+  const imageUrl =  useIpfsImage(metaData?.image!)
   const reactionCount = props?.reactionCount || 5
   const comments = props?.comments || 5
 
