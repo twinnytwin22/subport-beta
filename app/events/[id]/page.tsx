@@ -7,6 +7,7 @@ import EventGoogleMap from "ui/Sections/Events/EventMap";
 import { checkUser } from "utils/database";
 import EventOrganizer from "ui/Sections/Events/EventOrganizer";
 import EventTicketContainer from "ui/Sections/Events/EventTicketContainer";
+import { useIpfsImage } from "lib/constants";
 export default async function Page({
     params,
 }: {
@@ -32,10 +33,8 @@ export default async function Page({
             const inputDate = event.date;
             const Dates = reformatDate(inputDate);
             console.log(Dates);
-            const image = event?.image?.replace(
-                "ipfs://",
-                "https://gateway.ipfscdn.io/ipfs/"
-            );
+            const image = useIpfsImage( event?.image)
+        
 
 
             return user.profile && (

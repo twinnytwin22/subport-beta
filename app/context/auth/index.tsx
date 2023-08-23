@@ -14,7 +14,7 @@ const refresh = () => {
 
 export const AuthContext = createContext<AuthState>(useAuthStore.getState());
 const fetchProfile = async (id: string) => {
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("profiles")
     .select(
       "id, username, bio, website, avatar_url, wallet_address, city, state, country, bg_url"
@@ -45,7 +45,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
   const { data, isLoading } = useQuery(["user", "subscription", 'subscriptionData', 'authListener'], async () => {
     // Fetch user and authListener data concurrently
-    const [
+    let [
       { data: userSessionData },
       { data: { subscription: subscriptionData } },
     ] = await Promise.all([
@@ -61,7 +61,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
           }
           if (event === "PASSWORD_RECOVERY") {
             const newPassword = prompt("What would you like your new password to be?");
-            const { data, error } = await supabaseAdmin.auth.updateUser({
+            let { data, error } = await supabaseAdmin.auth.updateUser({
               password: newPassword!,
             });
 
@@ -74,7 +74,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     ]);
 
     if (userSessionData && userSessionData.session) {
-      const { data: authUser } = await supabase.auth.getUser();
+      let { data: authUser } = await supabase.auth.getUser();
 
       if (authUser?.user) {
         const profile = await fetchProfile(authUser.user.id);

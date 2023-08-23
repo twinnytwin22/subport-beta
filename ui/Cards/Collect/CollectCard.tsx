@@ -9,7 +9,7 @@ import PlayButton from './PlayButton';
 import CollectButton from './CollectButton';
 import { getTotalReactions } from 'utils/database';
 import { fetchProfilesForDrops } from 'utils/use-server';
-import { useImagePath } from 'lib/constants';
+import { useImagePath, useIpfsImage } from 'lib/constants';
 import { useHandleDoubleClick } from 'lib/hooks/handleDoubleClick';
 
 
@@ -23,8 +23,10 @@ function CollectCard({ metaData, drop }: any) {
     drop,
   };
 
-  const imageHash = metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/') || metaData.metadata.image.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/');
+  const imageHash = useIpfsImage(metaData?.image)
   const profileImagePath = useImagePath(user?.avatar_url);
+
+  console.log(imageHash)
 
   const handleDoubleClick = (event: any) => {
     useHandleDoubleClick(event, { dropId: drop?.id, userId: drop?.user_id });

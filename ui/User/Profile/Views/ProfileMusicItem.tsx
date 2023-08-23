@@ -3,14 +3,10 @@ import CollectCardMenu from "ui/Cards/Collect/CollectCardMenu";
 import { useRouter } from "next/navigation";
 import PlayButton from "ui/Cards/Collect/PlayButton";
 import Image from "next/image";
+import { useIpfsImage } from "lib/constants";
 
 const MusicItem = ({ drop, metaData, profile }: any) => {
-    const imageHash =
-        metaData?.image?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/") ||
-        metaData?.data.image?.replace(
-            "ipfs://",
-            "https://gateway.ipfscdn.io/ipfs/"
-        );
+    const imageHash = useIpfsImage(metaData?.image)
     const router = useRouter();
 
     const props = {

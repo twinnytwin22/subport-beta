@@ -1,5 +1,6 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { SupabaseImage } from "./hooks/downloadImage";
+import { clientId } from "./providers/thirdweb/thirdweb";
 
 export function useImagePath(url: SupabaseImage) {
   const imagePath = `https://qjfdpaecmjljkboepipm.supabase.co/storage/v1/object/public/avatars/${url}`;
@@ -12,9 +13,21 @@ export function useBgImagePath(url: SupabaseImage) {
 }
 
 export function useIpfsImage(url: string) {
-  const imagePath = url?.replace("ipfs://", "https://gateway.ipfscdn.io/ipfs/")
+  const imagePath = url?.replace("ipfs://",`https://${ipfs.hostname}/ipfs/`)
   return imagePath
 }
+
+export function useIpfsUrl(url: string) {
+  const imagePath = url?.replace("ipfs://",`https://${ipfs.hostname}/ipfs/`)
+  return imagePath
+}
+
+export const ipfs = { 
+  gatewayUrl: 'https://cloudflare-ipfs.com/ipfs/',
+  hostname:'cloudflare-ipfs.com'
+} 
+
+
 export const defaultUserImage = "/images/icons/default_user_image.jpg";
 export const homePath = 'https://subport.vercel.app'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;

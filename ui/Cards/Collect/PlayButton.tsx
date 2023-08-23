@@ -1,7 +1,7 @@
 "use client";
 import { useAuthProvider } from "app/context/auth";
 import { useSubportPlayer } from "app/context/subport-player";
-import { useIpfsImage } from "lib/constants";
+import { useIpfsImage, useIpfsUrl } from "lib/constants";
 import React from "react";
 import { FaPlayCircle, FaStopCircle } from "react-icons/fa";
 
@@ -10,11 +10,7 @@ function PlayButton({ props }: any) {
         useSubportPlayer();
     const { user } = useAuthProvider();
     const newMetaData = props.metaData
-    const newAudioUrl =
-        props?.metaData?.animation_url?.replace(
-            "ipfs://",
-            "https://gateway.ipfscdn.io/ipfs/"
-        );
+    const newAudioUrl = useIpfsUrl(props?.metaData?.animation_url)
     const newImageUrl = useIpfsImage(props?.metaData?.image);
     const [mounted, setMounted] = React.useState(false);
     React.useEffect(() => setMounted(true), []);

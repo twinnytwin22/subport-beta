@@ -1,3 +1,4 @@
+import { useImagePath, useIpfsImage, useIpfsUrl } from 'lib/constants'
 import { notFound } from 'next/navigation'
 import React from 'react'
 import { LoadingContainer } from 'ui/LoadingContainer'
@@ -16,9 +17,9 @@ export default async function Page({ params }: { params: { slug: string, user: s
   if (!data) {
     return <LoadingContainer />
   }
-  const audioUrl = data?.metaData?.animation_url?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+  const audioUrl = useIpfsUrl( data?.metaData?.animation_url)
 
-  const imageUrl = data?.metaData?.image?.replace('ipfs://', 'https://gateway.ipfscdn.io/ipfs/')
+  const imageUrl = useIpfsImage( data?.metaData?.image)
   const props: any = {
     drop: data?.drop,
     metaData: data?.metaData,

@@ -22,13 +22,21 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: 'https',
+        hostname: '053c144674e91fcc39bf3a56a7511a32.ipfscdn.io',
+        },
+      {
       protocol: 'https',
-      hostname: 'gateway.ipfscdn.io',
+      hostname: 'ipfs.thirdwebcdn.com',
       },
       {
       protocol: 'https',
       hostname: 'qjfdpaecmjljkboepipm.supabase.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'cloudflare-ipfs.com',
+        },
     ]
   },
   env:

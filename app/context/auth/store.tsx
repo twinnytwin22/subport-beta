@@ -1,4 +1,5 @@
 import { supabase } from "lib/constants";
+import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
 import { toast } from "react-toastify";
 import { create } from 'zustand'
 export interface AuthState {
@@ -18,7 +19,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     signInWithGoogle: async () => {
         toast.info('Signing In')
         try {
-            await supabase.auth.signInWithOAuth({ provider: "google" });
+            await supabaseAdmin.auth.signInWithOAuth({ provider: "google" });
         } catch (error) {
             console.error("Error signing in with Google:", error);
         }
@@ -40,7 +41,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                 'user-follow-modify',
             ].join(',');
 
-            const { error } = await supabase.auth.signInWithOAuth({
+            const { error } = await supabaseAdmin.auth.signInWithOAuth({
                 provider: 'spotify',
                 options: { scopes: scopes },
             });
