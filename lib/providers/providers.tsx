@@ -35,6 +35,7 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
         <AuthContextProvider>
           <Suspense>
             <SubportPlayer>
+              <Suspense>
               <ThirdwebProvider
                 secretKey={secretKey!}
                 clientId={clientId!}
@@ -58,6 +59,7 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
                   </ThemeProvider>
                 </Suspense>
               </ThirdwebProvider>
+              </Suspense>
             </SubportPlayer>
           </Suspense>
         </AuthContextProvider>
