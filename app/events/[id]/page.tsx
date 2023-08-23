@@ -7,7 +7,6 @@ import EventGoogleMap from "ui/Sections/Events/EventMap";
 import { checkUser } from "utils/database";
 import EventOrganizer from "ui/Sections/Events/EventOrganizer";
 import EventTicketContainer from "ui/Sections/Events/EventTicketContainer";
-import { useIpfsImage } from "lib/constants";
 export default async function Page({
     params,
 }: {
@@ -40,12 +39,12 @@ export default async function Page({
             return user.profile && event && (
                 <div className="min-h-screen h-full mb-40">
                     {/* Header with blurred image */}
-                    <EventHeader image={ useIpfsImage(event?.image!)} Dates={Dates} event={event} />
+                    <EventHeader image={event.image} Dates={Dates} event={event} />
                     <div className="flex flex-col md:flex-row w-full  space-x-8">
                         <Suspense>
                             <div className="w-full">
                                 <EventOrganizer user={user} />
-                                <EventDetails image={ useIpfsImage(event?.image!)} Dates={Dates} event={event} />
+                                <EventDetails image={event.image} Dates={Dates} event={event} />
                             </div>
                             <div className=" col-span-1 mt-8 w-fit rounded-md  relative">
                                 <EventTicketContainer event={event} />

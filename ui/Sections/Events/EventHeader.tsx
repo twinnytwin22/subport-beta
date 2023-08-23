@@ -1,8 +1,10 @@
 import React from 'react'
 import Image from 'next/image'
 import { FaMapPin } from 'react-icons/fa'
+import { useIpfsImage } from 'lib/constants'
 
 function EventHeader({ image, event, Dates }: any) {
+    const eventImage = useIpfsImage(image)
     return (
         <div>
             <div className="relative rounded-md overflow-hidden border border-zinc-300 dark:border-zinc-800 max-w-screen mx-auto">
@@ -10,7 +12,7 @@ function EventHeader({ image, event, Dates }: any) {
                     className="relative h-60 md:h-80 lg:h-96 bg-cover z-0 bg-center bg-no-repeat rounded-md overflow-hidden"
                     width={2000}
                     height={300}
-                    src={image}
+                    src={eventImage}
                     alt='bg-image'
                     style={{ objectFit: 'cover', filter: 'blur(1.5rem)' }}
                 />
@@ -32,7 +34,7 @@ function EventHeader({ image, event, Dates }: any) {
                         <Image
                             width={200}
                             height={200}
-                            src={image}
+                            src={eventImage}
                             alt={event.title}
                             className="w-24 h-24 aspect-square md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-md border border-zinc-600 dark:border-zinc-700"
                         />
