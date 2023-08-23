@@ -33,11 +33,11 @@ export default async function Page({
             const inputDate = event.date;
             const Dates = reformatDate(inputDate);
             console.log(Dates);
-            const image = useIpfsImage( event?.image)
+            const image = useIpfsImage(event?.image)
         
 
 
-            return user.profile && (
+            return user.profile && event && (
                 <div className="min-h-screen h-full mb-40">
                     {/* Header with blurred image */}
                     <EventHeader image={image} Dates={Dates} event={event} />

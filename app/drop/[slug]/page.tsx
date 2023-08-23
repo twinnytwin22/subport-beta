@@ -17,19 +17,19 @@ export default async function Page({ params }: { params: { slug: string, user: s
   if (!data) {
     return <LoadingContainer />
   }
-  const audioUrl = useIpfsUrl( data?.metaData?.animation_url)
+  const audioUrl = useIpfsUrl(data?.metaData?.animation_url)
 
-  const imageUrl = useIpfsImage( data?.metaData?.image)
+  const imageUrl = ''
   const props: any = {
     drop: data?.drop,
     metaData: data?.metaData,
     //comments: res?.dropComments,
     //  reactionCount: res?.reactionCount,
     audioUrl,
-    imageUrl,
+    imageUrl: useIpfsImage(data?.metaData?.image),
   };
   console.log(props)
-  return (
+  return props && (
     <div className='bg-zinc-100 dark:bg-black w-full items-center mb-20 min-h-full relative mx-auto justify-center'>
       <DropPage props={props ?? []} />
     </div>
