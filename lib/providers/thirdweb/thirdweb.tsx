@@ -26,7 +26,7 @@ const gatewayUrls = {
 }
 
 export const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID! as string
-export const secretKey = process.env.NEXT_PUBLIC_THIRDWEB_SECRET_KEY! as string
+export const secretKey = process.env.THIRDWEB_SECRET_KEY! as string
 
 export const uploader = new IpfsUploader({ clientId, secretKey });
 export const storage = new ThirdwebStorage({ uploader, gatewayUrls, clientId: clientId!, secretKey: secretKey! });
