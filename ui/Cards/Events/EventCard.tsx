@@ -100,7 +100,7 @@ const EventSave = ({ event }: { event: any }) => {
 
             checkSave();
         }
-    }, [id, profile.id]);
+    }, [id, profile?.id]);
 
     const handleSaveEvent = async () => {
 

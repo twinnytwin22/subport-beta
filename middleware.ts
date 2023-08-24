@@ -49,15 +49,14 @@ export async function middleware(req: NextRequest, event: NextFetchEvent): Promi
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  console.log(session);
-  //if (req.nextUrl.pathname.startsWith("/create") || 
- // req.nextUrl.pathname.startsWith("/settings")||
-  //req.nextUrl.pathname.startsWith("/explore")) {
-  //  if (!session) {
- //     return NextResponse.redirect(`${protocol}//${host}/`);
- //   } else {
- //     return res
- //   }
+  //console.log(session);
+if (req.nextUrl.pathname.startsWith("/create") || 
+ req.nextUrl.pathname.startsWith("/settings")||
+req.nextUrl.pathname.startsWith("/explore")) {
+  if (!session) {
+      return NextResponse.redirect(`${protocol}//${host}/`);
+    } return res
+   }
 //  } else {
  //   return res
  // }

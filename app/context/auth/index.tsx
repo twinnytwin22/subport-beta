@@ -1,6 +1,6 @@
 'use client'
 import React, { createContext, useContext, useEffect, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, } from "@tanstack/react-query";
 import { useAuthStore, AuthState } from "./store";
 import { getUserData, handleAuthChangeEvent } from "../new-auth/actions";
 import { supabase } from "lib/constants";
@@ -17,20 +17,15 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 // Inside your AuthContextProvider component
 const signOut = async () => {
   try {
-    // Perform any necessary cleanup or log-out actions
     await supabaseAdmin.auth.signOut();
-
-    // Update your user and profile state
     useAuthStore.setState({ user: null, profile: null });
-
-    // Refresh the page or navigate to a different route
     refresh();
   } catch (error) {
     console.error("Error signing out:", error);
   }
 };
 
-  const { data: authEventData, isLoading: authEventLoading } = useQuery({
+  const { data: authEventData, isLoading: authEventLoading, isSuccess } = useQuery({
     queryKey: ["subscription", "subscriptionData"],
     queryFn: handleAuthChangeEvent,
   });
@@ -38,7 +33,9 @@ const signOut = async () => {
   const { data: userData, isLoading: userDataLoading } = useQuery({
     queryKey: ["user", "profile"],
     queryFn: getUserData,
-    enabled: !authEventLoading, // Enable the query only when auth event data is loaded
+    enabled: authEventLoading,
+    refetchOnMount: false
+     // Enable the query only when auth event data is loaded
   });
 
   useEffect(() => {

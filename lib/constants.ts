@@ -24,7 +24,7 @@ export function useIpfsUrl(url: string) {
 
 export const ipfs = { 
   gatewayUrl: 'https://cloudflare-ipfs.com/ipfs/',
-  hostname:'cloudflare-ipfs.com'
+  hostname:'053c144674e91fcc39bf3a56a7511a32.ipfscdn.io'
 } 
 
 

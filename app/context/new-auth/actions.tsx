@@ -5,11 +5,10 @@ import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
 import { toast } from "react-toastify";
 
 export const fetchProfile = async (id: string) => {
-    let { data:profile, error } = await supabase
+    let { data:profile, error } = await supabaseAdmin
       .from("profiles").select("*").eq("id", id).single();
       if(profile) {
         return profile;
-
       }
     if (error) { throw error };
   };
@@ -31,7 +30,7 @@ export async function handleAuthChangeEvent() {
      = supabaseAdmin.auth.onAuthStateChange(
         async (event: AuthChangeEvent, currentSession: Session | null) => {
           if (currentSession && event === "SIGNED_IN") {
-           useAuthStore.setState({ user: currentSession?.user });
+            useAuthStore.setState({ user: currentSession?.user });
             supabaseAdmin.auth.startAutoRefresh()
        //    await fetchProfile(currentSession?.user.id);
            // router.refresh()
@@ -55,12 +54,12 @@ export async function handleAuthChangeEvent() {
     const {data: session} = await supabaseAdmin.auth.getSession()
     if (session && session?.session) {
       let { data: authUser } = await supabaseAdmin.auth.getUser();
-
       if (authUser?.user) {
       const profile  =  await fetchProfile(authUser.user.id);
         return { user: authUser.user, profile };
-      } return { user: null, profile: null };
-
+      }
+    } else{
+      return { user:'', profile: '' };
     }
   }
   
