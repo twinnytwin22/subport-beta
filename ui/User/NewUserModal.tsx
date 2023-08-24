@@ -1,49 +1,58 @@
 'use client'
 import { useAuthProvider } from "app/context/auth";
+import { refresh } from "app/context/auth/store";
+import { supabase } from "lib/constants";
+import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
+import { supabaseClient } from "lib/providers/supabase/supabaseClient";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { toast } from "react-toastify";
 
-const supabase = createClientComponentClient()
 const NewUserModal = () => {
     const [showModal, setShowModal] = useState(true);
     const [termsChecked, setTermsChecked] = useState(false);
 
     const { profile } = useAuthProvider();
-    const [username, setUsername] = useState<string>("");
+    const [username, setUsername] = useState<string | null>(null);
     const router = useRouter();
 
     const handle = profile?.username;
+    console.log(username)
 
     // Function to handle the creation of a user handle
     const createUserHandle = () => {
         setShowModal(false);
     };
-
+console.log(profile)
     const handleOnSubmit = async () => {
-        if (profile) {
+        if (profile && username) {
             try {
-                const updates: any = {};
-                // Check each input field and add it to the updates object if it has changed
-                if (username !== profile?.username) {
-                    updates.username = username;
-                    updates.updated_at = new Date().toISOString();
-                }
-                let { error } = await supabase
+                const { data: newProfile, error } = await supabaseAdmin
                     .from("profiles")
-                    .update(updates)
-                    .eq("id", profile?.id);
-
-                if (error) throw error;
-                toast.success("Profile updated!");
+                    .update({ username: username })
+                    .eq('id', profile.id!)
+                    .select()
+                  
+    
+                if (newProfile) {
+                    console.log(JSON.stringify(newProfile))
+                    toast.success(`Profile updated with username`);
+                    setUsername(null); // Clear the input field after successful insertion
+                    refresh();
+                }
+    
+                if (error) {
+                    console.log(error)
+                    throw error;
+                }
             } catch (error) {
-                console.error(error);
-            } finally {
-                router.refresh();
+                console.log(error)
+               throw new Error("Error inserting username:");
             }
         }
+    
     };
+    
     const handleTermsCheck = (e: any) => {
         setTermsChecked(e.target.checked);
     };
@@ -61,13 +70,13 @@ const NewUserModal = () => {
                         <p className="mb-4">
                             You need to create a user handle before proceeding.
                         </p>
-                        <form onSubmit={handleOnSubmit}>
+                        <div>
                             <input
                                 className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-700 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 id="username"
                                 type="text"
                                 value={username || ""}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                onChange={(e: any) =>
                                     setUsername(e.target.value)
                                 }
                             />
@@ -87,12 +96,12 @@ const NewUserModal = () => {
                             </div>
                             <br />
                             <button
-                                type="submit"
+                                onClick={handleOnSubmit}
                                 className="bg-blue-700 text-white px-4 py-2 rounded"
                             >
                                 Create Handle
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

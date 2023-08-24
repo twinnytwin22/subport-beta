@@ -31,7 +31,6 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
 
-      <Suspense>
         <AuthContextProvider>
           <Suspense>
             <SubportPlayer>
@@ -63,7 +62,6 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
             </SubportPlayer>
           </Suspense>
         </AuthContextProvider>
-      </Suspense >
     </QueryClientProvider>
   );
 };

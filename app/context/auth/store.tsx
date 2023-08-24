@@ -2,6 +2,10 @@ import { supabase } from "lib/constants";
 import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
 import { toast } from "react-toastify";
 import { create } from 'zustand'
+
+export const refresh = () => {
+    window.location.reload();
+  };
 export interface AuthState {
     user: any;
     profile: any;
@@ -45,7 +49,6 @@ export const useAuthStore = create<AuthState>((set) => ({
                 provider: 'spotify',
                 options: { scopes: scopes },
             });
-
             if (error) {
                 throw error;
             }
@@ -57,6 +60,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         toast.info('Signing Out')
         try {
             await supabase.auth.signOut();
+
         } catch (error) {
             console.error("Error signing out:", error);
         }

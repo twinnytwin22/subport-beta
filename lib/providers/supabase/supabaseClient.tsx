@@ -6,7 +6,7 @@ const options = {
   auth: {
     autoRefreshToken: true,
     persistSession: true,
-    detectSessionInUrl: true
+   // detectSessionInUrl: true
   },
 }
 

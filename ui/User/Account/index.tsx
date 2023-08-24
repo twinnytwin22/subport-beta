@@ -7,9 +7,11 @@ import { useRouter } from "next/navigation";
 import { supabase } from "lib/constants";
 import useProfileStore from "./store";
 import { useEffect } from "react";
+import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
 
 export default function Account() {
   const { user, profile, isLoading } = useAuthProvider();
+  console.log(user, profile)
   const {
     loading,
     setLoading,
@@ -76,20 +78,24 @@ export default function Account() {
           updates.state = state;
         }
         updates.updated_at = new Date().toISOString();
-        let { error } = await supabase
+        let {data, error } = await supabaseAdmin
           .from("profiles")
           .update(updates)
-          .eq("id", user?.id);
+          .eq("id", user?.id)
+          .select();
 
+
+          if (data?.length !== undefined){
+            setLoading(false);
+            toast.success("Profile updated!");
+
+            router.refresh();
+          }
         if (error) throw error;
-        toast.success("Profile updated!");
       } catch (error) {
         toast.error(error as any);
         console.log(error);
-      } finally {
-        setLoading(false);
-        router.refresh();
-      }
+      } 
     }
   }
 
@@ -108,7 +114,7 @@ export default function Account() {
             size={200}
             onUpload={(url: any) => {
               setAvatarUrl(url);
-              updateProfile({ avatar_url: url });
+            //  updateProfile({ avatar_url: url });
             }}
           />
           <div className="mt-3">

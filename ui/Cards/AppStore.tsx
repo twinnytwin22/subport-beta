@@ -3,8 +3,8 @@ import { useAuthProvider } from "app/context/auth";
 import React from "react";
 
 function AppStore() {
-  const {user} = useAuthProvider()
-  console.log(user)
+  const {user, profile} = useAuthProvider()
+  console.log('user:', user ,'profile:', profile)
   return (
     <div>
       <div className="w-md block p-2 text-center bg-white border border-zinc-200 rounded-md shadow sm:p-6 dark:bg-zinc-950 dark:border-zinc-700">

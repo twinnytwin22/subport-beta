@@ -50,17 +50,20 @@ export async function middleware(req: NextRequest, event: NextFetchEvent): Promi
     data: { session },
   } = await supabase.auth.getSession();
   console.log(session);
-  if (req.nextUrl.pathname.startsWith("/create") || 
-  req.nextUrl.pathname.startsWith("/settings")||
-  req.nextUrl.pathname.startsWith("/explore")) {
-    if (!session) {
-      return NextResponse.redirect(`${protocol}//${host}/`);
-    }
-  }
+  //if (req.nextUrl.pathname.startsWith("/create") || 
+ // req.nextUrl.pathname.startsWith("/settings")||
+  //req.nextUrl.pathname.startsWith("/explore")) {
+  //  if (!session) {
+ //     return NextResponse.redirect(`${protocol}//${host}/`);
+ //   } else {
+ //     return res
+ //   }
+//  } else {
+ //   return res
+ // }
 
  // res.headers.set("X-RateLimit-Limit", limit.toString());
  // res.headers.set("X-RateLimit-Remaining", remaining.toString());
 //  res.headers.set("X-RateLimit-Reset", reset.toString());
 
-  return res;
 }
