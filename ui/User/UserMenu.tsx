@@ -1,15 +1,12 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import { toast } from 'react-toastify';
 import DarkModeSwitch from 'ui/Buttons/DarkModeSwitch';
 import { useAuthProvider } from 'app/context/auth';
-import { useRouter } from 'next/navigation';
 
 
 function UserMenu({ profile, user }: any) {
   const { signOut } = useAuthProvider();
-
 
   const handleSignOut = async () => {
     signOut();
@@ -28,7 +25,7 @@ function UserMenu({ profile, user }: any) {
           <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-700 hover:dark:bg-zinc-700">Settings</li>
         </Link>
         <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-700 hover:dark:bg-zinc-700"><DarkModeSwitch /></li>
-        <li onClick={handleSignOut} className="w-full px-4 py-2 rounded-b-lg hover:dark:bg-zinc-700">Sign out</li>
+        <li onClick={handleSignOut} className="w-full px-4 py-2 rounded-b-lg hover:dark:bg-zinc-700 relative">Sign out</li>
       </ul>
 
     </div>
