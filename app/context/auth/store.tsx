@@ -45,13 +45,10 @@ export const useAuthStore = create<AuthState>((set) => ({
                 'user-follow-modify',
             ].join(',');
 
-            const { error } = await supabaseAdmin.auth.signInWithOAuth({
+            await supabaseAdmin.auth.signInWithOAuth({
                 provider: 'spotify',
                 options: { scopes: scopes },
             });
-            if (error) {
-                throw error;
-            }
         } catch (error) {
             console.error('Error signing in with Spotify:', error);
         }
