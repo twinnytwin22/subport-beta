@@ -7,14 +7,18 @@ export default function LoginCard({ close }: any) {
   const router = useRouter();
 
   const handleSignInWithSpotify = async () => {
-    await signInWithSpotify();
+   signInWithSpotify();
+   if(user){
     router.refresh();
+   }
   };
 
   const handleSignInWithGoogle = async () => {
-    await signInWithGoogle();
+   signInWithGoogle();
+   if(user){
     router.refresh();
-  };
+   }
+    };
 
 
   return (
