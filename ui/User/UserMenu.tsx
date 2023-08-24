@@ -9,12 +9,10 @@ import { useRouter } from 'next/navigation';
 
 function UserMenu({ profile, user }: any) {
   const { signOut } = useAuthProvider();
-  const router = useRouter();
 
 
   const handleSignOut = async () => {
-    await signOut();
-    router.refresh()
+    signOut();
     }
 
   return (
