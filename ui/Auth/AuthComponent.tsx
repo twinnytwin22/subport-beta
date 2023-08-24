@@ -8,14 +8,14 @@ export default function LoginCard({ close }: any) {
 
   const handleSignInWithSpotify = async () => {
    signInWithSpotify();
-   if(user){
+   if(!user){
     router.refresh();
    }
   };
 
   const handleSignInWithGoogle = async () => {
    signInWithGoogle();
-   if(user){
+   if(!user){
     router.refresh();
    }
     };
