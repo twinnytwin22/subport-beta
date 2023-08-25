@@ -35,7 +35,7 @@ const signOut = async () => {
   const { data: userData, isLoading: userDataLoading } = useQuery({
     queryKey: ["user", "profile"],
     queryFn: getUserData,
-    enabled: !!USER,
+    enabled: USER!!,
     refetchOnMount: false
      // Enable the query only when auth event data is loaded
   });
