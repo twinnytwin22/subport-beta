@@ -5,7 +5,7 @@ import Image from "next/image";
 import SubscribeButton from "ui/Buttons/SubscribeButton";
 import { FaMapPin } from "react-icons/fa";
 import ProfileBackgroundImage from "./ProfileBackgroundImage";
-
+ 
 async function Profile({ profile, username, data }: any) {
   const imagePath = useImagePath(profile.avatar_url)
 

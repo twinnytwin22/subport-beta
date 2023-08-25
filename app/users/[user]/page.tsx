@@ -2,10 +2,8 @@ import { getProfileData } from 'lib/hooks/getProfileDrops';
 import { readContractURIs } from 'lib/hooks/readContractURIs';
 import { notFound } from 'next/navigation';
 import React, { Suspense } from 'react';
-import Profile from 'ui/User/Profile/Profile';
-import ProfileContent from 'ui/User/Profile/ProfileContent';
+
 import Views from 'ui/User/Profile/Views';
-import ProfileMusicList from 'ui/User/Profile/Views/ProfileMusicList';
 import { checkUser } from 'utils/database';
 
 export const dynamic = 'force-dynamic'

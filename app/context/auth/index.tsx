@@ -26,14 +26,16 @@ const signOut = async () => {
 };
 
   const { data: authEventData, isLoading: authEventLoading, isSuccess } = useQuery({
-    queryKey: ["subscription", "subscriptionData"],
+    queryKey: ["subscription", "subscriptionData", 'session'],
     queryFn: handleAuthChangeEvent,
   });
+
+  const USER = authEventData?.session
 
   const { data: userData, isLoading: userDataLoading } = useQuery({
     queryKey: ["user", "profile"],
     queryFn: getUserData,
-    enabled: authEventLoading,
+    enabled: !!USER,
     refetchOnMount: false
      // Enable the query only when auth event data is loaded
   });

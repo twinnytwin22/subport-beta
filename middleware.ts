@@ -57,6 +57,8 @@ req.nextUrl.pathname.startsWith("/explore")) {
       return NextResponse.redirect(`${protocol}//${host}/`);
     } return res
    }
+
+   
 //  } else {
  //   return res
  // }
