@@ -3,12 +3,17 @@ import { createClient } from "@supabase/supabase-js";
 
 import { stripe } from "lib/providers/stripe/stripe";
 import { toDateTime } from "lib/helpers";
+const auth = {
+  persistSession: true,
+  autoRefreshToken: true,
+  detectSessionInUrl: true
+}
 
 export const supabaseAdmin = createClient(
   process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "",
   process.env.SUPABASE_SERVICE_ROLE_KEY ||
     process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY ||
-    ""
+    "", {auth}
 );
 
 const upsertProductRecord = async (product: Stripe.Product) => {

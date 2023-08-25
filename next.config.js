@@ -2,11 +2,44 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
+const securityHeaders = [
+  {
+    key: "X-Frame-Options",
+    value: "SAMEORIGIN",
+  },
+  {
+    key: "X-Content-Type-Options",
+    value: "nosniff",
+  },
+  {
+    key: "Referrer-Policy",
+    value: "same-origin",
+  },
+  {
+    key: "Permissions-Policy",
+    value:
+      "accelerometer=(self), camera=(self), geolocation=(self), microphone=(self)",
+  },
+
+];
+
+const mediaSecurityHeaders = [
+  {
+    key: "Cross-Origin-Opener-Policy",
+    value: "same-origin"
+  },
+  {
+    key: "Cross-Origin-Embedder-Policy",
+    value: "require-corp"
+  }
+]
 
 const nextConfig = {
   experimental: {
     appDir: true,
     serverActions: true,
+    instrumentationHook: true,
+    nextScriptWorkers: true,
 
     },
   reactStrictMode: true,
@@ -38,6 +71,18 @@ const nextConfig = {
         hostname: 'cloudflare-ipfs.com',
         },
     ]
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
+      },
+      {
+        source: "/(https://cdn.sanity.io|https://unpkg.com/@ffmpeg/core@0.12.2/dist/umd|https://unpkg.com)",
+        headers: mediaSecurityHeaders,
+      },
+    ];
   },
   env:
    {
