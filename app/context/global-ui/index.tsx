@@ -61,7 +61,9 @@ export const GlobalUI =
         }, [showModal, handleDiscardComment]);
 
 
-
+      //  console.log("%c" + icon.replace(/_/g, " "), "background-color: black; color: lime; font-family: 'Courier New'; padding-bottom: 10px");
+        console.log("\n\n\n");
+        console.log("%cCheck out jobs() and apps()", "background-color: black; color: lime; padding: 5px 50px 5px 20px; font-family: 'Courier New'");
         return (
             <GlobalUIContext.Provider value={values}>
                 <div className={`${showModal && 'pr-2 w-screen h-screen'}`}>

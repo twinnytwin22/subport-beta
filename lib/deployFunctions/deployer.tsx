@@ -14,7 +14,7 @@ import { fetchSingleCollectible } from 'utils/use-server'
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID || process.env.ALCHEMY_ID
-const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/4NyYhTtu_4zARxhQQvw6aXni7lkwtBZE`)
+const publicTransport = http(`https://polygon-mumbai.g.alchemy.com/v2/${apiKey}`)
 
 export const publicClient = createPublicClient({
   chain: polygonMumbai,

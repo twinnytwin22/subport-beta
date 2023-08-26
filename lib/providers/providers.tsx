@@ -1,7 +1,6 @@
 "use client";
 import "styles/globals.css";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+
 import React from "react";
 import { AuthContextProvider } from "app/context/auth";
 import { SubportPlayer } from "app/context/subport-player";

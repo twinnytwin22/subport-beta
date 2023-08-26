@@ -9,6 +9,7 @@ import { LoadingContainer } from "ui/LoadingContainer";
 import { NewUserModal } from "ui/User/NewUserModal";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { supabaseAuth } from "lib/constants";
 
 export const preferredRegion = 'auto'
 export const revalidate = 0
@@ -19,7 +20,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
+  await supabaseAuth.auth.getSession()
   const ContentWrapper = () => (
     <div className="z-0 top-16 left-0 right-0  sm:ml-[128px] lg:ml-[256px] border-zinc-200 dark:border-zinc-800 px-3 md:px-6 py-2.5 w-full bg-zinc-100 dark:bg-black mx-auto   container overflow-x-hidden overflow-y-visible place-content-center place-items-center flex">
       <NewUserModal />
