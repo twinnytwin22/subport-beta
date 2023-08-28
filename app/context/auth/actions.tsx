@@ -1,4 +1,4 @@
-import { useAuthStore } from "../auth/store";
+import { useAuthStore } from "./store";
 import { AuthChangeEvent, Session } from "@supabase/gotrue-js";
 import { supabaseAuth } from "lib/constants";
 import { toast } from "react-toastify";

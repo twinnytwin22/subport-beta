@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect, useMemo } from "react";
 import { useQuery, } from "@tanstack/react-query";
 import { useAuthStore, AuthState } from "./store";
-import { getUserData, handleAuthChangeEvent } from "../new-auth/actions";
+import { getUserData, handleAuthChangeEvent } from "./actions"
 import { supabaseAuth } from "lib/constants";
 
 const refresh = () => {
