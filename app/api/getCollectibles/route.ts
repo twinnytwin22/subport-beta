@@ -1,10 +1,7 @@
 // Import necessary dependencies
 import { NextResponse } from "next/server";
 import { readContractURIs } from "lib/hooks/readContractURIs";
-import { createClient } from "@supabase/supabase-js";
-import { promisify } from "util";
 import { redis, redisGet, redisSet } from "lib/redis/redis";
-import { NextApiResponse } from "next";
 import { supabaseApi } from "lib/providers/supabase/supabaseClient";
 // Create a Supabase
 
