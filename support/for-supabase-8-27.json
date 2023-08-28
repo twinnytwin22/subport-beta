@@ -1,0 +1,39 @@
+{ session: null },
+'MIDDLEWARE SESSION'
+
+  {
+  name: 'ajs_anonymous_id',
+  value: '64ff1e8d-4c57-4dec-ab82-87e771855abc'
+},
+  { name: '_ga', value: 'GA1.1.416042587.1675909497' },
+  {
+  name: '_ga_WYWZDZL25Q',
+  value: 'GS1.1.1685487570.21.1.1685490432.0.0.0'
+},
+  { name: '_fbp', value: 'fb.0.1687246063090.1489959033' },
+  {
+  name: '_ga_MPKDV2LKSW',
+  value: 'GS1.1.1687246062.49.1.1687246710.0.0.0'
+},
+  {
+  name: 'sb-vlsmmwknocoybqyakguj-auth-token-code-verifier',
+  value: '"3dfeae92e1b863f1ca611bfce06c5f165d85ed952d8bf914203177db2eca542dffb55da9fae0716f84073feea79b42a737c74592d75eec13"'
+},
+  {
+  name: 'sb-tvuqvrbxusmicpmjqpus-auth-token-code-verifier',
+  value: '"c7db59f4ac32d9d36bf0c92e460e097c33f0b01d9430b35221e5ec3626db3270cf5d48b365813eb692eeb8e26fea0b247ce30d53942494a7"'
+},
+  {
+  name: 'sb-tvuqvrbxusmicpmjqpus-auth-token',
+  value: '["eyJhbGciOiJIUzI1NiIsImtpZCI6IitLUGNTN1dBN0JlblZ5dW8iLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNjkyMjAxOTU3LCJpYXQiOjE2OTIxOTgzNTcsImlzcyI6Imh0dHBzOi8vdHZ1cXZyYnh1c21pY3BtanFwdXMuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6IjUzZWJmNmNlLTFjODMtNDlhZC05NTEwLTVmM2U1ZjZiNTFkMyIsImVtYWlsIjoicmFuZGFsLmhlcm5kb25AZ21haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6e30sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE2OTIxNjgyOTB9XSwic2Vzc2lvbl9pZCI6IjAzMzYzZWRiLTEyYzAtNGRiZi04YzQ4LWJkZmJkYmI3NWZhNCJ9.CrdFm0oiS3xi1yq0RM-a0iLqV7aqkHzUtVuRk6sUMck","EKNGvANB3IzuBH_k3d8SRQ",null,null,null]'
+},
+  {
+  name: 'my-access-token',
+  value: 'eyJhbGciOiJIUzI1NiIsImtpZCI6Im4yK1ZKWW51RktLaWdwVm4iLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNjkzNTUwMDExLCJpYXQiOjE2OTI5NDUyMTEsImlzcyI6Imh0dHBzOi8vcWpmZHBhZWNtamxqa2JvZXBpcG0uc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6ImU5NTE4YmQxLTc4MWUtNDc4YS1iYTcwLTlmYjdmMzc1MzdjOCIsImVtYWlsIjoiZGp0d2lubnl0d2luQGdtYWlsLmNvbSIsInBob25lIjoiIiwiYXBwX21ldGFkYXRhIjp7InByb3ZpZGVyIjoic3BvdGlmeSIsInByb3ZpZGVycyI6WyJzcG90aWZ5IiwiZ29vZ2xlIl19LCJ1c2VyX21ldGFkYXRhIjp7ImF2YXRhcl91cmwiOiJodHRwczovL2kuc2Nkbi5jby9pbWFnZS9hYjY3NzU3MDAwMDAzYjgyM2NkMmM4ZDllN2IyNTMyNjgwMzZjOGU0IiwiZW1haWwiOiJkanR3aW5ueXR3aW5AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZ1bGxfbmFtZSI6IlR3aW5ueSBUd2luIiwiaXNzIjoiaHR0cHM6Ly9hcGkuc3BvdGlmeS5jb20vdjEiLCJuYW1lIjoiVHdpbm55IFR3aW4iLCJwaWN0dXJlIjoiaHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvYWI2Nzc1NzAwMDAwM2I4MjNjZDJjOGQ5ZTdiMjUzMjY4MDM2YzhlNCIsInByb3ZpZGVyX2lkIjoibm8zeG42Nnp4MHZtMmJ5OHlhYmhneWJseCIsInN1YiI6Im5vM3huNjZ6eDB2bTJieTh5YWJoZ3libHgifSwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJvYXV0aCIsInRpbWVzdGFtcCI6MTY5Mjk0NTIxMX1dLCJzZXNzaW9uX2lkIjoiMTdlNTk1NmEtNzFlYy00Zjk4LTg2MjgtNzdlNzgzYmYzZWExIn0.XwmU8DxAULNipdyaMOsmfz4c80LzXD146JdgoalN3XI'
+},
+  { name: 'my-refresh-token', value: 'rE3Sq6XkKf8mEbanP2355w' },
+  {
+  name: 'sb-uzlmtidqnfcacfsfrlhc-auth-token',
+  value: '["eyJhbGciOiJIUzI1NiIsImtpZCI6IlZya2l5Q1JsZDlUYlh4djYiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNjkzMTMwMjI3LCJpYXQiOjE2OTMxMjY2MjcsImlzcyI6Imh0dHBzOi8vdXpsbXRpZHFuZmNhY2ZzZnJsaGMuc3VwYWJhc2UuY28vYXV0aC92MSIsInN1YiI6Ijk1MTJhOTI1LTkzNDUtNDJhZC04MDBjLWYyNjM0YTAwYjA3YyIsImVtYWlsIjoicmFuZGFsLmhlcm5kb25AZ21haWwuY29tIiwicGhvbmUiOiIiLCJhcHBfbWV0YWRhdGEiOnsicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdfSwidXNlcl9tZXRhZGF0YSI6e30sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE2OTMxMTg3MzR9XSwic2Vzc2lvbl9pZCI6ImE2MWQ3NmI1LTU0YmYtNDdmMS04ZmQ5LTI3MTAzNTMwNmUxMCJ9.qJ77R-aipdEvtZlwRbCPVouBVO8g54Th_evMNDE23qs","nfbTmwH4UYm8COj55d9-Pw",null,null,null]'
+}
+  'ALL COOKIES IN MIDDLEWARE'
