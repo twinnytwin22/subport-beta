@@ -1,5 +1,5 @@
 import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
-import { supabaseApi } from "lib/providers/supabase/supabaseClient";
+import { supabaseApi } from "lib/constants";
 import { redis, redisGet, redisSet } from "lib/redis/redis";
 import { NextResponse } from "next/server";
 

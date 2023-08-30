@@ -32,7 +32,9 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     signInWithSpotify,
     signOut,
     signInWithEmail,
-    unsubscribeAuthListener }
+    unsubscribeAuthListener,
+  user, 
+profile }
     = useAuthStore()
 
   const router = useRouter()
@@ -49,9 +51,9 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
         supabaseAdmin.auth.onAuthStateChange(
           async (event: AuthChangeEvent, currentSession: Session | null) => {
             if (currentSession && event === "SIGNED_IN") {
-              const profile = await fetchProfile(currentSession?.user.id);
-              useAuthStore.setState({ user: currentSession?.user, profile });
-              router.refresh()
+              useAuthStore.setState({user: currentSession.user})
+              const profile = await fetchProfile(currentSession.user.id)
+              useAuthStore.setState({profile})
             } else if (event === "SIGNED_OUT") {
               refresh()
             }
@@ -80,13 +82,13 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
           return { user: authUser.user, profile };
         }
       }
-      return { subscription: subscriptionData };
+      return { subscription: subscriptionData, };
     });
 
   const value = useMemo(
     () => ({
-      user: data?.user || null,
-      profile: data?.profile || null,
+      user: user,
+      profile: profile,
       isLoading,
       signInWithGoogle,
       signInWithSpotify,
@@ -95,7 +97,6 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       unsubscribeAuthListener,
     }),
     [
-      data,
       isLoading,
       signInWithEmail,
       signInWithGoogle,

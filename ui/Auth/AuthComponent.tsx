@@ -26,20 +26,20 @@ console.log(redirectUrl, "REDIRECT URL")
       provider: 'spotify',
       options: {
           scopes: scopes,
-         redirectTo: redirectUrl
+       //  redirectTo: redirectUrl
       },
   });
-  router.refresh()
+//router.refresh()
   };
 
   const handleSignInWithGoogle = async () => {
     await supabaseAuth.auth.signInWithOAuth({
       provider: "google",
       options: {
-         redirectTo: redirectUrl
+       //  redirectTo: redirectUrl
       },
   });  
-    router.refresh();
+   // router.refresh();
    
     };
 

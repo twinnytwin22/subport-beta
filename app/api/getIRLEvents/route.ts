@@ -1,7 +1,7 @@
 // Import necessary dependencies
 import { NextResponse } from "next/server";
 import { redisGet, redisSet } from "lib/redis/redis";
-import { supabaseApi } from "lib/providers/supabase/supabaseClient";
+import { supabaseApi } from "lib/constants";
 // Create a Supabase
 
 // Define the route handler function

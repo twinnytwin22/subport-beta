@@ -52,14 +52,30 @@ export const supabaseAuth = createClient(
       auth: {
         flowType: 'pkce',
         storage: authStorage,
-        persistSession: true
+        persistSession: true,
+        detectSessionInUrl: true,
+        autoRefreshToken: true
       }
     }
 );
 
 
 
+export const supabaseApi = createClient(
+  supabaseUrl,
+  supabaseKey,
 
+);
+
+export const supabaseClient =
+  createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth:{
+      flowType: 'pkce',
+      persistSession: false
+    }}
+  );
 export const supabaseAdmin = createClient(
   supabaseUrl,
   supabaseSRkey,

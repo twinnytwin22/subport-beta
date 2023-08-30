@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation'
-import { supabase } from 'lib/providers/supabase/supabaseClient'
+import { supabase } from 'lib/constants'
 export const ConnectSpotifyButton = () => {
 
   async function signInWithSpotify() {

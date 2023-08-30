@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { redis, redisGet, redisSet } from "lib/redis/redis";
-import { supabaseApi } from "lib/providers/supabase/supabaseClient";
+import { supabaseApi } from "lib/constants";
 
 export const revalidate = 0;
 

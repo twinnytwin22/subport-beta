@@ -31,7 +31,7 @@ export async function handleAuthChangeEvent() {
         async (event: AuthChangeEvent, currentSession: Session | null) => {
           if (currentSession && event === "SIGNED_IN" || event === 'TOKEN_REFRESHED') {
           //  await supabaseAuth.auth.setSession(currentSession!)
-            await getUserData();
+             await getUserData(currentSession);
 
            // supabaseAuth.auth.startAutoRefresh()
          //   const maxAge = 100 * 365 * 24 * 60 * 60 // 100 years, never expires
@@ -56,19 +56,18 @@ export async function handleAuthChangeEvent() {
 }
 
 
-export const getUserData = async () => {
-  const { data: session } = await supabaseAuth.auth.getSession()
-  if (session && session?.session) {
+export const getUserData = async (currentSession: any) => {
+  if (currentSession) {
     let { data: authUser } = await supabaseAuth.auth.getUser();
     if (authUser?.user) {
       useAuthStore.setState({ user: authUser?.user })
       const profile = await fetchProfile(authUser.user.id);
       useAuthStore.setState({ profile });
 
-      return { user: authUser.user, profile, session };
+      return { user: authUser.user, profile, currentSession };
     }
   } else {
     useAuthStore.setState({ profile: null, user:null });
-    return { user: '', profile: '', session };
+    return { user: '', profile: '', currentSession };
   }
 }
