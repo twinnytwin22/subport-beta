@@ -31,7 +31,7 @@ export async function handleAuthChangeEvent() {
         async (event: AuthChangeEvent, currentSession: Session | null) => {
           if (currentSession && event === "SIGNED_IN" || event === 'TOKEN_REFRESHED') {
           //  await supabaseAuth.auth.setSession(currentSession!)
-            await getUserData();
+       //     await getUserData();
 
            // supabaseAuth.auth.startAutoRefresh()
          //   const maxAge = 100 * 365 * 24 * 60 * 60 // 100 years, never expires

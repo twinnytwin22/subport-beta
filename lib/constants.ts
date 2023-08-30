@@ -51,8 +51,8 @@ export const supabaseAuth = createClient(
     {
       auth: {
         flowType: 'pkce',
-        storage: authStorage,
-        persistSession: true
+        storage: new BrowserCookieAuthStorageAdapter(),
+        persistSession: false
       }
     }
 );
@@ -66,8 +66,8 @@ export const supabaseAdmin = createClient(
     {
       auth: {
         flowType: 'pkce',
-        storage: authStorage,
-        persistSession: true
+        storage: new BrowserCookieAuthStorageAdapter(),
+        persistSession: false
       }
     }
 );

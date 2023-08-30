@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest) {
 
 
   const res = NextResponse.next()
-  cookieStore.set('subport', 'fast')  
+  //cookieStore.set('subport', 'fast')  
 
  const supabase = createMiddlewareClient({ req, res })
  //console.log(allCookies, "ALL COOKIES IN MIDDLEWARE")
