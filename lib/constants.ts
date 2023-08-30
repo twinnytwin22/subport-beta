@@ -59,6 +59,7 @@ export const supabaseAuth = createClient(
 
 
 
+
 export const supabaseAdmin = createClient(
   supabaseUrl,
   supabaseSRkey,
