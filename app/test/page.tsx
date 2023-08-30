@@ -10,7 +10,6 @@ import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import Image from 'next/image';
 import SpotifyAuth from 'utils/testSpotifyLogic';
 import { supabase } from 'lib/constants';
-import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin';
 import { fetchSpotifyTestApi, fetchSpotifyWebApi, spotifyClient } from 'lib/providers/spotify/spotifyLogic';
 
 let getName = 'Always' + Math.random();

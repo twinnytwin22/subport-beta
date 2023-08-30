@@ -90,7 +90,7 @@ const UserBio = ({ profile }: any) => {
   );
 };
 const UserLocation = ({ profile }: any) => {
-  console.log(profile)
+//  console.log(profile)
   return (
     <div className="flex w-full text-xs md:text-sm leading-normal mt-0 mb-2 text-zinc-400 font-bold uppercase justify-center mx-auto">
       <FaMapPin />

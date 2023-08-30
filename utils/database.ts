@@ -303,7 +303,7 @@ const checkSubscription = async (id: any) => {
         .single();
 
     if (existingSubscriptionError) {
-      console.log(existingSubscriptionError.message);
+      //console.log(existingSubscriptionError.message);
     }
 
     return existingSubscription;
@@ -314,7 +314,7 @@ const checkSubscription = async (id: any) => {
 };
 
 const createSubscription = async (subData: any, id: any) => {
-  console.log(id, "user_id");
+  //console.log(id, "user_id");
   try {
     // Check if a subscription already exists for the user
     const existingSubscription = await checkSubscription(id);

@@ -250,7 +250,7 @@ const checkSubscription = async (id: any) => {
         .single();
 
     if (existingSubscriptionError) {
-      console.log(existingSubscriptionError.message);
+     // console.log(existingSubscriptionError.message);
     }
 
     return existingSubscription;
@@ -261,7 +261,7 @@ const checkSubscription = async (id: any) => {
 };
 
 const createSubscription = async (subData: any, id: any) => {
-  console.log(id, "user_id");
+ // console.log(id, "user_id");
   try {
     // Check if a subscription already exists for the user
     const existingSubscription = await checkSubscription(id);
@@ -290,7 +290,7 @@ const createSubscription = async (subData: any, id: any) => {
     }
 
     // Do something with the stored subscription data, e.g., redirect to success page
-    console.log("Subscription created:", newSubscription);
+   // console.log("Subscription created:", newSubscription);
     return { subscription: newSubscription };
     // Invalidate the subscription tiers query to trigger refetch
   } catch (error) {

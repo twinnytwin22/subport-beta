@@ -1,7 +1,5 @@
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cache } from "react";
-
-const supabase = createClientComponentClient()
+import { supabase } from "lib/constants";
 const getProfileCounts = cache(async (userId: any) => {
     const { data: Followers, error: FollowersCountError, count: FollowerCount } = await supabase
         .from('followers')

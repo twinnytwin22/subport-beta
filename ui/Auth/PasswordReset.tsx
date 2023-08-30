@@ -1,6 +1,6 @@
 import { supabase } from 'lib/constants';
 import { SupbortLogo } from 'lib/content/siteSettings';
-import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin';
+import { supabaseAdmin } from "lib/constants";
 import React from 'react';
 
 const PasswordReset = async () => {

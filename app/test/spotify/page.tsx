@@ -1,5 +1,5 @@
 import { fetchSpotifyTestApi } from 'lib/providers/spotify/spotifyLogic'
-import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin'
+import { supabaseAdmin } from "lib/constants";
 import React from 'react'
 import ConnectToSpotifyButton from 'ui/TestUI/ConnectSpotifyTest'
 import MyComponent from 'ui/TestUI/SpotifyTesting'

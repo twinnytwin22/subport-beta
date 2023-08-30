@@ -1,9 +1,6 @@
-import { supabase } from 'lib/constants';
-import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin';
+import { supabaseAdmin } from "lib/constants";
 import { headers } from 'next/headers';
-import Link from 'next/link';
 import React from 'react';
-import { FaExternalLinkAlt } from 'react-icons/fa';
 import UserCreationsTable from './UserCreationsTable';
 
 const combineAndSortData = (request1Data: any, request2Data: any) => {

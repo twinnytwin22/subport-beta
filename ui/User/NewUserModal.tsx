@@ -2,9 +2,6 @@
 import { useAuthProvider } from "app/context/auth";
 import { refresh } from "app/context/auth/store";
 import { supabase } from "lib/constants";
-import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
-import { supabaseClient } from "lib/providers/supabase/supabaseClient";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -14,20 +11,19 @@ const NewUserModal = () => {
 
     const { profile } = useAuthProvider();
     const [username, setUsername] = useState<string | null>(null);
-    const router = useRouter();
 
     const handle = profile?.username;
-    console.log(username)
+   // console.log(username)
 
     // Function to handle the creation of a user handle
     const createUserHandle = () => {
         setShowModal(false);
     };
-console.log(profile)
+//console.log(profile)
     const handleOnSubmit = async () => {
         if (profile && username) {
             try {
-                const { data: newProfile, error } = await supabaseAdmin
+                const { data: newProfile, error } = await supabase
                     .from("profiles")
                     .update({ username: username })
                     .eq('id', profile.id!)
@@ -35,7 +31,7 @@ console.log(profile)
                   
     
                 if (newProfile) {
-                    console.log(JSON.stringify(newProfile))
+                  //  console.log(JSON.stringify(newProfile))
                     toast.success(`Profile updated with username`);
                     setUsername(null); // Clear the input field after successful insertion
                     refresh();

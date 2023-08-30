@@ -15,7 +15,7 @@ export async function GET(request: Request) {
     }
     const cachedResponse = await redisGet(cacheKey);
     if (cachedResponse && !refreshCache) {
-      console.log(cachedResponse);
+    //  console.log(cachedResponse);
       return NextResponse.json(JSON.parse(cachedResponse));
     }
 

@@ -8,9 +8,6 @@ import { useAuthProvider } from 'app/context/auth';
 function UserMenu({ profile, user }: any) {
   const { signOut } = useAuthProvider();
 
-  const handleSignOut = async () => {
-    signOut();
-    }
 
   return (
     <div className='-mr-3 relative top-5 z-[9999]'>
@@ -25,7 +22,7 @@ function UserMenu({ profile, user }: any) {
           <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-700 hover:dark:bg-zinc-700">Settings</li>
         </Link>
         <li className="w-full px-4 py-2 border-b border-zinc-200 dark:border-zinc-700 hover:dark:bg-zinc-700"><DarkModeSwitch /></li>
-        <li onClick={handleSignOut} className="w-full px-4 py-2 rounded-b-lg hover:dark:bg-zinc-700 relative">Sign out</li>
+        <li onClick={signOut} className="w-full px-4 py-2 rounded-b-lg hover:dark:bg-zinc-700 relative">Sign out</li>
       </ul>
 
     </div>

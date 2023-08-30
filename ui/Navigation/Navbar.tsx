@@ -1,8 +1,5 @@
 "use client";
 import { useAuthProvider } from "app/context/auth";
-import { supabase } from "lib/constants";
-import { useHandleOutsideClick } from "lib/hooks/handleOutsideClick";
-import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
 import React, { useEffect, useState } from "react";
 import SignInModal from "ui/Buttons/SignIn";
 import SearchBar from "ui/Misc/SearchBar";

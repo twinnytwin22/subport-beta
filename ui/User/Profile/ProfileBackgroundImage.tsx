@@ -23,7 +23,7 @@ function ProfileBackgroundImage({ uid, url, publicData, onUpload }: {
     useEffect(() => {
         if (url) { getImage(url) }
     }, [url, supabase])
-    console.log(publicData)
+  //  console.log(publicData)
     const uploadBg: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
         try {
             setUploading(true)
@@ -66,7 +66,7 @@ function ProfileBackgroundImage({ uid, url, publicData, onUpload }: {
         }
     }
     const bgImage = useBgImagePath(profile?.bg_url)
-    console.log(bgUrl, "BG_IMAGE")
+   // console.log(bgUrl, "BG_IMAGE")
 
     return (
         <div className='relative'>

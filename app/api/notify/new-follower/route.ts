@@ -1,5 +1,5 @@
+import { supabaseAdmin } from "lib/constants";
 import { NextResponse } from "next/server";
-import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
 let message = "";
 let data = "";
 let related_user = "";

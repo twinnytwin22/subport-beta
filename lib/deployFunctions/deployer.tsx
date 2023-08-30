@@ -6,7 +6,7 @@ import { polygonMumbai } from 'viem/chains'
 import subportMeta from '../../utils/subport.json';
 import { uploadHashToIpfs } from './uploadFileIpfs'
 import { supabase } from 'lib/constants'
-import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin'
+import { supabaseAdmin } from "lib/constants";
 import { useStatusStore } from './statusTrack';
 import { fetchSingleCollectible } from 'utils/use-server'
 

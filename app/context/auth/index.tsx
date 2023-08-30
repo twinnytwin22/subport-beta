@@ -3,20 +3,22 @@ import React, { createContext, useContext, useEffect, useMemo } from "react";
 import { useQuery, } from "@tanstack/react-query";
 import { useAuthStore, AuthState } from "./store";
 import { getUserData, handleAuthChangeEvent } from "./actions"
-import { supabaseAuth } from "lib/constants";
+import { supabaseAdmin } from "lib/constants";
 
 const refresh = () => {
   window.location.reload();
 };
 
-export const AuthContext = createContext<AuthState>(useAuthStore.getState());
+export const AuthContext = createContext(useAuthStore.getState());
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const { signInWithGoogle, signInWithSpotify, unsubscribeAuthListener, user, profile } = useAuthStore();
+  const { user, profile, session } = useAuthStore();
+
+
 // Inside your AuthContextProvider component
 const signOut = async () => {
   try {
-    await supabaseAuth.auth.signOut();
+    await supabaseAdmin.auth.signOut();
     useAuthStore.setState({ user: null, profile: null });
     refresh();
   } catch (error) {
@@ -33,7 +35,7 @@ const signOut = async () => {
   const { data: userData, isLoading: userDataLoading } = useQuery({
     queryKey: ["user", "profile", 'session'],
     queryFn: getUserData,
-   // enabled: !!USER,
+   
    // refetchOnMount: !!USER
      // Enable the query only when auth event data is loaded
   });
@@ -52,12 +54,10 @@ const signOut = async () => {
       user: user,
       profile: profile,
       isLoading: authEventLoading || userDataLoading,
-      signInWithGoogle,
-      signInWithSpotify,
       signOut,
-      unsubscribeAuthListener,
+      session
     }),
-    [userData, authEventLoading, userDataLoading, signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener]
+    [userData, authEventLoading, userDataLoading, signOut, session]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

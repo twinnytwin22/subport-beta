@@ -1,10 +1,10 @@
 import { useAuthStore } from "./store";
 import { AuthChangeEvent, Session } from "@supabase/gotrue-js";
-import { supabaseAuth } from "lib/constants";
+import { supabase, supabaseAuth } from "lib/constants";
 import { toast } from "react-toastify";
 
 export const fetchProfile = async (id: string) => {
-  let { data: profile, error } = await supabaseAuth
+  let { data: profile, error } = await supabase
     .from("profiles").select("*").eq("id", id).single();
   if (profile) {
     return profile;
@@ -30,14 +30,13 @@ export async function handleAuthChangeEvent() {
       = supabaseAuth.auth.onAuthStateChange(
         async (event: AuthChangeEvent, currentSession: Session | null) => {
           if (currentSession && event === "SIGNED_IN" || event === 'TOKEN_REFRESHED') {
-            await supabaseAuth.auth.setSession(currentSession!)
+          //  await supabaseAuth.auth.setSession(currentSession!)
             await getUserData();
 
            // supabaseAuth.auth.startAutoRefresh()
          //   const maxAge = 100 * 365 * 24 * 60 * 60 // 100 years, never expires
         //    document.cookie = `my-access-token=${currentSession?.access_token}; path=/; max-age=${maxAge}; SameSite=Lax; secure`
          //   document.cookie = `my-refresh-token=${currentSession?.refresh_token}; path=/; max-age=${maxAge}; SameSite=Lax; secure`
-
             // router.refresh()
           } else if (event === "SIGNED_OUT") {
             useAuthStore.setState({ user: null, profile: null })
@@ -49,12 +48,11 @@ export async function handleAuthChangeEvent() {
           if (event === "PASSWORD_RECOVERY") {
             await updatePassword()
           }
-          
         }
       )
 
 
-  return { subscription: subscriptionData };
+  return { subscription: subscriptionData, };
 }
 
 

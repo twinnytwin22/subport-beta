@@ -4,14 +4,13 @@ import Avatar from "../UploadWidget";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
 import { useRouter } from "next/navigation";
-import { supabase } from "lib/constants";
 import useProfileStore from "./store";
 import { useEffect } from "react";
-import { supabaseAdmin } from "lib/providers/supabase/supabase-lib-admin";
+import { supabaseAdmin } from "lib/constants";
 
 export default function Account() {
   const { user, profile, isLoading } = useAuthProvider();
-  console.log(user, profile)
+  //console.log(user, profile)
   const {
     loading,
     setLoading,
@@ -94,7 +93,7 @@ export default function Account() {
         if (error) throw error;
       } catch (error) {
         toast.error(error as any);
-        console.log(error);
+        (error);
       } 
     }
   }

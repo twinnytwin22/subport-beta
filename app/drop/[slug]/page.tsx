@@ -27,7 +27,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
     //  reactionCount: res?.reactionCount,
   
   };
-  console.log(props)
+ // console.log(props)
   return props && (
     <div className='bg-zinc-100 dark:bg-black w-full items-center mb-20 min-h-full relative mx-auto justify-center'>
       <DropPage props={props ?? []} />

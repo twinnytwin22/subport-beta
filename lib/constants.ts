@@ -1,13 +1,10 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { SupabaseImage } from "./hooks/downloadImage";
-import { clientId } from "./providers/thirdweb/thirdweb";
 import { createClient } from "@supabase/supabase-js";
+import { BrowserCookieAuthStorageAdapter } from "@supabase/auth-helpers-shared";
 
-const auth = {
-  persistSession: true,
-  autoRefreshToken: true,
-  detectSessionInUrl: true
-}
+const authStorage = new BrowserCookieAuthStorageAdapter()
+
 
 export function useImagePath(url: SupabaseImage) {
   const imagePath = `https://qjfdpaecmjljkboepipm.supabase.co/storage/v1/object/public/avatars/${url}`;
@@ -37,17 +34,39 @@ export const ipfs = {
 
 export const defaultUserImage = "/images/icons/default_user_image.jpg";
 export const homePath = 'https://subport.vercel.app'
-export const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+export const supabaseUrl = process.env.SUPABASE_URL 
+                        || process.env.NEXT_PUBLIC_SUPABASE_URL!
 export const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+export const supabaseSRkey = process.env.SUPABASE_SERVICE_ROLE_KEY 
+                          || process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!
 export const supabase = createClientComponentClient({
-//  supabaseUrl,
- // supabaseKey,
- // isSingleton: true
+ supabaseUrl,
+ supabaseKey,
 });
 
 
 export const supabaseAuth = createClient(
-  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!,// {auth}
+  supabaseUrl,
+  supabaseSRkey,
+    {
+      auth: {
+        flowType: 'pkce',
+        storage: authStorage,
+        persistSession: true
+      }
+    }
+);
+
+
+
+export const supabaseAdmin = createClient(
+  supabaseUrl,
+  supabaseSRkey,
+    {
+      auth: {
+        flowType: 'pkce',
+        storage: authStorage,
+        persistSession: true
+      }
+    }
 );

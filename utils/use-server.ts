@@ -1,5 +1,5 @@
 "use server";
-import { headers } from "next/headers";
+import { headers, cookies } from "next/headers";
 const host =
   process?.env.NODE_ENV === "development"
     ? "localhost:3000"
@@ -10,6 +10,8 @@ type FetchTypes = {
   contractAddress?: string;
   slug?: string;
 };
+
+
 
 const refreshCache = async () => {
   try {
@@ -82,6 +84,8 @@ const fetchCreators = async () => {
 };
 
 const fetchProfilesForDrops = async (id: any) => {
+  cookies().set('test-cookie', 'subport')
+
   try {
   let res = await fetch(`${protocol}://${host}//api/v1/getProfilesForDrops?userId=${id}`);
   const data = await res.json();

@@ -1,5 +1,5 @@
 import { supabase } from 'lib/constants';
-import { supabaseAdmin } from 'lib/providers/supabase/supabase-lib-admin';
+import { supabaseAdmin } from "lib/constants";
 import React from 'react'
 
 export const dynamic = 'force-dynamic'
@@ -16,7 +16,7 @@ export default async function IndexPage({
     const { data: users } = await supabaseAdmin.auth.admin.listUsers()
 
 
-    console.log(users, 'USERS')
+    //console.log(users, 'USERS')
     return profiles && (
         <section className="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 mt-16">
             <div className="mx-auto max-w-screen-xl px-4 lg:px-12">
