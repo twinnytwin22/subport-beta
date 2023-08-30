@@ -1,7 +1,4 @@
-import { supabase, supabaseAuth } from "lib/constants";
-import { toast } from "react-toastify";
 import { create } from 'zustand'
-const redirectUrl = 'http://localhost:3000/api/auth/callback/' 
 
 
 export const refresh = () => {
