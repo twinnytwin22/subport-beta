@@ -1,5 +1,5 @@
 "use client";
-import { useAuthProvider } from "app/context/auth";
+import { useAuthProvider } from "app/context/auth-old";
 import { supabaseAuth } from "lib/constants";
 import { useRouter } from "next/navigation";
 
@@ -26,7 +26,7 @@ console.log(redirectUrl, "REDIRECT URL")
       provider: 'spotify',
       options: {
           scopes: scopes,
-          redirectTo: redirectUrl
+         redirectTo: redirectUrl
       },
   });
   router.refresh()
@@ -36,7 +36,7 @@ console.log(redirectUrl, "REDIRECT URL")
     await supabaseAuth.auth.signInWithOAuth({
       provider: "google",
       options: {
-          redirectTo: redirectUrl
+         redirectTo: redirectUrl
       },
   });  
     router.refresh();

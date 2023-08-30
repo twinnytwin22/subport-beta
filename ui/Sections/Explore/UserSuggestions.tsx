@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useImagePath } from 'lib/constants'
 import { FollowButton } from 'ui/Buttons/FollowButton'
-import { useAuthProvider } from 'app/context/auth'
+import { useAuthProvider } from 'app/context/auth-old'
 import { LoadingContainer } from 'ui/LoadingContainer'
 
 function UserSuggestions() {

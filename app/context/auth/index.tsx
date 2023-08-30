@@ -1,10 +1,9 @@
 'use client'
 import React, { createContext, useContext, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-
 import { useAuthStore, AuthState } from "./store";
 import { useRouter, usePathname } from "next/navigation";
-import { supabase, supabaseAuth, supabaseAdmin } from "lib/constants";
+import { supabase, supabaseAdmin } from "lib/constants";
 import { AuthChangeEvent, Session } from "@supabase/gotrue-js";
 import { toast } from "react-toastify";
 

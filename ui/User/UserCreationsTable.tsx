@@ -1,5 +1,5 @@
 'use client'
-import { useAuthProvider } from 'app/context/auth'
+import { useAuthProvider } from 'app/context/auth-old'
 import Link from 'next/link'
 import React from 'react'
 import { FaExternalLinkAlt } from 'react-icons/fa'

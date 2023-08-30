@@ -1,4 +1,4 @@
-import { supabaseAdmin } from "lib/constants";
+import { supabaseAdmin } from "@/lib/providers/supabase/supabase-lib-admin";
 
 
 const createProfile = async (email: string, setProfile: any, setIsProfileFetched: any) => {

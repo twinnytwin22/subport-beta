@@ -5,7 +5,7 @@ import { useQueryClient, } from '@tanstack/react-query';
 import CampaignModal from './CampaignModal';
 import { FaDollarSign, FaEthereum } from 'react-icons/fa';
 import { createSubscription } from 'utils/database';
-import { useAuthProvider } from 'app/context/auth';
+import { useAuthProvider } from 'app/context/auth-old';
 import Link from 'next/link';
 
 function SubscriptionForm() {

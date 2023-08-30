@@ -1,5 +1,5 @@
 "use client";
-import { useAuthProvider } from "app/context/auth";
+import { useAuthProvider } from "app/context/auth-old";
 import { useSubportPlayer } from "app/context/subport-player";
 import { useIpfsImage, useIpfsUrl } from "lib/constants";
 import React from "react";

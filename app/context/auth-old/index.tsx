@@ -1,30 +1,32 @@
 'use client'
 import React, { createContext, useContext, useEffect, useMemo } from "react";
-import { useQuery, } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+
 import { useAuthStore, AuthState } from "./store";
-import { getUserData, handleAuthChangeEvent } from "./actions"
-import { supabaseAdmin } from "lib/constants";
+import { useRouter, usePathname } from "next/navigation";
+
+import { getUserData, handleAuthChangeEvent } from "./actions";
 
 const refresh = () => {
   window.location.reload();
 };
 
-export const AuthContext = createContext(useAuthStore.getState());
+export const AuthContext = createContext<AuthState>(useAuthStore.getState());
+
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const { user, profile, session } = useAuthStore();
+  const {
+    signInWithGoogle,
+    signInWithSpotify,
+    signOut,
+    signInWithEmail,
+    unsubscribeAuthListener,
+  user,
+profile }
+    = useAuthStore()
 
-
-// Inside your AuthContextProvider component
-const signOut = async () => {
-  try {
-    await supabaseAdmin.auth.signOut();
-    useAuthStore.setState({ user: null, profile: null });
-    refresh();
-  } catch (error) {
-    console.error("Error signing out:", error);
-  }
-};
+  const router = useRouter()
+  const pathname = usePathname()
 
   const { data: authEventData, isLoading: authEventLoading, isSuccess } = useQuery({
     queryKey: ["subscription", "subscriptionData"],
@@ -35,12 +37,10 @@ const signOut = async () => {
   const { data: userData, isLoading: userDataLoading } = useQuery({
     queryKey: ["user", "profile"],
     queryFn: getUserData,
-   enabled: !!authEventLoading
-   // refetchOnMount: !!USER
+   enabled: !!authEventData?.subscription.id,
+   refetchOnMount: false
      // Enable the query only when auth event data is loaded
   });
-
-  console.log('session:',userData)
 
   useEffect(() => {
     if (!authEventLoading) {
@@ -49,17 +49,29 @@ const signOut = async () => {
     }
   }, [authEventLoading]);
 
+
   const value = useMemo(
     () => ({
       user: user,
       profile: profile,
       isLoading: authEventLoading || userDataLoading,
+      signInWithGoogle,
+      signInWithSpotify,
+      signInWithEmail,
       signOut,
-      session
+      unsubscribeAuthListener,
     }),
-    [userData, authEventLoading, userDataLoading, signOut, session]
+    [
+    
+    //  authEventLoading,
+      signInWithEmail,
+      signInWithGoogle,
+      signInWithSpotify,
+      signOut,
+      unsubscribeAuthListener
+    ]
   );
-
+  // console.log(pathname)
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

@@ -1,4 +1,4 @@
-import { supabaseAdmin, supabaseAuth } from "lib/constants";
+import { supabase } from "lib/constants";
 import { toast } from "react-toastify";
 import { create } from 'zustand'
 export interface AuthState {
@@ -19,7 +19,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     signInWithEmail: async (email, password) => {
         toast.info('Signing In')
         try {
-            await supabaseAuth.auth.signInWithPassword({
+            await supabase.auth.signInWithPassword({
                 email,
                 password
             });
@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     signInWithGoogle: async () => {
         toast.info('Signing In')
         try {
-            await supabaseAuth.auth.signInWithOAuth({ provider: "google" });
+            await supabase.auth.signInWithOAuth({ provider: "google" });
         } catch (error) {
             console.error("Error signing in with Google:", error);
         }
@@ -52,7 +52,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                 'user-follow-modify',
             ].join(',');
 
-            const { error } = await supabaseAuth.auth.signInWithOAuth({
+            const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'spotify',
                 options: { scopes: scopes },
             });
@@ -67,7 +67,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     signOut: async () => {
         toast.info('Signing Out')
         try {
-            await supabaseAdmin.auth.signOut();
+            await supabase.auth.signOut();
         } catch (error) {
             console.error("Error signing out:", error);
         }

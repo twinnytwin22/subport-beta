@@ -1,6 +1,6 @@
 'use client'
-import { useAuthProvider } from "app/context/auth";
-import { refresh } from "app/context/auth/store";
+import { useAuthProvider } from "app/context/auth-old";
+import { refresh } from "app/context/auth-old/store";
 import { supabase } from "lib/constants";
 import { useState } from "react";
 import { toast } from "react-toastify";

@@ -1,5 +1,5 @@
 'use client'
-import { useAuthProvider } from 'app/context/auth';
+import { useAuthProvider } from 'app/context/auth-old';
 import { useHandleOutsideClick } from 'lib/hooks/handleOutsideClick';
 import { supabaseAdmin } from "lib/constants";
 import React, { useEffect, useState } from 'react';

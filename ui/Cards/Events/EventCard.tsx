@@ -7,7 +7,7 @@ import { fetchProfilesForDrops } from 'utils/use-server';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query'; // Importing from react-query
 import { toast } from 'react-toastify';
-import { useAuthProvider } from 'app/context/auth';
+import { useAuthProvider } from 'app/context/auth-old';
 
 
 

@@ -3,7 +3,7 @@ import 'viem/window'
 import React, { useEffect, useState } from "react";
 import { deployCollectible, deployContractViem } from "lib/deployFunctions/deployer";
 import { toast } from "react-toastify";
-import { useAuthProvider } from "app/context/auth";
+import { useAuthProvider } from "app/context/auth-old";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";

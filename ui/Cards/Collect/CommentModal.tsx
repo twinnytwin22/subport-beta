@@ -1,5 +1,5 @@
 'use client'
-import { useAuthProvider } from 'app/context/auth';
+import { useAuthProvider } from 'app/context/auth-old';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FaCommentAlt, FaPaperPlane, FaTrash } from 'react-icons/fa';

@@ -1,5 +1,5 @@
 'use client'
-import { useAuthProvider } from 'app/context/auth';
+import { useAuthProvider } from 'app/context/auth-old';
 import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import SubscriberForm from 'ui/Sections/Create/subscription/SubscriberForm';

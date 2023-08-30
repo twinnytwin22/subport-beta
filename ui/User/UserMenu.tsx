@@ -2,11 +2,12 @@
 import React from 'react'
 import Link from 'next/link'
 import DarkModeSwitch from 'ui/Buttons/DarkModeSwitch';
-import { useAuthProvider } from 'app/context/auth';
+import { useAuthProvider } from 'app/context/auth-old';
 
 
 function UserMenu({ profile, user }: any) {
-  const { signOut } = useAuthProvider();
+  const { signOut, } = useAuthProvider();
+
 
 
   return (

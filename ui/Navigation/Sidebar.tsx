@@ -1,7 +1,7 @@
 'use client'
 import SignInModal from "ui/Buttons/SignIn";
 import Link from "next/link";
-import { useAuthProvider } from "app/context/auth";
+import { useAuthProvider } from "app/context/auth-old";
 import { SupbortLogo } from "lib/content/siteSettings";
 import { AdminRoutes, PublicRoutes, UserRoutes } from "./Routes";
 import SocialRow from "ui/Misc/SocialRow";
