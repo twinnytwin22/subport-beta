@@ -1,11 +1,18 @@
 'use client'
+<<<<<<< HEAD
 import { useAuthProvider } from "app/context/auth-old";
 
+=======
+import { useAuthProvider } from "app/context/auth";
+import { refresh } from "app/context/auth/store";
+import { useRouter } from "next/navigation";
+>>>>>>> parent of 49b8522 (declutter)
 export function SignOutButton() {
-  const { signOut } = useAuthProvider()
+  const router = useRouter()
+  const { user, signOut } = useAuthProvider()
 
   const handleSignOut = async () => {
-  await signOut();
+  signOut();
   }
 
 
