@@ -23,7 +23,7 @@ export async function updatePassword() {
   if (error) toast.error("There was an error updating your password.");
   console.log(error);  }
 
-export async function handleAuthChangeEvent() {
+export async function handleAuthChangeEvent(router: any) {
 let [
       { data: userSessionData },
       { data: { subscription: subscriptionData } },
@@ -34,7 +34,7 @@ let [
           if (currentSession && event === "SIGNED_IN") {
          //   const profile = await fetchProfile(currentSession?.user.id);
            // useAuthStore.setState({ user: currentSession?.user});
-           // router.refresh()
+           router.refresh()
           } else if (event === "SIGNED_OUT") {
           //  refresh()
           }

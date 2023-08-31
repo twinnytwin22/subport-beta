@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuthStore, AuthState } from "./store";
 import { getUserData, handleAuthChangeEvent } from "./actions";
 import { supabaseAdmin } from "lib/constants";
+import { useRouter } from "next/navigation";
 
 const refresh = () => {
   window.location.reload();
@@ -12,6 +13,7 @@ const refresh = () => {
 export const AuthContext = createContext<AuthState>(useAuthStore.getState());
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter()
   const { signInWithGoogle, signInWithSpotify, unsubscribeAuthListener, user, profile } = useAuthStore();
   // Inside your AuthContextProvider component
   const signOut = async () => {
@@ -30,8 +32,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   };
 
   const { data: authEventData, isLoading: authEventLoading } = useQuery({
-    queryKey: ["subscription", "subscriptionData", 'session'],
-    queryFn: handleAuthChangeEvent,
+    queryKey: ["subscription", "subscriptionData", 'session',router],
+    queryFn: ({queryKey}) => handleAuthChangeEvent(queryKey[3]),
   });
   const { data: userData, isLoading: userDataLoading } = useQuery({
     queryKey: ["user", "profile"],
@@ -52,7 +54,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       signOut,
       unsubscribeAuthListener,
     }),
-    [userData, authEventLoading, authEventData, userDataLoading, signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener]
+    [userData, authEventLoading, authEventData, userDataLoading, signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener, router]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
