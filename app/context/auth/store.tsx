@@ -5,7 +5,6 @@ export interface AuthState {
     user: any;
     profile: any;
     isLoading: boolean;
-    signInWithEmail: (email: string, password: string) => Promise<void>
     signInWithGoogle: () => Promise<void>;
     signInWithSpotify: () => Promise<void>;
     signOut: () => Promise<void>;
@@ -16,21 +15,10 @@ export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     profile: null,
     isLoading: false,
-    signInWithEmail: async (email, password) => {
-        toast.info('Signing In')
-        try {
-            await supabaseAuth.auth.signInWithPassword({
-                email,
-                password
-            });
-        } catch (error) {
-            console.error("Error signing in please check your email or password and try again:", error);
-        }
-    },
     signInWithGoogle: async () => {
         toast.info('Signing In')
         try {
-            await supabaseAuth.auth.signInWithOAuth({ provider: "google" });
+            await supabaseAuth.auth.signInWithOAuth({ provider: "google", options: {} });
         } catch (error) {
             console.error("Error signing in with Google:", error);
         }

@@ -33,7 +33,7 @@ export async function handleAuthChangeEvent() {
     supabaseAdmin.auth.onAuthStateChange(
       async (event: AuthChangeEvent, currentSession: Session | null) => {
         if (currentSession && event === "SIGNED_IN") {
-          const profile = await getUserData(userSessionData);
+          const profile = await getUserData();
           useAuthStore.setState({ user: currentSession?.user, profile });
           refresh()
         } else if (event === "SIGNED_OUT") {
@@ -52,11 +52,12 @@ export async function handleAuthChangeEvent() {
 }
 
 
-export const getUserData = async (session: any) => {
-  if (session && session.session) {
-    const profile = await fetchProfile(session.session.user.id);
+export const getUserData = async () => {
+  const {data:session} = await supabaseAuth.auth.getSession()
+  if (session && session?.session?.user) {
+    const profile = await fetchProfile(session.session?.user.id);
     useAuthStore.setState({ profile });
-    return { user: session.session.user, profile };
+    return { user: session?.session.user, profile };
   } else {
     useAuthStore.setState({ profile: null, user: null });
     return { user: null, profile: null };

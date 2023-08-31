@@ -13,7 +13,8 @@ export async function middleware(req: NextRequest) {
 
  const supabase = createMiddlewareClient({ req, res })
  //console.log(allCookies, "ALL COOKIES IN MIDDLEWARE")
- await supabase.auth.getSession()
+  const {data: session} =await supabase.auth.getSession()
+  console.log(session, "SESSION")
  //console.log(session, 'MIDDLEWARE SESSION')
   return res
 }

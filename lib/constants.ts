@@ -50,11 +50,11 @@ export const supabaseAuth = createClient(
   supabaseSRkey,
     {
       auth: {
-        flowType: 'pkce',
+      //  flowType: 'pkce',
         storage: authStorage,
-        persistSession: true,
-        detectSessionInUrl: true,
-        autoRefreshToken: true
+      //  persistSession: true,
+      //detectSessionInUrl: true,
+      //  autoRefreshToken: true
       }
     }
 );
@@ -64,6 +64,9 @@ export const supabaseAuth = createClient(
 export const supabaseApi = createClient(
   supabaseUrl,
   supabaseKey,
+  {auth: {
+    storage: authStorage,
+  }}
 
 );
 
@@ -72,8 +75,9 @@ export const supabaseClient =
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     { auth:{
-      flowType: 'pkce',
-      persistSession: false
+   //   flowType: 'pkce',
+      storage: authStorage,
+    //  persistSession: false
     }}
   );
 export const supabaseAdmin = createClient(
@@ -81,9 +85,9 @@ export const supabaseAdmin = createClient(
   supabaseSRkey,
     {
       auth: {
-        flowType: 'pkce',
+      //  flowType: 'pkce',
         storage: authStorage,
-        persistSession: true
+      //  persistSession: true
       }
     }
 );
