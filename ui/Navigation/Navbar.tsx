@@ -1,5 +1,5 @@
 "use client";
-import { useAuthProvider } from "app/context/auth-old";
+import { useAuthProvider } from "app/context/auth";
 import React, { useEffect, useState } from "react";
 import SignInModal from "ui/Buttons/SignIn";
 import SearchBar from "ui/Misc/SearchBar";

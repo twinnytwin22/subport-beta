@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import UserMenu from './UserMenu';
-import { useAuthProvider } from 'app/context/auth-old';
+import { useAuthProvider } from 'app/context/auth';
 //import { downloadImage } from 'lib/hooks/downloadImage';
 import { useImagePath } from 'lib/constants';
 import Image from 'next/image';

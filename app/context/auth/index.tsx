@@ -50,7 +50,6 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
             if (currentSession && event === "SIGNED_IN") {
               const profile = await fetchProfile(currentSession?.user.id);
               useAuthStore.setState({ user: currentSession?.user, profile });
-              router.refresh()
             } else if (event === "SIGNED_OUT") {
               refresh()
             }

@@ -2,7 +2,7 @@
 import { SignOutButton } from "ui/Buttons/SignOut";
 import Avatar from "../UploadWidget";
 import { toast } from "react-toastify";
-import { useAuthProvider } from "app/context/auth-old";
+import { useAuthProvider } from "app/context/auth";
 import { useRouter } from "next/navigation";
 import useProfileStore from "./store";
 import { useEffect } from "react";

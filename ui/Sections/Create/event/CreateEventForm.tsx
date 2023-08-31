@@ -7,7 +7,7 @@ import { renderProgressBar } from "ui/Misc/ProgressBar";
 import { useRouter } from "next/navigation";
 import { GoogleMapSearch } from "ui/Misc/maps/GoogleMapSearch";
 import MyGoogleMap from "ui/Misc/maps/Map";
-import { useAuthProvider } from "app/context/auth-old";
+import { useAuthProvider } from "app/context/auth";
 import { toast } from "react-toastify";
 
 type EventFormData = {

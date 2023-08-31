@@ -1,5 +1,5 @@
 'use client'
-import { useAuthProvider } from "app/context/auth-old";
+import { useAuthProvider } from "app/context/auth";
 import React from "react";
 
 function AppStore() {

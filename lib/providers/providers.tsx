@@ -2,7 +2,7 @@
 import "styles/globals.css";
 
 import React from "react";
-import { AuthContextProvider } from "app/context/auth-old";
+import { AuthContextProvider } from "app/context/auth";
 import { SubportPlayer } from "app/context/subport-player";
 import { Suspense } from "react";
 import {

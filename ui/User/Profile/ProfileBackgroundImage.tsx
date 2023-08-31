@@ -6,7 +6,7 @@ import { SupabaseImage } from 'lib/hooks/downloadImage'
 import { useBgImagePath } from 'lib/constants'
 import { toast } from 'react-toastify'
 import { FaEdit } from 'react-icons/fa'
-import { useAuthProvider } from 'app/context/auth-old'
+import { useAuthProvider } from 'app/context/auth'
 function ProfileBackgroundImage({ uid, url, publicData, onUpload }: {
     uid: string
     url: SupabaseImage

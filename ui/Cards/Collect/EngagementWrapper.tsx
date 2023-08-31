@@ -1,5 +1,5 @@
 'use client'
-import { useAuthProvider } from "app/context/auth-old"
+import { useAuthProvider } from "app/context/auth"
 import { useCollectCheck } from "lib/hooks/useCollectCheck"
 import Image from "next/image"
 import { usePathname } from "next/navigation"

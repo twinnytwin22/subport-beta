@@ -1,5 +1,5 @@
 'use client'
-import { useAuthProvider } from "app/context/auth-old";
+import { useAuthProvider } from "app/context/auth";
 import { useSubportPlayer } from "app/context/subport-player";
 import Link from "next/link";
 import React, { useState } from "react";

@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from "react";
-import { useAuthProvider } from "app/context/auth-old";
+import { useAuthProvider } from "app/context/auth";
 import { FollowProfile, UnFollowProfile, isFollowing } from "lib/social-actions/followUser";
 import { toast } from "react-toastify";
 import { SlUserFollow, SlUserFollowing } from 'react-icons/sl'

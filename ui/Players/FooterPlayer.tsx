@@ -1,5 +1,5 @@
 "use client";
-import { useAuthProvider } from "app/context/auth-old";
+import { useAuthProvider } from "app/context/auth";
 import { FaPlay, FaPause, FaStop } from "react-icons/fa";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { useSubportPlayer } from "app/context/subport-player";

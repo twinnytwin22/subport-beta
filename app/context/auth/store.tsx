@@ -1,6 +1,10 @@
 import { supabase, supabaseAuth } from "lib/constants";
 import { toast } from "react-toastify";
 import { create } from 'zustand'
+
+export const refresh = () => {
+    window.location.reload();
+  };
 export interface AuthState {
     user: any;
     profile: any;

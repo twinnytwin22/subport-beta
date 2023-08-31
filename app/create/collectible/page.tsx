@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { CreateForm } from 'ui/Sections/Create/collectible/CreateForm'
-import { useAuthProvider } from 'app/context/auth-old'
+import { useAuthProvider } from 'app/context/auth'
 import { LoadingContainer } from 'ui/LoadingContainer'
 
 function Create() {

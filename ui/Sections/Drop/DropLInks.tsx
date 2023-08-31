@@ -1,6 +1,6 @@
 'use client'
 
-import { useAuthProvider } from "app/context/auth-old";
+import { useAuthProvider } from "app/context/auth";
 import Link from "next/link";
 import React from "react";
 import { FaSpotify, FaMusic } from "react-icons/fa";
