@@ -9,7 +9,19 @@ const refresh = () => {
   window.location.reload();
 };
 
-export const AuthContext = createContext({});
+interface AuthState {
+profile: any,
+user: any,
+isLoading: boolean,
+signOut: () => void
+}
+
+export const AuthContext = createContext<AuthState>({
+  profile: null,
+  user: null,
+  isLoading: false,
+  signOut: () => {}
+});
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter()
@@ -44,6 +56,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       signOut,
     }),
     [
+  
       userData,
       authEventLoading,
       authEventData, userDataLoading,
