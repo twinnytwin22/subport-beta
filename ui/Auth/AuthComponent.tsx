@@ -19,14 +19,16 @@ export default function LoginCard({ close }: any) {
     'user-follow-modify',
 ].join(',');
 const redirectUrl = `${location.origin}` 
-console.log(redirectUrl, "REDIRECT URL")
+//console.log(redirectUrl, "REDIRECT URL")
 
   const handleSignInWithSpotify = async () => {
     await supabaseAuth.auth.signInWithOAuth({
       provider: 'spotify',
       options: {
           scopes: scopes,
-          redirectTo: redirectUrl
+          redirectTo: redirectUrl,
+          //skipBrowserRedirect: true,
+      
       },
   });
   router.refresh()
