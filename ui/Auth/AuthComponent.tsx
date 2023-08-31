@@ -18,7 +18,7 @@ export default function LoginCard({ close }: any) {
     'user-follow-read',
     'user-follow-modify',
 ].join(',');
-const redirectUrl = `${location.origin}` 
+const redirectUrl = `${location.origin}/api/auth/callback` 
 //console.log(redirectUrl, "REDIRECT URL")
 
   const handleSignInWithSpotify = async () => {

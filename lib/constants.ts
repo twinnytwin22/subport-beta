@@ -50,7 +50,7 @@ export const supabaseAuth = createClient(
   supabaseSRkey,
     {
       auth: {
-      //  flowType: 'pkce',
+        flowType: 'pkce',
         storage: authStorage,
       //  persistSession: true,
       //detectSessionInUrl: true,
