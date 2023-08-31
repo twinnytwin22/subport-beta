@@ -28,6 +28,8 @@ const fetchProfile = async (id: string) => {
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const {
+    user,
+    profile,
     signInWithGoogle,
     signInWithSpotify,
     signOut,
@@ -50,6 +52,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
             if (currentSession && event === "SIGNED_IN") {
               const profile = await fetchProfile(currentSession?.user.id);
               useAuthStore.setState({ user: currentSession?.user, profile });
+              router.refresh()
             } else if (event === "SIGNED_OUT") {
               refresh()
             }
@@ -74,7 +77,6 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
           const profile = await fetchProfile(authUser.user.id);
           useAuthStore.setState({ profile });
           useAuthStore.setState({ user: authUser.user });
-
           return { user: authUser.user, profile };
         }
       }
@@ -83,8 +85,8 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
   const value = useMemo(
     () => ({
-      user: data?.user || null,
-      profile: data?.profile || null,
+      user: user || null,
+      profile: profile || null,
       isLoading,
       signInWithGoogle,
       signInWithSpotify,
