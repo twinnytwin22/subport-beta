@@ -1,108 +1,66 @@
 'use client'
-import React, { createContext, useContext, useMemo } from "react";
+import React, { createContext, useContext, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useAuthStore, AuthState } from "./store";
-import { useRouter, usePathname } from "next/navigation";
-import { supabase, supabaseAdmin } from "lib/constants";
-import { AuthChangeEvent, Session } from "@supabase/gotrue-js";
-import { toast } from "react-toastify";
+import { getUserData, handleAuthChangeEvent } from "./actions";
+import { supabase } from "lib/constants";
+import { supabaseAdmin } from "lib/constants";
 
 const refresh = () => {
   window.location.reload();
 };
 
 export const AuthContext = createContext<AuthState>(useAuthStore.getState());
-const fetchProfile = async (id: string) => {
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    throw error;
-  }
-
-  return data;
-};
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const {
-    user,
-    profile,
-    signInWithGoogle,
-    signInWithSpotify,
-    signOut,
-    unsubscribeAuthListener }
-    = useAuthStore()
+  const { signInWithGoogle, signInWithSpotify, unsubscribeAuthListener } = useAuthStore();
+// Inside your AuthContextProvider component
+const signOut = async () => {
+  try {
+    // Perform any necessary cleanup or log-out actions
+    await supabaseAdmin.auth.signOut();
 
-  const router = useRouter()
-  const pathname = usePathname()
+    // Update your user and profile state
+    useAuthStore.setState({ user: null, profile: null });
 
-  const { data, isLoading }
-    = useQuery(["user", "subscription", 'subscriptionData', 'authListener'], async () => {
-      // Fetch user and authListener data concurrently
-      const [
-        { data: userSessionData },
-        { data: { subscription: subscriptionData } },
-      ] = await Promise.all([
-        supabase.auth.getSession(),
-        supabaseAdmin.auth.onAuthStateChange(
-          async (event: AuthChangeEvent, currentSession: Session | null) => {
-            if (currentSession && event === "SIGNED_IN") {
-              const profile = await fetchProfile(currentSession?.user.id);
-              useAuthStore.setState({ user: currentSession?.user, profile });
-              router.refresh()
-            } else if (event === "SIGNED_OUT") {
-              refresh()
-            }
-            if (event === "PASSWORD_RECOVERY") {
-              const newPassword = prompt("What would you like your new password to be?");
-              const { data, error } = await supabaseAdmin.auth.updateUser({
-                password: newPassword!,
-              });
+    // Refresh the page or navigate to a different route
+    refresh();
+  } catch (error) {
+    console.error("Error signing out:", error);
+  }
+};
 
-              if (data) toast.success("Password updated successfully!");
-              if (error) toast.error("There was an error updating your password.");
-              console.log(error);
-            }
-          }
-        ),
-      ]);
+  const { data: authEventData, isLoading: authEventLoading } = useQuery({
+    queryKey: ["subscription", "subscriptionData"],
+    queryFn: handleAuthChangeEvent,
+  });
 
-      if (userSessionData && userSessionData.session) {
-        const { data: authUser } = await supabase.auth.getUser();
+  const { data: userData, isLoading: userDataLoading } = useQuery({
+    queryKey: ["user", "profile"],
+    queryFn: getUserData,
+    enabled: !authEventLoading, // Enable the query only when auth event data is loaded
+  });
 
-        if (authUser?.user) {
-          const profile = await fetchProfile(authUser.user.id);
-          useAuthStore.setState({ profile });
-          useAuthStore.setState({ user: authUser.user });
-          return { user: authUser.user, profile };
-        }
-      }
-      return { subscription: subscriptionData };
-    });
+  useEffect(() => {
+    if (!authEventLoading) {
+      // Auth event data is available, you can trigger further actions here
+      // For example, you might want to fetch user data once the auth event data is loaded
+    }
+  }, [authEventLoading]);
 
   const value = useMemo(
     () => ({
-      user: user || null,
-      profile: profile || null,
-      isLoading,
+      user: userData?.user,
+      profile: userData?.profile,
+      isLoading: authEventLoading || userDataLoading,
       signInWithGoogle,
       signInWithSpotify,
       signOut,
       unsubscribeAuthListener,
     }),
-    [
-      data,
-      isLoading,
-      signInWithGoogle,
-      signInWithSpotify,
-      signOut,
-      unsubscribeAuthListener
-    ]
+    [userData, authEventLoading, userDataLoading, signInWithGoogle, signInWithSpotify, signOut, unsubscribeAuthListener]
   );
-  // console.log(pathname)
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 

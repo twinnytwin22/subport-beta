@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     signInWithGoogle: async () => {
         toast.info('Signing In')
         try {
-            await supabaseAuth.auth.signInWithOAuth({ provider: "google", options: {} });
+            await supabase.auth.signInWithOAuth({ provider: "google", options: {} });
         } catch (error) {
             console.error("Error signing in with Google:", error);
         }
@@ -44,7 +44,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                 'user-follow-modify',
             ].join(',');
 
-            const { error } = await supabaseAuth.auth.signInWithOAuth({
+            const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'spotify',
                 options: { scopes: scopes },
             });
