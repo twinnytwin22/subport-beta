@@ -5,7 +5,7 @@ import { getUserData, handleAuthChangeEvent } from "./actions";
 import { supabaseAdmin } from "lib/constants";
 import { useRouter } from "next/navigation";
 
-const refresh = () => {
+export const refresh = () => {
   window.location.reload();
 };
 
