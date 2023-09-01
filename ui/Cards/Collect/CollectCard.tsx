@@ -26,7 +26,7 @@ function CollectCard({ metaData, drop }: any) {
   const imageHash = useIpfsImage(metaData?.image)
   const profileImagePath = useImagePath(user?.avatar_url);
 
-  console.log(imageHash)
+  //console.log(imageHash)
 
   const handleDoubleClick = (event: any) => {
     useHandleDoubleClick(event, { dropId: drop?.id, userId: drop?.user_id });

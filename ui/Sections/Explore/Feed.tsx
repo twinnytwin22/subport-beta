@@ -34,7 +34,7 @@ const Feed: React.FC<{ data: any, events: any }> = ({ data, events }) => {
                     if (!filtersSet) {
                         setFilters({ cities, states });
                         setFiltersSet(true);
-                        console.log(cities, states);
+                      //  console.log(cities, states);
                     }
                 }
             } catch (error) {

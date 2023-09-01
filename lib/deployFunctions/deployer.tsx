@@ -10,7 +10,6 @@ import { supabaseAdmin } from "lib/constants";
 import { useStatusStore } from './statusTrack';
 import { fetchSingleCollectible } from 'utils/use-server'
 
-
 const bytecode = subportMeta.bytecode as any;
 const abi = subportMeta.abi;
 const apiKey = process.env.NEXT_PUBLIC_ALCHEMY_ID || process.env.ALCHEMY_ID

@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { readContractURIs } from "lib/hooks/readContractURIs";
 import { redis, redisGet, redisSet } from "lib/redis/redis";
 
-export const revalidate = 0;
-export const dynamic = 'force-dynamic'
+export const revalidate =30;
+//export const dynamic = 'force-dynamic'
 
 import { supabaseApi } from "lib/constants";
 export async function GET(request: Request) {

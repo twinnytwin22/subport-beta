@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { redis, redisGet, redisSet } from "lib/redis/redis";
 import { supabaseApi } from "lib/constants";
 
-export const revalidate = 0;
-export const dynamic = 'force-dynamic'
+export const revalidate = 30;
+//export const dynamic = 'force-dynamic'
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const refreshCache = searchParams.get("refreshCache");

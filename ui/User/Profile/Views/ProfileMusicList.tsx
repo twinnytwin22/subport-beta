@@ -1,6 +1,7 @@
-import Link from 'next/link';
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 import MusicItem from './ProfileMusicItem';
+import dynamic from 'next/dynamic';
 
 interface Drop {
     id: number;
@@ -22,7 +23,22 @@ interface ProfileMusicListProps {
     currentProfile: { currentProfile: Profile }[],
 }
 
+const Pagination = dynamic(
+    () => import("lib/hooks/pagination"),
+    { ssr: false }
+  );
+   
+
 const ProfileMusicList = ({ drops, currentProfile }: any) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10);
+    const indexEnd = currentPage * itemsPerPage;
+    const indexStart = indexEnd - itemsPerPage;
+    const currentDrops = drops.slice(indexStart, indexEnd)
+    const paginateFront = () => setCurrentPage(currentPage + 1);
+    const paginateBack = () => setCurrentPage(currentPage - 1);
+
+    
     return (
         <div className=' -z-0'>
             <section className="py-4 mb-20 w-full mx-auto rounded-md justify-center">
@@ -78,7 +94,7 @@ const ProfileMusicList = ({ drops, currentProfile }: any) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {drops?.map(({ drop, metaData }: any) => (
+                                {currentDrops?.map(({ drop, metaData }: any) => (
 
                                     <MusicItem key={drop?.id} drop={drop} metaData={metaData} profile={currentProfile} />
                                 ))}
@@ -86,43 +102,13 @@ const ProfileMusicList = ({ drops, currentProfile }: any) => {
                         </table>
                     </div>
                     <nav className="flex flex-col items-start justify-between p-4 space-y-3 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
-                        <span className="text-sm font-normal text-zinc-500 dark:text-zinc-400">
-                            Showing <span className="font-semibold text-zinc-900 dark:text-white">1-10</span> of <span className="font-semibold text-zinc-900 dark:text-white">1000</span>
-                        </span>
-                        <ul className="inline-flex items-stretch -space-x-px">
-                            <li>
-                                <a href="#" className="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-zinc-500 bg-white rounded-l-lg border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white">
-                                    <span className="sr-only">Previous</span>
-                                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-                                    </svg>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="flex items-center justify-center px-3 py-2 text-sm leading-tight text-zinc-500 bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white">
-                                    1
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="flex items-center justify-center px-3 py-2 text-sm leading-tight text-zinc-500 bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white">
-                                    ...
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="flex items-center justify-center px-3 py-2 text-sm leading-tight text-zinc-500 bg-white border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white">
-                                    100
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" className="flex items-center justify-center h-full py-1.5 px-3 leading-tight text-zinc-500 bg-white rounded-r-lg border border-zinc-300 hover:bg-zinc-100 hover:text-zinc-700 dark:bg-zinc-800 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-white">
-                                    <span className="sr-only">Next</span>
-                                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                    </svg>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={drops.length}
+            paginateBack={paginateBack}
+            paginateFront={paginateFront}
+            currentPage={currentPage}
+          />                    </nav>
                 </div>
             </section>
         </div>

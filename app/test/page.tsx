@@ -1,6 +1,6 @@
 'use client'
 import 'viem/window'
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { deployCollectible, deployContractViem } from "lib/deployFunctions/deployer";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
@@ -73,7 +73,19 @@ function Page() {
   const [avatarUrl, setAvatarUrl] = useState('')
   const [testSlug, setTestSlug] = useState('')
   const { user } = useAuthProvider()
+  const workerRef = useRef<Worker>()
+  useEffect(() => {
+    workerRef.current = new Worker(new URL('../../worker.ts', import.meta.url))
+    workerRef.current.onmessage = (event: MessageEvent<number>) =>
+      alert(`WebWorker Response => ${event.data}`)
+    return () => {
+      workerRef.current?.terminate()
+    }
+  }, [])
 
+  const handleWork = useCallback(async () => {
+    workerRef.current?.postMessage(100000)
+  }, [])
 
 
   const [savedUser, setSavedUser] = useState<any>('')
@@ -388,6 +400,8 @@ function Page() {
             className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH USERS</button>
           <button onClick={fetchCreators}
             className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">REFRESH CREATORS</button>
+           <button onClick={handleWork}
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST WORKER</button>
 
           <button onClick={fetchData}
             className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">REFRESH CACHE</button>
