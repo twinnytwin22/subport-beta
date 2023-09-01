@@ -3,6 +3,7 @@ import { redis, redisGet, redisSet } from "lib/redis/redis";
 import { supabaseApi } from "lib/constants";
 
 export const revalidate = 0;
+export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

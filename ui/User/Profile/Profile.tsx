@@ -10,7 +10,7 @@ async function Profile({ profile, username, data }: any) {
   const imagePath = useImagePath(profile.avatar_url)
 
   return (
-    <div className="w-full mx-auto  content-center">
+    <div className="w-full mx-auto  content-center overscroll-x-none overflow-x-hidden">
       <ProfileBackgroundImage uid={profile?.id} url={data?.Profile?.bg_url} publicData={data} />
       <div className=" pt-16 mx-auto md:px-4">
         <div className=" flex flex-col min-w-0 break-words bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-lg rounded-md -mt-36 pb-8 relative">

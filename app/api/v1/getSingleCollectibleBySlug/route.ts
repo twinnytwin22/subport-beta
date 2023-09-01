@@ -4,7 +4,7 @@ import { redisGet } from "lib/redis/redis";
 import { NextResponse } from "next/server";
 
 export const revalidate = 0;
-
+export const dynamic = 'force-dynamic'
 // Promisify Redis get and set methods
 
 export async function GET(request: Request) {
