@@ -2,7 +2,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { SupabaseImage } from "./hooks/downloadImage";
 import { createClient } from "@supabase/supabase-js";
 import { BrowserCookieAuthStorageAdapter } from "@supabase/auth-helpers-shared";
-
+import { Database } from "types/database.types";
 const authStorage = new BrowserCookieAuthStorageAdapter()
 
 
@@ -39,13 +39,13 @@ export const supabaseUrl = process.env.SUPABASE_URL
 export const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 export const supabaseSRkey = process.env.SUPABASE_SERVICE_ROLE_KEY 
                           || process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!
-export const supabase = createClientComponentClient({
+export const supabase = createClientComponentClient<Database>({
  supabaseUrl,
  supabaseKey,
 });
 
 
-export const supabaseAuth = createClient(
+export const supabaseAuth = createClient<Database>(
   supabaseUrl,
   supabaseSRkey,
     {
@@ -61,7 +61,7 @@ export const supabaseAuth = createClient(
 
 
 
-export const supabaseApi = createClient(
+export const supabaseApi = createClient<Database>(
   supabaseUrl,
   supabaseKey,
   {auth: {
@@ -71,7 +71,7 @@ export const supabaseApi = createClient(
 );
 
 export const supabaseClient =
-  createClient(
+  createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     { auth:{
@@ -80,7 +80,7 @@ export const supabaseClient =
     //  persistSession: false
     }}
   );
-export const supabaseAdmin = createClient(
+export const supabaseAdmin = createClient<Database>(
   supabaseUrl,
   supabaseSRkey,
     {
