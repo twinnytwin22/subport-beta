@@ -25,7 +25,13 @@ export async function GET(request: Request) {
     if (existingDrop) {
       return NextResponse.json(existingDrop);
     }
+
+ 
   } else {
+
+    if (!slug) {
+      return NextResponse.json({ 'Error': 'Missing or empty slug', 'status': 400 });
+    }
     try {
       const { data: drop, error } = await supabaseApi
         .from("drops")

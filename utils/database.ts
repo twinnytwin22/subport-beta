@@ -1,5 +1,4 @@
 import { supabase } from "lib/constants";
-import { readContractURIs } from "lib/hooks/readContractURIs";
 import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
 
 // const { data: drops, isLoading, error } = useQuery(['drops', fetchCollectibles]);

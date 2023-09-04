@@ -24,6 +24,9 @@ export async function GET(request: Request) {
       return NextResponse.json(existingDrop);
     }
   }
+  if (!contractAddress) {
+    return NextResponse.json({ 'Error': 'Missing or empty contractAddress', 'status': 400 });
+  }
 
   try {
     const metaDataPromise = readSingleContractURI(contractAddress!);
