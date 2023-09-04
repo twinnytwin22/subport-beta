@@ -36,10 +36,9 @@ export async function POST(request: Request) {
       console.error(error);
       return NextResponse.json("Failed to insert new notification");
     }
-    data = newNotification;
     return NextResponse.json({
       status: 200,
-      data,
+      data: newNotification,
       message: `New Follower for`,
     });
   }

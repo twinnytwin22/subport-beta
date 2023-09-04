@@ -2,9 +2,10 @@ import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { redisGet, redisSet } from "lib/redis/redis";
+import { Database } from "types/database.types";
 
 export async function POST(req: Request) {
-  const supabaseApi = createRouteHandlerClient({ cookies });
+  const supabaseApi = createRouteHandlerClient<Database>({ cookies });
   const { eventData } = await req.json();
   const cacheKey = "events_cache";
 
