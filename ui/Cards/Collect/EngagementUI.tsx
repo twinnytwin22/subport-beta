@@ -40,7 +40,7 @@ const HeartIcon = ({ className, dropId, userId }: any) => {
 
     return (
         <div className="hover:scale-100">
-            {reactionType?.length > 0 ? (
+            {reactionType && reactionType?.length > 0 ? (
                 <div onClick={handleOpenReactionRow}>
                     <Image
                         width={20}

@@ -8,11 +8,12 @@ import { Mention, MentionsInput } from "react-mentions";
 import { supabase } from 'lib/constants';
 import mentionStyles from 'styles/mentionStyles';
 import mentionInputStyles from 'styles/mentionInputStyles';
+import { Database } from 'types/database.types';
 export const CommentModal = ({ dropId, close }: any) => {
     const { profile } = useAuthProvider();
     const [comment, setComment] = useState('');
     const [showTextarea, setShowTextarea] = useState(false);
-    const [comments, setComments] = useState([''])
+    const [comments, setComments] = useState<any>([''])
     const [users, setUsers] = useState<any>([''])
     const userId = profile?.id;
     const getComments = async () => {
