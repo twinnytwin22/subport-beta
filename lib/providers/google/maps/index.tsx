@@ -1,4 +1,5 @@
 "use client";
+import { Library } from "@googlemaps/js-api-loader";
 import { LoadScript } from "@react-google-maps/api";
 import { Suspense, createContext, useContext, useEffect, useState } from "react";
 
@@ -12,6 +13,7 @@ const GoogleMapSearchProvider = ({ children }: { children: React.ReactNode }) =>
     const [formattedAddress, setFormattedAddress] = useState<any>(null);
     const [lat, setLat] = useState<any>(0);
     const [lng, setLng] = useState<any>(0);
+    const libs: Library = 'places'
 
     const [mounted, setMounted] = useState(false);
     useEffect(() => setMounted(true), []);
@@ -28,11 +30,12 @@ const GoogleMapSearchProvider = ({ children }: { children: React.ReactNode }) =>
         setLat,
         setLng,
     };
-    return (
+    return mounted && (
         <GoogleMapSearchContext.Provider value={values}>
             <LoadScript
                 googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-                libraries={["places"]}
+                libraries={[libs]}
+            
             >
                 <Suspense>
                     {children}
