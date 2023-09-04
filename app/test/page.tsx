@@ -77,7 +77,7 @@ function Page() {
   useEffect(() => {
     workerRef.current = new Worker(new URL('../../worker.ts', import.meta.url))
     workerRef.current.onmessage = (event: MessageEvent<number>) =>
-      alert(`WebWorker Response => ${event.data}`)
+      alert(`WebWorker Response: ${event.data}`)
     return () => {
       workerRef.current?.terminate()
     }
