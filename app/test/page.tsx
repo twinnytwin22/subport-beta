@@ -229,8 +229,8 @@ function Page() {
         .insert([
           {
             name: name,
-            userId: user?.id,
-            contractAddress: name,
+            user_id: user?.id,
+            contract_address: name,
             slug: slug,
             genre: 'House'
           }
