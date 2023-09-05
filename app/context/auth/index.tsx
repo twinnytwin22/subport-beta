@@ -1,8 +1,8 @@
 'use client'
-import React, { createContext, useContext, useMemo } from "react";
+import React, { createContext, useContext, useMemo, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getUserData, handleAuthChangeEvent } from "./actions";
-import { supabaseAdmin } from "lib/constants";
+import { supabaseAdmin, supabaseAuth } from "lib/constants";
 import { useRouter } from "next/navigation";
 
 export const refresh = () => {
@@ -22,14 +22,17 @@ export const AuthContext = createContext<AuthState>({
   isLoading: false,
   signOut: () => {}
 });
-
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const router = useRouter()
+  const router = useRouter();
+
+  // Flag to track whether authEventData has been successfully fetched
+  const authEventDataFetched = useRef(false);
+
   // Inside your AuthContextProvider component
   const signOut = async () => {
     try {
       // Perform any necessary cleanup or log-out actions
-      await supabaseAdmin.auth.signOut();
+      await supabaseAuth.auth.signOut();
       refresh();
     } catch (error) {
       console.error("Error signing out:", error);
@@ -37,16 +40,22 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   };
 
   const { data: authEventData, isLoading: authEventLoading } = useQuery({
-    queryKey: ["subscription", "subscriptionData", 'session', router],
+    queryKey: ["subscription", "subscriptionData", 'session', 'unsubscribe', router],
     queryFn: ({ queryKey }) => handleAuthChangeEvent(queryKey[3]),
+    // Set enabled to false if authEventData has been successfully fetched
+    enabled: !authEventDataFetched.current,
+    // Use onSuccess to set the flag when data is successfully fetched
+    onSuccess: () => {
+      authEventDataFetched.current = true;
+    },
   });
+
   const { data: userData, isLoading: userDataLoading } = useQuery({
     queryKey: ["user", "profile"],
     queryFn: getUserData,
     enabled: !!authEventData?.session!,
-    refetchOnMount: false
+    refetchOnMount: false,
   });
-
 
   const value = useMemo(
     () => ({
@@ -55,18 +64,12 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       isLoading: authEventLoading || userDataLoading,
       signOut,
     }),
-    [
-  
-      userData,
-      authEventLoading,
-      authEventData, userDataLoading,
-      signOut,
-      router
-    ]
+    [userData, authEventLoading, userDataLoading, signOut]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
 
 export const useAuthProvider = () => {
   return useContext(AuthContext);

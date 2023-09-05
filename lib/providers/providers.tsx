@@ -1,6 +1,6 @@
 "use client";
 import "styles/globals.css";
-
+import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 import { AuthContextProvider } from "app/context/auth";
 import { SubportPlayer } from "app/context/subport-player";
@@ -15,6 +15,11 @@ import { Ethereum, Polygon, Optimism } from "@thirdweb-dev/chains";
 import GoogleMapWrap from "./google/maps";
 import { GlobalUI } from "app/context/global-ui";
 import { storage, clientId, secretKey } from "./thirdweb/thirdweb";
+import dynamic from 'next/dynamic';
+
+const ToastContainer = dynamic(() => import('react-toastify').then((module) => module.ToastContainer), {
+  ssr: false,
+});
 const queryClient = new QueryClient()
 
 
@@ -29,7 +34,6 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-
         <AuthContextProvider>
           <Suspense>
             <SubportPlayer>
@@ -50,6 +54,7 @@ const Providers = ({ children, }: { children: React.ReactNode }) => {
                       <GoogleMapWrap>
                         <GlobalUI>
                           {children}
+        <ToastContainer theme="dark" />
 
                         </GlobalUI>
                       </GoogleMapWrap>

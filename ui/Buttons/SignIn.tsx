@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import LoginCard from "ui/Auth/AuthComponent";
+import LoginCard from "ui/Auth/AuthComponent/LoginCard";
 
 export const SignInModal = () => {
   const [isOpen, setIsOpen] = useState(false);

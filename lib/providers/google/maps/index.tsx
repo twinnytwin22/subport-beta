@@ -8,12 +8,12 @@ const GoogleMapSearchContext = createContext<any>(null);
 export function useGoogleMapSearchContext() {
     return useContext(GoogleMapSearchContext);
 }
+const libraries: Library[] = ['places'];
 
 const GoogleMapSearchProvider = ({ children }: { children: React.ReactNode }) => {
     const [formattedAddress, setFormattedAddress] = useState<any>(null);
     const [lat, setLat] = useState<any>(0);
     const [lng, setLng] = useState<any>(0);
-    const libs: Library = 'places'
 
     const [mounted, setMounted] = useState(false);
     useEffect(() => setMounted(true), []);
@@ -34,7 +34,7 @@ const GoogleMapSearchProvider = ({ children }: { children: React.ReactNode }) =>
         <GoogleMapSearchContext.Provider value={values}>
             <LoadScript
                 googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}
-                libraries={[libs]}
+                libraries={libraries}
             
             >
                 <Suspense>

@@ -1,7 +1,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { SupabaseImage } from "./hooks/downloadImage";
 import { createClient } from "@supabase/supabase-js";
-import { BrowserCookieAuthStorageAdapter } from "@supabase/auth-helpers-shared";
+import { BrowserCookieAuthStorageAdapter, createSupabaseClient } from "@supabase/auth-helpers-shared";
 import { Database } from "types/database.types";
 const authStorage = new BrowserCookieAuthStorageAdapter()
 
@@ -42,6 +42,7 @@ export const supabaseSRkey = process.env.SUPABASE_SERVICE_ROLE_KEY
 export const supabase = createClientComponentClient<Database>({
  supabaseUrl,
  supabaseKey,
+ isSingleton: false
 });
 
 
@@ -51,7 +52,9 @@ export const supabaseAuth = createClient<Database>(
     {
       auth: {
         flowType: 'pkce',
-        storage: authStorage,
+        storage: new BrowserCookieAuthStorageAdapter(),
+       // storageKey: 'auth',
+        
       //  persistSession: true,
       //detectSessionInUrl: true,
       //  autoRefreshToken: true
@@ -64,8 +67,10 @@ export const supabaseAuth = createClient<Database>(
 export const supabaseApi = createClient<Database>(
   supabaseUrl,
   supabaseKey,
-  {auth: {
-    storage: authStorage,
+  {
+    auth: {
+    storage: new BrowserCookieAuthStorageAdapter(),
+   // storageKey:'api'
   }}
 
 );
@@ -76,7 +81,8 @@ export const supabaseClient =
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     { auth:{
    //   flowType: 'pkce',
-      storage: authStorage,
+      storage: new BrowserCookieAuthStorageAdapter(),
+    //  storageKey: 'client'
     //  persistSession: false
     }}
   );
@@ -86,8 +92,11 @@ export const supabaseAdmin = createClient<Database>(
     {
       auth: {
       //  flowType: 'pkce',
-        storage: authStorage,
+        storage: new BrowserCookieAuthStorageAdapter(),
+      //  storageKey: 'admin',
       //  persistSession: true
       }
     }
 );
+
+export const redirectUrl = (location: Location) => `${location.origin}/api/auth/callback` 

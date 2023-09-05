@@ -1,8 +1,8 @@
 "use client";
-import { useAuthProvider } from "app/context/auth";
-import { supabaseAuth } from "lib/constants";
+import { redirectUrl, supabaseAuth } from "lib/constants";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import s from './LoginCard.module.css'
 export default function LoginCard({ close }: any) {
   const router = useRouter();
   const scopes = [
@@ -18,7 +18,6 @@ export default function LoginCard({ close }: any) {
     'user-follow-read',
     'user-follow-modify',
 ].join(',');
-const redirectUrl = `${location.origin}/api/auth/callback` 
 //console.log(redirectUrl, "REDIRECT URL")
 
   const handleSignInWithSpotify = async () => {
@@ -26,7 +25,7 @@ const redirectUrl = `${location.origin}/api/auth/callback`
       provider: 'spotify',
       options: {
           scopes: scopes,
-          redirectTo: redirectUrl,
+          redirectTo: redirectUrl(location),
           //skipBrowserRedirect: true,
       
       },
@@ -38,7 +37,7 @@ const redirectUrl = `${location.origin}/api/auth/callback`
     await supabaseAuth.auth.signInWithOAuth({
       provider: "google",
       options: {
-          redirectTo: redirectUrl
+          redirectTo: redirectUrl(location)
       },
   });  
     router.refresh();
@@ -65,22 +64,17 @@ const redirectUrl = `${location.origin}/api/auth/callback`
         <ul className="my-4 space-y-3">
 
           <li onClick={handleSignInWithSpotify}>
-            <a
-              href="#"
-              className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-md bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
-            >
+            <div
+              className={s.providerButton}
+ >
               <img className="w-5" src='/images/icons/spotify.png' />
               <span className="flex-1 ml-3 whitespace-nowrap">
                 Spotify
               </span>
-            </a>
+            </div>
           </li>
           <li onClick={handleSignInWithGoogle}>
-            <div
-
-              className="flex items-center p-3 text-base font-bold text-zinc-900 rounded-md bg-zinc-50 hover:bg-zinc-100 group hover:shadow dark:bg-zinc-600 dark:hover:bg-zinc-600 dark:text-white"
-            >
-
+            <div className={s.providerButton}>
               <img className="w-5" src="/images/icons/icons8-google-96.png" />
               <span className="flex-1 ml-3 whitespace-nowrap">
                 Google

@@ -1,5 +1,5 @@
 import React from 'react'
-import Login from 'ui/Auth/AuthComponent'
+import Login from 'ui/Auth/AuthComponent/LoginCard'
 
 function page() {
   return (

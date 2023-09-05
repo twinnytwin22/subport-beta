@@ -7,9 +7,8 @@ import React, { Suspense } from "react";
 import FooterPlayer from "ui/Players/FooterPlayer";
 import { LoadingContainer } from "ui/LoadingContainer";
 import { NewUserModal } from "ui/User/NewUserModal";
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 import { supabaseAuth } from "lib/constants";
+
 
 export const preferredRegion = 'auto'
 export const revalidate = 0
@@ -48,7 +47,6 @@ export default async function RootLayout({
           </div>
           <MobileMenu />
         </Providers>
-        <ToastContainer theme="dark" />
 
       </body>
     </html>

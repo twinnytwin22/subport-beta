@@ -9,6 +9,13 @@ module.exports = {
     './lib/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      // ...other extended classes...
+  
+      // Define your custom class within a @layer directive
+      layers: {
+        utilities: ['w-sm'],
+      },
+    },
   },
 }

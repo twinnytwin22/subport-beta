@@ -1,10 +1,10 @@
-import { supabase } from "lib/constants";
+import { supabase, supabaseAuth } from "lib/constants";
 import { AuthChangeEvent, Session } from "@supabase/gotrue-js";
 import { supabaseAdmin } from "lib/constants";
 import { toast } from "react-toastify";
 
 export const fetchProfile = async (id: string) => {
-    let { data:profile, error } = await supabase
+    let { data:profile, error } = await supabaseAuth
       .from("profiles").select("*").eq("id", id).single();
       if(profile) {
         return profile;
@@ -15,7 +15,7 @@ export const fetchProfile = async (id: string) => {
 
 export async function updatePassword() {
   const newPassword = prompt("What would you like your new password to be?");
-  let { data, error } = await supabaseAdmin.auth.updateUser({
+  let { data, error } = await supabaseAuth.auth.updateUser({
     password: newPassword!,
   });
 
@@ -28,8 +28,8 @@ let [
       { data: userSessionData },
       { data: { subscription: subscriptionData } },
     ] = await Promise.all([
-      supabase.auth.getSession(),
-      supabaseAdmin.auth.onAuthStateChange(
+      supabaseAuth.auth.getSession(),
+      supabaseAuth.auth.onAuthStateChange(
         async (event: AuthChangeEvent, currentSession: Session | null) => {
           if (currentSession && event === "SIGNED_IN") {
          //   const profile = await fetchProfile(currentSession?.user.id);
@@ -40,7 +40,7 @@ let [
           }
           if (event === "PASSWORD_RECOVERY") {
             const newPassword = prompt("What would you like your new password to be?");
-            let { data, error } = await supabaseAdmin.auth.updateUser({
+            let { data, error } = await supabaseAuth.auth.updateUser({
               password: newPassword!,
             });
 
@@ -51,12 +51,12 @@ let [
         }
       ),
     ]);
-  return {subscription: subscriptionData, session: userSessionData.session}
+  return {subscription: subscriptionData, session: userSessionData.session, unsubscribe: (() => subscriptionData?.unsubscribe())}
   }
   export const getUserData = async () => {
-    const {data: session} = await supabaseAdmin.auth.getSession()
+    const {data: session} = await supabaseAuth.auth.getSession()
     if (session && session?.session) {
-      let { data: authUser } = await supabaseAdmin.auth.getUser();
+      let { data: authUser } = await supabaseAuth.auth.getUser();
       if (authUser?.user) {
       const profile  =  await fetchProfile(authUser.user.id);
         return { user: authUser.user, profile };
