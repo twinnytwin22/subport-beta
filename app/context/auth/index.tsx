@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useMemo, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getUserData, handleAuthChangeEvent } from "./actions";
-import { supabaseAdmin, supabaseAuth } from "lib/constants";
+import { supabaseAuth } from "lib/constants";
 import { useRouter } from "next/navigation";
 import LoginFormScreen from "ui/Auth/LoginFormScreen/LoginFormScreen";
 
@@ -69,8 +69,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   );
     //console.log(userData?.user)
   return <AuthContext.Provider value={value}>
-
-    {!userData?.user &&  !authEventLoading && !userDataLoading && <div className="bg-white h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
+    {!authEventData?.session &&  <div className="bg-white h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
       <LoginFormScreen/>
       </div>}
     {children}
