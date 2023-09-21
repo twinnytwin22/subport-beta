@@ -70,7 +70,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     //console.log(userData?.user)
   return <AuthContext.Provider value={value}>
 
-    {!userData?.user && <div className="bg-white h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
+    {!userData?.user &&  !authEventLoading && !userDataLoading && <div className="bg-white h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
       <LoginFormScreen/>
       </div>}
     {children}
