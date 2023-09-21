@@ -1,19 +1,14 @@
 import { reformatDate } from 'lib/hooks/formatDate';
 import { headers } from 'next/headers';
 import MinIEventCard from 'ui/Cards/Events/MinIEventCard';
+import { fetchAllEvents } from 'utils/use-server';
 
 async function getEventsForUserId(userId: any) {
-    const host = headers().get('host');
-    const protocol = process?.env.NODE_ENV === 'development' ? 'http' : 'https';
-    const res = await fetch(`${protocol}://${host}/api/v1/getEvents`, {
-        method: 'GET',
-        cache: 'no-store',
-    });
-
-    const data = await res.json();
-
+const [events] = await Promise.all([
+    fetchAllEvents()
+])
     // Filter events based on the user_id
-    return data.filter((eventItem: { user_id: any; }) => eventItem.user_id === userId);
+    return events.filter((eventItem: { user_id: any; }) => eventItem.user_id === userId);
 }
 
 export async function ProfileEventsRow({ profile }: any) {
