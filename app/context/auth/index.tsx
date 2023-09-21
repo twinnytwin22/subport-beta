@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserData, handleAuthChangeEvent } from "./actions";
 import { supabaseAdmin, supabaseAuth } from "lib/constants";
 import { useRouter } from "next/navigation";
+import LoginFormScreen from "ui/Auth/LoginFormScreen/LoginFormScreen";
 
 export const refresh = () => {
   window.location.reload();
@@ -66,8 +67,14 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     }),
     [userData, authEventLoading, userDataLoading, signOut]
   );
+    //console.log(userData?.user)
+  return <AuthContext.Provider value={value}>
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    {!userData?.user && <div className="bg-white h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
+      <LoginFormScreen/>
+      </div>}
+    {children}
+    </AuthContext.Provider>;
 };
 
 
