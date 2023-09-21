@@ -31,14 +31,20 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   const authEventDataFetched = useRef(false);
 
   const setSession = (session: boolean) => {
-    localStorage.setItem("session", session ? "true" : "false");
+    if (typeof window !== "undefined") {
+      // Check if `localStorage` is available (client-side)
+      localStorage.setItem("session", session ? "true" : "false");
+    }
   };
 
   useEffect(() => {
-    const sessionExists = localStorage.getItem("session");
-    if (!sessionExists) {
-      // If no session is found in local storage, show the authentication screen
-      setSession(false);
+    if (typeof window !== "undefined") {
+      // Check if `localStorage` is available (client-side)
+      const sessionExists = localStorage.getItem("session");
+      if (!sessionExists) {
+        // If no session is found in local storage, show the authentication screen
+        setSession(false);
+      }
     }
   }, []);
 
@@ -92,7 +98,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   return (
     <AuthContext.Provider value={value}>
       {/* BEGIN AUTH SCREEN */}
-      {localStorage.getItem("session") === "false" && (
+      {(typeof window !== "undefined" && localStorage.getItem("session") === "false") && (
         <div className="bg-white dark:bg-black h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
           <LoginFormScreen />
         </div>
