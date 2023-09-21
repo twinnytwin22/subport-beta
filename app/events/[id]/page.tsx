@@ -7,24 +7,20 @@ import EventGoogleMap from "ui/Sections/Events/EventMap";
 import { checkUser } from "utils/database";
 import EventOrganizer from "ui/Sections/Events/EventOrganizer";
 import EventTicketContainer from "ui/Sections/Events/EventTicketContainer";
+import { fetchAllEvents } from "utils/use-server";
 export default async function Page({
     params,
 }: {
     params: { id: string; slug: string };
 }) {
-    const host = headers().get("host");
-    const protocol = process?.env.NODE_ENV === "development" ? "http" : "https";
-    const res = await fetch(`${protocol}://${host}/api/v1/getEvents`, {
-        method: "GET",
-        cache: "no-store",
-    });
-
-    const data = await res.json();
+const [events] = await Promise.all([
+    fetchAllEvents()
+])
 
     const { slug, id } = params;
 
     // Find the event with the matching slug
-    const event = data.find((eventItem: any) => eventItem.slug === id);
+    const event = events.find((eventItem: any) => eventItem.slug === id);
 
     if (event) {
         const user = await checkUser({ id: event.user_id });

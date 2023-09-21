@@ -42,7 +42,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
   const { data: authEventData, isLoading: authEventLoading } = useQuery({
     queryKey: ["subscription", "subscriptionData", 'session', 'unsubscribe', router],
-    queryFn: ({ queryKey }) => handleAuthChangeEvent(queryKey[3]),
+    queryFn: ({ queryKey }) => handleAuthChangeEvent(queryKey[4]),
     // Set enabled to false if authEventData has been successfully fetched
     enabled: !authEventDataFetched.current,
     // Use onSuccess to set the flag when data is successfully fetched
@@ -69,7 +69,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   );
     //console.log(userData?.user)
   return <AuthContext.Provider value={value}>
-    {!authEventData?.session &&  <div className="bg-white h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
+    {!authEventData?.session &&  <div className="bg-white dark:bg-black h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
       <LoginFormScreen/>
       </div>}
     {children}

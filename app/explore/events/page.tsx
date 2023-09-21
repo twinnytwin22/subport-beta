@@ -3,27 +3,17 @@ import React, { Suspense } from "react";
 import { getProfilesWithDrops } from "utils/database";
 import { headers } from "next/headers";
 import EventFeed from "ui/Sections/Explore/Events"
+import { fetchAllCollectibles, fetchAllEvents } from "utils/use-server";
 export const revalidate = 0// revalidate this page every 60 seconds
 
 
 async function Page() {
-  const host = headers().get('host')
-  const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
-  const res = await fetch(`${protocol}://${host}/api/v1/getCollectibles`, {
-    method: "GET",
-    /// headers: { "Content-Type": "application/json" },
-    cache: 'no-store',
-  });
+  const [drops, events, data] = await Promise.all([
+    fetchAllCollectibles(),
+    fetchAllEvents(),
+    getProfilesWithDrops()
+])  
 
-  const eventRes = await fetch(`${protocol}://${host}/api/v1/getEvents`, {
-    method: "GET",
-    /// headers: { "Content-Type": "application/json" },
-    cache: 'no-store',
-  });
-  const drops = await res.json()
-  const events = await eventRes.json()
-
-  const data = await getProfilesWithDrops();
 
   const filteredDrops = drops?.drops.filter((drop: any) => {
     const lowercaseGenre = drop.genre.toLowerCase();

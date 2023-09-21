@@ -11,7 +11,7 @@ type FetchTypes = {
   slug?: string;
 };
 
-
+ 
 
 const refreshCache = async () => {
   try {
@@ -83,6 +83,42 @@ const fetchCreators = async () => {
   }
 };
 
+const fetchAllCollectibles = async () => {
+  try {
+    //await fetch(`${protocol}://${host}//api/v1/getCollectibles`);
+    const res = await fetch(`${protocol}://${host}/api/v1/getCollectibles`, {
+      method: "GET",
+      /// headers: { "Content-Type": "application/json" },
+      cache: 'no-store',
+    });
+    const data = res.json();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    //  return await res.json()
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
+const fetchAllEvents = async () => {
+  try {
+    //await fetch(`${protocol}://${host}//api/v1/getCollectibles`);
+    const res = await fetch(`${protocol}://${host}/api/v1/getEvents`, {
+      method: "GET",
+      /// headers: { "Content-Type": "application/json" },
+      cache: 'no-store',
+    });
+    const data = res.json();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    //  return await res.json()
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+};
+
 const fetchProfilesForDrops = async (id: any) => {
   cookies().set('test-cookie', 'subport')
 
@@ -113,4 +149,4 @@ const fetchProfileForEvent = async (id: any) => {
 
 };
 
-export { fetchCreators, fetchSingleCollectible, refreshCache, fetchProfilesForDrops, fetchProfileForEvent };
+export { fetchCreators, fetchSingleCollectible, refreshCache, fetchProfilesForDrops, fetchProfileForEvent, fetchAllCollectibles, fetchAllEvents };
