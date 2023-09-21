@@ -5,6 +5,9 @@ import { redisGet, redisSet } from "lib/redis/redis";
 import { Database } from "types/database.types";
 
 export async function POST(req: Request) {
+  if (req.method !== 'POST') {
+    return NextResponse.json('error: Method Not Allowed', { status: 405 });
+  }
   const supabaseApi = createRouteHandlerClient<Database>({ cookies });
   const { eventData } = await req.json();
   const cacheKey = "events_cache";
