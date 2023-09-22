@@ -2,16 +2,22 @@ import { useImagePath } from 'lib/constants';
 import Link from 'next/link';
 import React from 'react';
 import { FollowButton } from 'ui/Buttons/FollowButton';
+import Image from 'next/image';
 
 const ArtistCard = ({ artist } : {artist: any}) => {
   const image = useImagePath(artist?.avatar_url);
-
+ 
   return (
-    <div className="max-w-sm w-full overflow-hidden  m-4 bg-white border border-zinc-200 rounded-md dark:bg-black dark:border-zinc-700 shadow-md shadow-zinc-200 dark:shadow-zinc-900 ">
+    <div className=" max-w-sm min-w-max w-full overflow-hidden  m-4 bg-white border border-zinc-200 rounded-md dark:bg-black dark:border-zinc-700 shadow-md shadow-zinc-200 dark:shadow-zinc-900 ">
       <div className='relative'>
         <Link href={`/${artist.username}`}>
-      <img src={image} alt={artist.username} className="w-full aspect-square object-cover" />
-      </Link>
+        <Image
+          width={400}
+          height={400}
+          src={image}
+          alt={artist.username}
+          className="aspect-square object-cover w-72 h-72 relative" />
+           </Link>
       <div className='absolute top-4 right-4'>
       <FollowButton currentProfile={artist}/>
       </div>
@@ -33,7 +39,7 @@ const ArtistCard = ({ artist } : {artist: any}) => {
 
 export const ArtistList = ({ artists } : {artists: any}) => {
   return (
-    <div className="flex space-x-4 w-full overflow-x-scroll  mx-auto h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
+    <div className="flex space-x-4 w-full overflow-x-scroll mx-auto h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
     {artists.map((artist: any) => (
         <ArtistCard key={artist.id} artist={artist} />
       ))}

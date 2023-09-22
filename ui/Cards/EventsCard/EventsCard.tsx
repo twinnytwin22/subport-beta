@@ -1,8 +1,8 @@
-import { Data } from '@react-google-maps/api';
-import { useImagePath, useIpfsImage } from 'lib/constants';
+import { useIpfsImage } from 'lib/constants';
 import { reformatDate } from 'lib/hooks/formatDate';
 import React from 'react'
 import Image from 'next/image';
+import Link from 'next/link';
 function EventsCard({ event }: { event: any }) {
   const image = useIpfsImage(event?.image);
   const date = reformatDate(event.date)
@@ -10,18 +10,19 @@ function EventsCard({ event }: { event: any }) {
   return (
     <div className=" max-w-sm min-w-max w-full overflow-hidden  m-4 bg-white border border-zinc-200 rounded-md dark:bg-black dark:border-zinc-700 shadow-md shadow-zinc-200 dark:shadow-zinc-900 ">
       <div className='relative  object-cover aspect-square w-72 '>
-
+      <Link href={`/events/${event.slug}`}>
         <Image
           width={400}
           height={400}
           src={image}
           alt={event.title}
           className="aspect-square object-cover w-72 h-72 relative" />
+          </Link>
       </div>
       <div className="px-6 pt-4 w-full">
         <div className="font-bold text-xl mb-2">{event.title}</div>
       </div>
-      <div className="px-6 py-4">
+      <div className="px-6 pb-4">
         <p className="text-zinc-700 dark:text-zinc-300 text-xs">
           {date.fullDate}</p>
         <p className="text-zinc-700 dark:text-zinc-300 text-xs w-60">

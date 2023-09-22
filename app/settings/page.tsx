@@ -1,11 +1,16 @@
 'use client'
 import { useAuthProvider } from "app/context/auth";
+import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import Account from "ui/User/Account";
+import ArtistSettings from "ui/User/Account/ArtistSettings/ArtistSettings";
+import ProfileSettings from "ui/User/Account/ProfileSettings/ProfileSettings";
 
 function Page() {
     const { isLoading, user } = useAuthProvider()
     const [activeTab, setActiveTab] = useState('profile')
+    const params = useParams()
+    console.log(params)
 
     return !isLoading && (
         <div className="w-full lg:min-h-[70vh] mt-4 lg:mt-8 flex items-center justify-center content-center mb-24 md:mb-0">
@@ -14,6 +19,8 @@ function Page() {
                     <ul className="font-bold  text-base lg:text-lg dark:text-zinc-200 text-zinc-900 absolute top-16 left-3 lg:left-8">
                         <li className="cursor-pointer" onClick={() => setActiveTab('profile')}
                         >Profile</li>
+                        <li className="cursor-pointer" onClick={() => setActiveTab('artist-settings')}
+                        >Artist Settings</li>
                         <li className="cursor-pointer" onClick={() => setActiveTab('preferences')}
                         >Preferences</li>
                         <li className="cursor-pointer" onClick={() => setActiveTab('settings')}
@@ -22,8 +29,9 @@ function Page() {
                 </div>
                 <div className="bg-white dark:bg-black  border-zinc-300 dark:border-zinc-800 border-l p-8  max-w-2xl w-full space-y-4 md:flex place-items-start h-full min-h-[500px]">
 
-                    {activeTab === 'profile' && <Account />}
+                    {activeTab === 'profile' && <ProfileSettings />}
                     {activeTab === 'preferences' && <div className="h-full">Preferences</div>}
+                    {activeTab === 'artist-settings' && <ArtistSettings/>}
                     {activeTab === 'settings' && <div className="h-full">settings</div>}
                 </div>
 
