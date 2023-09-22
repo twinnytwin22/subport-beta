@@ -2,6 +2,8 @@ import React from 'react'
 import { fetchAllCollectibles, fetchAllEvents, fetchCreators } from 'utils/use-server'
 import Image from 'next/image'
 import { ArtistList } from 'ui/Cards/ArtistCard/ArtistCard'
+import { DropsList } from 'ui/Cards/DropsCard/DropsCard'
+import { EventsList } from 'ui/Cards/EventsCard/EventsCard'
 export const fetchCache = 'force-no-store'
 export const dynamic = 'force-dynamic'
 async function Main() {
@@ -27,8 +29,17 @@ async function Main() {
           style={{ objectFit: 'cover' /* filter: 'blur(1.5rem)' */ }}
         />
       </div>
-      <div className=' max-w-screen mx-10 '>
+      <div className=' max-w-screen mx-10 my-8 '>
+        <h1 className='text-lg font-bold'>Artists Near You</h1>
         <ArtistList artists={artists}/>
+      </div>
+      <div className=' max-w-screen mx-10 my-8 '>
+        <h1 className='text-lg font-bold'>Events Near You</h1>
+        <EventsList events={events}/>
+      </div>
+      <div className=' max-w-screen mx-10 my-8 '>
+        <h1 className='text-lg font-bold'>Drops Near You</h1>
+        <DropsList drops={dropsWithMetaData}/>
       </div>
       {/*<HomePage drops={dropsWithMetaData} />*/}
     </div>

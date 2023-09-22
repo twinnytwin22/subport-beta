@@ -59,7 +59,7 @@ const FollowButton = ({ currentProfile }: any) => {
         <div className=" sm:mt-0">
             {isAlreadyFollowing ?
                 <button
-                    className="bg-green-600 hover:bg-green-700 text-white font-extrabold  hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                    className="bg-green-600 hover:bg-green-700 border border-zinc-400 text-white font-extrabold  hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={handleFollowButton}
                 >
@@ -67,7 +67,7 @@ const FollowButton = ({ currentProfile }: any) => {
                 </button> :
 
                 <button
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-extrabold  hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+                    className="bg-blue-600 hover:bg-blue-700 border border-zinc-400 text-white font-extrabold  hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={handleFollowButton}
                 >

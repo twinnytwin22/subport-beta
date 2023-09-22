@@ -12,9 +12,9 @@ type FetchTypes = {
 
 const refreshCache = async () => {
   try {
-    const slug = 'twinny-twin-always'
-    const contractArray = ['0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85']
-    const contractAddress = '0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85'
+   // const slug = 'twinny-twin-always'
+  //  const contractArray = ['0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85']
+  //  const contractAddress = '0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85'
     const res = await fetch('/api/v1/refreshCache')
 
     // const res = await fetch('/api/v1/getCollectibles')
