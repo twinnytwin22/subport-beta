@@ -1,5 +1,4 @@
 import { combineAndSortData } from 'lib/hooks/combineAndSortData';
-import { headers } from 'next/headers';
 import React from 'react';
 import Feed from 'ui/Sections/Explore/Feed';
 import { fetchAllCollectibles, fetchAllEvents } from 'utils/use-server';

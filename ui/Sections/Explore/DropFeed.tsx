@@ -51,8 +51,8 @@ const DropFeed: React.FC<{ data?: any, events?: any, drops?: any }> = ({ data, e
     return (
         <div className='space-y-4 w-full relative mx-auto justify-center'>
             <div className='flex flex-wrap gap-4 w-full mx-auto justify-center'>
-                {drops.map((drop: any) => (
-                    <div key={drop.id}>
+                {drops?.map((drop: any) => (
+                    <div key={drop.drop.id}>
                         <div className=' max-w-lg lg:max-w-md xl:max-w-lg'>
                             {<CollectCard metaData={drop.metaData} drop={drop.drop} />}
                         </div>
