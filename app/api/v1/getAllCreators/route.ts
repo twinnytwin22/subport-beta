@@ -11,10 +11,10 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const refreshCache = searchParams.get("refreshCache");
   try {
-    const cacheKey = "creators_cache0"; // Specify a cache key for profiles with drops
+    const cacheKey = "creators_cache"; // Specify a cache key for profiles with drops
 
     // Check if the query parameter "refresh" is set to true
-    if (!refreshCache) {
+    if (refreshCache) {
       // Delete the cache if the "refresh" parameter is set to true
 
       await redis.del(cacheKey);

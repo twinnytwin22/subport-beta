@@ -28,7 +28,7 @@ const ArtistCard = ({ artist } : {artist: any}) => {
         <p className="text-zinc-700 dark:text-zinc-300 text-xs">{artist.city}, {artist.state}, {artist.country}</p>
       </div>
       <div className="px-6 py-4 absolute right-0 top-3">
-        <p className="inline-block bg-zinc-200 rounded-full px-3 py-1 text-xs font-semibold text-zinc-700 mr-2">
+        <p className="inline-block bg-zinc-200 rounded-full px-3 py-1 text-xs font-bold text-zinc-700 mr-2">
           Drops:{artist.drops.length}
         </p>
       </div>
