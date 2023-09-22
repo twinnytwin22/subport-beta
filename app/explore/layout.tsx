@@ -32,16 +32,16 @@ function Layout({ children }: { children: React.ReactNode }) {
                         <div className='flex items-center justify-start space-x-4'>
                             <div className="flex flex-wrap w-full ml-8 items-center">
                                 <div className="mr-2">
-                                    <Link href="/explore/" className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Feed</Link>
+                                    <Link href={`/explore?view=${searchParams}`} className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Feed</Link>
                                 </div>
                                 <div className="mr-2">
-                                    <Link href="/explore/drops" className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Drops</Link>
+                                    <Link  href={`/explore/drops?view=${searchParams}`} className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Drops</Link>
                                 </div>
                                 <div className="mr-2">
-                                    <Link href="/explore/artists" className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Artists</Link>
+                                    <Link href={`/explore/artists?view=${searchParams}`} className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Artists</Link>
                                 </div>
                                 <div>
-                                    <Link href="/explore/events" className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Events</Link>
+                                    <Link href={`/explore/events?view=${searchParams}`} className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Events</Link>
                                 </div>
                                 <div className='right-sidebar block lg:hidden' onClick={handleRightSideBar}>
                                     <div className="inline-block mt-1.5 px-6  p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300"><BsFillFilterSquareFill /></div>
