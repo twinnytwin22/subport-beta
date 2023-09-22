@@ -1,13 +1,13 @@
 import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
 import { supabaseApi } from "lib/constants";
 import { redisGet } from "lib/redis/redis";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const revalidate = 0;
 export const dynamic = 'force-dynamic'
 // Promisify Redis get and set methods
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   if (req.method !== 'GET') {
     return NextResponse.json('error: Method Not Allowed', { status: 405 });
   }
