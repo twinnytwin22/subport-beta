@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { fetchAllCollectibles, fetchAllEvents, fetchCreators } from 'utils/use-server'
 import Image from 'next/image'
 import { ArtistList } from 'ui/Cards/ArtistCard/ArtistCard'
@@ -29,6 +29,7 @@ async function Main() {
           style={{ objectFit: 'cover' /* filter: 'blur(1.5rem)' */ }}
         />
       </div>
+      <Suspense>
       <div className=' max-w-screen mx-10 my-8 '>
         <h1 className='text-lg font-bold'>Artists Near You</h1>
         <ArtistList artists={artists}/>
@@ -41,6 +42,7 @@ async function Main() {
         <h1 className='text-lg font-bold'>Drops Near You</h1>
         <DropsList drops={dropsWithMetaData}/>
       </div>
+      </Suspense>
       {/*<HomePage drops={dropsWithMetaData} />*/}
     </div>
   )
