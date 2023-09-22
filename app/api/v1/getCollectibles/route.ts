@@ -68,4 +68,6 @@ export async function GET(req: Request) {
     console.error("Error fetching drops:", error);
     return new Response("Error fetching drops");
   }
+  return new Response("Error fetching drops");
+
 }

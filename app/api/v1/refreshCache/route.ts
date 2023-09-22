@@ -57,4 +57,6 @@ export async function GET(req:NextRequest) {
     console.error("Error refreshing cache:", error);
     return new Response("Error: refreshing cache");
   }
+  return new Response("Error fetching drops");
+
 }
