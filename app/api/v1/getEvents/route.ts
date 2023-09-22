@@ -42,4 +42,5 @@ export async function GET(req: Request) {
     console.error("Error fetching events:", error);
     return new Response("Error fetching events");
   }
+  
 }

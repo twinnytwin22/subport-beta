@@ -1,11 +1,9 @@
-import { Song } from "lib/types";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { Song } from "lib/types";;
+import { createServerClient } from "lib/providers/supabase/supabase-server";
 
 const getLikedSongs = async (): Promise<Song[]> => {
-  const supabase = createServerComponentClient({
-    cookies: cookies,
-  });
+  const supabase = createServerClient()
+
 
   const {
     data: { session },
