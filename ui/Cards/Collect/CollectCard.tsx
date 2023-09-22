@@ -32,6 +32,13 @@ function CollectCard({ metaData, drop }: any) {
     useHandleDoubleClick(event, { dropId: drop?.id, userId: drop?.user_id });
   };
 
+  function truncatedTitle(str: string, num: number){
+if (str.length > num) {
+  return str.slice(0, num) + '..';
+} else{
+  return str
+}
+  }
 
   return user && (
     <div className="flex flex-col static mx-auto w-full content-center justify-center overflow-hidden">
@@ -60,7 +67,7 @@ function CollectCard({ metaData, drop }: any) {
             <CollectCardMenu drop={drop} />
           </div>
         </div>
-        <div className="w-full relative min-w-md h-full">
+        <div className="w-full relative min-w-full h-full">
           <div className="relative aspect-square object-cover min-w-full">
             <Image
               onClick={handleDoubleClick}
@@ -87,7 +94,7 @@ function CollectCard({ metaData, drop }: any) {
           </Suspense>
           <div className="flex justify-between items-center mb-2">
             <Link href={`/drop/${drop.slug}`}>
-              <h5 className="mt-2 text-lg font-bold tracking-tight ">{drop?.title}</h5>
+              <h5 className="mt-2 text-lg font-bold tracking-tight whitespace-nowrap">{truncatedTitle( drop?.title, 18)}</h5>
             </Link>
             <CollectButton drop={drop} props={props} />
           </div>

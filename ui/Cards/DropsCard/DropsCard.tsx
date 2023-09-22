@@ -2,10 +2,11 @@ import { useIpfsImage } from 'lib/constants';
 import React from 'react';
 import Image from 'next/image';
 import PlayButton from '../Collect/PlayButton';
+import CollectCard from '../Collect/CollectCard';
 
 function DropsCard({ drop }: { drop: any }) {
     const image = useIpfsImage(drop.metaData.image)
- 
+
     const props = {
         drop: drop.drop,
         metaData: drop.metaData
@@ -38,9 +39,12 @@ export default DropsCard;
 
 export const DropsList = ({ drops }: { drops: any }) => {
     return (
-        <div className="flex space-x-4 w-full overflow-x-scroll  mx-auto h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
+        <div className="flex w-full overflow-x-scroll  mx-auto h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
             {drops.map((drop: any) => (
-                <DropsCard key={drop.drop.id} drop={drop} />
+                <div className=" min-w-[284px] max-w-sm w-fit overflow-hidden  m-4 bg-white border border-zinc-200 rounded-md dark:bg-black dark:border-zinc-700 shadow-md shadow-zinc-200 dark:shadow-zinc-900 relative">
+
+                    <CollectCard key={drop.drop.id} metaData={drop.metaData} drop={drop.drop} />
+                </div>
             ))}
         </div>
     );

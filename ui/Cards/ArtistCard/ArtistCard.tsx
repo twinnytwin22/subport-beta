@@ -39,7 +39,7 @@ const ArtistCard = ({ artist } : {artist: any}) => {
 
 export const ArtistList = ({ artists } : {artists: any}) => {
   return (
-    <div className="flex space-x-4 w-full overflow-x-scroll mx-auto h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
+    <div className="flex  w-full overflow-x-scroll mx-auto h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
     {artists.map((artist: any) => (
         <ArtistCard key={artist.id} artist={artist} />
       ))}

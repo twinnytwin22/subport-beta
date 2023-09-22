@@ -25,7 +25,7 @@ function EventsCard({ event }: { event: any }) {
       <div className="px-6 pb-4">
         <p className="text-zinc-700 dark:text-zinc-300 text-xs">
           {date.fullDate}</p>
-        <p className="text-zinc-700 dark:text-zinc-300 text-xs w-60">
+        <p className="text-zinc-700 dark:text-zinc-300 text-xs w-60 h-8 overflow-y-scroll">
           {event.location}</p>
         <p className="text-zinc-600 hidden">
           {event.category}</p>
@@ -48,7 +48,7 @@ export default EventsCard
 
 export const EventsList = ({ events }: { events: any }) => {
   return (
-    <div className="flex space-x-4 w-full overflow-x-scroll  mx-auto h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
+    <div className="flex  w-full overflow-x-scroll  mx-auto h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
       {events.map((event: any) => (
         <EventsCard key={event.id} event={event} />
       ))}
