@@ -4,8 +4,11 @@ import { supabaseApi } from "lib/constants";
 
 export const revalidate = 30;
 //export const dynamic = 'force-dynamic'
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
+export async function GET(req: Request) {
+  if (req.method !== 'GET') {
+    return NextResponse.json('error: Method Not Allowed', { status: 405 });
+  }
+  const { searchParams } = new URL(req.url);
   const refreshCache = searchParams.get("refreshCache");
   try {
     const cacheKey = "creators_cache0"; // Specify a cache key for profiles with drops

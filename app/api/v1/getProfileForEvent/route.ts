@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server';
 import { supabase } from 'lib/constants';
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
+export async function GET(req: Request) {
+  if (req.method !== 'GET') {
+    return NextResponse.json('error: Method Not Allowed', { status: 405 });
+  }
+  const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
 
   // Check if userId is missing or empty

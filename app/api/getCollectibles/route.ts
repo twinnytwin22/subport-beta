@@ -1,12 +1,15 @@
 // Import necessary dependencies
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { readContractURIs } from "lib/hooks/readContractURIs";
 import { redis, redisGet, redisSet } from "lib/redis/redis";
 import { supabaseApi } from "lib/constants";
 // Create a Supabase
 
 // Define the route handler function
-export async function GET() {
+export async function GET(req: NextRequest) {
+  if (req.method !== 'GET') {
+    return NextResponse.json('error: Method Not Allowed', { status: 405 });
+  }
   try {
     const cacheKey = "drops_cache"; // Specify a cache key
 
@@ -60,4 +63,5 @@ export async function GET() {
     console.error("Error fetching drops:", error);
     return new Response("Error fetching drops");
   }
+  
 }

@@ -1,5 +1,5 @@
 // Import necessary dependencies
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { redis, redisGet, redisSet } from "lib/redis/redis";
 
 // Create a Supabase
@@ -7,7 +7,10 @@ import { redis, redisGet, redisSet } from "lib/redis/redis";
 // Promisify Redis get and set methods
 
 // Define the route handler function
-export async function GET() {
+export async function GET(req:NextRequest) {
+  if (req.method !== 'GET') {
+    return NextResponse.json('error: Method Not Allowed', { status: 405 });
+  }
   const cacheKey = "drops_cache"; // Specify a cache key
 
   // Check if the response is available in Redis cache

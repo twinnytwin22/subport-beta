@@ -5,8 +5,11 @@ import { NextResponse } from "next/server";
 
 export const revalidate = 0;
 export const dynamic = 'force-dynamic'
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
+export async function GET(req: Request) {
+  if (req.method !== 'GET') {
+    return NextResponse.json('error: Method Not Allowed', { status: 405 });
+  }
+  const { searchParams } = new URL(req.url);
   const contractAddress = searchParams.get("contractAddress");
 
   const cacheKey = "drops_cache"; // Specify a cache key

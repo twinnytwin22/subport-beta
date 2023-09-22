@@ -2,10 +2,14 @@ import { readContractURIs } from "lib/hooks/readContractURIs";
 import { redis, redisGet, redisSet } from "lib/redis/redis";
 
 import { supabaseApi } from "lib/constants";
+import { NextRequest, NextResponse } from "next/server";
 
 export const revalidate = 0;
 
-export async function GET() {
+export async function GET(req:NextRequest) {
+  if (req.method !== 'GET') {
+    return NextResponse.json('error: Method Not Allowed', { status: 405 });
+  }
   try {
     const cacheKey = "drops_cache";
     // Delete the cache if the "refresh" parameter is set to true    // Check if the response is available in Redis cache
