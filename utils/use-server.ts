@@ -1,5 +1,4 @@
 'use server'
-import { headers, cookies } from 'next/headers'
 const host =
   process?.env.NODE_ENV === 'development'
     ? 'localhost:3000'
@@ -118,7 +117,7 @@ const fetchAllEvents = async () => {
 }
 
 const fetchProfilesForDrops = async (id: any) => {
-  cookies().set('test-cookie', 'subport')
+ // cookies().set('test-cookie', 'subport')
 
   try {
     let res = await fetch(
