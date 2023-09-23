@@ -1,160 +1,176 @@
 import { supabaseAuth } from "lib/constants";
-import useSpotifyUrlId from "lib/hooks/useSpotifyUrlId";
 import { toast } from "react-toastify";
+
 export const spotifyClientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
 export const spotifySecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
 
-const spotifyActions = ({ id }: { id?: string }) => [
-  {
-      action: 'followArtist',
-      endpoint: '/me/following?type=artist&ids=',
-      method: 'PUT' // type: string, ids: string[] 
-  },
-  {
-      action: 'unfollowArtist',
-      endpoint: '/me/following?type=artist&ids=',
-      method: 'DELETE'  // type: string, ids: string[] 
-  },
-  {
-      action: 'checkArtistFollow',
-      endpoint: '/me/following/contains?type=artist&ids=',
-      method: 'GET'  // type: string, ids: string[] 
-  },
-  {
-      action: 'checkSavedTracks',
-      endpoint: '/me/tracks/contains?ids=',
-      method: 'GET' //ids[]
-  },
-  {
-      action: 'saveTrack',
-      endpoint: '/me/tracks?ids=',
-      method: 'PUT' //ids[]
-  },
-  {
-      action: 'getTrack',
-      endpoint: `/tracks?ids=`,
-      method: 'PUT' //ids[]
-  },
+const getAccessToken = async () => {
+  const { data: session } = await supabaseAuth.auth.getSession();
+  return session?.session?.provider_token;
+};
 
-]
+const createSpotifyHeaders = (accessToken: string) => ({
+  'Content-Type': 'application/json',
+  Authorization: `Bearer ${accessToken}`,
+  Accept: 'application/json',
+});
+
+const spotifyActions = ({spotifyId}: {spotifyId?: string}) => [
+  {
+    action: 'getArtist',
+    endpoint: `/artists/${spotifyId}`,
+    method: 'GET',
+    toast: {
+      success: "Artist information retrieved successfully",
+      error: "Error retrieving artist information",
+    },
+  },
+  {
+    action: 'followArtist',
+    endpoint: '/me/following?type=artist&ids=',
+    method: 'PUT',
+    toast: {
+      success: "You've successfully followed this artist on Spotify",
+      error: "Error following the artist on Spotify",
+    },
+  },
+  {
+    action: 'unfollowArtist',
+    endpoint: '/me/following?type=artist&ids=',
+    method: 'DELETE',
+    toast: {
+      success: "You've successfully unfollowed this artist on Spotify",
+      error: "Error unfollowing the artist on Spotify",
+    },
+  },
+  {
+    action: 'checkArtistFollow',
+    endpoint: '/me/following/contains?type=artist&ids=',
+    method: 'GET',
+    toast: {
+      success: "Successfully checked if you follow this artist on Spotify",
+      error: "Error checking if you follow this artist on Spotify",
+    },
+  },
+  {
+    action: 'checkSavedTracks',
+    endpoint: '/me/tracks/contains?ids=',
+    method: 'GET',
+    toast: {
+      success: "Successfully checked if a track is saved in your library",
+      error: "Error checking if the track is saved in your library",
+    },
+  },
+  {
+    action: 'saveTrack',
+    endpoint: '/me/tracks?ids=',
+    method: 'PUT',
+    toast: {
+      success: "Track saved to your library",
+      error: "Error saving the track to your library",
+    },
+  },
+  {
+    action: 'getTrack',
+    endpoint: '/tracks/',
+    method: 'GET',
+    toast: {
+      success: "Track information retrieved successfully",
+      error: "Error retrieving track information",
+    },
+  },
+  {
+    action: 'getTracks',
+    endpoint: '/tracks?ids=',
+    method: 'GET',
+    toast: {
+      success: "Tracks information retrieved successfully",
+      error: "Error retrieving tracks information",
+    },
+  },
+  {
+    action: 'getPlaylists',
+    endpoint: '/playlists/',
+    method: 'GET',
+    toast: {
+      success: "Playlist information retrieved successfully",
+      error: "Error retrieving playlist information",
+    },
+  },
+  {
+    action: 'createPlaylist',
+    endpoint: `/users/${spotifyId}/playlists`,
+    method: 'POST',
+    toast: {
+      success: "Playlist created successfully",
+      error: "Error creating the playlist",
+    },
+  },
+  {
+    action: 'addToPlaylist',
+    endpoint: `/playlists/${spotifyId}/tracks`,
+    method: 'POST',
+    toast: {
+      success: "Track added to the playlist",
+      error: "Error adding the track to the playlist",
+    },
+  },
+  {
+    action: 'updatePlaylist',
+    endpoint: `/playlists/${spotifyId}/tracks`,
+    method: 'PUT',
+    toast: {
+      success: "Playlist updated successfully",
+      error: "Error updating the playlist",
+    },
+  },
+];
+
 
 export const useSpotify = () => {
-  const actions = spotifyActions({});
+  const actions = spotifyActions({}); // Call the function to get the array of actions
   const spotifyObject: Record<string, any> = {};
+
   for (const action of actions) {
     spotifyObject[action.action] = {
       endpoint: 'https://api.spotify.com/v1' + action.endpoint,
       method: action.method,
     };
   }
-  return spotifyObject;
 
-  
+  return spotifyObject;
 };
 
-export const handleFollowArtist = async (spotifyId:string, spotify: any) => {
 
+export const handleSpotifyAction = async (
+  spotifyId: string | undefined,
+  action: string
+) => {
   try {
-    const { data: session } = await supabaseAuth.auth.getSession();
-    const accessToken = session?.session?.provider_token;
-    const refreshToken = session?.session?.provider_refresh_token;
+    const accessToken = await getAccessToken();
 
-    if (accessToken && refreshToken && spotifyId) {
+    if (accessToken && (spotifyId || action === 'getPlaylists' || action === 'createPlaylist')) {
       const authOptions = {
-        method: spotify.followArtist.method as string,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-          Accept: 'application/json',
-        },
+        method: spotifyActions({ spotifyId }).find(a => a.action === action)?.method,
+        headers: createSpotifyHeaders(accessToken),
       };
 
-      const response = await fetch(
-        spotify.followArtist.endpoint + spotifyId,
-        authOptions
-      );
+      let endpoint = `https://api.spotify.com/v1${spotifyActions({ spotifyId }).find(a => a.action === action)?.endpoint}`;
+
+      if (spotifyId) {
+        endpoint += spotifyId;
+      }
+
+      const response = await fetch(endpoint, authOptions);
 
       if (response.ok) {
-        // data = await response.json();
-        toast.success('User followed on Spotify');
+        toast.success(`User ${action === 'followArtist' ? 'followed' : 'unfollowed'} on Spotify`);
       } else {
         const errorData = await response.json();
-        console.error('Error following user', JSON.stringify(errorData));
+        console.error(`Error ${action === 'followArtist' ? 'following' : 'unfollowing'} user`, JSON.stringify(errorData));
       }
     }
   } catch (error) {
     console.error('Error:', error);
   }
 };
-
-export const getRequestOptions = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-  },
-};
-
-
-const authOptions = {
-  method: "POST",
-  headers: {
-    Authorization:
-      "Basic " +
-      Buffer.from(`${spotifyClientId}:${spotifySecret}`).toString("base64"),
-    "Content-Type": "application/x-www-form-urlencoded",
-  },
-  body: "grant_type=client_credentials",
-};
-
-export async function spotifyClient() {
-  const baseUrl = "https://accounts.spotify.com/api/token";
-  const res = await fetch(baseUrl, {
-    method: authOptions.method,
-    headers: authOptions.headers,
-    body: authOptions.body,
-  });
-  const data = res.json();
-  if (res) {
-    return data;
-  } else {
-    return false;
-  }
-}
-export async function fetchSpotifyTestApi({
-  endpoint,
-  method,
-  body,
-  token,
-}: {
-  endpoint: string;
-  method: string;
-  body?: any;
-  token?: string;
-}) {
-
-  const res = await fetch(`https://api.spotify.com/v1/me`, {
-    method,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json", // Add Content-Type header if needed
-
-      body: JSON.stringify(body),
-    },
-  });
-
-  if (res) {
-    return res.json();
-  }
-}
-
-export async function CheckFollow(type: any, id: any) {
-console.log(type)
-}
-
-export async function fetchSpotifyWebApi(
-  endpoint: string,
-  method: string,
-  body?: any
-) {
- console.log(endpoint)
-}
