@@ -97,13 +97,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
   return (
     <AuthContext.Provider value={value}>
-      {/* BEGIN AUTH SCREEN */}
-      {(typeof window !== "undefined" && localStorage.getItem("session") === "false") && (
-        <div className="bg-white dark:bg-black h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
-          <LoginFormScreen />
-        </div>
-      )}
-      {/* END AUTH SCREEN */}
+ 
       {children}
     </AuthContext.Provider>
   );

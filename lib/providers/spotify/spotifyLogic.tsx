@@ -1,3 +1,57 @@
+const spotifyActions = ({ id }: { id?: string }) => [
+  {
+      action: 'followArtist',
+      endpoint: '/me/following?type=artist&ids=',
+      method: 'PUT' // type: string, ids: string[] 
+  },
+  {
+      action: 'unfollowArtist',
+      endpoint: '/me/following?type=artist&ids=',
+      method: 'DELETE'  // type: string, ids: string[] 
+  },
+  {
+      action: 'checkArtistFollow',
+      endpoint: '/me/following/contains?type=artist&ids=',
+      method: 'GET'  // type: string, ids: string[] 
+  },
+  {
+      action: 'checkSavedTracks',
+      endpoint: '/me/tracks/contains?ids=',
+      method: 'GET' //ids[]
+  },
+  {
+      action: 'saveTrack',
+      endpoint: '/me/tracks?ids=',
+      method: 'PUT' //ids[]
+  },
+  {
+      action: 'getTrack',
+      endpoint: `/tracks?ids=`,
+      method: 'PUT' //ids[]
+  },
+
+]
+
+export const useSpotify = () => {
+  const actions = spotifyActions({});
+  const spotifyObject: Record<string, any> = {};
+  for (const action of actions) {
+    spotifyObject[action.action] = {
+      endpoint: 'https://api.spotify.com/v1' + action.endpoint,
+      method: action.method,
+    };
+  }
+  return spotifyObject;
+
+  
+};
+
+const spotify = useSpotify();
+
+
+
+
+
 export const getRequestOptions = {
   method: "GET",
   headers: {

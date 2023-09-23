@@ -13,7 +13,11 @@ interface PlayerStore {
     audioUrl: string | null;
     imageUrl: string | null;
     metaData: any[] | null;
-
+    ids: string[];
+    activeId?: string;
+    setId: (id: string) => void;
+    setIds: (ids: string[]) => void;
+    reset: () => void;
     setSongImage: (imageUrl: string | null) => void;
     setCurrentTime: (currentTime: number) => void;
     setPosition: (position: number) => void;
@@ -40,7 +44,11 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
     audioUrl: null,
     imageUrl: null,
     metaData: null,
-
+    ids: [],
+    activeId: undefined,
+    setId: (id: string) => set({ activeId: id }),
+    setIds: (ids: string[]) => set({ ids }),
+    reset: () => set({ ids: [], activeId: undefined }),
     setSongImage: (imageUrl) => set(() => ({ imageUrl })),
     setCurrentTime: (currentTime) => set(() => ({ currentTime })),
     setPosition: (position) => set(() => ({ position })),

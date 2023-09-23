@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect } from 'react'
 import useCommentsStore from './store';
 import { CommentContextComponent } from './component';
+import LoginFormScreen from 'ui/Auth/LoginFormScreen/LoginFormScreen';
 export const GlobalUIContext = createContext<any>(null);
 
 export const GlobalUI =
@@ -61,9 +62,9 @@ export const GlobalUI =
         }, [showModal, handleDiscardComment]);
 
 
-      //  console.log("%c" + icon.replace(/_/g, " "), "background-color: black; color: lime; font-family: 'Courier New'; padding-bottom: 10px");
-      //  console.log("\n\n\n");
-     //   console.log("%cCheck out jobs() and apps()", "background-color: black; color: lime; padding: 5px 50px 5px 20px; font-family: 'Courier New'");
+        //  console.log("%c" + icon.replace(/_/g, " "), "background-color: black; color: lime; font-family: 'Courier New'; padding-bottom: 10px");
+        //  console.log("\n\n\n");
+        //   console.log("%cCheck out jobs() and apps()", "background-color: black; color: lime; padding: 5px 50px 5px 20px; font-family: 'Courier New'");
         return (
             <GlobalUIContext.Provider value={values}>
                 <div className={`${showModal && 'pr-2 w-screen h-screen'}`}>
@@ -77,7 +78,13 @@ export const GlobalUI =
                             </div>
                         </div>
 
-                    )}  </div>
+                    )}
+                    {(typeof window !== "undefined" && localStorage.getItem("session") === "false") && (
+                        <div className="bg-white dark:bg-black h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
+                            <LoginFormScreen />
+                        </div>
+                    )}
+                </div>
             </GlobalUIContext.Provider>
         );
     };

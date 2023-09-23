@@ -1,42 +1,79 @@
-import { fetchSpotifyTestApi } from 'lib/providers/spotify/spotifyLogic'
-import { supabaseAdmin } from "lib/constants";
-import React from 'react'
-import ConnectToSpotifyButton from 'ui/TestUI/ConnectSpotifyTest'
-import MyComponent from 'ui/TestUI/SpotifyTesting'
-import { cookies } from 'next/headers'
+'use client'
+import React, { useState } from 'react';
+import { useSpotify } from 'lib/providers/spotify/spotifyLogic';
+import { supabaseAuth } from 'lib/constants';
+import { toast } from 'react-toastify';
+import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
 
-async function Page() {
-    console.log(cookies())
-    const { data: sesh } = await supabaseAdmin.auth.getSession()
-    const { data } = await supabaseAdmin.auth.refreshSession()
-    const { session } = data
-    if (session) {
-        console.log(session)
+function Page() {
+  const [userId, setUserId] = useState<string>('');
+  const spotify = useSpotify();
+  const spotifyUrl = useSpotifyUrlId()
+  const spotifyId = spotifyUrl.artist.getId(userId)
+
+
+  const handleFollowArtist = async (userId:string) => {
+    try {
+      const { data: session } = await supabaseAuth.auth.getSession();
+      const accessToken = session?.session?.provider_token;
+      const refreshToken = session?.session?.provider_refresh_token;
+
+      if (accessToken && refreshToken && userId) {
+        const authOptions = {
+          method: spotify.followArtist.method as string,
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+            Accept: 'application/json',
+          },
+        };
+
+        const response = await fetch(
+          spotify.followArtist.endpoint + spotifyId,
+          authOptions
+        );
+
+        if (response.ok) {
+          // data = await response.json();
+          toast.success('User followed on Spotify');
+        } else {
+          const errorData = await response.json();
+          console.error('Error following user', JSON.stringify(errorData));
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
-    const URL = 'https://open.spotify.com/track/4pnDR3Dbsn19PE7VRbI4ed'
-    const extractTrackId = (url: any) => {
-        const parts = url.split('/');
-        return parts[parts.length - 1];
-    };
-    // Extract track ID from the URL
-    const trackId = extractTrackId(URL);
-    console.log(trackId, 'id')
-    // Generate Spotify URI
-    const trackUri = `spotify:track:${trackId}`;
+  };
 
-    console.log(trackUri, 'uri')
-    const trackAudio = await fetchSpotifyTestApi({ endpoint: `v1/audio-features/${trackId}`, method: 'GET' })
-
-    if (trackAudio) {
-        console.log(trackAudio)
-    }
-
-    return trackAudio && (
-        <div>
-            <MyComponent track={trackAudio} />
-            <ConnectToSpotifyButton />
+  return (
+    <div className="max-h-screen min-h-[80vh] h-full max-w-screen w-full flex place-items-center mx-auto justify-center">
+      <div className="mx-auto w-full max-w-sm p-8 rounded border border-zinc-200 dark:border-zinc-800">
+        <div className="w-full mx-auto space-y-4 flex flex-col">
+          <h1 className="text-center font-bold text-lg">Follow a Spotify User</h1>
+          <div>
+            <h1 className="text-center text-sm">ScarLip: 0XSAX3u9L4gKXmbhSwPnIJ</h1>
+            <h1 className="text-center text-sm">K.Carbon: 5LxoXQBUoD5oftz6xQLv9y</h1>
+          </div>
+          <input
+            placeholder="User Id"
+            className="p-2"
+            type="text"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
         </div>
-    )
+        <div className="mx-auto">
+          <button
+            className="bg-blue-600 text-white flex font-bold mx-auto p-2.5 rounded justify-center m-4 self-center text-center"
+            onClick={(() => handleFollowArtist(userId))}
+          >
+            Follow User
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default Page
+export default Page;

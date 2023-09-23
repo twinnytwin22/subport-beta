@@ -29,24 +29,24 @@ function Layout({ children }: { children: React.ReactNode }) {
             <div className='w-full lg:w-3/4'>
                 <div className='md:mt-2 relative w-full max-w-6xl'>
                     <div className="fixed left-0 sm:left-32 lg:left-64 z-50 right-0 w-full text-sm font-medium text-center text-zinc-500 border-b border-zinc-200 dark:text-zinc-400 dark:border-zinc-800 bg-zinc-100 dark:bg-black">
-                        <div className='flex items-center justify-start space-x-4'>
+                        <div className='flex items-center justify-start space-x-2 md:space-x-4'>
                             <div className="flex flex-wrap w-full ml-8 items-center">
-                                <div className="mr-2">
-                                    <Link href={`/explore?view=${searchParams}`} className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Feed</Link>
+                                <div className="md:mr-2">
+                                    <Link href={`/explore?view=${searchParams}`} className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300 ${pathName == '/explore' && 'text-blue-500'}`}>Feed</Link>
                                 </div>
-                                <div className="mr-2">
-                                    <Link  href={`/explore/drops?view=${searchParams}`} className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Drops</Link>
+                                <div className="md:mr-2">
+                                    <Link  href={`/explore/drops?view=${searchParams}`} className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300 ${pathName == '/explore/drops' && 'text-blue-500'}`}>Drops</Link>
                                 </div>
-                                <div className="mr-2">
-                                    <Link href={`/explore/artists?view=${searchParams}`} className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Artists</Link>
+                                <div className="md:mr-2">
+                                    <Link href={`/explore/artists?view=${searchParams}`} className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300 ${pathName == '/explore/artists' && 'text-blue-500'}`}>Artists</Link>
                                 </div>
                                 <div>
-                                    <Link href={`/explore/events?view=${searchParams}`} className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300">Events</Link>
+                                    <Link href={`/explore/events?view=${searchParams}`} className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300 ${pathName == '/explore/events' && 'text-blue-500'}`}>Events</Link>
                                 </div>
                                 <div className='right-sidebar block lg:hidden' onClick={handleRightSideBar}>
-                                    <div className="inline-block mt-1.5 px-6  p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300"><BsFillFilterSquareFill /></div>
+                                    <div className="inline-block mt-1.5 pr-6 md:px-6  p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300"><BsFillFilterSquareFill /></div>
                                 </div>
-                                <div className='flex ml-4  justify-start space-x-4 items-center font-bold text-lg text-zinc-800 dark:text-zinc-200 h-fit'>
+                                <div className='flex md:ml-4  justify-start space-x-4 items-center font-bold text-lg text-zinc-800 dark:text-zinc-200 h-fit'>
                                     <p className='cursor-pointer' onClick={(() => router.push(path))}><BsViewStacked className={`${!searchParams && 'text-blue-500'}`} /></p>
                                     <p className='cursor-pointer' onClick={(() => router.push(path +'tile'))}> <TfiViewGrid className={`${searchParams == 'tile' && 'text-blue-500'}`} /></p>
                                     <p className='cursor-pointer' onClick={(() => router.push(path +'list'))}><TfiViewList className={`${searchParams == 'list' && 'text-blue-500'}`} /></p>
