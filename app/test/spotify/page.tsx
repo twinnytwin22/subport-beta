@@ -1,50 +1,12 @@
 'use client'
 import React, { useState } from 'react';
-import { useSpotify } from 'lib/providers/spotify/spotifyLogic';
-import { supabaseAuth } from 'lib/constants';
-import { toast } from 'react-toastify';
-import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
+import { handleFollowArtist } from 'lib/providers/spotify/spotifyLogic';
+
 
 function Page() {
   const [userId, setUserId] = useState<string>('');
-  const spotify = useSpotify();
-  const spotifyUrl = useSpotifyUrlId()
-  const spotifyId = spotifyUrl.artist.getId(userId)
 
 
-  const handleFollowArtist = async (userId:string) => {
-    try {
-      const { data: session } = await supabaseAuth.auth.getSession();
-      const accessToken = session?.session?.provider_token;
-      const refreshToken = session?.session?.provider_refresh_token;
-
-      if (accessToken && refreshToken && userId) {
-        const authOptions = {
-          method: spotify.followArtist.method as string,
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-            Accept: 'application/json',
-          },
-        };
-
-        const response = await fetch(
-          spotify.followArtist.endpoint + spotifyId,
-          authOptions
-        );
-
-        if (response.ok) {
-          // data = await response.json();
-          toast.success('User followed on Spotify');
-        } else {
-          const errorData = await response.json();
-          console.error('Error following user', JSON.stringify(errorData));
-        }
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
 
   return (
     <div className="max-h-screen min-h-[80vh] h-full max-w-screen w-full flex place-items-center mx-auto justify-center">
