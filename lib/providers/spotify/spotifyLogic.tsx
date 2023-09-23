@@ -52,16 +52,14 @@ export const useSpotify = () => {
   
 };
 
-export const handleFollowArtist = async (userId:string) => {
-  const spotify = useSpotify();
-  const spotifyUrl = useSpotifyUrlId()
-  const spotifyId = spotifyUrl.artist.getId(userId)
+export const handleFollowArtist = async (spotifyId:string, spotify: any) => {
+
   try {
     const { data: session } = await supabaseAuth.auth.getSession();
     const accessToken = session?.session?.provider_token;
     const refreshToken = session?.session?.provider_refresh_token;
 
-    if (accessToken && refreshToken && userId) {
+    if (accessToken && refreshToken && spotifyId) {
       const authOptions = {
         method: spotify.followArtist.method as string,
         headers: {
