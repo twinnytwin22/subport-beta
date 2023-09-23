@@ -1,5 +1,4 @@
 'use client'
-import { fetchSpotifyWebApi } from 'lib/providers/spotify/spotifyLogic';
 import { useEffect, useState } from 'react';
 
 
