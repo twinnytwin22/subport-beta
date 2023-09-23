@@ -410,7 +410,7 @@ export interface Database {
           city: string | null
           country: string | null
           email: string | null
-          full_name: string | null
+          display_name: string | null
           id: string
           secret: string | null
           state: string | null
@@ -427,7 +427,7 @@ export interface Database {
           city?: string | null
           country?: string | null
           email?: string | null
-          full_name?: string | null
+          display_name?: string | null
           id: string
           secret?: string | null
           state?: string | null
@@ -444,7 +444,7 @@ export interface Database {
           city?: string | null
           country?: string | null
           email?: string | null
-          full_name?: string | null
+          display_name?: string | null
           id?: string
           secret?: string | null
           state?: string | null
@@ -673,7 +673,7 @@ export interface Database {
           country: string | null
           decrypted_access_key: string | null
           email: string | null
-          full_name: string | null
+          display_name: string | null
           id: string | null
           secret: string | null
           state: string | null
@@ -691,7 +691,7 @@ export interface Database {
           country?: string | null
           decrypted_access_key?: never
           email?: string | null
-          full_name?: string | null
+          display_name?: string | null
           id?: string | null
           secret?: string | null
           state?: string | null
@@ -709,7 +709,7 @@ export interface Database {
           country?: string | null
           decrypted_access_key?: never
           email?: string | null
-          full_name?: string | null
+          display_name?: string | null
           id?: string | null
           secret?: string | null
           state?: string | null

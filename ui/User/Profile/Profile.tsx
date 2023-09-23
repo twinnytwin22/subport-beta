@@ -27,7 +27,7 @@ async function Profile({ profile, username, data }: any) {
               />
               <div className="block text-center md:text-left ">
                 <h3 className="text-lg md:text-xl font-bold leading-normal text-zinc-900 dark:text-zinc-200">
-                  {profile?.full_name || ''}
+                  {profile?.display_name || ''}
                 </h3>
                 <h4 className="text-sm md:text-base leading-normal text-zinc-500">
                   @{username}

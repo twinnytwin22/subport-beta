@@ -119,7 +119,7 @@ SET default_table_access_method = "heap";
 CREATE TABLE IF NOT EXISTS "public"."profiles" (
     "id" "uuid" NOT NULL,
     "username" "text",
-    "full_name" "text",
+    "display_name" "text",
     "avatar_url" "text" DEFAULT 'default_user_image.jpg'::"text",
     "website" "text",
     "wallet_address" "text" DEFAULT ''::"text",
@@ -142,7 +142,7 @@ SECURITY LABEL FOR "pgsodium" ON COLUMN "public"."profiles"."access_key" IS 'ENC
 CREATE OR REPLACE VIEW "public"."decrypted_profiles" AS
  SELECT "profiles"."id",
     "profiles"."username",
-    "profiles"."full_name",
+    "profiles"."display_name",
     "profiles"."avatar_url",
     "profiles"."website",
     "profiles"."wallet_address",

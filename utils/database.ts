@@ -100,7 +100,7 @@ const checkUser = async ({ user, id }: any) => {
     let { data: profiles, error } = await supabase
       .from("profiles")
       .select(
-        "id, username, avatar_url, website, full_name, city, state, country, bio"
+        "id, username, avatar_url, website, display_name, city, state, country, bio"
       )
       .eq("username", user);
 
@@ -118,7 +118,7 @@ const checkUser = async ({ user, id }: any) => {
     let { data: profiles, error } = await supabase
       .from("profiles")
       .select(
-        "id, username, avatar_url, website, full_name, city, state, country, bio"
+        "id, username, avatar_url, website, display_name, city, state, country, bio"
       )
       .eq("id", id);
 
