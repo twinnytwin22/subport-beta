@@ -27,24 +27,24 @@ function PlaylistCreator() {
 
     const createPlaylist = async (userId: any) => {
         //   if (addedTracks.length > 0) {
-        const { id: user_id } = await fetchSpotifyWebApi('v1/me', 'GET');
+        // const user_id  = await fetchSpotifyWebApi('v1/me', 'GET');
 
-        const playlist = await fetchSpotifyWebApi(`v1/users/${user_id}/playlists`, 'POST', {
-            name: playlistName,
-            description: 'Playlist created by the tutorial on subport.xyz',
-            public: false,
-        });
+        // const playlist = await fetchSpotifyWebApi(`v1/users/${user_id}/playlists`, 'POST', {
+        //     name: playlistName,
+        //     description: 'Playlist created by the tutorial on subport.xyz',
+        //     public: false,
+        // });
 
-        const addToDb = await addPlaylist(userId, playlist.name, playlist.id)
+        // const addToDb = await addPlaylist(userId, playlist.name, playlist.id)
 
-        if (addToDb.addPlaylist) {
-            console.log(playlist.name, playlist.id);
+        // if (addToDb.addPlaylist) {
+        //     console.log(playlist.name, playlist.id);
 
-        }
+        // }
 
-        if (addToDb.addPlaylistError) {
-            throw (addToDb.addPlaylistError)
-        }
+        // if (addToDb.addPlaylistError) {
+        //     throw (addToDb.addPlaylistError)
+        // }
         //    for (const trackUri of addedTracks) {
         //       await fetchSpotifyWebApi(
         //           `v1/playlists/${playlist.id}/tracks?uris=${encodeURIComponent(trackUri)}`,
