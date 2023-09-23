@@ -1,5 +1,4 @@
 'use client'
-import { fetchSpotifyWebApi } from 'lib/providers/spotify/spotifyLogic';
 import React, { useState } from 'react';
 import { addPlaylist } from 'utils/database';
 function PlaylistCreator() {
