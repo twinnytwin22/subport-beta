@@ -1,3 +1,7 @@
+
+export const spotifyClientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
+export const spotifySecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
+
 const spotifyActions = ({ id }: { id?: string }) => [
   {
       action: 'followArtist',
@@ -46,11 +50,6 @@ export const useSpotify = () => {
   
 };
 
-const spotify = useSpotify();
-
-
-
-
 
 export const getRequestOptions = {
   method: "GET",
@@ -59,8 +58,6 @@ export const getRequestOptions = {
   },
 };
 
-export const spotifyClientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
-export const spotifySecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
 
 const authOptions = {
   method: "POST",
@@ -98,7 +95,7 @@ export async function fetchSpotifyTestApi({
   body?: any;
   token?: string;
 }) {
-  const Btoken = await spotifyClient();
+
   const res = await fetch(`https://api.spotify.com/v1/me`, {
     method,
     headers: {
@@ -115,17 +112,7 @@ export async function fetchSpotifyTestApi({
 }
 
 export async function CheckFollow(type: any, id: any) {
-  const getRequestOptions = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-    },
-  };
-  const baseURL = "https://api.spotify.com/v1/me/following/contains";
-  const res = await fetch(`${baseURL}`, getRequestOptions);
-  if (id) {
-    console.log(res, id, type);
-  }
+console.log(type)
 }
 
 export async function fetchSpotifyWebApi(
@@ -133,14 +120,5 @@ export async function fetchSpotifyWebApi(
   method: string,
   body?: any
 ) {
-  const token = await spotifyClient();
-
-  const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    method,
-    body: JSON.stringify(body),
-  });
-  return await res.json();
+ console.log(endpoint)
 }
