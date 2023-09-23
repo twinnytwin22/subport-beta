@@ -73,15 +73,15 @@ function ConnectToSpotifyButton() {
                 code_verifier: codeVerifier
             });
 
-            fetchSpotifyWebApi('api/token', 'POST', body)
-                .then(data => {
-                    const accessToken = data.access_token;
-                    localStorage.setItem('access_token', accessToken);
-                    setConnected(true);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            // fetchSpotifyWebApi('api/token', 'POST', body)
+            //     .then(data => {
+            //         const accessToken = data.access_token;
+            //         localStorage.setItem('access_token', accessToken);
+            //         setConnected(true);
+            //     })
+            //     .catch(error => {
+            //         console.error('Error:', error);
+            //     });
         }
     }, []);
 
