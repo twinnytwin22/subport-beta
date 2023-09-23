@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { handleSpotifyAction  as useSpotify } from 'lib/providers/spotify/spotifyLogic';
+import { handleSpotifyAction  as handleSpotify } from 'lib/providers/spotify/spotifyLogic';
 import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
 
 
@@ -30,7 +30,7 @@ function Page() {
         <div className="mx-auto">
           <button
             className="bg-blue-600 text-white flex font-bold mx-auto p-2.5 rounded justify-center m-4 self-center text-center"
-            onClick={(() => useSpotify(spotifyId!, 'followArtist'))}
+            onClick={(() => handleSpotify(spotifyId!, 'followArtist'))}
           >
             Follow User
           </button>
