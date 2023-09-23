@@ -156,9 +156,10 @@ const AdminSidebarRoutes = ({ user }: any) => {
     <>
       {hasAccess && AdminRoutes.map((link) => (
         <div key={link.name} className="font-bold text-lg dark:text-zinc-200 text-zinc-900">
-          <Link href={link.route}>
+          <Link href={link.route} target="blank">
             <p>
-              {link.name}</p>
+              {link.name}
+              </p>
           </Link>
 
         </div>))

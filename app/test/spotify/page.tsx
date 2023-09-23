@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { handleSpotifyAction  as handleSpotify } from 'lib/providers/spotify/spotifyLogic';
 import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
+import Link from 'next/link';
 
 
 function Page() {
@@ -11,7 +12,7 @@ function Page() {
 
 
   return (
-    <div className="max-h-screen min-h-[80vh] h-full max-w-screen w-full flex place-items-center mx-auto justify-center">
+    <div className="max-h-screen min-h-[80vh] h-full max-w-screen w-full flex flex-col place-items-center mx-auto justify-center relative">
       <div className="mx-auto w-full max-w-sm p-8 rounded border border-zinc-200 dark:border-zinc-800">
         <div className="w-full mx-auto space-y-4 flex flex-col">
           <h1 className="text-center font-bold text-lg">Follow a Spotify User</h1>
@@ -34,7 +35,13 @@ function Page() {
           >
             Follow User
           </button>
-        </div>
+        </div> 
+      
+      </div>
+       <div className='relative mt-24 font-semibold'>
+        <Link href='https://developer.spotify.com/documentation/web-api' target='blank'>
+        Spotify Documentation 
+        </Link>
       </div>
     </div>
   );
