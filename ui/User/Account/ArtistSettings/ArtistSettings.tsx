@@ -53,7 +53,7 @@ export default function ArtistSettings() {
 
   }, [artistData]);
 
-  console.log(artistData)
+  //console.log(artistData)
 
 
   async function updateProfile({
