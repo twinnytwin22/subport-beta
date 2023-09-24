@@ -1,250 +1,110 @@
-"use client";
-import { SignOutButton } from "ui/Buttons/SignOut";
-import Avatar from "../UploadWidget";
-import { toast } from "react-toastify";
+'use client'
 import { useAuthProvider } from "app/context/auth";
-import { useRouter } from "next/navigation";
-import useProfileStore from "./ProfileSettings/store";
-import { useEffect } from "react";
-import { supabaseAdmin } from "lib/constants";
+import { useParams } from "next/navigation";
+import React, { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
+import Account from "ui/User/Account";
+import ArtistSettings from "ui/User/Account/ArtistSettings/ArtistSettings";
+import ProfileSettings from "ui/User/Account/ProfileSettings/ProfileSettings";
 
-export default function Account() {
-  const { user, profile, isLoading } = useAuthProvider();
-  //console.log(user, profile)
-  const {
-    loading,
-    setLoading,
-    username,
-    setUsername,
-    bio,
-    setBio,
-    avatar_url,
-    setAvatarUrl,
-    city,
-    setCity,
-    country,
-    setCountry,
-    email,
-    setEmail,
-    state,
-    setState
-  } = useProfileStore();
+function SettingsPage() {
+    const { isLoading, user } = useAuthProvider()
+    const [activeTab, setActiveTab] = useState<string | null>('profile')
+    const params = useParams()
+    console.log(params)
 
-  useEffect(() => {
-    // Load profile data and set it in the store when it's available
-    if (profile) {
-      const { bio, username, avatar_url, city, country, state } = profile;
-      setBio(bio);
-      setUsername(username);
-      setAvatarUrl(avatar_url);
-      setCity(city);
-      setCountry(country);
-      setState(state);
-    }
-  }, [profile]); // 
-
-  const router = useRouter();
-
-  async function updateProfile({
-    username,
-    avatar_url,
-    city,
-    country,
-    state,
-    bio,
-  }: any) {
-    if (profile && user) {
-      try {
-        setLoading(true);
-        const updates: any = {};
-        if (typeof bio !== 'undefined' && bio !== profile?.bio) {
-          updates.bio = bio;
-        }
-        // Check each input field and add it to the updates object if it has changed
-        if (typeof username !== 'undefined' && username !== profile?.username) {
-          updates.username = username;
-        }
-        if (typeof avatar_url !== 'undefined' && avatar_url !== profile?.avatar_url) {
-          updates.avatar_url = avatar_url;
-        }
-        if (typeof city !== 'undefined' && city !== profile?.city) {
-          updates.city = city;
-        }
-        if (typeof country !== 'undefined' && country !== profile?.country) {
-          updates.country = country;
-        }
-        if (typeof state !== 'undefined' && state !== profile?.state) {
-          updates.state = state;
-        }
-        updates.updated_at = new Date().toISOString();
-        let {data, error } = await supabaseAdmin
-          .from("profiles")
-          .update(updates)
-          .eq("id", user?.id)
-          .select();
-
-
-          if (data?.length !== undefined){
-            setLoading(false);
-            toast.success("Profile updated!");
-
-            router.refresh();
-          }
-        if (error) throw error;
-      } catch (error) {
-        toast.error(error as any);
-        (error);
-      } 
-    }
-  }
-
-  if (isLoading || !user || loading) {
-    return;
-  }
-
-  return (
-    !isLoading &&
-    user && (
-      <>
-        <div className="mx-auto content-start items-center h-full flex-col justify-between mt-8">
-          <Avatar
-            uid={user?.id || ""}
-            url={profile?.avatar_url || avatar_url}
-            size={200}
-            onUpload={(url: any) => {
-              setAvatarUrl(url);
-            //  updateProfile({ avatar_url: url });
-            }}
-          />
-          <div className="mt-3">
-            <label
-              className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="bio"
-            >
-              Bio
-            </label>
-            <textarea
-              className="bg-zinc-50 border  border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="bio"
-              value={bio ? bio : profile.bio}
-              onChange={(e: any) => setBio(e?.target.value)}
-            />
-          </div>
+    return !isLoading && (
+        <div className="w-full min-h-[70vh] max-h-[80vh] mt-4 lg:mt-8 flex justify-center content-center mb-24 md:mb-0">
+            <div className={`flex min-h-full max-h-[70vh] md:overflow-y-hidden items-center bg-white dark:bg-black w-full max-w-4xl mx-auto justify-between rounded-md border-zinc-300 dark:border-zinc-700 md:border relative`}>
+                <div className={`${activeTab !== null ? 'hidden md:block w-48' : 'block max-w-sm w-full mx-auto md:w-48 h-96'}`} >
+                    {/* SETTINGS MENU */}
+                    <ul className="font-bold text-2xl md:text-base lg:text-lg dark:text-zinc-200 text-zinc-900 absolute top-16 left-3 xl:left-8 h-full ">
+                        <li
+                            className={`cursor-pointer ${activeTab === 'profile' && 'text-blue-500'}`}
+                            onClick={() => setActiveTab('profile')}
+                        >Profile
+                        </li>
+                        <li
+                            className={`cursor-pointer ${activeTab === 'artist-settings' && 'text-blue-500'}`}
+                            onClick={() => setActiveTab('artist-settings')}
+                        >Artist Settings
+                        </li>
+                        <li
+                            className={`cursor-pointer ${activeTab === 'preferences' && 'text-blue-500'}`}
+                            onClick={() => setActiveTab('preferences')}
+                        >Preferences
+                        </li>
+                        <li
+                            className={`cursor-pointer ${activeTab === 'settings' && 'text-blue-500'}`}
+                            onClick={() => setActiveTab('settings')}
+                        >Settings
+                        </li>
+                    </ul>
+                </div>
+                <div className={`bg-white dark:bg-black relative  border-zinc-300 dark:border-zinc-800 md:border-l p-8  max-w-2xl w-full space-y-4 md:flex place-items-start h-full  overflow-y-scroll overflow-x-hidden ${activeTab !== null ? 'block' : 'hidden'}`}>
+                    {/* SETTINGS CONTENT */}
+                    <button className={`${activeTab !== null ? 'block md:hidden' : 'hidden'}`}
+                        onClick={() => setActiveTab(null)}><FaArrowLeft />
+                    </button>
+                    {activeTab === 'profile' && <ProfileSettings />}
+                    {activeTab === 'preferences' && <div className="h-full">Preferences</div>}
+                    {activeTab === 'artist-settings' && <ArtistSettings />}
+                    {activeTab === 'settings' && <div className="h-full">settings</div>}
+                </div>
+                
+            </div>
         </div>
-        <div className="place-content-end mx-auto space-y-2">
-          <div>
-            <label
-              className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="email"
-              type="text"
-              value={user?.email}
-              onChange={(e: any) => setEmail(e?.target.value)}
-              readOnly
-            />
-          </div>
-          <div>
-            <label
-              className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="username"
-            >
-              Username
-            </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="username"
-              type="text"
-              value={username ? username : profile.username}
-              onChange={(e: any) => setUsername(e?.target.value)}
-            />
-          </div>
-          <div>
-            <label
-              className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="city"
-            >
-              City
-            </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="city"
-              type="text"
-              value={city ? city : profile.city}
-              onChange={(e: any) => setCity(e?.target.value)}
-            />
-          </div>
-          <div>
-            <label
-              className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="state"
-            >
-              State/Territory
-            </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="state"
-              type="text"
-              value={state ? state : profile.state}
-              onChange={(e: any) => setState(e?.target.value)}
-            />
-          </div>
-          <div>
-            <label
-              className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="country"
-            >
-              Country
-            </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="country"
-              type="text"
-              value={country ? country : profile.country}
-              onChange={(e: any) => setCountry(e?.target.value)}
-            />
-          </div>
-
-          <div className="hidden">
-            <label
-              className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="wallet"
-            >
-              Wallet
-            </label>
-            <input
-              className="bg-zinc-50 border  border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="wallet"
-              type="text"
-              value={profile?.wallet_address || ""}
-              readOnly
-            />
-          </div>
-          <div className="flex space-x-2 mt-4">
-            <button
-              className="bg-blue-700 text-white p-2 text-sm w-32 rounded-md hover:bg-blue-800 hover:scale-105"
-              onClick={() =>
-                updateProfile({
-                  username,
-                  avatar_url,
-                  city,
-                  country,
-                  state,
-                  bio,
-                })
-              }
-              disabled={loading}
-            >
-              {loading ? "Loading ..." : "Update"}
-            </button>
-            <SignOutButton />
-          </div>
-        </div>
-      </>
     )
-  );
 }
+
+
+export function SettingsPageSmall() {
+  const { isLoading, user } = useAuthProvider()
+  const [activeTab, setActiveTab] = useState<string | null>(null)
+  const params = useParams()
+  console.log(params)
+
+  return !isLoading && (
+      <div className="w-full min-h-[70vh] max-h-[80vh] mt-4 lg:mt-8 flex justify-center content-center mb-24 md:mb-0">
+          <div className={`flex min-h-full max-h-[70vh] md:overflow-y-hidden items-center bg-white dark:bg-black w-full max-w-4xl mx-auto justify-between rounded-md border-zinc-300 dark:border-zinc-700 md:border relative`}>
+              <div className={`${activeTab !== null ? 'hidden md:block w-48' : 'block max-w-sm w-full mx-auto md:w-48 h-96'}`} >
+                  {/* SETTINGS MENU */}
+                  <ul className="font-bold text-2xl md:text-base lg:text-lg dark:text-zinc-200 text-zinc-900 absolute top-16 left-3 xl:left-8 h-full ">
+                      <li
+                          className={`cursor-pointer ${activeTab === 'profile' && 'text-blue-500'}`}
+                          onClick={() => setActiveTab('profile')}
+                      >Profile
+                      </li>
+                      <li
+                          className={`cursor-pointer ${activeTab === 'artist-settings' && 'text-blue-500'}`}
+                          onClick={() => setActiveTab('artist-settings')}
+                      >Artist Settings
+                      </li>
+                      <li
+                          className={`cursor-pointer ${activeTab === 'preferences' && 'text-blue-500'}`}
+                          onClick={() => setActiveTab('preferences')}
+                      >Preferences
+                      </li>
+                      <li
+                          className={`cursor-pointer ${activeTab === 'settings' && 'text-blue-500'}`}
+                          onClick={() => setActiveTab('settings')}
+                      >Settings
+                      </li>
+                  </ul>
+              </div>
+              <div className={`bg-white dark:bg-black relative  border-zinc-300 dark:border-zinc-800 md:border-l p-8  max-w-2xl w-full space-y-4 md:flex place-items-start h-full  overflow-y-scroll overflow-x-hidden ${activeTab !== null ? 'block' : 'hidden'}`}>
+                  {/* SETTINGS CONTENT */}
+                  <button className={`${activeTab !== null ? 'block md:hidden' : 'hidden'}`}
+                      onClick={() => setActiveTab(null)}><FaArrowLeft />
+                  </button>
+                  {activeTab === 'profile' && <ProfileSettings />}
+                  {activeTab === 'preferences' && <div className="h-full">Preferences</div>}
+                  {activeTab === 'artist-settings' && <ArtistSettings />}
+                  {activeTab === 'settings' && <div className="h-full">settings</div>}
+              </div>
+              
+          </div>
+      </div>
+  )
+}
+export default SettingsPage;

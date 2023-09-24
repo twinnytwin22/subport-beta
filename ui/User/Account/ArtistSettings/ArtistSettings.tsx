@@ -1,5 +1,4 @@
 "use client";
-import Avatar from "ui/User/UploadWidget";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
 import { useRouter } from "next/navigation";
@@ -9,102 +8,163 @@ import { useQuery } from "@tanstack/react-query";
 import EnableArtistMode from "ui/Buttons/EnableArtistMode";
 import useArtistSettings from "./store";
 import { getArtistSettings } from "./actions";
-
+import { FaAmazon, FaApple, FaDeezer, FaSoundcloud, FaSpotify, FaUser } from "react-icons/fa";
+import { SiTidal } from 'react-icons/si'
 export default function ArtistSettings() {
   const { user, profile, isLoading } = useAuthProvider();
-  const artistSettings = useArtistSettings()
-  const [updatedSettings, setUpdatedSettings] = useState({
-    artist_name: artistSettings.artist_name || "",
-    avatar_url: artistSettings.avatar_url || "",
-    amazon_url: artistSettings.amazon_url || "",
-    apple_url: artistSettings.apple_url || "",
-    deezer_url: artistSettings.deezer_url || "",
-    spotify_url: artistSettings.spotify_url || "",
-    soundcloud_url: artistSettings.soundcloud_url || "",
-    tidal_url: artistSettings.tidal_url || "",
-  });
-
-  useEffect(() => {
-
-  }, []);
-
-
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+  const {
+    artist_name,
+    avatar_url,
+    apple_url,
+    amazon_url,
+    deezer_url,
+    soundcloud_url,
+    spotify_url,
+    tidal_url,
+    setAmazonUrl,
+    setAppleUrl,
+    setArtistName,
+    setSoundcloudUrl,
+    setSpotifyUrl,
+    setDeezerUrl,
+    setTidalUrl,
+    setAvatarUrl
+  } = useArtistSettings()
 
 
   const { data: artistData } = useQuery({
     queryKey: ['data', profile.id],
     queryFn: () => getArtistSettings(profile.id),
-    //enabled: !!profile.id
+    enabled: !!profile.id
   })
+  useEffect(() => {
+    if (artistData) {
+      setAmazonUrl(artistData.amazon_url)
+      setAppleUrl(artistData.apple_url)
+      setArtistName(artistData.artist_name)
+      setTidalUrl(artistData.tidal_url)
+      setAvatarUrl(artistData.avatar_url)
+      setDeezerUrl(artistData.deezer_url)
+      setSoundcloudUrl(artistData.soundcloud_url)
+      setSpotifyUrl(artistData.spotify_url)
+    }
+
+  }, [artistData]);
 
   console.log(artistData)
 
-  if (isLoading || !user) {
-    return;
+
+  async function updateProfile({
+    avatar_url,
+    artist_name,
+    apple_url,
+    amazon_url,
+    deezer_url,
+    soundcloud_url,
+    spotify_url,
+    tidal_url,
+  }: any) {
+    if (artistData && user) {
+      try {
+        setLoading(true);
+        const updates: any = {};
+        if (typeof avatar_url !== 'undefined' && avatar_url !== artistData?.avatar_url) {
+          updates.avatar_url = avatar_url;
+        }
+    
+        if (typeof artist_name !== 'undefined' && artist_name !== artistData?.artist_name) {
+          updates.artist_name = artist_name;
+        }
+        if (typeof apple_url !== 'undefined' && apple_url !== artistData?.apple_url) {
+          updates.apple_url = apple_url;
+        }
+        if (typeof amazon_url !== 'undefined' && amazon_url !== artistData?.amazon_url) {
+          updates.amazon_url = amazon_url;
+        }
+        if (typeof deezer_url !== 'undefined' && deezer_url !== artistData?.deezer_url) {
+          updates.deezer_url = deezer_url;
+        }
+        if (typeof soundcloud_url !== 'undefined' && soundcloud_url !== artistData?.soundcloud_url) {
+          updates.soundcloud_url = soundcloud_url;
+        }
+        if (typeof spotify_url !== 'undefined' && spotify_url !== artistData?.spotify_url) {
+          updates.spotify_url = spotify_url;
+        }
+        if (typeof tidal_url !== 'undefined' && tidal_url !== artistData?.tidal_url) {
+          updates.tidal_url = tidal_url;
+        }
+        updates.updated_at = new Date().toISOString();
+        let { data, error } = await supabase
+          .from("artist_settings")
+          .update(updates)
+          .eq("user_id", profile?.id)
+          .select()
+          .single()
+
+        if (data) {
+          setLoading(false);
+          toast.success("artistData updated!");
+          router.refresh();
+        }
+        if (error) throw error;
+      } catch (error) {
+        toast.error(JSON.stringify(error));
+      }
+    }
   }
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setUpdatedSettings({
-      ...updatedSettings,
-      [name]: value,
-    });
-  };
 
-  const handleSubmit = async () => {
-    // Update the artist settings in the database with updatedSettings
-    try {
-      await supabase
-        .from("artist_settings")
-        .upsert([
-          {
-            user_id: profile.id,
-            ...updatedSettings,
-          },
-        ]);
-      toast.success("Settings updated successfully!");
-    } catch (error) {
-      toast.error("Error updating settings.");
-    }
-  };
+
+
+  if (isLoading || !user || loading) {
+    return;
+  }
 
   return (
     !isLoading &&
     user && (
-      <>
-      <div className="mx-auto w-full max-w-sm content-start items-center h-full  flex-col justify-between mt-8">
-        <form onSubmit={handleSubmit} className="overflow-y-scroll">
-          <div className="place-content-end mx-auto space-y-2">
+    <>
+      <div className="mx-auto w-full max-w-sm content-start items-center h-full my-8 flex-col justify-between mt-8">
+        <div className="overflow-y-scroll space-y-2">
+          <div className="place-content-end mx-auto ">
             <label
               className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
               htmlFor="artist_name"
             >
               Artist Name
             </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              type="text"
-              id="artist_name"
-              name="artist_name"
-              value={updatedSettings.artist_name}
-              onChange={handleInputChange}
-            />
+            <div className="flex items-center space-x-2">
+              <FaUser />
+              <input
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text"
+                id="artist_name"
+                name="artist_name"
+                value={artist_name || ''}
+                onChange={(e: any) => setArtistName(e?.target.value)}
+              />
+            </div>
           </div>
-          <div className="place-content-end mx-auto space-y-2">
+          <div className="place-content-end mx-auto space-y-2 hidden">
             <label
               className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
               htmlFor="avatar_url"
             >
               Avatar URL
             </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              type="text"
-              id="avatar_url"
-              name="avatar_url"
-              value={updatedSettings.avatar_url}
-              onChange={handleInputChange}
-            />
+            <div className="flex items-center space-x-2">
+              <FaApple />
+              <input
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text"
+                id="avatar_url"
+                name="avatar_url"
+                value={avatar_url || ''}
+                onChange={(e: any) => setAvatarUrl(e?.target.value)}
+              />
+            </div>
           </div>
           <div className="place-content-end mx-auto space-y-2">
             <label
@@ -113,14 +173,17 @@ export default function ArtistSettings() {
             >
               Amazon URL
             </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              type="text"
-              id="amazon_url"
-              name="amazon_url"
-              value={updatedSettings.amazon_url}
-              onChange={handleInputChange}
-            />
+            <div className="flex items-center space-x-2">
+              <FaAmazon />
+              <input
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text"
+                id="amazon_url"
+                name="amazon_url"
+                value={amazon_url || ''}
+                onChange={(e: any) => setAmazonUrl(e?.target.value)}
+              />
+            </div>
           </div>
           <div className="place-content-end mx-auto space-y-2">
             <label
@@ -129,14 +192,17 @@ export default function ArtistSettings() {
             >
               Apple Music URL
             </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              type="text"
-              id="apple_url"
-              name="apple_url"
-              value={updatedSettings.apple_url}
-              onChange={handleInputChange}
-            />
+            <div className="flex items-center space-x-2">
+              <FaApple />
+              <input
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text"
+                id="apple_url"
+                name="apple_url"
+                value={apple_url || ''}
+                onChange={(e: any) => setAppleUrl(e?.target.value)}
+              />
+            </div>
           </div>
           <div className="place-content-end mx-auto space-y-2">
             <label
@@ -145,14 +211,17 @@ export default function ArtistSettings() {
             >
               Deezer URL
             </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              type="text"
-              id="deezer_url"
-              name="deezer_url"
-              value={updatedSettings.deezer_url}
-              onChange={handleInputChange}
-            />
+            <div className="flex items-center space-x-2">
+              <FaDeezer />
+              <input
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text"
+                id="deezer_url"
+                name="deezer_url"
+                value={deezer_url || ''}
+                onChange={(e: any) => setDeezerUrl(e?.target.value)}
+              />
+            </div>
           </div>
           <div className="place-content-end mx-auto space-y-2">
             <label
@@ -161,14 +230,17 @@ export default function ArtistSettings() {
             >
               Spotify URL
             </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              type="text"
-              id="spotify_url"
-              name="spotify_url"
-              value={updatedSettings.spotify_url}
-              onChange={handleInputChange}
-            />
+            <div className="flex items-center space-x-2">
+              <FaSpotify />
+              <input
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text"
+                id="spotify_url"
+                name="spotify_url"
+                value={spotify_url || ''}
+                onChange={(e: any) => setSpotifyUrl(e?.target.value)}
+              />
+            </div>
           </div>
           <div className="place-content-end mx-auto space-y-2">
             <label
@@ -177,14 +249,17 @@ export default function ArtistSettings() {
             >
               SoundCloud URL
             </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              type="text"
-              id="soundcloud_url"
-              name="soundcloud_url"
-              value={updatedSettings.soundcloud_url}
-              onChange={handleInputChange}
-            />
+            <div className="flex items-center space-x-2">
+              <FaSoundcloud />
+              <input
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text"
+                id="soundcloud_url"
+                name="soundcloud_url"
+                value={soundcloud_url || ''}
+                onChange={(e: any) => setSoundcloudUrl(e?.target.value)}
+              />
+            </div>
           </div>
           <div className="place-content-end mx-auto space-y-2">
             <label
@@ -193,27 +268,44 @@ export default function ArtistSettings() {
             >
               Tidal URL
             </label>
-            <input
-              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              type="text"
-              id="tidal_url"
-              name="tidal_url"
-              value={updatedSettings.tidal_url}
-              onChange={handleInputChange}
-            />
+            <div className="flex items-center space-x-2">
+              <SiTidal />
+              <input
+                className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                type="text"
+                id="tidal_url"
+                name="tidal_url"
+                value={tidal_url || ''}
+                onChange={(e: any) => setTidalUrl(e?.target.value)}
+              />
+            </div>
           </div>
           <button
-            type="submit"
-            className="bg-blue-700 text-white p-2 text-sm w-32 rounded-md hover:bg-blue-800 hover:scale-105"
+           // type='button'
+            disabled={loading}
+            onClick={() =>
+              updateProfile({
+                avatar_url,
+                artist_name,
+                apple_url,
+                amazon_url,
+                deezer_url,
+                soundcloud_url,
+                spotify_url,
+                tidal_url,
+              })
+            }
+            className="bg-blue-700 text-white p-2 text-sm w-32 rounded-md hover:bg-blue-800 hover:scale-105 mt-4"
           >
             Update Settings
           </button>
-        </form>
-    
-        <EnableArtistMode profile={profile!} />
+        </div>
+        <div className="py-8">
+          <EnableArtistMode profile={profile!} />
+        </div>
       </div>
     </>
-    
-    )
+
+  )
   );
 }

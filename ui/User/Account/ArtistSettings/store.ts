@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 // Define the interface for the artist settings
-interface ArtistSettings {
+export interface ArtistSettings {
   user_id: string | null;
   artist_name: string | null;
   avatar_url: string | null;
@@ -13,8 +13,22 @@ interface ArtistSettings {
   deezer_url: string | null;
 }
 
+interface ArtistState extends ArtistSettings {
+  setArtistName: (artist_name: string | null) => void,
+  setAvatarUrl: (avatar_url: string | null) => void,
+  setSpotifyUrl: (spotify_url: string | null) => void,
+  setAppleUrl: (apple_url: string | null) => void,
+  setSoundcloudUrl: (soundcloud_url: string | null) => void,
+  setTidalUrl: (tidal_url: string | null) => void,
+  setAmazonUrl: (amazon_url: string | null) => void,
+  setDeezerUrl: (deezer_url: string | null) => void,
+}
 // Initial artist settings data
-const initialData: ArtistSettings = {
+
+
+// Create the Zustand store
+const useArtistSettings = create<ArtistState>((set) => ({
+  // Merge the initial data with the state
   user_id: null,
   artist_name: null,
   avatar_url: null,
@@ -24,12 +38,6 @@ const initialData: ArtistSettings = {
   tidal_url: null,
   amazon_url: null,
   deezer_url: null,
-};
-
-// Create the Zustand store
-const useArtistSettings = create<ArtistSettings>((set) => ({
-  // Merge the initial data with the state
-  ...initialData,
 
   // Define actions to update the state
   setArtistName: (artist_name: string | null) => set({ artist_name }),
