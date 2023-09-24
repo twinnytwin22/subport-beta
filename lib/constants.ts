@@ -2,7 +2,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { SupabaseImage } from "./hooks/downloadImage";
 import { createClient } from "@supabase/supabase-js";
 import { BrowserCookieAuthStorageAdapter, createSupabaseClient } from "@supabase/auth-helpers-shared";
-import { Database } from "types/database.types";
+import { Database } from "types/Database";
 const authStorage = new BrowserCookieAuthStorageAdapter()
 
 

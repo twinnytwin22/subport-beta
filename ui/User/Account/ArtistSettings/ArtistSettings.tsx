@@ -1,250 +1,219 @@
 "use client";
-import { SignOutButton } from "ui/Buttons/SignOut";
 import Avatar from "ui/User/UploadWidget";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
 import { useRouter } from "next/navigation";
-import useProfileStore from "../store";
-import { useEffect } from "react";
-import { supabaseAdmin } from "lib/constants";
+import { useEffect, useState } from "react";
+import { supabase, supabaseAdmin } from "lib/constants";
+import { useQuery } from "@tanstack/react-query";
+import EnableArtistMode from "ui/Buttons/EnableArtistMode";
+import useArtistSettings from "./store";
+import { getArtistSettings } from "./actions";
 
 export default function ArtistSettings() {
   const { user, profile, isLoading } = useAuthProvider();
-  //console.log(user, profile)
-  const {
-    loading,
-    setLoading,
-    username,
-    setUsername,
-    bio,
-    setBio,
-    avatar_url,
-    setAvatarUrl,
-    city,
-    setCity,
-    country,
-    setCountry,
-    email,
-    setEmail,
-    state,
-    setState
-  } = useProfileStore();
+  const artistSettings = useArtistSettings()
+  const [updatedSettings, setUpdatedSettings] = useState({
+    artist_name: artistSettings.artist_name || "",
+    avatar_url: artistSettings.avatar_url || "",
+    amazon_url: artistSettings.amazon_url || "",
+    apple_url: artistSettings.apple_url || "",
+    deezer_url: artistSettings.deezer_url || "",
+    spotify_url: artistSettings.spotify_url || "",
+    soundcloud_url: artistSettings.soundcloud_url || "",
+    tidal_url: artistSettings.tidal_url || "",
+  });
 
   useEffect(() => {
-    // Load profile data and set it in the store when it's available
-    if (profile) {
-      const { bio, username, avatar_url, city, country, state } = profile;
-      setBio(bio);
-      setUsername(username);
-      setAvatarUrl(avatar_url);
-      setCity(city);
-      setCountry(country);
-      setState(state);
-    }
-  }, [profile]); // 
 
-  const router = useRouter();
-
-  async function updateProfile({
-    username,
-    avatar_url,
-    city,
-    country,
-    state,
-    bio,
-  }: any) {
-    if (profile && user) {
-      try {
-        setLoading(true);
-        const updates: any = {};
-        if (typeof bio !== 'undefined' && bio !== profile?.bio) {
-          updates.bio = bio;
-        }
-        // Check each input field and add it to the updates object if it has changed
-        if (typeof username !== 'undefined' && username !== profile?.username) {
-          updates.username = username;
-        }
-        if (typeof avatar_url !== 'undefined' && avatar_url !== profile?.avatar_url) {
-          updates.avatar_url = avatar_url;
-        }
-        if (typeof city !== 'undefined' && city !== profile?.city) {
-          updates.city = city;
-        }
-        if (typeof country !== 'undefined' && country !== profile?.country) {
-          updates.country = country;
-        }
-        if (typeof state !== 'undefined' && state !== profile?.state) {
-          updates.state = state;
-        }
-        updates.updated_at = new Date().toISOString();
-        let {data, error } = await supabaseAdmin
-          .from("profiles")
-          .update(updates)
-          .eq("id", user?.id)
-          .select();
+  }, []);
 
 
-          if (data?.length !== undefined){
-            setLoading(false);
-            toast.success("Profile updated!");
 
-            router.refresh();
-          }
-        if (error) throw error;
-      } catch (error) {
-        toast.error(error as any);
-        (error);
-      } 
-    }
-  }
 
-  if (isLoading || !user || loading) {
+  const { data: artistData } = useQuery({
+    queryKey: ['data', profile.id],
+    queryFn: () => getArtistSettings(profile.id),
+    //enabled: !!profile.id
+  })
+
+  console.log(artistData)
+
+  if (isLoading || !user) {
     return;
   }
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setUpdatedSettings({
+      ...updatedSettings,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    // Update the artist settings in the database with updatedSettings
+    try {
+      await supabase
+        .from("artist_settings")
+        .upsert([
+          {
+            user_id: profile.id,
+            ...updatedSettings,
+          },
+        ]);
+      toast.success("Settings updated successfully!");
+    } catch (error) {
+      toast.error("Error updating settings.");
+    }
+  };
 
   return (
     !isLoading &&
     user && (
       <>
-        <div className="mx-auto content-start items-center h-full flex-col justify-between mt-8">
-          <Avatar
-            uid={user?.id || ""}
-            url={profile?.avatar_url || avatar_url}
-            size={200}
-            onUpload={(url: any) => {
-              setAvatarUrl(url);
-            //  updateProfile({ avatar_url: url });
-            }}
-          />
-          <div className="mt-3">
+      <div className="mx-auto w-full max-w-sm content-start items-center h-full  flex-col justify-between mt-8">
+        <form onSubmit={handleSubmit} className="overflow-y-scroll">
+          <div className="place-content-end mx-auto space-y-2">
             <label
               className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="bio"
+              htmlFor="artist_name"
             >
-              Bio
-            </label>
-            <textarea
-              className="bg-zinc-50 border  border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="bio"
-              value={bio ? bio : profile.bio}
-              onChange={(e: any) => setBio(e?.target.value)}
-            />
-          </div>
-        </div>
-        <div className="place-content-end mx-auto space-y-2">
-          <div>
-            <label
-              className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="email"
-            >
-              Email
+              Artist Name
             </label>
             <input
               className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="email"
               type="text"
-              value={user?.email}
-              onChange={(e: any) => setEmail(e?.target.value)}
-              readOnly
+              id="artist_name"
+              name="artist_name"
+              value={updatedSettings.artist_name}
+              onChange={handleInputChange}
             />
           </div>
-          <div>
+          <div className="place-content-end mx-auto space-y-2">
             <label
               className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="username"
+              htmlFor="avatar_url"
             >
-              Username
+              Avatar URL
             </label>
             <input
               className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="username"
               type="text"
-              value={username ? username : profile.username}
-              onChange={(e: any) => setUsername(e?.target.value)}
+              id="avatar_url"
+              name="avatar_url"
+              value={updatedSettings.avatar_url}
+              onChange={handleInputChange}
             />
           </div>
-          <div>
+          <div className="place-content-end mx-auto space-y-2">
             <label
               className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="city"
+              htmlFor="amazon_url"
             >
-              City
+              Amazon URL
             </label>
             <input
               className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="city"
               type="text"
-              value={city ? city : profile.city}
-              onChange={(e: any) => setCity(e?.target.value)}
+              id="amazon_url"
+              name="amazon_url"
+              value={updatedSettings.amazon_url}
+              onChange={handleInputChange}
             />
           </div>
-          <div>
+          <div className="place-content-end mx-auto space-y-2">
             <label
               className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="state"
+              htmlFor="apple_url"
             >
-              State/Territory
+              Apple Music URL
             </label>
             <input
               className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="state"
               type="text"
-              value={state ? state : profile.state}
-              onChange={(e: any) => setState(e?.target.value)}
+              id="apple_url"
+              name="apple_url"
+              value={updatedSettings.apple_url}
+              onChange={handleInputChange}
             />
           </div>
-          <div>
+          <div className="place-content-end mx-auto space-y-2">
             <label
               className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="country"
+              htmlFor="deezer_url"
             >
-              Country
+              Deezer URL
             </label>
             <input
               className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="country"
               type="text"
-              value={country ? country : profile.country}
-              onChange={(e: any) => setCountry(e?.target.value)}
+              id="deezer_url"
+              name="deezer_url"
+              value={updatedSettings.deezer_url}
+              onChange={handleInputChange}
             />
           </div>
-
-          <div className="hidden">
+          <div className="place-content-end mx-auto space-y-2">
             <label
               className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
-              htmlFor="wallet"
+              htmlFor="spotify_url"
             >
-              Wallet
+              Spotify URL
             </label>
             <input
-              className="bg-zinc-50 border  border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              id="wallet"
+              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               type="text"
-              value={profile?.wallet_address || ""}
-              readOnly
+              id="spotify_url"
+              name="spotify_url"
+              value={updatedSettings.spotify_url}
+              onChange={handleInputChange}
             />
           </div>
-          <div className="flex space-x-2 mt-4">
-            <button
-              className="bg-blue-700 text-white p-2 text-sm w-32 rounded-md hover:bg-blue-800 hover:scale-105"
-              onClick={() =>
-                updateProfile({
-                  username,
-                  avatar_url,
-                  city,
-                  country,
-                  state,
-                  bio,
-                })
-              }
-              disabled={loading}
+          <div className="place-content-end mx-auto space-y-2">
+            <label
+              className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
+              htmlFor="soundcloud_url"
             >
-              {loading ? "Loading ..." : "Update"}
-            </button>
-            <SignOutButton />
+              SoundCloud URL
+            </label>
+            <input
+              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              type="text"
+              id="soundcloud_url"
+              name="soundcloud_url"
+              value={updatedSettings.soundcloud_url}
+              onChange={handleInputChange}
+            />
           </div>
-        </div>
-      </>
+          <div className="place-content-end mx-auto space-y-2">
+            <label
+              className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
+              htmlFor="tidal_url"
+            >
+              Tidal URL
+            </label>
+            <input
+              className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              type="text"
+              id="tidal_url"
+              name="tidal_url"
+              value={updatedSettings.tidal_url}
+              onChange={handleInputChange}
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-700 text-white p-2 text-sm w-32 rounded-md hover:bg-blue-800 hover:scale-105"
+          >
+            Update Settings
+          </button>
+        </form>
+    
+        <EnableArtistMode profile={profile!} />
+      </div>
+    </>
+    
     )
   );
 }

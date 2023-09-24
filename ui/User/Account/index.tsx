@@ -4,7 +4,7 @@ import Avatar from "../UploadWidget";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
 import { useRouter } from "next/navigation";
-import useProfileStore from "./store";
+import useProfileStore from "./ProfileSettings/store";
 import { useEffect } from "react";
 import { supabaseAdmin } from "lib/constants";
 

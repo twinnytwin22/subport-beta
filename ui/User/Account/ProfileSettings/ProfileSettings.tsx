@@ -4,7 +4,7 @@ import Avatar from "ui/User/UploadWidget";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";
 import { useRouter } from "next/navigation";
-import useProfileStore from "../store";
+import useProfileStore from "./store"
 import { useEffect } from "react";
 import { supabaseAdmin } from "lib/constants";
 
@@ -29,11 +29,11 @@ export default function ProfileSettings() {
     state,
     setState
   } = useProfileStore();
-
+//console.log(profile)
   useEffect(() => {
     // Load profile data and set it in the store when it's available
     if (profile) {
-      const { bio, username, avatar_url, city, country, state } = profile;
+      const { bio, username, avatar_url, city, country, state, display_name } = profile;
       setBio(bio);
       setUsername(username);
       setAvatarUrl(avatar_url);
@@ -106,7 +106,7 @@ export default function ProfileSettings() {
     !isLoading &&
     user && (
       <>
-        <div className="mx-auto content-start items-center h-full flex-col justify-between mt-8">
+        <div className="mx-auto content-start items-center h-fit flex-col md:justify-between mt-8">
           <Avatar
             uid={user?.id || ""}
             url={profile?.avatar_url || avatar_url}
@@ -131,7 +131,7 @@ export default function ProfileSettings() {
             />
           </div>
         </div>
-        <div className="place-content-end mx-auto space-y-2">
+        <div className="md:place-content-end mx-auto space-y-2">
           <div>
             <label
               className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"

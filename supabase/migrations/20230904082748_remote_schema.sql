@@ -10,6 +10,8 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+
+
 CREATE EXTENSION IF NOT EXISTS "pg_net" WITH SCHEMA "extensions";
 
 CREATE EXTENSION IF NOT EXISTS "pgsodium" WITH SCHEMA "pgsodium";
@@ -422,7 +424,6 @@ ALTER TABLE ONLY "public"."user_saved_events"
 
 CREATE TRIGGER "new_follower_hook" AFTER INSERT ON "public"."followers" FOR EACH ROW EXECUTE FUNCTION "supabase_functions"."http_request"('https://subport.vercel.app/api/notify/new-follower', 'POST', '{"Content-type":"application/json"}', '{}', '1000');
 
-CREATE TRIGGER "profiles_encrypt_secret_trigger_access_key" BEFORE INSERT OR UPDATE OF "access_key" ON "public"."profiles" FOR EACH ROW EXECUTE FUNCTION "public"."profiles_encrypt_secret_access_key"();
 
 ALTER TABLE ONLY "public"."drop_collects"
     ADD CONSTRAINT "drop_collects_drop_id_fkey" FOREIGN KEY ("drop_id") REFERENCES "public"."drops"("id");
