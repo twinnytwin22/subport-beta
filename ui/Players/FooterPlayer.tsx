@@ -75,7 +75,7 @@ const FooterPlayer = () => {
                 <div className={`fixed bottom-16 sm:bottom-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 md:px-6 py-2.5 border-t w-full bg-zinc-100 dark:bg-black ${audioRef && audioUrl ? 'block' : 'hidden md:block'}`}>
                     <div className="z-[300] w-full  md:px-6 py-2.5  mx-auto relative sm:pl-32 lg:pl-64 items-center place-items-center h-12">
                         {audioRef && audioUrl &&
-                            <div onClick={toggleDrawer} className="player-drawer flex items-center justify-between max-w-screen-xl mx-auto w-full">
+                            <div  className="player-drawer flex items-center justify-between max-w-screen-xl mx-auto w-full">
                                 <audio
                                     ref={audioRef}
                                     id="music-player"
@@ -91,13 +91,13 @@ const FooterPlayer = () => {
                                 </div>
                                 <div className="mx-auto w-full space-x-4 relative flex items-center ">
                                     {!imageUrl ?
-                                        <div className="max-w-[30px] h-[30px] rounded-md bg-blue-300 w-full"></div> :
+                                        <div onClick={toggleDrawer} className="max-w-[30px] h-[30px] rounded-md bg-blue-300 w-full"></div> :
                                         <Image src={imageUrl} alt='song-image' width={30} height={30} blurDataURL={'/images/stock/blur.png'} className="aspect-square object-cover rounded-md"
                                         />}
                                     {!isPlaying && (
                                         <button
                                             onClick={play}
-                                            className="hover:scale-110 duration-200 ease-in-out"
+                                            className="hover:scale-110 duration-200 ease-in-out isolate"
                                         >
                                             <FaPlay />
                                         </button>
@@ -105,14 +105,14 @@ const FooterPlayer = () => {
                                     {isPlaying && (
                                         <button
                                             onClick={pause}
-                                            className="hover:scale-110 duration-200 ease-in-out"
+                                            className="hover:scale-110 duration-200 ease-in-out isolate"
                                         >
                                             <FaPause />
                                         </button>
                                     )}
                                     <button
                                         onClick={stop}
-                                        className="hover:scale-110 duration-200 ease-in-out"
+                                        className="hover:scale-110 duration-200 ease-in-out isolate"
                                     >
                                         <FaStop />
                                     </button>
