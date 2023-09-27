@@ -127,7 +127,8 @@ export default function ArtistSettings() {
     user && (
     <>
       <div className="mx-auto w-full max-w-sm content-start items-center h-full my-8 flex-col justify-between mt-8">
-        <div className="overflow-y-scroll space-y-2">
+       {profile.is_artist && 
+       <div className="overflow-y-scroll space-y-2">
           <div className="place-content-end mx-auto ">
             <label
               className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
@@ -299,8 +300,8 @@ export default function ArtistSettings() {
           >
             Update Settings
           </button>
-        </div>
-        <div className="py-8">
+        </div>}
+        <div className={`py-8 w-full mx-auto flex justify-center ${!profile.is_artist && 'h-full place-items-center'}`}>
           <EnableArtistMode profile={profile!} />
         </div>
       </div>

@@ -8,7 +8,6 @@ const PublicRoutes: NavigationRoute[] = [
     name: "Home",
     route: "/",
   },
-
 ];
 
 const UserRoutes: NavigationRoute[] = [

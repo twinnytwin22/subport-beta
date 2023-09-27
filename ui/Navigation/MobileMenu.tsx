@@ -15,26 +15,8 @@ import { NotificationIcon } from "./NotificationContainer";
 
 function MobileMenu() {
   const [isOpen, setOpen] = useState(false)
-  const { user } = useAuthProvider()
+  const { user, profile } = useAuthProvider()
   useHandleOutsideClick(isOpen, setOpen, 'mobile-sidebar')
-  const {
-    audioUrl,
-    imageUrl,
-    audioRef,
-    isPlaying,
-    volumeChange,
-    volume,
-    isMuted,
-    setMute,
-    timeUpdate,
-    dataLoad,
-    seekChange,
-    formatTime,
-    currentTime,
-    play,
-    pause,
-    stop
-  } = useSubportPlayer();
 
   const handleOpenMenu = () => {
     if (!isOpen) {
@@ -49,7 +31,7 @@ function MobileMenu() {
   return user && (
     <>
       <div className="block sm:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0 z-10">
-        <div className="grid grid-cols-5 text-zinc-800 dark:text-zinc-400 justify-items-center pt-3">
+        <div className={`grid ${profile?.is_artist ? 'grid-cols-5' : 'grid-cols-4'} text-zinc-800 dark:text-zinc-400 justify-items-center pt-3`}>
           <div className="flex group">
             <Link
               href="/"
@@ -62,7 +44,7 @@ function MobileMenu() {
           </div>
           <div className="flex group">
             <Link
-              href="/trending"
+              href="/explore"
               className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white"
             >
               <span className="px-1 flex flex-col items-center">
@@ -85,6 +67,7 @@ function MobileMenu() {
               </span>
             </Link>
           </div>
+          {profile.is_artist && 
           <div className="flex group ">
             <Link
               href="/create"
@@ -109,7 +92,7 @@ function MobileMenu() {
                 <span className="block text-xs pb-1"></span>
               </span>
             </Link>
-          </div>
+          </div>}
           <div className="flex flex-row group items-center ">
             <div
               className="flex items-end justify-center text-center mx-auto px-4 w-full text-zinc-400 group-hover:text-white border-b-2 border-transparent group-hover:border-white"

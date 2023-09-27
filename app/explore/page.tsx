@@ -16,7 +16,7 @@ const [drops, events] = await Promise.all([
     if (sortedData) {
         return (
 
-            <div className="mx-auto p-8 mb-24">
+            <div className="mx-auto py-8 md:p-8 mb-24">
                 <Feed data={sortedData} events={events} />
             </div>
         )

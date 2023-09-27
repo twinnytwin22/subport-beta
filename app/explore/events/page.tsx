@@ -26,8 +26,8 @@ async function Page() {
 
 
   return filteredDrops && events && (
-    <div className="mx-auto p-8 mb-24">
-      <EventFeed events={events} />
+    <div className="mx-auto py-8 md:p-8 mb-24">
+    <EventFeed events={events} />
 
 
     </div>

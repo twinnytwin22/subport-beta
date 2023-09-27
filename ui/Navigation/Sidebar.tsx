@@ -8,7 +8,7 @@ import SocialRow from "ui/Misc/SocialRow";
 import PlaylistCreator from "ui/Playlist/PlaylistCreator";
 import Image from "next/image";
 function Sidebar() {
-  const { user } = useAuthProvider()
+  const { user, profile } = useAuthProvider()
 
   return (
 
@@ -24,7 +24,7 @@ function Sidebar() {
       </div>
       <nav className="flex-grow p-2">
         <ul className="font-bold text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
-          <SidebarRoutes user={user} />
+          <SidebarRoutes user={user} profile={profile} />
         </ul>
         <hr className="hidden sm:flex sm:-16 lg:w-40 border-zinc-600 mt-24 mb-8" />
         {user?.email ? (
@@ -94,7 +94,7 @@ export function MobileSidebar() {
 }
 
 
-const SidebarRoutes = ({ user }: any) => {
+const SidebarRoutes = ({ user, profile }: any) => {
   return (
     <div>
       {PublicRoutes.map((link) => (
@@ -122,7 +122,7 @@ const SidebarRoutes = ({ user }: any) => {
 
       {user && UserRoutes.map((link) => (
         <Link key={link.name} href={link.route}>
-          <li className="">
+          <li className={`${(link.name === 'Create' && !profile.is_artist) && 'hidden' }`}>
             <p className="hidden lg:block">{link.name}</p>
             <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105 mb-3">
               <svg

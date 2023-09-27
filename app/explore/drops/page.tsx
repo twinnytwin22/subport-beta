@@ -9,8 +9,8 @@ async function page() {
     ])
     const drops = dropRes?.dropsWithMetaData
     return (
-        <div className="mx-auto p-8 mb-24">
-            <DropFeed drops={drops} />
+        <div className="mx-auto py-8 md:p-8 mb-24">
+        <DropFeed drops={drops} />
         </div>
     )
 }

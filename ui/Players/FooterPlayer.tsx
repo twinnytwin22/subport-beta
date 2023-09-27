@@ -71,8 +71,8 @@ const FooterPlayer = () => {
 
     return (
         user && (
-            <footer className=" cursor-pointer sm:cursor-default" >
-                <div className="fixed bottom-16 sm:bottom-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 px-6 py-2.5 border-t w-full bg-zinc-100 dark:bg-black ">
+            <footer className="cursor-pointer sm:cursor-default" >
+                <div className={`fixed bottom-16 sm:bottom-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 px-6 py-2.5 border-t w-full bg-zinc-100 dark:bg-black ${audioRef && audioUrl ? 'block' : 'hidden md:block'}`}>
                     <div className="z-[300]   px-6 py-2.5  mx-auto relative sm:pl-32 lg:pl-64 items-center place-items-center h-12">
                         {audioRef && audioUrl &&
                             <div onClick={toggleDrawer} className="player-drawer flex items-center justify-between max-w-screen-xl mx-auto w-full">

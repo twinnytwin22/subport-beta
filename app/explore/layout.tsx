@@ -30,7 +30,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                 <div className='md:mt-2 relative w-full max-w-6xl'>
                     <div className="fixed left-0 sm:left-32 lg:left-64 z-50 right-0 w-full text-sm font-medium text-center text-zinc-500 border-b border-zinc-200 dark:text-zinc-400 dark:border-zinc-800 bg-zinc-100 dark:bg-black">
                         <div className='flex items-center justify-start space-x-2 md:space-x-4'>
-                            <div className="flex flex-wrap w-full ml-8 items-center">
+                            <div className="flex flex-wrap w-full md:ml-8 items-center">
                                 <div className="md:mr-2">
                                     <Link href={`/explore?view=${searchParams}`} className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300 ${pathName == '/explore' && 'text-blue-500'}`}>Feed</Link>
                                 </div>
