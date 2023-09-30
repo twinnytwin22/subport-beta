@@ -5,10 +5,12 @@ import { ArtistList } from 'ui/Cards/ArtistCard/ArtistCard'
 import { DropsList } from 'ui/Cards/DropsCard/DropsCard'
 import { EventsList } from 'ui/Cards/EventsCard/EventsCard'
 import Link from 'next/link'
+import { supabase } from 'lib/constants'
 export const fetchCache = 'force-no-store'
 export const dynamic = 'force-dynamic'
 async function Main() {
-  const [drops, events, artists] = await Promise.all([
+  const [session, drops, events, artists] = await Promise.all([
+    supabase.auth.getSession(),
     fetchAllCollectibles(),
     fetchAllEvents(), 
     fetchCreators(),
@@ -16,6 +18,10 @@ async function Main() {
   ])
 
   const dropsWithMetaData = drops?.dropsWithMetaData
+
+  if(!session){
+    return null
+  }
 
   // console.log(JSON.stringify(myCookies), "MY COOKIES")
   return (

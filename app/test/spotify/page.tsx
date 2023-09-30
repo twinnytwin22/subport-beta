@@ -1,8 +1,9 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { handleSpotifyAction  as handleSpotify } from 'lib/providers/spotify/spotifyLogic';
 import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
 import Link from 'next/link';
+import { supabase, supabaseAuth } from 'lib/constants';
 
 
 function Page() {
@@ -10,6 +11,30 @@ function Page() {
   const spotifyUrl = useSpotifyUrlId()
   const spotifyId = spotifyUrl.artist.getId(userId)
 
+
+  useEffect(() => {
+    const refreshSession = async () => {
+
+      const {data:session, error} = await supabaseAuth.auth.getSession()
+      
+    //  console.log(session)
+      if(error) {
+        console.log(error)
+      }
+      if(session.session){
+
+     // const { data, error } = await supabase.auth.refreshSession({refresh_token: session.session?.refresh_token!})
+     
+      console.log(session)
+
+
+   //  if(data){
+     // console.log(data.session)
+   ///  }
+    }
+  }
+    refreshSession()
+  },[])
 
   return (
     <div className="max-h-screen min-h-[80vh] h-full max-w-screen w-full flex flex-col place-items-center mx-auto justify-center relative">

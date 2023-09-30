@@ -37,7 +37,7 @@ function SubscriberForm({ close, sub, isAuthedUser }: any) {
     ];
 
     return (
-        <div className="bg-white dark:bg-black p-8 rounded-md shadow-lg border-zinc-200 dark:border-zinc-700 border max-w-md  w-96 scale-90 md:scale-100 z-[9999] isolate mx-auto">
+        <div className="bg-white dark:bg-black p-8 rounded-md shadow-lg border-zinc-200 dark:border-zinc-700 border max-w-md  w-96 scale-90 md:scale-100 z-[9999] isolate mx-auto subscribe-modal">
             <p className=' cursor-pointer absolute p-2 border dark:border-zinc-800 border-zinc-200 rounded text-sm' onClick={close}>Close</p>
             <h1 className="text-center text-xl text-black dark:text-white">{isAuthedUser ? 'Your Subscription' : 'Subscribe Now'}</h1>
 

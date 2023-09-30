@@ -5,16 +5,20 @@ import Image from "next/image";
 import SubscribeButton from "ui/Buttons/SubscribeButton";
 import { FaMapPin } from "react-icons/fa";
 import ProfileBackgroundImage from "./ProfileBackgroundImage";
- 
+import useSubscribeButtonStore from "ui/Buttons/SubscribeButton/store";
 async function Profile({ profile, username, data }: any) {
   const imagePath = useImagePath(profile.avatar_url)
 
+  const modalOpen = useSubscribeButtonStore.getState().isModalOpen
+  
+
   return (
-    <div className="w-full mx-auto  content-center overscroll-x-none overflow-x-hidden">
+    <div className="w-full mx-auto  content-center overscroll-x-none overflow-x-hidden overflow-y-visible">
       <ProfileBackgroundImage uid={profile?.id} url={data?.Profile?.bg_url} publicData={data} />
       <div className=" pt-16 mx-auto md:px-4">
-        <div className=" flex flex-col min-w-0 break-words bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-lg rounded-md -mt-36 pb-8 relative">
-          <div className="grid grid-cols-12 px-6">
+        <div className=" flex flex-col min-w-0 break-words bg-white dark:bg-black border border-zinc-200 dark:border-zinc-800 w-full mb-6 shadow-lg rounded-md -mt-36 pb-8 relative z-[99999]">
+          
+          <div className="grid grid-cols-12 px-6 relative">
             <div className="flex flex-col items-start w-full col-span-9 md:col-span-2 justify-start order-1  -mt-20">
               <Image
                 alt="avatar"
@@ -37,7 +41,7 @@ async function Profile({ profile, username, data }: any) {
             <div className="flex flex-col lg:flex-row   w-full col-span-12 md:col-span-8 items-center order-3 md:order-2 mx-auto">
               <UserStats followers={data?.FollowerCount} following={data?.FollowingCount} drops={data?.DropsCounts} />
               <UserBio profile={profile} /></div>
-            <div className="flex absolute top-5 right-5 space-x-2  items-center order-2 md:order-3  md:mt-0">
+            <div className="flex absolute top-5 right-5 space-x-2  items-center order-2 md:order-3  md:mt-0 z-50">
               <FollowButton currentProfile={profile} />
               <SubscribeButton currentProfile={profile} />
             </div>

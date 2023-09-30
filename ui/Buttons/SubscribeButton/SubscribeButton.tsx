@@ -4,6 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import SubscriberForm from 'ui/Sections/Create/subscription/SubscriberForm';
 import { checkSubscription } from 'utils/database';
+import useSubscribeButtonStore from './store';
+import { useHandleOutsideClick } from 'lib/hooks/handleOutsideClick';
+import { useQuery } from '@tanstack/react-query';
 
 function SubscribeButton({ currentProfile }: any) {
     const { user, profile } = useAuthProvider();
@@ -11,18 +14,35 @@ function SubscribeButton({ currentProfile }: any) {
     const isAuthedUser: boolean = profile?.id === profileId;
     const [isAlreadySubscribed, setIsAlreadySubscribed] = useState(false);
     const [error, setError] = useState<any>(null);
-    const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
-    const [sub, setSub] = useState<any>(null)
+   // const [sub, setSub] = useState<any>(null)
+    const { isModalOpen, setIsModalOpen } = useSubscribeButtonStore();
+    useHandleOutsideClick(isModalOpen, setIsModalOpen, 'subscribe-modal')
 
     useEffect(() => {
-        const checkSub = async () => {
-            const sub = await checkSubscription(currentProfile?.id)
-            if (sub) {
-                setSub(sub)
-            }
+        if (isModalOpen) {
+            // Disable scrolling on the body when the modal is open
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Enable scrolling on the body when the modal is closed
+            document.body.style.overflow = 'auto';
         }
-        checkSub()
-    }, [])
+
+        return () => {
+            // Reset the body overflow when the component unmounts
+            document.body.style.overflow = 'auto';
+        };
+    }, [isModalOpen]);
+   
+    const id = profile?.id!!!
+    const {data:sub} = useQuery({
+        queryKey:['sub', id],
+        queryFn: ()=>checkSubscription(id),
+        enabled: !!id
+    })
+    const handleCloseSubscriptionModal = () => {
+        setIsModalOpen(false);
+        // Add additional logic if needed
+    };
 
 
     const handleOpenSubscriptionModal = () => {
@@ -35,10 +55,10 @@ function SubscribeButton({ currentProfile }: any) {
 
     return user && sub && (
         <>
-            <div className="relative"> {/* Relative container for the button */}
+            <div className="">
                 {!isAuthedUser && (
                     <>
-                        {isAlreadySubscribed &&
+                        {isAlreadySubscribed && (
                             <button
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-4 py-2 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                                 type="button"
@@ -46,7 +66,7 @@ function SubscribeButton({ currentProfile }: any) {
                             >
                                 {"Subscribed"}
                             </button>
-                        }
+                        )}
                         <button
                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold hover:shadow-md hover:scale-105 shadow text-xs px-2.5 py-2.5 rounded-md outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
                             type="button"
@@ -66,10 +86,11 @@ function SubscribeButton({ currentProfile }: any) {
                     </button>
                 )}
 
-                {/* Modal */}
                 {isModalOpen && (
-                    <div className='absolute -mt-24 top-0 right-5 z-50 mx-auto justify-center'> {/* Absolute positioning for the SubscriberForm */}
-                        <SubscriberForm sub={sub} close={handleOpenSubscriptionModal} isAuthedUser={isAuthedUser} />
+                    <div className='fixed top-0 right-0 bottom-0 left-0 z-50 flex justify-center items-center backdrop-filter backdrop-blur-md'>
+                        <div className="w-full max-w-md rounded-md shadow-lg sm:ml-16 lg:ml-64 subscribe-modal">
+                            <SubscriberForm sub={sub} close={handleCloseSubscriptionModal} isAuthedUser={isAuthedUser} />
+                        </div>
                     </div>
                 )}
             </div>

@@ -6,6 +6,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import Account from "ui/User/Account";
 import ArtistSettings from "ui/User/Account/ArtistSettings/ArtistSettings";
 import ProfileSettings from "ui/User/Account/ProfileSettings/ProfileSettings";
+import Preferences from "./Preferences";
 
 function SettingsPage() {
     const { isLoading, user } = useAuthProvider()
@@ -47,7 +48,7 @@ function SettingsPage() {
                         onClick={() => setActiveTab(null)}><FaArrowLeft />
                     </button>
                     {activeTab === 'profile' && <ProfileSettings />}
-                    {activeTab === 'preferences' && <div className="h-full">Preferences</div>}
+                    {activeTab === 'preferences' && <div className="h-full"><Preferences/></div>}
                     {activeTab === 'artist-settings' && <ArtistSettings />}
                     {activeTab === 'settings' && <div className="h-full">settings</div>}
                 </div>
