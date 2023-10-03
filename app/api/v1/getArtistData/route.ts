@@ -19,6 +19,12 @@ export async function GET(req:NextRequest) {
   }
 
   //const filteredProfiles = users?.filter((user) => user.drops.length > 1);
-  return NextResponse.json({ data: settings });
+
+  if(settings){
+    return NextResponse.json({ data: settings });
+
+  }
+
+  return new Error('Error fetching Artist Data')
 }
 }
