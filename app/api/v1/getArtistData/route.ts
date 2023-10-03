@@ -27,4 +27,6 @@ export async function GET(req:NextRequest) {
 
   return new Error('Error fetching Artist Data')
 }
+return new Error('Error fetching Artist Data')
+
 }
