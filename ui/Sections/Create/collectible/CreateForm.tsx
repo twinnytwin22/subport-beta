@@ -16,9 +16,48 @@ import { renderProgressBar } from "ui/Misc/ProgressBar";
 import { useStorageUpload } from "@thirdweb-dev/react";
 import Image from "next/image";
 import { toast } from 'react-toastify'
+import useSpotifyUrlId from "lib/hooks/useSpotifyUrlId";
+import { useQuery } from "@tanstack/react-query";
+import { generateSongData } from "./actions";
 export const CreateForm = () => {
   const { user, profile } = useAuthProvider();
   const [savedUser, setSavedUser] = useState<any>(null);
+  const spotify = useSpotifyUrlId()
+  const [spotifyUrl, setSpotifyUrl] = useState<string | null>(null)
+
+  const { data } = useQuery({
+    queryKey: ['data', spotify, spotifyUrl],
+    queryFn: () => generateSongData(spotify, spotifyUrl),
+    enabled: !!spotifyUrl,
+    onSuccess: ((data: any) => { 
+      setValue('name', data?.album.name)
+      setValue('artist_name', data.artists.map((artist: any) => artist?.name).join(', ') || '');
+
+    })
+  })
+  console.log(data)
+  const handleAutoFillSongData = async (url: string) => {
+    setSpotifyUrl(url);
+  };
+
+  const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setSpotifyUrl(value);
+
+    // Call the function to fetch and autofill song data when a valid URL is detected
+    if (isValidSpotifyUrl(value)) {
+    await handleAutoFillSongData(value);
+    setStep(1)
+    }
+  };
+
+  const isValidSpotifyUrl = (url: string) => {
+    // Implement a validation logic to check if the URL is a valid Spotify URL
+    // You can use regular expressions or other methods to validate the URL
+    // For simplicity, you can check if it starts with "https://open.spotify.com/"
+    return url.startsWith('https://open.spotify.com/');
+  };
+
   const { mutateAsync: upload } = useStorageUpload({
     uploadWithoutDirectory: true,
     onProgress: (progress) => {
@@ -67,6 +106,7 @@ export const CreateForm = () => {
     handleSubmit,
     watch,
     reset,
+    control,
     setValue,
     formState: { errors },
   } = useForm<Collectible>({
@@ -439,14 +479,14 @@ export const CreateForm = () => {
                 htmlFor="website"
                 className="flex mb-2 text-sm font-medium text-zinc-900 dark:text-white"
               >
-                Song URI
+                Spotify Url
                 <Tooltip message={createFormMessage.songUri} />
               </label>
               <input
                 type="url"
                 id="spotify_uri"
                 className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="URI: spotify:artist:EXAMPLE"
+                placeholder="https://open.spotify.com/track/7gaNyds0r0bJTRiOpCsKZT"
                 {...register("spotify_uri", { required: true })}
               />
             </div>
@@ -760,6 +800,11 @@ export const CreateForm = () => {
       )}
 
       {isUploading && renderProgressBar(progress, total)}
+      {step === 0 && (
+        <h1 className="text-2xl font-bold text-center  text-black dark:text-white">
+          Get Started: Paste your Spotify Url
+        </h1>
+      )}
       {step === 5 && (
         <h1 className="text-2xl font-bold text-center  text-black dark:text-white">
           Success!
@@ -773,6 +818,16 @@ export const CreateForm = () => {
       {step === 4 && (
         <h1 className="text-2xl font-bold text-center text-black dark:text-white ">Creating your collectible</h1>
       )}
+     {step === 0 && <div className="w-full h-full place-items-center min-h-[20vh] flex">
+        <input
+          className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          type="text"
+          placeholder="Paste Spotify URL"
+          value={spotifyUrl || ''}
+          onChange={handleInputChange}
+        />
+      </div>
+      }
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}
       {step === 3 && imageUrl && renderStep3()}

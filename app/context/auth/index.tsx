@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserData, handleAuthChangeEvent } from "./actions";
 import { supabaseAuth } from "lib/constants";
 import { useRouter } from "next/navigation";
-import LoginFormScreen from "ui/Auth/LoginFormScreen/LoginFormScreen";
+//import LoginFormScreen from "ui/Auth/LoginFormScreen/LoginFormScreen";
 
 export const refresh = () => {
   window.location.reload();
@@ -70,6 +70,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       authEventDataFetched.current = true;
     },
   });
+  console.log(authEventData?.session)
 
   const { data: userData, isLoading: userDataLoading } = useQuery({
     queryKey: ["user", "profile"],

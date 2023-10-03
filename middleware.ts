@@ -3,6 +3,7 @@ import { NextResponse, NextRequest, NextFetchEvent } from "next/server";
 import countries from "utils/countries.json";
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from "@upstash/redis"
+import refreshSpotifyToken from "lib/providers/spotify/spotifyLogic";
 const cache = new Map()
 const ratelimit = new Ratelimit({
  // ephemeralCache: cache,
@@ -49,6 +50,8 @@ export async function middleware(req: NextRequest, event: NextFetchEvent): Promi
   const {
     data: { session },
   } = await supabase.auth.getSession();
+
+
   //console.log(session);
   if (req.nextUrl.pathname.startsWith("/create") || 
   req.nextUrl.pathname.startsWith("/settings")||

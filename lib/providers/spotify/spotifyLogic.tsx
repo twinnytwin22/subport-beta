@@ -1,13 +1,15 @@
 import { supabaseAuth } from "lib/constants";
 import { toast } from "react-toastify";
 
-export const spotifyClientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
-export const spotifySecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
+export const spotifyClientId = process.env.SPOTIFY_CLIENT_ID || process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
+export const spotifySecret = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET || process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET;
+const SPOTIFY_REFRESH_TOKEN_URL = 'https://accounts.spotify.com/api/token/?'
+
 interface SpotifyAction {
   action: string;
   endpoint: string;
   method: string;
-  toast: {
+  toast?: {
     success: string;
     error: string;
   };
@@ -17,6 +19,11 @@ interface SpotifyAction {
 
 const getAccessToken = async () => {
   const { data: session } = await supabaseAuth.auth.getSession();
+  if(!session.session?.provider_token){
+    const newToken = await refreshSpotifyToken(session.session?.refresh_token)
+
+    return newToken
+  }
   return session?.session?.provider_token;
 };
 
@@ -71,10 +78,10 @@ const spotifyActions = ({ spotifyId }: { spotifyId?: string }): SpotifyAction[] 
     action: 'checkSavedTracks',
     endpoint: '/me/tracks/contains?ids=',
     method: 'GET',
-    toast: {
-      success: "Successfully checked if a track is saved in your library",
-      error: "Error checking if the track is saved in your library",
-    },
+    // toast: {
+    //   success: "Successfully checked if a track is saved in your library",
+    //   error: "Error checking if the track is saved in your library",
+    // },
     buttonText: 'Check Saved Tracks', // Button text for "Check Saved Tracks" action
   },
   {
@@ -214,18 +221,18 @@ export const handleSpotifyAction = async (
       const response = await fetch(endpoint, authOptions);
 
       if (response.ok) {
-        const toastMessage = spotifyActions({}).find(a => a.action === action)?.toast.success;
+        const toastMessage = spotifyActions({}).find(a => a?.action === action)?.toast?.success;
         if (toastMessage) {
           toast.success(toastMessage);
         }
       
       } else {
         const errorData = await response.json();
-        const errorMessage = spotifyActions({}).find(a => a.action === action)?.toast.error;
+        const errorMessage = spotifyActions({}).find(a => a.action === action)?.toast?.error;
         console.error(errorMessage, JSON.stringify(errorData));
       }
 
-      if(action === 'checkSavedTracks' || 'saveTrack'){
+      if(action === 'checkSavedTracks' || 'saveTrack' || 'getTrack'){
         return response.json()
       }
     }
@@ -233,3 +240,34 @@ export const handleSpotifyAction = async (
     console.error('Error:', error);
   }
 };
+
+export default async function refreshSpotifyToken(token: any) {
+  const basicAuth = Buffer.from(
+    `${spotifyClientId}:${spotifySecret}`
+  ).toString('base64');
+
+  const requestBody = new URLSearchParams({
+    grant_type: 'refresh_token',
+    refresh_token: token.refreshToken,
+  });
+
+  try {
+    const response = await fetch(SPOTIFY_REFRESH_TOKEN_URL + requestBody.toString(), {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${basicAuth}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error refreshing token:', error);
+    throw error;
+  }
+}

@@ -37,7 +37,7 @@ export const useCreateFormStore = create<CreateFormState>((set, get) => ({
     imagePreview: null,
     songPreview: null,
     ipfsMedia: false,
-    step: 1,
+    step: 0,
     nowChecked: false,
     neverChecked: false,
     user_id: null,

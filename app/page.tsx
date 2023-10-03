@@ -8,6 +8,13 @@ import Link from 'next/link'
 import { supabase } from 'lib/constants'
 export const fetchCache = 'force-no-store'
 export const dynamic = 'force-dynamic'
+
+const host =
+  process?.env.NODE_ENV === 'development'
+    ? 'localhost:3000'
+    : 'subport.vercel.app'
+const protocol = process?.env.NODE_ENV === 'development' ? 'http' : 'https'
+
 async function Main() {
   const [session, drops, events, artists] = await Promise.all([
     supabase.auth.getSession(),
@@ -18,6 +25,16 @@ async function Main() {
   ])
 
   const dropsWithMetaData = drops?.dropsWithMetaData
+
+
+  const { searchParams } = new URL(`${protocol}://${host}`);
+  const loginPage = searchParams.get('login');
+
+  if(loginPage){
+    return
+  }
+
+
 
   if(!session){
     return null
