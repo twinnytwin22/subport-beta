@@ -38,7 +38,7 @@ function CollectButton({ props, drop }: any) {
                             </div>
                         </Link>
 
-                        <DropLinksTo />
+                        <DropLinksTo drop={drop} />
 
                     </div>
                 </div>

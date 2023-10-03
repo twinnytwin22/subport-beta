@@ -77,8 +77,8 @@ export const supabaseApi = createClient<Database>(
 
 export const supabaseClient =
   createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+   supabaseUrl,
+    supabaseKey,
     { auth:{
    //   flowType: 'pkce',
       storage: new BrowserCookieAuthStorageAdapter(),

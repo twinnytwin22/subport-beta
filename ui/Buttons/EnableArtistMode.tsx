@@ -13,14 +13,15 @@ function EnableArtistMode({ profile }: { profile: any }) {
                 .from('artist_settings')
                 .insert([{ user_id: profile.id }])
                 .select()
-                .single()
-            if (data?.user_id) {
+               // .single()
+            if (data && data?.length === 1) {
                 const { data: profileUpdate, error: profileUpdateError } = await supabase
                     .from('profiles')
                     .update({ is_artist: true })
                     .eq('id', profile?.id)
                     .select()
                     .single()
+                    
                 if (profileUpdateError) {
                     console.log(profileUpdateError)
                 }

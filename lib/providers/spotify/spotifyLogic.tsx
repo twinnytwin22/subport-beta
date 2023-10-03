@@ -218,10 +218,15 @@ export const handleSpotifyAction = async (
         if (toastMessage) {
           toast.success(toastMessage);
         }
+      
       } else {
         const errorData = await response.json();
         const errorMessage = spotifyActions({}).find(a => a.action === action)?.toast.error;
         console.error(errorMessage, JSON.stringify(errorData));
+      }
+
+      if(action === 'checkSavedTracks' || 'saveTrack'){
+        return response.json()
       }
     }
   } catch (error) {

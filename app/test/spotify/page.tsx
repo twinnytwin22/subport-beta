@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { handleSpotifyAction  as handleSpotify } from 'lib/providers/spotify/spotifyLogic';
+import { handleSpotifyAction as handleSpotify } from 'lib/providers/spotify/spotifyLogic';
 import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
 import Link from 'next/link';
 import { supabase, supabaseAuth } from 'lib/constants';

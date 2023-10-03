@@ -9,13 +9,13 @@ import { CommentComponent } from './DropCommentUI';
 import { useIpfsImage } from 'lib/constants';
 
 export function DropPage({ props }: any) {
-  console.log(props, "PROPS")
+ // console.log(props, "PROPS")
   const drop = props?.drop;
   const metaData = props?.metaData;
   const imageUrl =  useIpfsImage(metaData?.image!)
   const reactionCount = props?.reactionCount || 5
   const comments = props?.comments || 5
-
+//console.log(drop, "DROP!!")
   return props && (
     <div className="bg-zinc-100 dark:bg-black h-full flex max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto w-full mt-2.5 md:mt-12 pb-12 ">
       <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto items-start w-full relative">
@@ -69,7 +69,7 @@ export function DropPage({ props }: any) {
 
             <p className="text-xs mb-4 hidden">Collected by names, names, 67 more</p>
             <div className="w-full mx-auto">
-              <DropLinksTo />
+              <DropLinksTo drop={drop}/>
               <CommentComponent key={drop.id} dropId={drop.id} comments={comments} />
             </div>
           </div>

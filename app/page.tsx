@@ -6,11 +6,12 @@ import { DropsList } from 'ui/Cards/DropsCard/DropsCard'
 import { EventsList } from 'ui/Cards/EventsCard/EventsCard'
 import Link from 'next/link'
 import { supabase } from 'lib/constants'
-export const fetchCache = 'force-no-store'
+import { getSession } from 'lib/providers/supabase/supabase-client-server'
+//export const fetchCache = 'force-no-store'
 export const dynamic = 'force-dynamic'
 async function Main() {
   const [session, drops, events, artists] = await Promise.all([
-    supabase.auth.getSession(),
+    getSession(),
     fetchAllCollectibles(),
     fetchAllEvents(), 
     fetchCreators(),

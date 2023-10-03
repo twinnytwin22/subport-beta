@@ -8,13 +8,15 @@ const protocol = process?.env.NODE_ENV === 'development' ? 'http' : 'https'
 type FetchTypes = {
   contractAddress?: string
   slug?: string
+  id?: string
 }
+
 
 const refreshCache = async () => {
   try {
-   // const slug = 'twinny-twin-always'
-  //  const contractArray = ['0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85']
-  //  const contractAddress = '0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85'
+    // const slug = 'twinny-twin-always'
+    //  const contractArray = ['0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85']
+    //  const contractAddress = '0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85'
     const res = await fetch('/api/v1/refreshCache')
 
     // const res = await fetch('/api/v1/getCollectibles')
@@ -68,7 +70,7 @@ const fetchSingleCollectible = async ({
 
 const fetchCreators = async () => {
   try {
-   // await fetch(`${protocol}://${host}//api/v1/getCollectibles`)
+    // await fetch(`${protocol}://${host}//api/v1/getCollectibles`)
     const res = await fetch(`${protocol}://${host}//api/v1/getAllCreators`)
     const data = res.json()
     await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -116,8 +118,8 @@ const fetchAllEvents = async () => {
   }
 }
 
-const fetchProfilesForDrops = async (id: any) => {
- // cookies().set('test-cookie', 'subport')
+const fetchProfilesForDrops = async (id: string) => {
+  // cookies().set('test-cookie', 'subport')
 
   try {
     let res = await fetch(
@@ -133,7 +135,25 @@ const fetchProfilesForDrops = async (id: any) => {
   }
 }
 
-const fetchProfileForEvent = async (id: any) => {
+export interface ArtistData {
+  spotify_url?: string | null
+}
+
+const fetchArtistData = async (id: string) => {
+  try {
+    let res = await fetch(`${protocol}://${host}//api/v1/getArtistData?userId=${id}`)
+    const data = await res.json()
+    await new Promise((resolve) => setTimeout(resolve, 500))
+    return data
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
+
+
+
+const fetchProfileForEvent = async (id: string) => {
   try {
     let res = await fetch(
       `${protocol}://${host}//api/v1/getProfileForEvent?userId=${id}`
@@ -155,5 +175,6 @@ export {
   fetchProfilesForDrops,
   fetchProfileForEvent,
   fetchAllCollectibles,
-  fetchAllEvents
+  fetchAllEvents, 
+  fetchArtistData
 }

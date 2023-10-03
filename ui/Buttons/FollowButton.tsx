@@ -4,16 +4,20 @@ import { useAuthProvider } from "app/context/auth";
 import { FollowProfile, UnFollowProfile, isFollowing } from "lib/social-actions/followUser";
 import { toast } from "react-toastify";
 import { SlUserFollow, SlUserFollowing } from 'react-icons/sl'
+import { handleSpotifyAction as handleSpotify } from 'lib/providers/spotify/spotifyLogic';
+import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
+import { ArtistData, fetchArtistData } from "utils/use-server";
 
 const FollowButton = ({ currentProfile }: any) => {
     const { user, profile } = useAuthProvider();
     const profileId = currentProfile?.id;
-
+    const spotify = useSpotifyUrlId()
     const isAuthedUser: boolean = profile?.id === profileId
 
     const [isAlreadyFollowing, setIsAlreadyFollowing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<any>(null);
+    console.log(currentProfile)
 
     useEffect(() => {
         if (profile && !isAuthedUser) {
@@ -48,9 +52,19 @@ const FollowButton = ({ currentProfile }: any) => {
             UnFollowProfile(profile?.id, profileId)
             setIsAlreadyFollowing(false)
         } else {
+
+            if (currentProfile.is_artist) {
+                const data = await fetchArtistData(profileId)
+                console.log(data)
+                const spotifyId = spotify.artist.getId(data?.data?.spotify_url)
+
+                if (spotifyId){
+                await handleSpotify(spotifyId!, 'followArtist')
+            }
+        }
+
             FollowProfile(profile?.id, profileId)
             toast(`Now following @${currentProfile.username}.`, { hideProgressBar: true, autoClose: 1000 })
-
             setIsAlreadyFollowing(true)
         }
     }

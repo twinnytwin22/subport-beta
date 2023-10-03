@@ -3,6 +3,7 @@ import { redis, redisGet, redisSet } from "lib/redis/redis";
 import { supabaseApi } from "lib/constants";
 
 export const revalidate = 30;
+export const dynamic = 'force-dynamic'
 //export const dynamic = 'force-dynamic'
 export async function GET(req: Request) {
   if (req.method !== 'GET') {
@@ -30,7 +31,7 @@ export async function GET(req: Request) {
     const { data: users, error } = await supabaseApi
     .from("profiles")
     .select(`
-      id, city, state, country, username, website, avatar_url,
+      id, city, state, country, username, website, avatar_url, is_artist,
       drops ( 
         user_id
       )`)

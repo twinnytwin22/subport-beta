@@ -12,7 +12,7 @@ function SettingsPage() {
     const { isLoading, user } = useAuthProvider()
     const [activeTab, setActiveTab] = useState<string | null>('profile')
     const params = useParams()
-    console.log(params)
+    //console.log(params)
 
     return !isLoading && (
         <div className="w-full min-h-[70vh] max-h-[80vh] mt-4 lg:mt-8 flex justify-center content-center mb-24 md:mb-0">
