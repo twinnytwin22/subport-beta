@@ -1,7 +1,7 @@
-import { useImagePath, useIpfsImage, useIpfsUrl } from 'lib/constants'
 import { notFound } from 'next/navigation'
 import React from 'react'
 import { LoadingContainer } from 'ui/LoadingContainer'
+import DropEditor from 'ui/Sections/Drop/DropEditor'
 import { DropPage } from 'ui/Sections/Drop/DropPage'
 import { fetchSingleCollectible } from 'utils/use-server'
 export const revalidate = 0// revalidate this page every 60 seconds
@@ -31,6 +31,7 @@ export default async function Page({ params }: { params: { slug: string, user: s
   return props && (
     <div className='bg-zinc-100 dark:bg-black w-full items-center mb-20 min-h-full relative mx-auto justify-center'>
       <DropPage props={props ?? []} />
+      <DropEditor props={props ?? []} />
     </div>
   )
 }

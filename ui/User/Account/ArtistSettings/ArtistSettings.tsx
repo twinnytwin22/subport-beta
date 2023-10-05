@@ -37,19 +37,19 @@ export default function ArtistSettings() {
   const { data: artistData } = useQuery({
     queryKey: ['data', profile.id],
     queryFn: () => getArtistSettings(profile.id),
-    enabled: !!profile.id
+    enabled: !!profile.id, 
+    onSuccess: (artistData) => {
+      setAmazonUrl(artistData?.amazon_url || null)
+      setAppleUrl(artistData?.apple_url || null )
+      setArtistName(artistData?.artist_name || null)
+      setTidalUrl(artistData?.tidal_url || null)
+      setAvatarUrl(artistData?.avatar_url || null)
+      setDeezerUrl(artistData?.deezer_url || null)
+      setSoundcloudUrl(artistData?.soundcloud_url || null)
+      setSpotifyUrl(artistData?.spotify_url || null)
+    }
   })
   useEffect(() => {
-    if (artistData) {
-      setAmazonUrl(artistData.amazon_url)
-      setAppleUrl(artistData.apple_url)
-      setArtistName(artistData.artist_name)
-      setTidalUrl(artistData.tidal_url)
-      setAvatarUrl(artistData.avatar_url)
-      setDeezerUrl(artistData.deezer_url)
-      setSoundcloudUrl(artistData.soundcloud_url)
-      setSpotifyUrl(artistData.spotify_url)
-    }
 
   }, [artistData]);
 

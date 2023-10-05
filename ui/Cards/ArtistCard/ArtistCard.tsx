@@ -24,7 +24,7 @@ const ArtistCard = ({ artist } : {artist: any}) => {
       </div>
       <div className='flex justify-between relative'>
       <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{artist.username}</div>
+        <div className="font-bold text-lg mb-2">{artist.username}</div>
         <p className="text-zinc-700 dark:text-zinc-300 text-xs">{artist.city}, {artist.state}, {artist.country}</p>
       </div>
       <div className="px-6 py-4 absolute right-0 top-3">

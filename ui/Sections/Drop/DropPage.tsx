@@ -7,25 +7,43 @@ import Image from 'next/image';
 import PlayButton from 'ui/Cards/Collect/PlayButton';
 import { CommentComponent } from './DropCommentUI';
 import { useIpfsImage } from 'lib/constants';
+import { useAuthProvider } from 'app/context/auth';
+import { FaEdit } from 'react-icons/fa';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 export function DropPage({ props }: any) {
+  const searchParams = useSearchParams()
+ 
+  const editDrop = searchParams.get('editDrop')
  // console.log(props, "PROPS")
   const drop = props?.drop;
   const metaData = props?.metaData;
   const imageUrl =  useIpfsImage(metaData?.image!)
   const reactionCount = props?.reactionCount || 5
   const comments = props?.comments || 5
-//console.log(drop, "DROP!!")
-  return props && (
+
+  const {user} = useAuthProvider()
+
+const isAuthedUser = drop.user_id === user?.id
+console.log(metaData)  
+// console.log(props, "DROP!!")
+  return props && !editDrop &&(
     <div className="bg-zinc-100 dark:bg-black h-full flex max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto w-full mt-2.5 md:mt-12 pb-12 ">
+     
       <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto items-start w-full relative">
         <div className="w-full relative px-4 justify-end content-end">
           <div className="flex flex-col mb-2 max-w-lg mx-auto w-full relative">
-            <div className="flex lg:items-end space-x-2">
+            <div className="flex lg:items-end space-x-2 justify-between">
+              <div className="flex lg:items-end space-x-2">
               <h1 className="text-xl font-bold">{drop.title}</h1>
               <h1 className="text-2xl font-semibold">|</h1>
 
               <h1 className="text-xl font-bold">{upload.artist}</h1>
+              </div>
+              <div>
+              {isAuthedUser && <Link href={`/drop/${drop.slug}/?editDrop=true`}><div className='-mt-5 flex space-x-2 items-center'><p className='text-sm'>Edit</p><FaEdit/></div></Link>}
+              </div>
             </div>
             <div className="hidden">
               <h1 className="text-md mt-2">Available {upload.releaseDate}</h1>

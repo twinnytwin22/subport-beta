@@ -23,7 +23,7 @@ function Sidebar() {
         </Link>
       </div>
       <nav className="flex-grow p-2">
-        <ul className="font-bold text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
+        <ul className="font-bold text-lg dark:text-zinc-100 text-zinc-900 items-center mx-auto flex-col space-y-8">
           <SidebarRoutes user={user} profile={profile} />
         </ul>
         <hr className="hidden sm:flex sm:-16 lg:w-40 border-zinc-600 mt-24 mb-8" />

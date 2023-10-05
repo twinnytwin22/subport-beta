@@ -37,7 +37,7 @@ export async function GET(req: Request) {
       .from("drops")
       .select("*")
       .eq("contract_address", contractAddress)
-      .limit(1)
+     // .limit(1)
       .single();
 
     // Wait for both promises to resolve or timeout

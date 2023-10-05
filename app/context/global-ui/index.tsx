@@ -80,7 +80,7 @@ export const GlobalUI =
 
                     )}
                     {(typeof window !== "undefined" && localStorage.getItem("session") === "false") && (
-                        <div className="bg-white dark:bg-black h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
+                        <div className="bg-white dark:bg-black h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0 overflow-hidden">
                             <LoginFormScreen />
                         </div>
                     )}

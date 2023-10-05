@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserData, handleAuthChangeEvent } from "./actions";
 import { supabaseAuth } from "lib/constants";
 import { useRouter } from "next/navigation";
+import LoginFormScreen from "ui/Auth/LoginFormScreen/LoginFormScreen";
 //import LoginFormScreen from "ui/Auth/LoginFormScreen/LoginFormScreen";
 
 export const refresh = () => {
@@ -26,7 +27,6 @@ export const AuthContext = createContext<AuthState>({
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-
   // Flag to track whether authEventData has been successfully fetched
   const authEventDataFetched = useRef(false);
 
@@ -98,7 +98,6 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
 
   return (
     <AuthContext.Provider value={value}>
- 
       {children}
     </AuthContext.Provider>
   );

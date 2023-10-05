@@ -15,6 +15,7 @@
     "gravitron",
     "Helia",
     "hmset",
+    "hset",
     "http",
     "ilike",
     "ipfs",

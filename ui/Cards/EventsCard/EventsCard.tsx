@@ -20,7 +20,7 @@ function EventsCard({ event }: { event: any }) {
           </Link>
       </div>
       <div className="px-6 pt-4 w-full">
-        <div className="font-bold text-xl mb-2">{event.title}</div>
+        <div className="font-bold text-lg mb-2">{event.title}</div>
       </div>
       <div className="px-6 pb-4">
         <p className="text-zinc-700 dark:text-zinc-300 text-xs">

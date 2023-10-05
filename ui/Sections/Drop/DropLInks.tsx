@@ -6,7 +6,8 @@ import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId'
 import { handleSpotifyAction } from 'lib/providers/spotify/spotifyLogic'
 import Link from 'next/link'
 import React from 'react'
-import { FaSpotify, FaMusic } from 'react-icons/fa'
+import { FaSpotify, FaMusic, FaAmazon } from 'react-icons/fa'
+import { SiTidal } from 'react-icons/si'
 
 function DropLinksTo ({ drop }: any) {
   const { user, profile, isLoading } = useAuthProvider()
@@ -96,6 +97,7 @@ function DropLinksTo ({ drop }: any) {
           </div>
         </div>
       )}
+      {drop.apple_url &&
       <div
         onClick={handleApplyMusicSave}
         className='text-white text-center w-full  focus:ring-4 focus:ring-blue-500 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 bg-rose-600 dark:hover:bg-rose-500 focus:outline-none '
@@ -104,7 +106,27 @@ function DropLinksTo ({ drop }: any) {
           <FaMusic />
           <p>Save on Apple Music</p>{' '}
         </div>
-      </div>
+      </div>}
+      {drop.amazon_url &&
+      <div
+        onClick={handleApplyMusicSave}
+        className='text-white text-center w-full  focus:ring-4 focus:ring-blue-500 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 bg-sky-600 dark:hover:bg-sky-500 focus:outline-none '
+      >
+        <div className='flex mx-auto space-x-2 items-center justify-center'>
+          <FaAmazon/>
+          <p>Listen on Amazon Music</p>{' '}
+        </div>
+      </div>}
+      {drop.tidal_url &&
+      <div
+        onClick={handleApplyMusicSave}
+        className='text-white text-center w-full  focus:ring-4 focus:ring-blue-500 font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 bg-black dark:hover:bg-zinc-950 focus:outline-none '
+      >
+        <div className='flex mx-auto space-x-2 items-center justify-center'>
+          < SiTidal/>
+          <p>Listen on Tidal</p>{' '}
+        </div>
+      </div>}
     </div>
   )
 }

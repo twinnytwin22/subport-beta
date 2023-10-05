@@ -25,7 +25,7 @@ function DropsCard({ drop }: { drop: any }) {
                 </div>
             </div>
             <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">{drop.drop.title}</div>
+                <div className="font-bold text-lg mb-2">{drop.drop.title}</div>
                 <p className=" text-zinc-700 dark:text-zinc-300 text-xs">Genre: {drop.drop.genre}</p>
                 <p className="text-zinc-700 hidden">Keywords: {drop.drop.keywords.join(', ')}</p>
                 <p className="text-zinc-700 hidden">Spotify URI: <a href={drop.drop.spotify_uri} target="_blank" rel="noopener noreferrer">{drop.drop.spotify_uri}</a></p>

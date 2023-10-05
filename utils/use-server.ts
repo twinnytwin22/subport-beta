@@ -6,9 +6,10 @@ const host =
 const protocol = process?.env.NODE_ENV === 'development' ? 'http' : 'https'
 
 type FetchTypes = {
-  contractAddress?: string
-  slug?: string
-  id?: string
+  contractAddress?: string | null
+  slug?: string | null
+  id?: string | null
+  refreshCache?: boolean | null
 }
 
 
@@ -34,7 +35,8 @@ const refreshCache = async () => {
 
 const fetchSingleCollectible = async ({
   contractAddress,
-  slug
+  slug, 
+  refreshCache
 }: FetchTypes) => {
   if (contractAddress) {
     try {
@@ -43,7 +45,7 @@ const fetchSingleCollectible = async ({
         `${protocol}://${host}/api/v1/getSingleCollectible?contractAddress=${contractAddress}`
       )
 
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await new Promise((resolve) => setTimeout(resolve, 1500))
       //  return await res.json()
       return await res.json()
     } catch (error) {
@@ -53,9 +55,12 @@ const fetchSingleCollectible = async ({
   }
   if (slug) {
     try {
+      const noRefresh = `${protocol}://${host}//api/v1/getSingleCollectibleBySlug?slug=${slug}`
+      const withRefresh = `${protocol}://${host}//api/v1/getSingleCollectibleBySlug?slug=${slug}&refreshCache=true`
+
       await fetch(`${protocol}://${host}//api/v1/getCollectibles`)
       const res = await fetch(
-        `${protocol}://${host}//api/v1/getSingleCollectibleBySlug?slug=${slug}`
+      refreshCache ? withRefresh : noRefresh
       )
       const data = res.json()
       await new Promise((resolve) => setTimeout(resolve, 2000))

@@ -10,6 +10,7 @@ import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import Image from 'next/image';
 import SpotifyAuth from 'utils/testSpotifyLogic';
 import { supabase } from 'lib/constants';
+import { fetchAllCollectibles } from 'utils/use-server';
 
 let getName = 'Always' + Math.random();
 let name = getName.toString()
@@ -346,6 +347,30 @@ function Page() {
 
   }
 
+  async function fetchDrops() {
+    isLoading(true)
+
+    try {
+      const slug = testSlug
+        //   const contractArray = ["0x658d2ce7c5c05dd1f128bf54ce45bc3a49a37e85"];
+        //  const contractAddress = "0x5a30a9c62e87ee0ed3c6c1229fe6fe256e70564b"
+        ;
+      // const res = await fetch('/api/v1/refreshCache')
+
+      // const res = await fetch('/api/v1/getCollectibles')
+      const res = await fetchAllCollectibles()
+      //const res = await readSingleContractURI(contractAddress)
+      // const res = await readContractURIs(contractArray)
+     
+      if (res) {
+        setResponseJSON(JSON.stringify(res, null, 2)); // Assuming `drop` is the JSON response you want to stringify
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    isLoading(false)
+
+  }
 
 
   return (
@@ -393,7 +418,9 @@ function Page() {
             className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">TEST IPFS</button>
            <button onClick={handleReset}
             className="p-4 bg-red-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">RESET/REFRESH</button>
-
+            <button onClick={fetchDrops}
+            className="p-4 bg-blue-600 justify-center text-white rounded-md mx-auto font-bold hover:scale-105 duration-200 ease-in-out">FETCH DROPS</button>
+    
         </div>
       </div>
     </div>
