@@ -7,28 +7,33 @@ import React, { Suspense } from "react";
 import FooterPlayer from "ui/Players/FooterPlayer";
 import { LoadingContainer } from "ui/LoadingContainer";
 import { NewUserModal } from "ui/User/NewUserModal";
+import { supabaseAuth } from "lib/constants";
+import { createServerClient } from "lib/providers/supabase/supabase-server";
+import LoginFormScreen from "ui/Auth/LoginFormScreen/LoginFormScreen";
 
 
 export const preferredRegion = 'auto'
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
 
-// const host =
-//   process?.env.NODE_ENV === 'development'
-// /    ? 'localhost:3000'
-//     : 'subport.vercel.app'
-// const protocol = process?.env.NODE_ENV === 'development' ? 'http' : 'https'
+const host =
+  process?.env.NODE_ENV === 'development'
+    ? 'localhost:3000'
+    : 'subport.vercel.app'
+const protocol = process?.env.NODE_ENV === 'development' ? 'http' : 'https'
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const url =`${protocol}://${host}/`
+  const supabase = createServerClient()
+  const { data: session, } = await supabase.auth.getSession()
+  const { searchParams } = new URL(url);
+  const loginPage = searchParams.get('login');
 
-  // const supabase = createServerClient()
-  // const { data: session, } = await supabase.auth.getSession()
-  // const { searchParams } = new URL(`${protocol}://${host}`);
-  // const loginPage = searchParams.get('login');
+  console.log(loginPage, "LOGIN PAGE CONSOLE")
 
 
 
@@ -42,28 +47,12 @@ export default async function RootLayout({
     </div>
   );
 
-  // if (!activeClientSession) {
-  //   return (
-  //     <html suppressHydrationWarning={true}>
-  //       <body className="bg-gray-100 dark:bg-black min-w-full max-w-screen w-full relative">
-  //         <Providers>
-  //           <div className="mb-16" />
-  //           <div className="flex flex-wrap relative flex-col mx-auto top-0 right-0 left-0 overflow-hidden w-full">
-  //             {children}
-  //             <div className="bg-white dark:bg-black h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0">
-  //               <LoginFormScreen />
-  //             </div>
-  //           </div>
-  //         </Providers>
-  //       </body>
-  //     </html>
-  //   )
-  // }
-
   return (
     <html suppressHydrationWarning={true}>
       <body className="bg-gray-100 dark:bg-black min-w-full max-w-screen w-full relative">
-        <Providers>
+        <Providers>          
+          {session.session ? (<>
+
           <div className="mb-16" />
           <div className="flex flex-wrap relative flex-col mx-auto top-0 right-0 left-0 overflow-hidden w-full">
             <Sidebar />
@@ -73,8 +62,9 @@ export default async function RootLayout({
                 <ContentWrapper />
               </Suspense>
             </div>
-          </div>
-          <MobileMenu />
+          </div> 
+          <MobileMenu /> </>) : 
+       <ContentWrapper/>}
         </Providers>
       </body>
     </html>

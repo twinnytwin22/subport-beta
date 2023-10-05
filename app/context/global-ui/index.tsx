@@ -61,7 +61,7 @@ export const GlobalUI =
             };
         }, [showModal, handleDiscardComment]);
 
-
+        const activeSession = (typeof window !== "undefined" && localStorage.getItem("session") === "true")
         //  console.log("%c" + icon.replace(/_/g, " "), "background-color: black; color: lime; font-family: 'Courier New'; padding-bottom: 10px");
         //  console.log("\n\n\n");
         //   console.log("%cCheck out jobs() and apps()", "background-color: black; color: lime; padding: 5px 50px 5px 20px; font-family: 'Courier New'");
@@ -79,8 +79,8 @@ export const GlobalUI =
                         </div>
 
                     )}
-                    {(typeof window !== "undefined" && localStorage.getItem("session") === "false") && (
-                        <div className="bg-white dark:bg-black h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0 overflow-hidden">
+                    {!activeSession && (
+                        <div className="bg-white dark:bg-black h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0 ">
                             <LoginFormScreen />
                         </div>
                     )}

@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { supabase, supabaseAuth } from 'lib/constants'
 import LoginFormScreen from 'ui/Auth/LoginFormScreen/LoginFormScreen'
 import { LoadingContainer } from 'ui/LoadingContainer'
+import { createServerClient } from 'lib/providers/supabase/supabase-server'
 export const fetchCache = 'force-no-store'
 export const dynamic = 'force-dynamic'
 
@@ -18,8 +19,9 @@ const host =
 const protocol = process?.env.NODE_ENV === 'development' ? 'http' : 'https'
 
 async function Main() {
-  const [session, drops, events, artists] = await Promise.all([
-    supabaseAuth.auth.getSession(),
+  const supabase = createServerClient()
+  const [{data: session}, drops, events, artists] = await Promise.all([
+    supabase.auth.getSession(),
     fetchAllCollectibles(),
     fetchAllEvents(),
     fetchCreators(),
@@ -34,15 +36,9 @@ async function Main() {
 
 
 
-  // if (!session?.data?.session) {
-  //   return (
-  //     <>
-  //       <div className="bg-white dark:bg-black h-screen w-screen fixed z-[99999] isolate top-0 left-0 right-0">
-  //         <LoginFormScreen />
-  //       </div>
-  //   </>
-  //   )
-  // }
+ if (!session.session) {
+   return null
+   }
 
   // console.log(JSON.stringify(myCookies), "MY COOKIES")
   return (
