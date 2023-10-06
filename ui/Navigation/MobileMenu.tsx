@@ -33,14 +33,13 @@ function MobileMenu() {
       <div className="block sm:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0 z-10">
         <div className={`grid ${profile?.is_artist ? 'grid-cols-5' : 'grid-cols-4'} text-zinc-800 dark:text-zinc-400 justify-items-center pt-3`}>
           <div className="flex group">
-            <Link
-              href="/"
+            <div
               className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white"
             >
               <div className="px-1 flex flex-col items-center mobile-sidebar" onClick={handleOpenMenu}>
                 <AiOutlineMenu className="w-10 h-10 pb-2" />
               </div>
-            </Link>
+            </div>
           </div>
           <div className="flex group">
             <Link
