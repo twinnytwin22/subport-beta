@@ -13,5 +13,5 @@ export async function getSession(){
     const supabase = createServerClient()
     const {data: session} = await supabase.auth.getSession()
 
-    return session.session
+    return session?.session
 }

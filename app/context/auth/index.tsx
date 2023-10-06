@@ -4,8 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserData, handleAuthChangeEvent } from "./actions";
 import { supabaseAuth } from "lib/constants";
 import { useRouter } from "next/navigation";
-import LoginFormScreen from "ui/Auth/LoginFormScreen/LoginFormScreen";
-//import LoginFormScreen from "ui/Auth/LoginFormScreen/LoginFormScreen";
 
 export const refresh = () => {
   window.location.reload();
@@ -30,30 +28,15 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
   // Flag to track whether authEventData has been successfully fetched
   const authEventDataFetched = useRef(false);
 
-  const setSession = (session: boolean) => {
-    if (typeof window !== "undefined") {
-      // Check if `localStorage` is available (client-side)
-      localStorage.setItem("session", session ? "true" : "false");
-    }
-  };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      // Check if `localStorage` is available (client-side)
-      const sessionExists = localStorage.getItem("session");
-      if (!sessionExists) {
-        // If no session is found in local storage, show the authentication screen
-        setSession(false);
-      }
-    }
-  }, []);
+
+
 
   // Inside your AuthContextProvider component
   const signOut = async () => {
     try {
       // Perform any necessary cleanup or log-out actions
       await supabaseAuth.auth.signOut();
-      setSession(false);
       refresh();
     } catch (error) {
       console.error("Error signing out:", error);
@@ -89,12 +72,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     [userData, authEventLoading, userDataLoading, signOut]
   );
 
-  useEffect(() => {
-    // Update the session state in local storage when authEventData changes
-    if (authEventData) {
-      setSession(!!authEventData.session);
-    }
-  }, [authEventData]);
+
 
   return (
     <AuthContext.Provider value={value}>

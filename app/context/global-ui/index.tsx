@@ -3,6 +3,8 @@ import React, { createContext, useContext, useEffect } from 'react'
 import useCommentsStore from './store';
 import { CommentContextComponent } from './component';
 import LoginFormScreen from 'ui/Auth/LoginFormScreen/LoginFormScreen';
+import { useQuery } from '@tanstack/react-query';
+import { getSession } from 'lib/providers/supabase/supabase-server';
 export const GlobalUIContext = createContext<any>(null);
 
 export const GlobalUI =
@@ -61,11 +63,14 @@ export const GlobalUI =
             };
         }, [showModal, handleDiscardComment]);
 
-        const activeSession = (typeof window !== "undefined" && localStorage.getItem("session") === "true")
+       const {data:activeSession, isLoading} = useQuery({
+        queryKey: ['activeSession'],
+        queryFn: () => getSession()
+       })
         //  console.log("%c" + icon.replace(/_/g, " "), "background-color: black; color: lime; font-family: 'Courier New'; padding-bottom: 10px");
         //  console.log("\n\n\n");
         //   console.log("%cCheck out jobs() and apps()", "background-color: black; color: lime; padding: 5px 50px 5px 20px; font-family: 'Courier New'");
-        return (
+        return !isLoading && (
             <GlobalUIContext.Provider value={values}>
                 <div className={`${showModal && 'pr-2 w-screen h-screen'}`}>
                     {children}
