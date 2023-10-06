@@ -79,7 +79,7 @@ export default function LoginCard({ close, isHomePage }: {close?: any , isHomePa
               </span>
             </div>
           </li>
-          <li className={`${signinIn ? 'cursor-wait' : 'cursor-pointer'}`}onClick={handleSignInWithGoogle}>
+          <li className={`${signinIn ? 'cursor-wait' : 'cursor-pointer'} hidden`}onClick={handleSignInWithGoogle}>
             <div
               className={'flex items-center p-3 text-base font-bold text-zinc-900 rounded-md bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 dark:text-white'}
 >              <img className="w-5" src="/images/icons/icons8-google-96.png" />
