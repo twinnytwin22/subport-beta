@@ -34,7 +34,7 @@ function LoginFormScreen() {
                
                 >
                   <div className="px-4 py-6 text-white md:mx-6 md:p-12">
-                    <h1 className="mb-6 text-5xl font-bold">
+                    <h1 className="mb-6 text-3xl md:text-5xl font-bold">
                     Experience new music daily.
                     </h1>
                     <p className="text-lg">
