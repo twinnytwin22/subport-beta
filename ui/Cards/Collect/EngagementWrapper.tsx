@@ -11,7 +11,7 @@ function CardEngagementRow({ dropId, reactionCount }: any) {
     const urlHasDrop = path.includes('/drop/')
 
     if (urlHasDrop) {
-        console.log(true)
+    //    console.log(true)
     }
 
     return !isLoading && dropId && (

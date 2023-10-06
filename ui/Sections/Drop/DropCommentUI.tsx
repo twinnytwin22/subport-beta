@@ -32,7 +32,7 @@ export const CommentComponent = ({ dropId }: any) => {
     }, [comment, dropId]);
     useEffect(() => {
         getUsers();
-        console.log(users);
+       // console.log(users);
     }, []);
 
     const queryEmojis = (query: string, callback: any) => {

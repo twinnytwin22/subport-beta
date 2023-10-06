@@ -3,6 +3,11 @@ import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
 
 // const { data: drops, isLoading, error } = useQuery(['drops', fetchCollectibles]);
 
+async function getDropLinks(id: string) {
+  const {data: dropLinks} = await supabase.from('drops').select().eq('id', id).single()
+  return dropLinks
+}
+
 const addPlaylist = async (userId: any, title: any, uri: any) => {
   let { data: addPlaylist, error: addPlaylistError } = await supabase
     .from("playlists")
@@ -370,4 +375,5 @@ export {
   getDropComments,
   createSubscription,
   checkSubscription,
+  getDropLinks
 };

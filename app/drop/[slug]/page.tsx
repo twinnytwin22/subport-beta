@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import React from 'react'
+import BackButton from 'ui/Buttons/BackButton'
 import { LoadingContainer } from 'ui/LoadingContainer'
 import DropEditor from 'ui/Sections/Drop/DropEditor'
 import { DropPage } from 'ui/Sections/Drop/DropPage'

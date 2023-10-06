@@ -17,7 +17,7 @@ const FollowButton = ({ currentProfile }: any) => {
     const [isAlreadyFollowing, setIsAlreadyFollowing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<any>(null);
-    console.log(currentProfile)
+  //  console.log(currentProfile)
 
     useEffect(() => {
         if (profile && !isAuthedUser) {

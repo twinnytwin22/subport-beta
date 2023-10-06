@@ -70,7 +70,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
       authEventDataFetched.current = true;
     },
   });
-  console.log(authEventData?.session)
+  //console.log(authEventData?.session)
 
   const { data: userData, isLoading: userDataLoading } = useQuery({
     queryKey: ["user", "profile"],

@@ -9,27 +9,45 @@ import { FaApple, FaAmazon, FaDeezer, FaSoundcloud } from 'react-icons/fa'
 import { SiTidal } from 'react-icons/si'
 import { fetchSingleCollectible, refreshCache } from 'utils/use-server'
 import { useQuery } from '@tanstack/react-query'
+import { LoadingContainer } from 'ui/LoadingContainer'
+import BackButton from 'ui/Buttons/BackButton'
+import { getDropLinks } from 'utils/database'
 
 function DropEditForm({drop}: any) {
-     console.log(drop)
     const { user, profile, isLoading } = useAuthProvider();
     const [updates, setUpdates] = useState({})
     const [loading, setLoading] = useState(false)
     const router = useRouter()    
+   
     const {
-        apple_url,
-        amazon_url,
-        deezer_url,
-        soundcloud_url,
-       // spotify_url,
-        tidal_url,
-        setAmazonUrl,
-        setAppleUrl,
-        setSoundcloudUrl,
-      //  setSpotifyUrl,
-        setDeezerUrl,
-        setTidalUrl,
-      } = useDropSettings()
+      apple_url,
+      amazon_url,
+      deezer_url,
+      soundcloud_url,
+     // spotify_url,
+      tidal_url,
+      setAmazonUrl,
+      setAppleUrl,
+      setSoundcloudUrl,
+    //  setSpotifyUrl,
+      setDeezerUrl,
+      setTidalUrl,
+    } = useDropSettings()
+
+    const {data:dropLinks, isLoading:dropLinksLoading} = useQuery({
+      queryKey: ['dropLinks', drop.id],
+      queryFn: (() => getDropLinks(drop.id)),
+      enabled: !!drop.id,
+      onSuccess: (dropLinks: any) => {
+        setAmazonUrl(dropLinks?.amazon_url)
+        setAppleUrl(dropLinks?.apple_url!)
+        setDeezerUrl(dropLinks?.deezer_url)
+        setSoundcloudUrl(dropLinks?.soundcloud_url)
+        setTidalUrl(dropLinks?.tidal_url)
+      }
+    })
+
+  //  console.log(dropLinks)
 
    
 
@@ -90,14 +108,16 @@ function DropEditForm({drop}: any) {
         
       }
     
-      if (isLoading || !user || loading) {
-        return;
+      if (isLoading || !user || loading || dropLinksLoading) {
+        return <LoadingContainer/>;
       }
     
-      return (
+      return dropLinks && (
         !isLoading &&
         user && (
-        <>
+        <><div className='absolute lg:-mt-10'>
+              <BackButton url={`/drop/${drop.slug!}`}/>
+</div>
           <div className="mx-auto w-full max-w-sm content-start items-center h-full my-8 flex-col justify-between mt-8">
            {profile.is_artist && 
            <div className="overflow-y-scroll space-y-2">
@@ -123,7 +143,7 @@ function DropEditForm({drop}: any) {
                     type="text"
                     id="amazon_url"
                     name="amazon_url"
-                    value={amazon_url || drop.amazon_url || ''}
+                    value={amazon_url || ''}
                     onChange={(e: any) => setAmazonUrl(e?.target.value)}
                   />
                 </div>

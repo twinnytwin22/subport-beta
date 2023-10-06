@@ -5,38 +5,22 @@ import { ArtistList } from 'ui/Cards/ArtistCard/ArtistCard'
 import { DropsList } from 'ui/Cards/DropsCard/DropsCard'
 import { EventsList } from 'ui/Cards/EventsCard/EventsCard'
 import Link from 'next/link'
-import { supabase, supabaseAuth } from 'lib/constants'
-import LoginFormScreen from 'ui/Auth/LoginFormScreen/LoginFormScreen'
 import { LoadingContainer } from 'ui/LoadingContainer'
-import { createServerClient } from 'lib/providers/supabase/supabase-server'
+import { getSession } from 'lib/providers/supabase/supabase-server'
 export const fetchCache = 'force-no-store'
 export const dynamic = 'force-dynamic'
 
-const host =
-  process?.env.NODE_ENV === 'development'
-    ? 'localhost:3000'
-    : 'subport.vercel.app'
-const protocol = process?.env.NODE_ENV === 'development' ? 'http' : 'https'
-
 async function Main() {
-  const supabase = createServerClient()
-  const [{data: session}, drops, events, artists] = await Promise.all([
-    supabase.auth.getSession(),
+  const [session, drops, events, artists] = await Promise.all([
+    getSession(),
     fetchAllCollectibles(),
     fetchAllEvents(),
     fetchCreators(),
 
   ])
-  const activeSession = typeof window !== "undefined" && localStorage.getItem("session") === "false" 
-
   const dropsWithMetaData = drops?.dropsWithMetaData
 
-
-
-
-
-
- if (!session.session) {
+ if (!session) {
    return null
    }
 

@@ -26,7 +26,7 @@ export function DropPage({ props }: any) {
   const {user} = useAuthProvider()
 
 const isAuthedUser = drop.user_id === user?.id
-console.log(metaData)  
+//console.log(metaData)  
 // console.log(props, "DROP!!")
   return props && !editDrop &&(
     <div className="bg-zinc-100 dark:bg-black h-full flex max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto w-full mt-2.5 md:mt-12 pb-12 ">
