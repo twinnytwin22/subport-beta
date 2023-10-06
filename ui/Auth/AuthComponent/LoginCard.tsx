@@ -34,7 +34,7 @@ export default function LoginCard({ close, isHomePage }: {close?: any , isHomePa
       },
   });
   //setSigningIn(false)
-  router.refresh()
+ // router.refresh()
   };
 
   const handleSignInWithGoogle = async () => {
