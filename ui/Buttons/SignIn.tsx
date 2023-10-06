@@ -7,7 +7,7 @@ export const SignInModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogin = () => {
-    setIsOpen(true)
+    setIsOpen((prevState) => !prevState)
   }
 
   function SignInButton() {

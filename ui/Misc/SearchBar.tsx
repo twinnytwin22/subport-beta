@@ -25,7 +25,7 @@ const SearchBar = () => {
             search();
         } else {
             setSearchResults({ profiles: [], events: [], drops: [] });
-            setIsOpen(true);
+            setIsOpen((prevState) => !prevState)
         }
     }, [searchTerm, isInputFocused]);
 
@@ -66,7 +66,7 @@ const SearchBar = () => {
     };
 
     const handleInputFocus = () => {
-        setIsOpen(true);
+        setIsOpen((prevState) => !prevState)
     };
 
     const handleInputBlur = () => {
@@ -77,7 +77,7 @@ const SearchBar = () => {
     const handleLink = (href: string) => {
         router.push(href)
         setSearchTerm('')
-        setIsOpen(false)
+        setIsOpen((prevState) => !prevState)
     }
 
     return (

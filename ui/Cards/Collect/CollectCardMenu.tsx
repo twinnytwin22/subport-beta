@@ -11,18 +11,11 @@ import { toast } from 'react-toastify'
 function CollectCardMenu({ drop }: { drop: any }) {
     const dropUrl = `${homePath}/drop/${drop?.slug}`
     const [isOpen, setIsOpen] = useState(false)
-    useHandleOutsideClick(isOpen, setIsOpen, 'collect-menu')
+    useHandleOutsideClick(isOpen, setIsOpen, `collect-menu${drop.slug}`)
 
     const handleMenuClick = () => {
-        if (!isOpen) {
-            setIsOpen(true)
-            return
-        } else {
-            setIsOpen(false)
-            return
-        }
+            setIsOpen((prevState) => !prevState)
     }
-
     const handleCopyClick = () => {
         copyToClipboard(dropUrl);
         toast.success('Link copied to clipboard!', {
@@ -31,7 +24,7 @@ function CollectCardMenu({ drop }: { drop: any }) {
     };
 
     return (
-        <div className='select-none collect-menu'>
+        <div className={`select-none collect-menu${drop.slug}`}>
             <div className={`flex h-8 pr-3 ${!isOpen && "hover:scale-110"}`} onClick={handleMenuClick}>
                 <MenuDots />
             </div>

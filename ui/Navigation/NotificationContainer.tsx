@@ -34,7 +34,7 @@ export const NotificationIcon = () => {
     const [isOpen, setOpen] = useState(false);
 
     const handleOpenMenu = () => {
-        setOpen(!isOpen);
+        setOpen((prevState) => !prevState)
     };
 
     useHandleOutsideClick(isOpen, setOpen, 'notification');

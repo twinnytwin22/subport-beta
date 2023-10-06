@@ -19,13 +19,8 @@ function MobileMenu() {
   useHandleOutsideClick(isOpen, setOpen, 'mobile-sidebar')
 
   const handleOpenMenu = () => {
-    if (!isOpen) {
-      setOpen(true)
-      return
-    } else {
-      setOpen(false)
-      return
-    }
+    setOpen((prevState) => !prevState)
+
   }
 
   return user && (

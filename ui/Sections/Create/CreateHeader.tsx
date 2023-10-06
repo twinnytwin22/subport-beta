@@ -4,7 +4,7 @@ import React from 'react';
 const createSubport = {
     campaigns: {
         title: 'Get Started',
-        options: [{ name: 'IRL Event', href: '/create/event', description: 'Promote an upcoming event. Collect RSVPs, sell tickets, add perks. ' },
+        options: [{ name: 'Event', href: '/create/event', description: 'Promote an upcoming event. Collect RSVPs, sell tickets, add perks. ' },
         { name: 'Collectible', href: '/create/collectible', description: 'Reward your community digital collectibles for supporting your drop. ' },
         { name: 'Subscription', href: '/create/subscription', description: 'Monthly subscription for your community to subport on-going!' },
             //   { name: 'Option 3', href: '#' },

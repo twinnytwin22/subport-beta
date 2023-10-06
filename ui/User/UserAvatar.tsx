@@ -14,11 +14,8 @@ function UserAvatar() {
 
 
   const handleToggle = () => {
-    if (!isOpen) {
-      setIsOpen(true)
-      return
-    } else setIsOpen(false)
-    return
+    setIsOpen((prevState) => !prevState)
+
   }
 
 
