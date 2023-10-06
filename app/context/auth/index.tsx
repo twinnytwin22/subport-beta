@@ -59,7 +59,7 @@ export const AuthContextProvider = ({ children }: { children: React.ReactNode })
     queryKey: ["user", "profile"],
     queryFn: getUserData,
     enabled: !!authEventData?.session!,
-    refetchOnMount: false,
+  //s  refetchOnMount: false,
   });
 
   const value = useMemo(
