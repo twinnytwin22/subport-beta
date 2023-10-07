@@ -8,7 +8,6 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import { uploadToIpfs } from "lib/deployFunctions/uploadFileIpfs";
 import Image from 'next/image';
-import SpotifyAuth from 'utils/testSpotifyLogic';
 import { supabase } from 'lib/constants';
 import { fetchAllCollectibles } from 'utils/use-server';
 
