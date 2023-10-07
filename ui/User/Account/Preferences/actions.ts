@@ -3,10 +3,11 @@ import { supabase } from "lib/constants"
 export const getProfileSettings = async (id: string) => {
     const { data: settings } = await supabase
       .from('user_preferences')
-      .select()
+      .select('*')
       .eq('user_id', id)
+      .maybeSingle()
     //  .single()
-    if (settings && settings?.length == 0) {
+    if (settings) {
       const { data: newUserPrefs } = await supabase
         .from('user_preferences')
         .upsert({

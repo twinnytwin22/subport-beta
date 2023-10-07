@@ -9,7 +9,7 @@ import Toggle from './Toggle'
 function Preferences () {
   const { profile } = useAuthProvider()
   const { data: userSettings } = useQuery({
-    queryKey: ['settings', profile.id],
+    queryKey: ['userSettings', profile.id],
     queryFn: () => getProfileSettings(profile.id)
   })
 
