@@ -1,18 +1,18 @@
 'use client'
 import React from 'react';
-import DropLinksTo from 'ui/Sections/Drop/DropLinks/DropLInks';
+import DropLinksTo from 'ui/Sections/Drop/DropLinks';
 import { upload } from 'lib/content/mockUpload';
 import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper';
 import Image from 'next/image';
 import PlayButton from 'ui/Cards/Collect/PlayButton';
-import { CommentComponent } from './DropCommentUI';
+import { CommentComponent } from '../DropCommentUI';
 import { useIpfsImage } from 'lib/constants';
 import { useAuthProvider } from 'app/context/auth';
 import { FaEdit } from 'react-icons/fa';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export function DropPage({ props }: any) {
+export default function DropPage({ props }: any) {
   const searchParams = useSearchParams()
  
   const editDrop = searchParams.get('editDrop')
@@ -22,6 +22,8 @@ export function DropPage({ props }: any) {
   const imageUrl =  useIpfsImage(metaData?.image!)
   const reactionCount = props?.reactionCount || 5
   const comments = props?.comments || 5
+  const path = usePathname()
+  const dropPage = path.startsWith('/drop')
 
   const {user} = useAuthProvider()
 

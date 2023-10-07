@@ -5,6 +5,7 @@ import { CommentContextComponent } from './component';
 import LoginFormScreen from 'ui/Auth/LoginFormScreen';
 import { useQuery } from '@tanstack/react-query';
 import { getSession } from 'lib/providers/supabase/supabase-server';
+import { usePathname } from 'next/navigation';
 export const GlobalUIContext = createContext<any>(null);
 
 export const GlobalUI =
@@ -67,6 +68,10 @@ export const GlobalUI =
         queryKey: ['activeSession'],
         queryFn: () => getSession()
        })
+
+       const path = usePathname()
+       const dropPage = path.startsWith('/drop')
+       console.log(path)
         //  console.log("%c" + icon.replace(/_/g, " "), "background-color: black; color: lime; font-family: 'Courier New'; padding-bottom: 10px");
         //  console.log("\n\n\n");
         //   console.log("%cCheck out jobs() and apps()", "background-color: black; color: lime; padding: 5px 50px 5px 20px; font-family: 'Courier New'");
@@ -84,7 +89,7 @@ export const GlobalUI =
                         </div>
 
                     )}
-                    {!activeSession && (
+                    {!activeSession && !dropPage && (
                         <div className="bg-white dark:bg-black h-screen w-screen fixed z-[9999] isolate top-0 left-0 right-0 ">
                             <LoginFormScreen />
                         </div>

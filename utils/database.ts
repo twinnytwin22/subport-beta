@@ -4,8 +4,11 @@ import { supabase } from "lib/constants";
 // const { data: drops, isLoading, error } = useQuery(['drops', fetchCollectibles]);
 
 async function getDropLinks(id: string) {
-  const {data: dropLinks} = await supabase.from('drops').select().eq('id', id).single()
-  return dropLinks
+  try{
+  const {data: dropLinks, error} = await supabase.from('drops').select().eq('id', id).single()
+  return dropLinks } catch (error) {
+return error
+  }
 }
 
 const addPlaylist = async (userId: any, title: any, uri: any) => {

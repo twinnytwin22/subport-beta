@@ -1,8 +1,8 @@
-import { notFound } from 'next/navigation'
 import React from 'react'
+import { notFound } from 'next/navigation'
 import { LoadingContainer } from 'ui/LoadingContainer'
 import DropEditor from 'ui/Sections/Drop/DropEditor'
-import { DropPage } from 'ui/Sections/Drop/DropPage'
+import DropPage  from 'ui/Sections/Drop/DropPage'
 import { fetchSingleCollectible } from 'utils/use-server'
 export const dynamic = 'force-dynamic'
 export const revalidate = 5
