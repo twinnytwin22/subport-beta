@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect } from 'react'
 import useCommentsStore from './store';
 import { CommentContextComponent } from './component';
-import LoginFormScreen from 'ui/Auth/LoginFormScreen/LoginFormScreen';
+import LoginFormScreen from 'ui/Auth/LoginFormScreen';
 import { useQuery } from '@tanstack/react-query';
 import { getSession } from 'lib/providers/supabase/supabase-server';
 export const GlobalUIContext = createContext<any>(null);

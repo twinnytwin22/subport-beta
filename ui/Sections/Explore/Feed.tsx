@@ -4,11 +4,10 @@ import CollectCard from 'ui/Cards/Collect/CollectCard'
 import EventCard from 'ui/Cards/Events/EventCard'
 import { useExploreStore } from './ExploreStore';
 import { useLocationExtractor } from 'lib/hooks/useLocationExtractor';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { FaExternalLinkAlt } from 'react-icons/fa';
-import { BsViewStacked } from 'react-icons/bs';
-import {TfiViewGrid, TfiViewList} from 'react-icons/tfi'
+
 const Feed: React.FC<{ data: any, events: any }> = ({ data, events }) => {
 
     const searchParams = useSearchParams().get('view')

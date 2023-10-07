@@ -2,20 +2,20 @@
 import Link from 'next/link';
 import React, { Suspense, useState } from 'react';
 import { LoadingContainer } from 'ui/LoadingContainer';
-import FilterOptions from 'ui/Sections/Explore/FilterOptions';
+import FilterOptions from 'ui/Sections/Explore/FilterOptions/FilterOptions';
 import UserSuggestions from 'ui/Sections/Explore/UserSuggestions';
 import { BsFillFilterSquareFill, BsViewStacked } from 'react-icons/bs'
 import { useHandleOutsideClick } from 'lib/hooks/handleOutsideClick';
 import { TfiViewGrid, TfiViewList } from 'react-icons/tfi';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 function Layout({ children }: { children: React.ReactNode }) {
+    const [isOpen, setIsOpen] = useState(false)
     const searchParams = useSearchParams().get('view')
     const router = useRouter()
     const pathName = usePathname()
     const path = pathName + '?view='
     // console.log(path)
 
-    const [isOpen, setIsOpen] = useState(false)
     useHandleOutsideClick(isOpen, setIsOpen, 'right-sidebar')
     const handleRightSideBar = () => {
         setIsOpen((prevState) => !prevState)

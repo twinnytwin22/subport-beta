@@ -1,15 +1,13 @@
 
 import Providers from "lib/providers/providers";
-import Navbar from "ui/Navigation/Navbar";
+import Navbar from "ui/Navigation/Navbar/Navbar";
 import MobileMenu from "ui/Navigation/MobileMenu";
 import Sidebar from "ui/Navigation/Sidebar";
 import React, { Suspense } from "react";
 import FooterPlayer from "ui/Players/FooterPlayer";
 import { LoadingContainer } from "ui/LoadingContainer";
-import { NewUserModal } from "ui/User/NewUserModal";
-import { supabaseAuth } from "lib/constants";
+import  NewUserModal  from "ui/User/NewUserModal";
 import { createServerClient } from "lib/providers/supabase/supabase-server";
-import LoginFormScreen from "ui/Auth/LoginFormScreen/LoginFormScreen";
 
 
 export const preferredRegion = 'auto'

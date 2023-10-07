@@ -1,6 +1,6 @@
 'use client'
 import React from 'react';
-import DropLinksTo from 'ui/Sections/Drop/DropLInks';
+import DropLinksTo from 'ui/Sections/Drop/DropLinks/DropLInks';
 import { upload } from 'lib/content/mockUpload';
 import CardEngagementRow from 'ui/Cards/Collect/EngagementWrapper';
 import Image from 'next/image';

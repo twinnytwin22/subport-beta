@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { FollowButton } from 'ui/Buttons/FollowButton'
+import { FollowButton } from 'ui/Buttons/FollowButton/FollowButton'
 import { useImagePath } from 'lib/constants';
 
 function EventOrganizer({ user }: any) {

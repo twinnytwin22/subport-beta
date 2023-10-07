@@ -1,12 +1,11 @@
 import { notFound } from 'next/navigation'
 import React from 'react'
-import BackButton from 'ui/Buttons/BackButton'
 import { LoadingContainer } from 'ui/LoadingContainer'
 import DropEditor from 'ui/Sections/Drop/DropEditor'
 import { DropPage } from 'ui/Sections/Drop/DropPage'
 import { fetchSingleCollectible } from 'utils/use-server'
-export const revalidate = 0// revalidate this page every 60 seconds
 export const dynamic = 'force-dynamic'
+export const revalidate = 5
 export default async function Page({ params }: { params: { slug: string, user: string } }) {
   const { slug } = params
   const res = await fetchSingleCollectible({ slug })

@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
-import ProfileMusicList from './ProfileMusicList';
-import CardView from './ProfileCardView';
+import ProfileMusicList from './ProfileMusicList/ProfileMusicList';
+import CardView from './ProfileCardView/ProfileCardView';
 import { FaThList } from 'react-icons/fa';
 import { IoMdGrid } from 'react-icons/io';
 

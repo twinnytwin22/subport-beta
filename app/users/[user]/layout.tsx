@@ -1,7 +1,7 @@
 import { getProfileData } from 'lib/hooks/getProfileDrops';
 import Link from 'next/link';
 import React, { Suspense } from 'react'
-import Profile from 'ui/User/Profile/Profile';
+import Profile from 'ui/User/Profile/Profile/Profile';
 import ProfileEventsRow from 'ui/User/Profile/ProfileEventsRow';
 import { checkUser } from 'utils/database';
 

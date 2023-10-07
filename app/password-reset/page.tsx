@@ -1,5 +1,5 @@
 import React from 'react'
-import PasswordReset from 'ui/Auth/PasswordReset'
+import PasswordReset from 'ui/Auth/PasswordReset/'
 
 function page() {
     return (

@@ -1,5 +1,5 @@
 import { supabase } from "lib/constants";
-import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
+//import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
 
 // const { data: drops, isLoading, error } = useQuery(['drops', fetchCollectibles]);
 
@@ -25,46 +25,46 @@ const getUsersPlaylist = async (userId: any) => {
   return { addPlaylist, addPlaylistError };
 };
 
-const fetchSingleCollectible = async (slug: any) => {
-  try {
-    let { data: drop, error } = await supabase
-      .from("drops")
-      .select("*")
-      .eq("slug", slug);
+// const fetchSingleCollectible = async (slug: any) => {
+//   try {
+//     let { data: drop, error } = await supabase
+//       .from("drops")
+//       .select("*")
+//       .eq("slug", slug);
 
-    if (drop !== null && drop.length > 0) {
-      const contractAddress = drop[0]?.contract_address;
+//     if (drop !== null && drop.length > 0) {
+//       const contractAddress = drop[0]?.contract_address;
 
-      if (contractAddress) {
-        try {
-          const metaData: any = await readSingleContractURI(contractAddress);
+//       if (contractAddress) {
+//         try {
+//           const metaData: any = await readSingleContractURI(contractAddress);
 
-          const dropWithMetaData: any = {
-            drop: drop[0],
-            metaData: metaData,
-          };
+//           const dropWithMetaData: any = {
+//             drop: drop[0],
+//             metaData: metaData,
+//           };
 
-          //  const reactionCount = await getTotalReactions(drop[0]?.id);
-          //  const dropComments = await getDropComments(drop[0]?.id);
+//           //  const reactionCount = await getTotalReactions(drop[0]?.id);
+//           //  const dropComments = await getDropComments(drop[0]?.id);
 
-          return {
-            error,
-            drop: drop[0],
-            //  reactionCount,
-            //    dropComments,
-            dropWithMetaData,
-          };
-        } catch (error) {
-          console.error("Error fetching single contract URI:", error);
-        }
-      } else {
-        return { error: "Not Found", drop: null };
-      }
-    }
-  } catch (error) {
-    console.error("Error fetching single collectible:", error);
-  }
-};
+//           return {
+//             error,
+//             drop: drop[0],
+//             //  reactionCount,
+//             //    dropComments,
+//             dropWithMetaData,
+//           };
+//         } catch (error) {
+//           console.error("Error fetching single contract URI:", error);
+//         }
+//       } else {
+//         return { error: "Not Found", drop: null };
+//       }
+//     }
+//   } catch (error) {
+//     console.error("Error fetching single collectible:", error);
+//   }
+// };
 
 const fetchProfilesForDrops = async (id: any) => {
   let { data: dropProfiles } = await supabase
@@ -74,15 +74,15 @@ const fetchProfilesForDrops = async (id: any) => {
   return dropProfiles;
 };
 
-const getAllUsers = async () => {
-  let { data: users, error } = await supabase
-    .from("profiles")
-    .select("username, id");
-  if (error) {
-    console.error("error", error);
-  }
-  return users;
-};
+// const getAllUsers = async () => {
+//   let { data: users, error } = await supabase
+//     .from("profiles")
+//     .select("username, id");
+//   if (error) {
+//     console.error("error", error);
+//   }
+//   return users;
+// };
 
 const getProfilesWithDrops = async () => {
   const { data: users, error } = await supabase.from("profiles").select(`
@@ -282,20 +282,6 @@ const deleteDropComment = async (
   return data;
 };
 
-const transportPK = async (userId: any) => {
-  // Retrieve decrypted data from the `decrypted_secrets` view
-  const { data, error } = await supabase
-    .from("decrypted_profiles")
-    .select("access_key")
-    .eq("id", userId);
-
-  if (error) {
-    console.error(error);
-  } else {
-    return data;
-  }
-};
-
 const checkSubscription = async (id: any) => {
   try {
     // Check if a subscription already exists for the user
@@ -363,9 +349,9 @@ export {
   // fetchCollectibles, // getting all drops
   addPlaylist, // create playlist name and row in db
   getUsersPlaylist, // getting the users playlist
-  fetchSingleCollectible, // fetch drop for page
+ // fetchSingleCollectible, // fetch drop for page
   fetchProfilesForDrops, // getting related profile to drops
-  getAllUsers, // getting all the profiles
+//  getAllUsers, // getting all the profiles
   getProfilesWithDrops, // getting profiles that have drops
   checkUser, // check if the user exists
   getTotalReactions, // reaction count for each drop

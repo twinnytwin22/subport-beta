@@ -1,5 +1,5 @@
 "use client";
-import { SignOutButton } from "ui/Buttons/SignOut";
+import SignOutButton  from "ui/Buttons/SignOut";
 import Avatar from "ui/User/UploadWidget";
 import { toast } from "react-toastify";
 import { useAuthProvider } from "app/context/auth";

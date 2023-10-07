@@ -3,6 +3,9 @@ import React from 'react'
 import DropFeed from 'ui/Sections/Explore/DropFeed';
 import { fetchAllCollectibles } from 'utils/use-server';
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 5
+
 async function page() {
     const [dropRes] = await Promise.all([
         fetchAllCollectibles()

@@ -1,5 +1,7 @@
 import React from 'react'
 import { headers } from 'next/headers';
+export const dynamic = 'force-dynamic'
+export const revalidate = 5
 async function page() {
     const host = headers().get('host')
     const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"

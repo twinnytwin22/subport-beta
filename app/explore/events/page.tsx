@@ -4,8 +4,8 @@ import { getProfilesWithDrops } from "utils/database";
 import { headers } from "next/headers";
 import EventFeed from "ui/Sections/Explore/Events"
 import { fetchAllCollectibles, fetchAllEvents } from "utils/use-server";
-export const revalidate = 0// revalidate this page every 60 seconds
-
+export const dynamic = 'force-dynamic'
+export const revalidate = 5
 
 async function Page() {
   const [drops, events, data] = await Promise.all([

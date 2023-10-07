@@ -1,6 +1,6 @@
 import { supabase } from "lib/constants";
 import React from "react";
-import SettingsPage, { SettingsPageSmall } from "ui/User/Account";
+import SettingsPage, { SettingsPageSmall } from "ui/User/Account/Account";
 
 async function Page() {
 const session = await supabase.auth.getSession()

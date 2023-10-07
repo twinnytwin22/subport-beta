@@ -3,7 +3,7 @@ import { useHandleOutsideClick } from 'lib/hooks/handleOutsideClick';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
-import DropLinksTo from 'ui/Sections/Drop/DropLInks';
+import DropLinksTo from 'ui/Sections/Drop/DropLinks/DropLInks';
 
 function CollectButton({ props, drop }: any) {
     const [isOpen, setIsOpen] = React.useState(false);

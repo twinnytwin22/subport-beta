@@ -19,7 +19,9 @@ export interface Database {
           soundcloud_url: string | null
           spotify_url: string | null
           tidal_url: string | null
+          updated_at: string | null
           user_id: string
+          website: string | null
         }
         Insert: {
           amazon_url?: string | null
@@ -30,7 +32,9 @@ export interface Database {
           soundcloud_url?: string | null
           spotify_url?: string | null
           tidal_url?: string | null
+          updated_at?: string | null
           user_id?: string
+          website?: string | null
         }
         Update: {
           amazon_url?: string | null
@@ -41,7 +45,9 @@ export interface Database {
           soundcloud_url?: string | null
           spotify_url?: string | null
           tidal_url?: string | null
+          updated_at?: string | null
           user_id?: string
+          website?: string | null
         }
         Relationships: [
           {
@@ -192,37 +198,58 @@ export interface Database {
       }
       drops: {
         Row: {
+          amazon_url: string | null
+          apple_url: string | null
           contract_address: string
           created_at: string
+          deezer_url: string | null
           genre: string | null
           id: string
           keywords: string[] | null
           slug: string | null
+          soundcloud_url: string | null
           spotify_uri: string | null
+          tidal_url: string | null
           title: string | null
+          updated_at: string | null
           user_id: string
+          youtube_url: string | null
         }
         Insert: {
+          amazon_url?: string | null
+          apple_url?: string | null
           contract_address?: string
           created_at?: string
+          deezer_url?: string | null
           genre?: string | null
           id?: string
           keywords?: string[] | null
           slug?: string | null
+          soundcloud_url?: string | null
           spotify_uri?: string | null
+          tidal_url?: string | null
           title?: string | null
+          updated_at?: string | null
           user_id: string
+          youtube_url?: string | null
         }
         Update: {
+          amazon_url?: string | null
+          apple_url?: string | null
           contract_address?: string
           created_at?: string
+          deezer_url?: string | null
           genre?: string | null
           id?: string
           keywords?: string[] | null
           slug?: string | null
+          soundcloud_url?: string | null
           spotify_uri?: string | null
+          tidal_url?: string | null
           title?: string | null
+          updated_at?: string | null
           user_id?: string
+          youtube_url?: string | null
         }
         Relationships: [
           {
@@ -667,6 +694,37 @@ export interface Database {
           },
           {
             foreignKeyName: "subscriptions_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "decrypted_profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      user_preferences: {
+        Row: {
+          created_at: string
+          super_follow: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          super_follow?: boolean
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          super_follow?: boolean
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_preferences_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_preferences_user_id_fkey"
             columns: ["user_id"]
             referencedRelation: "decrypted_profiles"
             referencedColumns: ["id"]

@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
-import DarkModeSwitch from 'ui/Buttons/DarkModeSwitch';
+import DarkModeSwitch from 'ui/Buttons/DarkModeSwitch/DarkModeSwitch';
 import { useAuthProvider } from 'app/context/auth';
 
 

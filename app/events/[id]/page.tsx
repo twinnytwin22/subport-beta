@@ -1,5 +1,4 @@
 import React, { Suspense } from "react";
-import { headers } from "next/headers";
 import { reformatDate } from "lib/hooks/formatDate";
 import EventHeader from "ui/Sections/Events/EventHeader";
 import EventDetails from "ui/Sections/Events/EventDetails";
@@ -8,6 +7,8 @@ import { checkUser } from "utils/database";
 import EventOrganizer from "ui/Sections/Events/EventOrganizer";
 import EventTicketContainer from "ui/Sections/Events/EventTicketContainer";
 import { fetchAllEvents } from "utils/use-server";
+export const dynamic = 'force-dynamic'
+export const revalidate = 5
 export default async function Page({
     params,
 }: {
