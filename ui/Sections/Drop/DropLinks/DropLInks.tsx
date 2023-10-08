@@ -1,5 +1,4 @@
 'use client'
-
 import { useQuery } from '@tanstack/react-query'
 import { useAuthProvider } from 'app/context/auth'
 import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId'

@@ -27,7 +27,9 @@
       ],
       "ui/*": [
         "ui/*"
-      ] // this mapping is relative to "baseUrl"
+      ],
+      "@/*": ["./*"]
+      // th,is mapping is relative to "baseUrl"
     },
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "deployer/hardhat.config.js", "deployer/scripts/SBPRT721_deploy.js"],
