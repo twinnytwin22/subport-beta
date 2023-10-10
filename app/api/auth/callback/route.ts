@@ -5,13 +5,20 @@ import { Database } from "types/database.types";
 export const dynamic = 'force-dynamic'
 
 
-export async function GET(request: Request) {
-  const requestUrl = new URL(request.url);
-  const code = requestUrl.searchParams.get("code");
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url)
+  const code = searchParams.get('code')
+  const next = searchParams.get('next') ?? '/'
+
   if (code) {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
-    await supabase.auth.exchangeCodeForSession(code);
+    const cookieStore = cookies()
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    if (!error) {
+      return NextResponse.redirect(new URL(`/${next.slice(1)}`, req.url))
+    }
   }
-  // URL to redirect to after sign in process completes
-  return NextResponse.redirect(requestUrl.origin);
+
+  // return the user to an error page with instructions
+  return NextResponse.redirect(new URL('/auth/auth-code-error', req.url))
 }
