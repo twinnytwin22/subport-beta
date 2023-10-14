@@ -25,6 +25,8 @@ export async function POST(req: Request) {
       // 4. Create a checkout session in Stripe
       let session;
       if (price.type === 'recurring') {
+
+   
         session = await stripe.checkout.sessions.create({
           payment_method_types: ['card'],
           billing_address_collection: 'required',
@@ -38,12 +40,15 @@ export async function POST(req: Request) {
               quantity
             }
           ],
+          
           mode: 'subscription',
           allow_promotion_codes: true,
-          subscription_data: {
-            trial_from_plan: true,
-            metadata
-          },
+          metadata,
+          
+          // subscription_data: {
+          //   trial_from_plan: true,
+          //   metadata
+          // },
           success_url: `${getURL()}/portal`,
           cancel_url: `${getURL()}/`
         });
@@ -69,7 +74,7 @@ export async function POST(req: Request) {
       }
 
       if (session) {
-        return NextResponse.json(JSON.stringify({ sessionId: session.id }), {
+        return new Response(JSON.stringify({ sessionId: session.id }), {
           status: 200
         });
       } else {
