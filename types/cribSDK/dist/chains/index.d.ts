@@ -1,4 +1,4 @@
-import { Addresses } from "../addresses";
+import { Addresses } from '../addresses';
 export declare type Chain = {
   id: number;
   network: string;

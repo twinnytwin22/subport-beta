@@ -1,1 +1,1 @@
-export {default} from './ProfileMusicItem'
+export { default } from './ProfileMusicItem';

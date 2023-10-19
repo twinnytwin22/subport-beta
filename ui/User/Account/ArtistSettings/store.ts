@@ -14,17 +14,16 @@ export interface ArtistSettings {
 }
 
 interface ArtistState extends ArtistSettings {
-  setArtistName: (artist_name: string | null) => void,
-  setAvatarUrl: (avatar_url: string | null) => void,
-  setSpotifyUrl: (spotify_url: string | null) => void,
-  setAppleUrl: (apple_url: string | null) => void,
-  setSoundcloudUrl: (soundcloud_url: string | null) => void,
-  setTidalUrl: (tidal_url: string | null) => void,
-  setAmazonUrl: (amazon_url: string | null) => void,
-  setDeezerUrl: (deezer_url: string | null) => void,
+  setArtistName: (artist_name: string | null) => void;
+  setAvatarUrl: (avatar_url: string | null) => void;
+  setSpotifyUrl: (spotify_url: string | null) => void;
+  setAppleUrl: (apple_url: string | null) => void;
+  setSoundcloudUrl: (soundcloud_url: string | null) => void;
+  setTidalUrl: (tidal_url: string | null) => void;
+  setAmazonUrl: (amazon_url: string | null) => void;
+  setDeezerUrl: (deezer_url: string | null) => void;
 }
 // Initial artist settings data
-
 
 // Create the Zustand store
 const useArtistSettings = create<ArtistState>((set) => ({
@@ -47,7 +46,7 @@ const useArtistSettings = create<ArtistState>((set) => ({
   setSoundcloudUrl: (soundcloud_url: string | null) => set({ soundcloud_url }),
   setTidalUrl: (tidal_url: string | null) => set({ tidal_url }),
   setAmazonUrl: (amazon_url: string | null) => set({ amazon_url }),
-  setDeezerUrl: (deezer_url: string | null) => set({ deezer_url }),
+  setDeezerUrl: (deezer_url: string | null) => set({ deezer_url })
 }));
 
 export default useArtistSettings;

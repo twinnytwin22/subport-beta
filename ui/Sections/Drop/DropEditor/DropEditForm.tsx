@@ -1,126 +1,135 @@
-'use client'
-import React, { useState } from 'react'
-import useDropSettings from './store'
-import { useAuthProvider } from 'app/context/auth'
-import { supabase } from 'lib/constants'
-import { toast } from 'react-toastify'
-import { useRouter } from 'next/navigation'
-import { FaApple, FaAmazon, FaDeezer, FaSoundcloud } from 'react-icons/fa'
-import { SiTidal } from 'react-icons/si'
-import { fetchSingleCollectible, refreshCache } from 'utils/use-server'
-import { useQuery } from '@tanstack/react-query'
-import { LoadingContainer } from 'ui/LoadingContainer'
-import BackButton from 'ui/Buttons/BackButton'
-import { getDropLinks } from 'utils/database'
+'use client';
+import { useQuery } from '@tanstack/react-query';
+import { useAuthProvider } from 'app/context/auth';
+import { supabase } from 'lib/constants';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { FaAmazon, FaApple, FaDeezer, FaSoundcloud } from 'react-icons/fa';
+import { SiTidal } from 'react-icons/si';
+import { toast } from 'react-toastify';
+import BackButton from 'ui/Buttons/BackButton';
+import { LoadingContainer } from 'ui/LoadingContainer';
+import { getDropLinks } from 'utils/database';
+import { fetchSingleCollectible } from 'utils/use-server';
+import useDropSettings from './store';
 
-function DropEditForm({drop}: any) {
-    const { user, profile, isLoading } = useAuthProvider();
-    const [updates, setUpdates] = useState({})
-    const [loading, setLoading] = useState(false)
-    const router = useRouter()    
-   
-    const {
-      apple_url,
-      amazon_url,
-      deezer_url,
-      soundcloud_url,
-     // spotify_url,
-      tidal_url,
-      setAmazonUrl,
-      setAppleUrl,
-      setSoundcloudUrl,
+function DropEditForm({ drop }: any) {
+  const { user, profile, isLoading } = useAuthProvider();
+  const [updates, setUpdates] = useState({});
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const {
+    apple_url,
+    amazon_url,
+    deezer_url,
+    soundcloud_url,
+    // spotify_url,
+    tidal_url,
+    setAmazonUrl,
+    setAppleUrl,
+    setSoundcloudUrl,
     //  setSpotifyUrl,
-      setDeezerUrl,
-      setTidalUrl,
-    } = useDropSettings()
+    setDeezerUrl,
+    setTidalUrl
+  } = useDropSettings();
 
-    const {data:dropLinks, isLoading:dropLinksLoading} = useQuery({
-      queryKey: ['dropLinks', drop.id],
-      queryFn: (() => getDropLinks(drop.id)),
-      enabled: !!drop.id,
-      onSuccess: (dropLinks: any) => {
-        setAmazonUrl(dropLinks?.amazon_url)
-        setAppleUrl(dropLinks?.apple_url!)
-        setDeezerUrl(dropLinks?.deezer_url)
-        setSoundcloudUrl(dropLinks?.soundcloud_url)
-        setTidalUrl(dropLinks?.tidal_url)
-      }
-    })
+  const { data: dropLinks, isLoading: dropLinksLoading } = useQuery({
+    queryKey: ['dropLinks', drop.id],
+    queryFn: () => getDropLinks(drop.id),
+    enabled: !!drop.id,
+    onSuccess: (dropLinks: any) => {
+      setAmazonUrl(dropLinks?.amazon_url);
+      setAppleUrl(dropLinks?.apple_url!);
+      setDeezerUrl(dropLinks?.deezer_url);
+      setSoundcloudUrl(dropLinks?.soundcloud_url);
+      setTidalUrl(dropLinks?.tidal_url);
+    }
+  });
 
   //  console.log(dropLinks)
 
-   
-
-     // console.log(data, "DATA")
-      async function updateDrop({
-        apple_url,
-        amazon_url,
-        deezer_url,
-        soundcloud_url,
-        //spotify_url,
-        tidal_url,
-      }: any) {
-        if (drop && user) {
-          try {
-            setLoading(true);
-            const updates: any = {};
-            if (typeof apple_url !== 'undefined' && apple_url !== drop?.apple_url) {
-              updates.apple_url = apple_url;
-            }
-            if (typeof amazon_url !== 'undefined' && amazon_url !== drop?.amazon_url) {
-              updates.amazon_url = amazon_url;
-            }
-            if (typeof deezer_url !== 'undefined' && deezer_url !== drop?.deezer_url) {
-              updates.deezer_url = deezer_url;
-            }
-            if (typeof soundcloud_url !== 'undefined' && soundcloud_url !== drop?.soundcloud_url) {
-              updates.soundcloud_url = soundcloud_url;
-            }
-            // if (typeof spotify_url !== 'undefined' && spotify_url !== drop?.spotify_url) {
-            //   updates.spotify_url = spotify_url;
-            // }
-            if (typeof tidal_url !== 'undefined' && tidal_url !== drop?.tidal_url) {
-              updates.tidal_url = tidal_url;
-            }
-            updates.updated_at = new Date().toISOString();
-            let { data, error } = await supabase
-              .from("drops")
-              .update(updates)
-              .eq("id", drop?.id)
-              .select()
-              .single()
-    
-            if (data?.slug) {
-              await fetchSingleCollectible({slug: data?.slug, refreshCache: true})
-              setLoading(false);
-              toast.success("drop updated!");
-              router.refresh();
-            }
-            if (error) throw error;
-          } catch (error) {
-            toast.error(JSON.stringify(error));
-          }
+  // console.log(data, "DATA")
+  async function updateDrop({
+    apple_url,
+    amazon_url,
+    deezer_url,
+    soundcloud_url,
+    //spotify_url,
+    tidal_url
+  }: any) {
+    if (drop && user) {
+      try {
+        setLoading(true);
+        const updates: any = {};
+        if (typeof apple_url !== 'undefined' && apple_url !== drop?.apple_url) {
+          updates.apple_url = apple_url;
         }
-      }
-    
+        if (
+          typeof amazon_url !== 'undefined' &&
+          amazon_url !== drop?.amazon_url
+        ) {
+          updates.amazon_url = amazon_url;
+        }
+        if (
+          typeof deezer_url !== 'undefined' &&
+          deezer_url !== drop?.deezer_url
+        ) {
+          updates.deezer_url = deezer_url;
+        }
+        if (
+          typeof soundcloud_url !== 'undefined' &&
+          soundcloud_url !== drop?.soundcloud_url
+        ) {
+          updates.soundcloud_url = soundcloud_url;
+        }
+        // if (typeof spotify_url !== 'undefined' && spotify_url !== drop?.spotify_url) {
+        //   updates.spotify_url = spotify_url;
+        // }
+        if (typeof tidal_url !== 'undefined' && tidal_url !== drop?.tidal_url) {
+          updates.tidal_url = tidal_url;
+        }
+        updates.updated_at = new Date().toISOString();
+        let { data, error } = await supabase
+          .from('drops')
+          .update(updates)
+          .eq('id', drop?.id)
+          .select()
+          .single();
 
-      const handleChange = (e: any) => {
-        
+        if (data?.slug) {
+          await fetchSingleCollectible({
+            slug: data?.slug,
+            refreshCache: true
+          });
+          setLoading(false);
+          toast.success('drop updated!');
+          router.refresh();
+        }
+        if (error) throw error;
+      } catch (error) {
+        toast.error(JSON.stringify(error));
       }
-    
-      if (isLoading || !user || loading || dropLinksLoading) {
-        return <LoadingContainer/>;
-      }
-    
-      return dropLinks && (
-        !isLoading &&
-        user && (
-        <><div className='absolute lg:-mt-10'>
-              <BackButton url={`/drop/${drop.slug!}`}/>
-</div>
-          <div className="mx-auto w-full max-w-sm content-start items-center h-full my-8 flex-col justify-between mt-8">
-           {profile.is_artist && 
-           <div className="overflow-y-scroll space-y-2">
+    }
+  }
+
+  const handleChange = (e: any) => { };
+
+  if (isLoading || !user || loading || dropLinksLoading) {
+    return <LoadingContainer />;
+  }
+
+  return (
+    dropLinks &&
+    !isLoading &&
+    user && (
+      <>
+        <div className="absolute lg:-mt-10">
+          <BackButton url={`/drop/${drop.slug!}`} />
+        </div>
+        <div className="mx-auto w-full max-w-sm content-start items-center h-full my-8 flex-col justify-between mt-8">
+          {profile.is_artist && (
+            <div className="overflow-y-scroll space-y-2">
               <div className="place-content-end mx-auto space-y-2 hidden">
                 <label
                   className="block mb-1 text-sm font-medium text-zinc-900 dark:text-white"
@@ -234,7 +243,7 @@ function DropEditForm({drop}: any) {
                 </div>
               </div>
               <button
-               // type='button'
+                // type='button'
                 disabled={loading}
                 onClick={() =>
                   updateDrop({
@@ -242,20 +251,19 @@ function DropEditForm({drop}: any) {
                     amazon_url,
                     deezer_url,
                     soundcloud_url,
-                    tidal_url,
+                    tidal_url
                   })
                 }
                 className="bg-blue-700 text-white p-2 text-sm w-32 rounded-md hover:bg-blue-800 hover:scale-105 mt-4"
               >
                 Update Settings
               </button>
-            </div>}
-          
-          </div>
-        </>
-    
-      )
-      );
-    }
-    
-export default DropEditForm
+            </div>
+          )}
+        </div>
+      </>
+    )
+  );
+}
+
+export default DropEditForm;

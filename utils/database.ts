@@ -1,19 +1,24 @@
-import { supabase } from "lib/constants";
+import { supabase } from 'lib/constants';
 //import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
 
 // const { data: drops, isLoading, error } = useQuery(['drops', fetchCollectibles]);
 
 async function getDropLinks(id: string) {
-  try{
-  const {data: dropLinks, error} = await supabase.from('drops').select().eq('id', id).single()
-  return dropLinks } catch (error) {
-return error
+  try {
+    const { data: dropLinks, error } = await supabase
+      .from('drops')
+      .select()
+      .eq('id', id)
+      .single();
+    return dropLinks;
+  } catch (error) {
+    return error;
   }
 }
 
 const addPlaylist = async (userId: any, title: any, uri: any) => {
   let { data: addPlaylist, error: addPlaylistError } = await supabase
-    .from("playlists")
+    .from('playlists')
     .insert([{ title: title, user_id: userId, uri: uri }]);
 
   return { addPlaylist, addPlaylistError };
@@ -21,9 +26,9 @@ const addPlaylist = async (userId: any, title: any, uri: any) => {
 
 const getUsersPlaylist = async (userId: any) => {
   let { data: addPlaylist, error: addPlaylistError } = await supabase
-    .from("playlists")
-    .select("*")
-    .eq("user_id", userId);
+    .from('playlists')
+    .select('*')
+    .eq('user_id', userId);
 
   return { addPlaylist, addPlaylistError };
 };
@@ -71,9 +76,9 @@ const getUsersPlaylist = async (userId: any) => {
 
 const fetchProfilesForDrops = async (id: any) => {
   let { data: dropProfiles } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", id);
+    .from('profiles')
+    .select('*')
+    .eq('id', id);
   return dropProfiles;
 };
 
@@ -88,7 +93,7 @@ const fetchProfilesForDrops = async (id: any) => {
 // };
 
 const getProfilesWithDrops = async () => {
-  const { data: users, error } = await supabase.from("profiles").select(`
+  const { data: users, error } = await supabase.from('profiles').select(`
     id, city, state, country,
      drops (
       user_id
@@ -106,14 +111,14 @@ const getProfilesWithDrops = async () => {
 const checkUser = async ({ user, id }: any) => {
   if (user) {
     let { data: profiles, error } = await supabase
-      .from("profiles")
+      .from('profiles')
       .select(
-        "id, username, avatar_url, website, display_name, city, state, country, bio"
+        'id, username, avatar_url, website, display_name, city, state, country, bio'
       )
-      .eq("username", user);
+      .eq('username', user);
 
     if (error) {
-      console.error("error", error);
+      console.error('error', error);
     }
 
     if (profiles !== null && profiles.length > 0) {
@@ -124,14 +129,14 @@ const checkUser = async ({ user, id }: any) => {
   }
   if (id) {
     let { data: profiles, error } = await supabase
-      .from("profiles")
+      .from('profiles')
       .select(
-        "id, username, avatar_url, website, display_name, city, state, country, bio"
+        'id, username, avatar_url, website, display_name, city, state, country, bio'
       )
-      .eq("id", id);
+      .eq('id', id);
 
     if (error) {
-      console.error("error", error);
+      console.error('error', error);
     }
 
     if (profiles !== null && profiles.length > 0) {
@@ -145,9 +150,9 @@ const checkUser = async ({ user, id }: any) => {
 const addReaction = async ({ dropId, reactionType, userId }: any) => {
   if (userId && dropId && reactionType) {
     let { data, error } = await supabase
-      .from("drop_reactions")
+      .from('drop_reactions')
       .insert([
-        { drop_id: dropId, reaction_type: reactionType, user_id: userId },
+        { drop_id: dropId, reaction_type: reactionType, user_id: userId }
       ]);
 
     if (error) {
@@ -159,10 +164,10 @@ const addReaction = async ({ dropId, reactionType, userId }: any) => {
 
 const checkUserReactions = async (dropId: string, userId: string) => {
   const { data, error } = await supabase
-    .from("drop_reactions")
+    .from('drop_reactions')
     .select()
-    .eq("drop_id", dropId)
-    .eq("user_id", userId);
+    .eq('drop_id', dropId)
+    .eq('user_id', userId);
 
   if (error) {
     throw error;
@@ -172,10 +177,10 @@ const checkUserReactions = async (dropId: string, userId: string) => {
 
 const checkUserSingleCollect = async (dropId: string, userId: string) => {
   const { data, error } = await supabase
-    .from("drop_collects")
+    .from('drop_collects')
     .select()
-    .eq("drop_id", dropId)
-    .eq("user_id", userId);
+    .eq('drop_id', dropId)
+    .eq('user_id', userId);
 
   if (data?.length == 0) {
     return false;
@@ -187,16 +192,16 @@ const checkUserSingleCollect = async (dropId: string, userId: string) => {
 
 const deleteReaction = async ({
   dropId,
-  userId,
+  userId
 }: {
   dropId: string;
   userId: string;
 }) => {
   let { data, error } = await supabase
-    .from("drop_reactions")
+    .from('drop_reactions')
     .delete()
-    .eq("drop_id", dropId)
-    .eq("user_id", userId);
+    .eq('drop_id', dropId)
+    .eq('user_id', userId);
 
   if (error) {
     throw error;
@@ -208,9 +213,9 @@ const deleteReaction = async ({
 const getTotalReactions = async (dropId: string) => {
   try {
     const { count, error } = await supabase
-      .from("drop_reactions")
-      .select("count", { count: "exact", head: true })
-      .eq("drop_id", dropId)
+      .from('drop_reactions')
+      .select('count', { count: 'exact', head: true })
+      .eq('drop_id', dropId)
       .single();
 
     if (error) {
@@ -219,7 +224,7 @@ const getTotalReactions = async (dropId: string) => {
 
     return count || 0;
   } catch (error) {
-    console.error("Error:", error);
+    console.error('Error:', error);
     // Handle error
     return 0;
   }
@@ -228,7 +233,7 @@ const getTotalReactions = async (dropId: string) => {
 const getDropComments = async (dropId: string) => {
   try {
     const { data, error } = await supabase
-      .from("drop_comments")
+      .from('drop_comments')
       .select(
         `*,
       profiles (
@@ -236,7 +241,7 @@ const getDropComments = async (dropId: string) => {
       )
       `
       )
-      .eq("drop_id", dropId);
+      .eq('drop_id', dropId);
 
     if (error) {
       throw error;
@@ -244,7 +249,7 @@ const getDropComments = async (dropId: string) => {
 
     return data;
   } catch (error) {
-    console.error("Error fetching comments:", error);
+    console.error('Error fetching comments:', error);
     return [];
   }
 };
@@ -256,7 +261,7 @@ const addDropComment = async (
 ) => {
   if (userId && dropId && comment) {
     let { data, error } = await supabase
-      .from("drop_comments")
+      .from('drop_comments')
       .insert([{ drop_id: dropId, comment: comment, user_id: userId }]);
 
     if (error) {
@@ -272,11 +277,11 @@ const deleteDropComment = async (
   commentId: string
 ) => {
   let { data, error } = await supabase
-    .from("drop_comments")
+    .from('drop_comments')
     .delete()
-    .eq("drop_id", dropId)
-    .eq("user_id", userId)
-    .eq("id", commentId);
+    .eq('drop_id', dropId)
+    .eq('user_id', userId)
+    .eq('id', commentId);
 
   if (error) {
     throw error;
@@ -290,9 +295,9 @@ const checkSubscription = async (id: any) => {
     // Check if a subscription already exists for the user
     const { data: existingSubscription, error: existingSubscriptionError } =
       await supabase
-        .from("subscriptions")
-        .select("*")
-        .eq("user_id", id)
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', id)
         .single();
 
     if (existingSubscriptionError) {
@@ -301,7 +306,7 @@ const checkSubscription = async (id: any) => {
 
     return existingSubscription;
   } catch (error) {
-    console.error("Error checking subscription:", error);
+    console.error('Error checking subscription:', error);
     return null;
   }
 };
@@ -314,21 +319,21 @@ const createSubscription = async (subData: any, id: any) => {
 
     if (existingSubscription !== null) {
       // Delete the existing subscription
-      await supabase.from("subscriptions").delete().eq("user_id", id);
+      await supabase.from('subscriptions').delete().eq('user_id', id);
     }
 
     // Store the new subscription data in Supabase
     const { data: newSubscription, error: newSubscriptionError } =
-      await supabase.from("subscriptions").insert([
+      await supabase.from('subscriptions').insert([
         {
           user_id: id,
           price_per_month: subData?.pricePerMonth,
-          tier_1: !!subData?.subscriptionBundle?.includes("3"), // Convert to boolean
-          tier_2: !!subData?.subscriptionBundle?.includes("6"), // Convert to boolean
-          tier_3: !!subData?.subscriptionBundle?.includes("12"), // Convert to boolean
-          crypto: !!subData?.paymentMethod?.includes("crypto"), // Convert to boolean
-          cash: !!subData?.paymentMethod?.includes("cash"), // Convert to boolean
-        },
+          tier_1: !!subData?.subscriptionBundle?.includes('3'), // Convert to boolean
+          tier_2: !!subData?.subscriptionBundle?.includes('6'), // Convert to boolean
+          tier_3: !!subData?.subscriptionBundle?.includes('12'), // Convert to boolean
+          crypto: !!subData?.paymentMethod?.includes('crypto'), // Convert to boolean
+          cash: !!subData?.paymentMethod?.includes('cash') // Convert to boolean
+        }
       ]);
 
     if (newSubscriptionError) {
@@ -336,11 +341,11 @@ const createSubscription = async (subData: any, id: any) => {
     }
 
     // Do something with the stored subscription data, e.g., redirect to success page
-    console.log("Subscription created:", newSubscription);
+    console.log('Subscription created:', newSubscription);
     return { subscription: newSubscription };
     // Invalidate the subscription tiers query to trigger refetch
   } catch (error) {
-    console.error("Error creating subscription:", error);
+    console.error('Error creating subscription:', error);
     return { error };
   }
 };
@@ -352,9 +357,9 @@ export {
   // fetchCollectibles, // getting all drops
   addPlaylist, // create playlist name and row in db
   getUsersPlaylist, // getting the users playlist
- // fetchSingleCollectible, // fetch drop for page
+  // fetchSingleCollectible, // fetch drop for page
   fetchProfilesForDrops, // getting related profile to drops
-//  getAllUsers, // getting all the profiles
+  //  getAllUsers, // getting all the profiles
   getProfilesWithDrops, // getting profiles that have drops
   checkUser, // check if the user exists
   getTotalReactions, // reaction count for each drop

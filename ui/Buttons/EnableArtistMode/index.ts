@@ -1,1 +1,1 @@
-export {default} from './EnableArtistMode'
+export { default } from './EnableArtistMode';

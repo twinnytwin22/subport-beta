@@ -1,13 +1,13 @@
-import { redis } from "lib/redis/redis";
-import { NextResponse } from "next/server";
-import { promisify } from "util";
+import { redis } from 'lib/redis/redis';
+import { NextResponse } from 'next/server';
+import { promisify } from 'util';
 
 // Promisify Redis get and set methods
 const redisGet = promisify(redis.get).bind(redis);
 const redisSet = promisify(redis.set).bind(redis);
 
 export async function GET() {
-  const cacheKey = "drops_cache"; // Specify a cache key
+  const cacheKey = 'drops_cache'; // Specify a cache key
 
   // Retrieve the existing data from Redis cache
   const cachedResponse = await redisGet(cacheKey);

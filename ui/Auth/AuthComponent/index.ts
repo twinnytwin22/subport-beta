@@ -1,3 +1,3 @@
 // index.ts
 
-export { default } from "./LoginCard";
+export { default } from './LoginCard';

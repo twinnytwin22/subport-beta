@@ -7,7 +7,7 @@ interface SpotifyUrlIdExtractor {
    * @param {string} url - The Spotify URL.
    * @returns {null | { type: string, id: string }} - An object containing the Spotify type and ID, or null for an invalid URL.
    */
-  getTypeAndId(url: string): null | { type: string, id: string };
+  getTypeAndId(url: string): null | { type: string; id: string };
   artist: {
     /**
      * Extracts the artist ID from a given Spotify artist URL.
@@ -43,7 +43,7 @@ function useSpotifyUrlId(): SpotifyUrlIdExtractor {
   const spotifyUrlRegex: { [key: string]: RegExp } = {
     artist: /https:\/\/open.spotify.com\/artist\/([a-zA-Z0-9]+)/,
     track: /https:\/\/open.spotify.com\/track\/([a-zA-Z0-9]+)/,
-    playlist: /https:\/\/open.spotify.com\/playlist\/([a-zA-Z0-9]+)/,
+    playlist: /https:\/\/open.spotify.com\/playlist\/([a-zA-Z0-9]+)/
   };
 
   const getTypeAndId = (url: string) => {
@@ -64,14 +64,14 @@ function useSpotifyUrlId(): SpotifyUrlIdExtractor {
   return {
     getTypeAndId: (url: string) => getTypeAndId(url),
     artist: {
-      getId: (url: string) => extractId(url, 'artist'),
+      getId: (url: string) => extractId(url, 'artist')
     },
     track: {
-      getId: (url: string) => extractId(url, 'track'),
+      getId: (url: string) => extractId(url, 'track')
     },
     playlist: {
-      getId: (url: string) => extractId(url, 'playlist'),
-    },
+      getId: (url: string) => extractId(url, 'playlist')
+    }
   };
 }
 

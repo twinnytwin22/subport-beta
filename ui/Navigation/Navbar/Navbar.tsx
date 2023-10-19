@@ -1,9 +1,9 @@
-"use client";
-import { useAuthProvider } from "app/context/auth";
-import SignInModal from "ui/Buttons/SignIn";
-import SearchBar from "ui/Misc/SearchBar";
-import UserAvatar from "ui/User/UserAvatar";
-import NotificationIcon  from "../NotificationIcon";
+'use client';
+import { useAuthProvider } from 'app/context/auth';
+import SignInModal from 'ui/Buttons/SignIn';
+import SearchBar from 'ui/Misc/SearchBar';
+import UserAvatar from 'ui/User/UserAvatar';
+import NotificationIcon from '../NotificationIcon';
 function Navbar() {
   const { user } = useAuthProvider();
 
@@ -16,13 +16,13 @@ function Navbar() {
             <div className="sm:flex items-center space-x-6 hidden ">
               <NotificationIcon />
               <div className="hidden sm:block">
-                {" "}
+                {' '}
                 <UserAvatar />
               </div>
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-end max-w-screen-xl mx-auto h-6 lg:hidden" >
+          <div className="flex items-center justify-end max-w-screen-xl mx-auto h-6 lg:hidden">
             <SignInModal />
           </div>
         )}
@@ -34,7 +34,6 @@ function Navbar() {
 export default Navbar;
 
 const SearchButton = () => {
-
   return (
     <button
       type="submit"
@@ -58,7 +57,3 @@ const SearchButton = () => {
     </button>
   );
 };
-
-
-
-

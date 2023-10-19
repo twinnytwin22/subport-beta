@@ -1,5 +1,5 @@
-'use client'
-import { MediaRenderer } from "@thirdweb-dev/react";
+'use client';
+import { MediaRenderer } from '@thirdweb-dev/react';
 
 export const Media = (data: any) => {
   const audioUrl = data?.audio;
@@ -12,12 +12,15 @@ export const Media = (data: any) => {
     src: audioUrl,
     poster: imageUrl,
     alt: 'Nft Media',
-    requireinteraction: true || undefined,
+    requireinteraction: true || undefined
   };
 
   return (
     <div className="mx-auto block content-center" suppressHydrationWarning>
-      <MediaRenderer {...mediaProps} requireInteraction={mediaProps.requireinteraction ? true : undefined} />
+      <MediaRenderer
+        {...mediaProps}
+        requireInteraction={mediaProps.requireinteraction ? true : undefined}
+      />
     </div>
   );
 };

@@ -1,25 +1,25 @@
-import { readContractURIs } from "lib/hooks/readContractURIs";
-import { redis, redisGet, redisSet } from "lib/redis/redis";
+import { readContractURIs } from 'lib/hooks/readContractURIs';
+import { redisSet } from 'lib/redis/redis';
 
-import { supabaseApi } from "lib/constants";
-import { NextRequest, NextResponse } from "next/server";
+import { supabaseApi } from 'lib/constants';
+import { NextRequest, NextResponse } from 'next/server';
 
 export const revalidate = 0;
 
-export async function GET(req:NextRequest) {
+export async function GET(req: NextRequest) {
   if (req.method !== 'GET') {
     return NextResponse.json('error: Method Not Allowed', { status: 405 });
   }
   try {
-    const cacheKey = "drops_cache";
+    const cacheKey = 'drops_cache';
     // Delete the cache if the "refresh" parameter is set to true    // Check if the response is available in Redis cache
     const { data: drops, error } = await supabaseApi
-      .from("drops")
-      .select("*")
-      .order("created_at", { ascending: false });
+      .from('drops')
+      .select('*')
+      .order('created_at', { ascending: false });
 
     if (error) {
-      throw new Error("Error fetching drops");
+      throw new Error('Error fetching drops');
     }
 
     if (drops) {
@@ -33,13 +33,13 @@ export async function GET(req:NextRequest) {
 
           const dropsWithMetaData = drops.map((drop, index) => ({
             drop,
-            metaData: metaData[index]?.metadata,
+            metaData: metaData[index]?.metadata
           }));
           const response = {
             dropsWithMetaData,
             drops,
             contractAddresses,
-            metaData,
+            metaData
           };
           await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -48,15 +48,14 @@ export async function GET(req:NextRequest) {
 
           return new Response(JSON.stringify(response));
         } catch (error) {
-          console.error("Error refreshing cache:", error);
-          return new Response("Error: refreshing cache");
+          console.error('Error refreshing cache:', error);
+          return new Response('Error: refreshing cache');
         }
       }
     }
   } catch (error) {
-    console.error("Error refreshing cache:", error);
-    return new Response("Error: refreshing cache");
+    console.error('Error refreshing cache:', error);
+    return new Response('Error: refreshing cache');
   }
-  return new Response("Error fetching drops");
-
+  return new Response('Error fetching drops');
 }

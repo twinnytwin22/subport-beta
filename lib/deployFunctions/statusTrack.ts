@@ -1,5 +1,5 @@
-"use client";
-import { create } from "zustand";
+'use client';
+import { create } from 'zustand';
 
 interface StatusStoreState {
   status: string;
@@ -8,8 +8,8 @@ interface StatusStoreState {
 
 export const useStatusStore = create<StatusStoreState>((set) => {
   const state: StatusStoreState = {
-    status: "pending",
-    setStatus: (newStatus) => set({ status: newStatus }),
+    status: 'pending',
+    setStatus: (newStatus) => set({ status: newStatus })
   };
 
   return state;

@@ -1,1 +1,1 @@
-export {default} from './UserSuggestions'
+export { default } from './UserSuggestions';

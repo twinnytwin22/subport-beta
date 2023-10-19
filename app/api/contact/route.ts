@@ -7,19 +7,19 @@ export async function POST(req: Request) {
   if (req.method !== 'POST') {
     return NextResponse.json('error: Method Not Allowed', { status: 405 });
   }
-  if (req.method === "POST") {
-  const { subject, email, message, name } = await req.json();
-  if (!email) {
-    return NextResponse.json("error: Email is required");
-  }
+  if (req.method === 'POST') {
+    const { subject, email, message, name } = await req.json();
+    if (!email) {
+      return NextResponse.json('error: Email is required');
+    }
 
-  const msg = {
-    to: email,
-    cc: process.env.FROM_EMAIL as string,
-    from: process.env.FROM_EMAIL as string,
-    subject: 'Contact form submission from RandalHerndon.com',
-    text: 'New Message from Randal',
-    html: `
+    const msg = {
+      to: email,
+      cc: process.env.FROM_EMAIL as string,
+      from: process.env.FROM_EMAIL as string,
+      subject: 'Contact form submission from RandalHerndon.com',
+      text: 'New Message from Randal',
+      html: `
     <!DOCTYPE html>
     <html>
       <head>
@@ -102,18 +102,17 @@ export async function POST(req: Request) {
       </body>
     </html>
     
-    `,
-  };
+    `
+    };
 
-  try {
-    await sgMail.send(msg);
-    console.log('Email sent');
-    NextResponse.json('success: true')
-  } catch (error) {
-    console.error(error);
-    NextResponse.json('error: Error sending email')
+    try {
+      await sgMail.send(msg);
+      console.log('Email sent');
+      NextResponse.json('success: true');
+    } catch (error) {
+      console.error(error);
+      NextResponse.json('error: Error sending email');
+    }
   }
-}
-return NextResponse.json("error: Method not allowed");
-
+  return NextResponse.json('error: Method not allowed');
 }

@@ -1,1 +1,1 @@
-export {default} from './ProfileCardView'
+export { default } from './ProfileCardView';

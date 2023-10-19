@@ -1,5 +1,14 @@
 {
+  "formatAll.includeFileExtensions": [
+    ".ts",
+    ".tsx",
+    ".json"
+  ],
+  "formatAll.excludeFolders":  ["node_modules", ".history", ".vscode", ".next", "supabase"],
   "solidity.packageDefaultDependenciesContractsDirectory": "contracts",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+},
   "solidity.packageDefaultDependenciesDirectory": "node_modules",
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
@@ -17,6 +26,7 @@
     "hmset",
     "hset",
     "http",
+    "ianvs",
     "ilike",
     "ipfs",
     "ipfscdn",
@@ -27,11 +37,13 @@
     "multicall",
     "nextauth",
     "nomicfoundation",
+    "Parens",
     "pino",
     "pkce",
     "POLYGONSCAN",
     "prefs",
     "qjfdpaecmjljkboepipm",
+    "qstash",
     "rainbowkit",
     "randomcolor",
     "ratelimit",

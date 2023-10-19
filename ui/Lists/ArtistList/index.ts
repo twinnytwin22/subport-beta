@@ -1,1 +1,1 @@
-export {default} from './ArtistList'
+export { default } from './ArtistList';

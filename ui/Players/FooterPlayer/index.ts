@@ -1,1 +1,1 @@
-export {default} from './FooterPlayer'
+export { default } from './FooterPlayer';

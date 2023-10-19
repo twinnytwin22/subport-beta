@@ -1,1 +1,1 @@
-export {default} from './DropPage'
+export { default } from './DropPage';

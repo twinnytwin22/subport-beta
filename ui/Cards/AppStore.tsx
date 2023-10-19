@@ -1,4 +1,3 @@
-import React from "react";
 
 function AppStore() {
   //console.log('user:', user ,'profile:', profile)

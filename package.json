@@ -13,7 +13,11 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "postinstall": "patch-package",
     "supabase-start": "supabase start",
-    "update-types": "supabase gen types typescript --project-id \"qjfdpaecmjljkboepipm\" > types/Database.ts"
+    "update-types": "supabase gen types typescript --project-id \"qjfdpaecmjljkboepipm\" > types/Database.ts",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.2",
@@ -55,7 +59,7 @@
     "stream": "^0.0.2",
     "stripe": "^13.10.0",
     "swr": "^2.2.4",
-    "typescript": "^5.2.2",
+    "typescript": "^5.2.0",
     "viem": "^1.16.5",
     "wagmi": "^1.4.3",
     "zustand": "^4.4.3"

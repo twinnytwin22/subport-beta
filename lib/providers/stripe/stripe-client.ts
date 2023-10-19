@@ -1,7 +1,5 @@
 import { loadStripe } from '@stripe/stripe-js/pure';
 
-import { Stripe } from '@stripe/stripe-js';
-
 
 let stripePromise: Promise<any | null>;
 

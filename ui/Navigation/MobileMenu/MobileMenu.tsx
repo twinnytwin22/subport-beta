@@ -1,34 +1,37 @@
-'use client'
-import { useAuthProvider } from "app/context/auth";
-import Link from "next/link";
-import React, { useState } from "react";
-import UserAvatar from "ui/User/UserAvatar";
-import { AiOutlineMenu } from "react-icons/ai";
-import { SupbortLogo } from "lib/content/siteSettings";
-import Image from "next/image";
-import { PublicRoutes, UserRoutes } from "../Routes";
-import { useHandleOutsideClick } from "lib/hooks/handleOutsideClick";
-import NotificationIcon from "../NotificationIcon";
+'use client';
+import { useAuthProvider } from 'app/context/auth';
+import { SupbortLogo } from 'lib/content/siteSettings';
+import { useHandleOutsideClick } from 'lib/hooks/handleOutsideClick';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState } from 'react';
+import { AiOutlineMenu } from 'react-icons/ai';
+import UserAvatar from 'ui/User/UserAvatar';
+import NotificationIcon from '../NotificationIcon';
+import { PublicRoutes, UserRoutes } from '../Routes';
 
 function MobileMenu() {
-  const [isOpen, setOpen] = useState(false)
-  const { user, profile } = useAuthProvider()
-  useHandleOutsideClick(isOpen, setOpen, 'mobile-sidebar')
+  const [isOpen, setOpen] = useState(false);
+  const { user, profile } = useAuthProvider();
+  useHandleOutsideClick(isOpen, setOpen, 'mobile-sidebar');
 
   const handleOpenMenu = () => {
-    setOpen((prevState) => !prevState)
-
-  }
+    setOpen((prevState) => !prevState);
+  };
   if (user) {
     return (
       <>
         <div className="block sm:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0 z-10">
-          <div className={`grid ${profile?.is_artist ? 'grid-cols-5' : 'grid-cols-4'} text-zinc-800 dark:text-zinc-400 justify-items-center pt-3`}>
+          <div
+            className={`grid ${profile?.is_artist ? 'grid-cols-5' : 'grid-cols-4'
+              } text-zinc-800 dark:text-zinc-400 justify-items-center pt-3`}
+          >
             <div className="flex group">
-              <div
-                className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white"
-              >
-                <div className="px-1 flex flex-col items-center mobile-sidebar" onClick={handleOpenMenu}>
+              <div className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
+                <div
+                  className="px-1 flex flex-col items-center mobile-sidebar"
+                  onClick={handleOpenMenu}
+                >
                   <AiOutlineMenu className="w-10 h-10 pb-2" />
                 </div>
               </div>
@@ -58,7 +61,7 @@ function MobileMenu() {
                 </span>
               </Link>
             </div>
-            {profile.is_artist &&
+            {profile.is_artist && (
               <div className="flex group ">
                 <Link
                   href="/create"
@@ -83,11 +86,10 @@ function MobileMenu() {
                     <span className="block text-xs pb-1"></span>
                   </span>
                 </Link>
-              </div>}
+              </div>
+            )}
             <div className="flex flex-row group items-center ">
-              <div
-                className="flex items-end justify-center text-center mx-auto px-4 w-full text-zinc-400 group-hover:text-white border-b-2 border-transparent group-hover:border-white"
-              >
+              <div className="flex items-end justify-center text-center mx-auto px-4 w-full text-zinc-400 group-hover:text-white border-b-2 border-transparent group-hover:border-white">
                 <div className="px-1 flex flex-col items-center">
                   <NotificationIcon />
                 </div>
@@ -105,16 +107,21 @@ function MobileMenu() {
 }
 export default MobileMenu;
 
-
 const MobileSidebarArea = ({ isOpen }: any) => {
-  const { user } = useAuthProvider()
+  const { user } = useAuthProvider();
 
   if (isOpen) {
     return (
       <div className="mobile-sidebar fixed h-screen top-0 -z-0 left-0 w-1/2  bg-white dark:bg-black visible sm:hidden">
         <div className="mb-16 mx-auto m-3 w-fit">
           <div className="flex items-center justify-around">
-            <Image src={SupbortLogo} className="lg:mx-3  w-9 items-center justify-center mx-auto " alt="Subport Logo" width={36} height={18} style={{ width: 'auto', height: 'auto' }}
+            <Image
+              src={SupbortLogo}
+              className="lg:mx-3  w-9 items-center justify-center mx-auto "
+              alt="Subport Logo"
+              width={36}
+              height={18}
+              style={{ width: 'auto', height: 'auto' }}
             />
             <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white ">
               subport
@@ -123,31 +130,27 @@ const MobileSidebarArea = ({ isOpen }: any) => {
         </div>
         <div className="mx-auto w-full px-4 justify-center relative">
           <ul className="pl-8 w-full justify-center font-bold text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
-
             {PublicRoutes.map((link) => (
               <Link href={link.route} key={link.name}>
                 <li className="">
                   <p className="block"> {link.name}</p>
-
                 </li>
-              </Link>))}
+              </Link>
+            ))}
           </ul>
           <ul className="font-bold pl-8 text-lg dark:text-zinc-200 text-zinc-900 items-center mx-auto flex-col space-y-8">
-
-            {user && UserRoutes.map((link) => (
-              <Link key={link.name} href={link.route}>
-                <li className="">
-                  <p className="block">{link.name}</p>
-
-                </li>
-              </Link>)
-            )}
+            {user &&
+              UserRoutes.map((link) => (
+                <Link key={link.name} href={link.route}>
+                  <li className="">
+                    <p className="block">{link.name}</p>
+                  </li>
+                </Link>
+              ))}
           </ul>
-          <>
-
-          </>
+          <></>
         </div>
       </div>
-    )
+    );
   }
-}
+};

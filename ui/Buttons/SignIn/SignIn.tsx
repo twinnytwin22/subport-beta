@@ -1,21 +1,18 @@
-"use client";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import LoginCard from "ui/Auth/AuthComponent/LoginCard";
+'use client';
+import { useState } from 'react';
+import LoginCard from 'ui/Auth/AuthComponent/LoginCard';
 
 export const SignInModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLogin = () => {
-    setIsOpen((prevState) => !prevState)
-  }
+    setIsOpen((prevState) => !prevState);
+  };
 
   function SignInButton() {
     return (
-      <div onClick={handleLogin} className='w-full flex items-center'>
-        <div
-          className="flex text-zinc-900 items-center dark:text-white hover:bg-zinc-50 bg-zinc-100 focus:ring-4 dark:bg-zinc-900 border-zinc-700 border focus:ring-zinc-300 hover:scale-105 text-xs rounded-md lg:text-sm px-3 lg:px-5 py-2 lg:py-2.5  dark:hover:bg-zinc-700 focus:outline-none dark:focus:ring-zinc-800  shadow-zinc-200 hover:shadow-sm"
-        >
+      <div onClick={handleLogin} className="w-full flex items-center">
+        <div className="flex text-zinc-900 items-center dark:text-white hover:bg-zinc-50 bg-zinc-100 focus:ring-4 dark:bg-zinc-900 border-zinc-700 border focus:ring-zinc-300 hover:scale-105 text-xs rounded-md lg:text-sm px-3 lg:px-5 py-2 lg:py-2.5  dark:hover:bg-zinc-700 focus:outline-none dark:focus:ring-zinc-800  shadow-zinc-200 hover:shadow-sm">
           <h4>Sign In</h4>
           <div className="w-6 p-1">
             <svg
@@ -31,7 +28,6 @@ export const SignInModal = () => {
               />
             </svg>
           </div>
-
         </div>
       </div>
     );
@@ -45,21 +41,18 @@ export const SignInModal = () => {
           <div
             className="z-[99999px] flex m-4 mx-auto backdrop-blur-md -mt-5 isolate relative"
             style={{
-              position: "fixed",
-              top: "0",
-              left: "0",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-              width: "100%",
-              display: "flex",
+              position: 'fixed',
+              top: '0',
+              left: '0',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100%',
+              width: '100%',
+              display: 'flex'
             }}
             tabIndex={-1}
           >
-            <div
-              className="flex flex-col p-4 rounded-md bg-zinc-200 dark:bg-black opacity-2 min-w-sm max-w-md w-full"
-            >
-
+            <div className="flex flex-col p-4 rounded-md bg-zinc-200 dark:bg-black opacity-2 min-w-sm max-w-md w-full">
               <LoginCard close={setIsOpen} />
             </div>
           </div>

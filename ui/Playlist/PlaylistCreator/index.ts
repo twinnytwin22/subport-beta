@@ -1,1 +1,1 @@
-export {default} from './PlaylistCreator'
+export { default } from './PlaylistCreator';

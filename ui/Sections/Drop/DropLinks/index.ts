@@ -1,1 +1,1 @@
-export {default} from './DropLInks'
+export { default } from './DropLInks';

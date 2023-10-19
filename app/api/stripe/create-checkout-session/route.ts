@@ -1,9 +1,8 @@
-import { cookies } from 'next/headers';
-import { NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { getURL } from '@/lib/hooks/helpers';
 import { stripe } from '@/lib/providers/stripe/stripe';
 import { createOrRetrieveCustomer } from '@/lib/providers/supabase/supabase-lib-admin';
-import { getURL } from '@/lib/hooks/helpers';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 export async function POST(req: Request) {
   if (req.method === 'POST') {
     // 1. Destructure the price and quantity from the POST body
@@ -11,7 +10,7 @@ export async function POST(req: Request) {
 
     try {
       // 2. Get the user from Supabase auth
-      const supabase = createRouteHandlerClient({cookies});
+      const supabase = createRouteHandlerClient({ cookies });
       const {
         data: { user }
       } = await supabase.auth.getUser();
@@ -25,8 +24,6 @@ export async function POST(req: Request) {
       // 4. Create a checkout session in Stripe
       let session;
       if (price.type === 'recurring') {
-
-   
         session = await stripe.checkout.sessions.create({
           payment_method_types: ['card'],
           billing_address_collection: 'required',
@@ -40,11 +37,11 @@ export async function POST(req: Request) {
               quantity
             }
           ],
-          
+
           mode: 'subscription',
           allow_promotion_codes: true,
           metadata,
-          
+
           // subscription_data: {
           //   trial_from_plan: true,
           //   metadata
@@ -95,5 +92,4 @@ export async function POST(req: Request) {
       status: 405
     });
   }
-  
 }

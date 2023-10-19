@@ -1,1 +1,1 @@
-export {default} from './DropEditor'
+export { default } from './DropEditor';

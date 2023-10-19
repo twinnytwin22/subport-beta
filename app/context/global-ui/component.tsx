@@ -1,14 +1,14 @@
-"use client";
-import { useAuthProvider } from "app/context/auth";
-import Link from "next/link";
-import { useEffect } from "react";
-import { FaPaperPlane, FaTrash } from "react-icons/fa";;
-import { Mention, MentionsInput } from "react-mentions";
-import useCommentsStore from "app/context/global-ui/store";
-import emojis from 'utils/emojis.json'
-import emojiMentionStyles from "styles/emojiMentionStyles";
+'use client';
+import { useAuthProvider } from 'app/context/auth';
+import useCommentsStore from 'app/context/global-ui/store';
+import Link from 'next/link';
+import { useEffect } from 'react';
+import { FaPaperPlane, FaTrash } from 'react-icons/fa';
+import { Mention, MentionsInput } from 'react-mentions';
+import emojiMentionStyles from 'styles/emojiMentionStyles';
+import emojis from 'utils/emojis.json';
 
-const neverMatchingRegex = /($a)/
+const neverMatchingRegex = /($a)/;
 
 export const CommentContextComponent = ({ dropId }: any) => {
   const {
@@ -35,21 +35,26 @@ export const CommentContextComponent = ({ dropId }: any) => {
   }, [getUsers]);
 
   const queryEmojis = (query: string, callback: any) => {
-    if (query.length === 0) return
+    if (query.length === 0) return;
 
     const matches = emojis.emojis
       .filter((emoji: any) => {
-        return emoji.name.indexOf(query.toLowerCase()) > -1
+        return emoji.name.indexOf(query.toLowerCase()) > -1;
       })
-      .slice(0, 10)
-    return matches.map(({ emoji }: any) => ({ id: emoji }))
-  }
+      .slice(0, 10);
+    return matches.map(({ emoji }: any) => ({ id: emoji }));
+  };
 
   return (
     <div className="comments-modal w-full mx-auto justify-center bg-white border-zinc-200 dark:bg-black border dark:border-zinc-800 max-w-lg p-8 place-content-evenly items-center rounded-md ">
-
       <div className="overflow-y-scroll h-72 w-full pt-4  mx-auto">
-        {[...comments].length === 0 ? <p className="text-xs text-center text-zinc-300 dark:text-zinc-700">Be the first to comment...</p> : ''}
+        {[...comments].length === 0 ? (
+          <p className="text-xs text-center text-zinc-300 dark:text-zinc-700">
+            Be the first to comment...
+          </p>
+        ) : (
+          ''
+        )}
         {[...comments]?.reverse().map((comment: any, i) => (
           <div
             key={i}
@@ -60,8 +65,8 @@ export const CommentContextComponent = ({ dropId }: any) => {
               className="text-[10px] cursor-pointer text-zinc-600 dark:text-zinc-400"
             >
               {`${userId && userId === comment.user_id
-                ? "You"
-                : `@${comment?.profiles?.username}`
+                  ? 'You'
+                  : `@${comment?.profiles?.username}`
                 }`}
             </Link>
             <div className="border-l-2 m-2 h-fit border-blue-600  ">
@@ -99,7 +104,10 @@ export const CommentContextComponent = ({ dropId }: any) => {
               data={users} // Pass the users array as the data source for mentions
               renderSuggestion={(suggestion, search, highlightedDisplay) => (
                 // Use 'key' prop here to resolve key error
-                <div className="user-suggestion text-black dark:text-white text-xs h-5" key={suggestion.display}>
+                <div
+                  className="user-suggestion text-black dark:text-white text-xs h-5"
+                  key={suggestion.display}
+                >
                   {highlightedDisplay}
                 </div>
               )}
@@ -129,7 +137,6 @@ export const CommentContextComponent = ({ dropId }: any) => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import { SupbortLogo } from 'lib/content/siteSettings';
-import React from 'react'
-import LoginCard from '../AuthComponent/LoginCard';
 import Link from 'next/link';
+import LoginCard from '../AuthComponent/LoginCard';
 
 function LoginFormScreen() {
   return (
@@ -21,26 +20,20 @@ function LoginFormScreen() {
                         src={SupbortLogo}
                         alt="logo"
                       />
-
                     </div>
                     <LoginCard isHomePage={true} />
-
                   </div>
                 </div>
 
                 {/* Right column container with background and description */}
-                <div
-                  className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none  bg-gradient-to-r from-blue-600 to-blue-900 "
-
-                >
+                <div className="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none  bg-gradient-to-r from-blue-600 to-blue-900 ">
                   <div className="px-4 py-6 text-white md:mx-6 md:p-12">
                     <h1 className="mb-6 text-3xl md:text-5xl font-bold">
                       Experience new music daily.
                     </h1>
                     <p className="text-lg">
-                      Enabling the discovery of independent artists by providing them the tools to connect directly with their listeners.
-
-
+                      Enabling the discovery of independent artists by providing
+                      them the tools to connect directly with their listeners.
                     </p>
                   </div>
                 </div>
@@ -48,12 +41,21 @@ function LoginFormScreen() {
             </div>
             <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-zinc-500 sm:mb-0 dark:text-zinc-400 mx-auto max-w-6xl py-2">
               <li>
-                <Link href="https://subport.xyz/privacy-policy" className="mr-4 hover:underline md:mr-6">Cookie & Privacy Policy</Link>
+                <Link
+                  href="https://subport.xyz/privacy-policy"
+                  className="mr-4 hover:underline md:mr-6"
+                >
+                  Cookie & Privacy Policy
+                </Link>
               </li>
               <li>
-                <Link href="https://subport.xyz/terms" className="mr-4 hover:underline md:mr-6 ">Terms</Link>
+                <Link
+                  href="https://subport.xyz/terms"
+                  className="mr-4 hover:underline md:mr-6 "
+                >
+                  Terms
+                </Link>
               </li>
-
             </ul>
           </div>
         </div>
@@ -62,4 +64,4 @@ function LoginFormScreen() {
   );
 }
 
-export default LoginFormScreen
+export default LoginFormScreen;

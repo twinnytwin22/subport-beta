@@ -13,15 +13,14 @@ export interface DropSettings {
 }
 
 interface DropStates extends DropSettings {
-  setSpotifyUrl: (spotify_url: string | null) => void,
-  setAppleUrl: (apple_url: string | null) => void,
-  setSoundcloudUrl: (soundcloud_url: string | null) => void,
-  setTidalUrl: (tidal_url: string | null) => void,
-  setAmazonUrl: (amazon_url: string | null) => void,
-  setDeezerUrl: (deezer_url: string | null) => void,
-  setYouTubeUrl: (youtube_url: string | null) => void,
+  setSpotifyUrl: (spotify_url: string | null) => void;
+  setAppleUrl: (apple_url: string | null) => void;
+  setSoundcloudUrl: (soundcloud_url: string | null) => void;
+  setTidalUrl: (tidal_url: string | null) => void;
+  setAmazonUrl: (amazon_url: string | null) => void;
+  setDeezerUrl: (deezer_url: string | null) => void;
+  setYouTubeUrl: (youtube_url: string | null) => void;
 }
-
 
 // Create the Zustand store
 const useDropSettings = create<DropStates>((set) => ({
@@ -43,7 +42,7 @@ const useDropSettings = create<DropStates>((set) => ({
   setTidalUrl: (tidal_url: string | null) => set({ tidal_url }),
   setAmazonUrl: (amazon_url: string | null) => set({ amazon_url }),
   setDeezerUrl: (deezer_url: string | null) => set({ deezer_url }),
-  setYouTubeUrl: (youtube_url: string | null) => set({ youtube_url})
+  setYouTubeUrl: (youtube_url: string | null) => set({ youtube_url })
 }));
 
 export default useDropSettings;

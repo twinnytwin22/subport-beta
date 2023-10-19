@@ -1,49 +1,50 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import { handleSpotifyAction as handleSpotify } from 'lib/providers/spotify/spotifyLogic';
+'use client';
+import { supabaseAuth } from 'lib/constants';
 import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
+import { handleSpotifyAction as handleSpotify } from 'lib/providers/spotify/spotifyLogic';
 import Link from 'next/link';
-import { supabase, supabaseAuth } from 'lib/constants';
-
+import { useEffect, useState } from 'react';
 
 function Page() {
   const [userId, setUserId] = useState<string>('');
-  const spotifyUrl = useSpotifyUrlId()
-  const spotifyId = spotifyUrl.artist.getId(userId)
-
+  const spotifyUrl = useSpotifyUrlId();
+  const spotifyId = spotifyUrl.artist.getId(userId);
 
   useEffect(() => {
     const refreshSession = async () => {
+      const { data: session, error } = await supabaseAuth.auth.getSession();
 
-      const {data:session, error} = await supabaseAuth.auth.getSession()
-      
-    //  console.log(session)
-      if(error) {
-        console.log(error)
+      //  console.log(session)
+      if (error) {
+        console.log(error);
       }
-      if(session.session){
+      if (session.session) {
+        // const { data, error } = await supabase.auth.refreshSession({refresh_token: session.session?.refresh_token!})
 
-     // const { data, error } = await supabase.auth.refreshSession({refresh_token: session.session?.refresh_token!})
-     
-      console.log(session)
+        console.log(session);
 
-
-   //  if(data){
-     // console.log(data.session)
-   ///  }
-    }
-  }
-    refreshSession()
-  },[])
+        //  if(data){
+        // console.log(data.session)
+        ///  }
+      }
+    };
+    refreshSession();
+  }, []);
 
   return (
     <div className="max-h-screen min-h-[80vh] h-full max-w-screen w-full flex flex-col place-items-center mx-auto justify-center relative">
       <div className="mx-auto w-full max-w-sm p-8 rounded border border-zinc-200 dark:border-zinc-800">
         <div className="w-full mx-auto space-y-4 flex flex-col">
-          <h1 className="text-center font-bold text-lg">Follow a Spotify User</h1>
+          <h1 className="text-center font-bold text-lg">
+            Follow a Spotify User
+          </h1>
           <div>
-            <h1 className="text-center text-sm">ScarLip: 0XSAX3u9L4gKXmbhSwPnIJ</h1>
-            <h1 className="text-center text-sm">K.Carbon: 5LxoXQBUoD5oftz6xQLv9y</h1>
+            <h1 className="text-center text-sm">
+              ScarLip: 0XSAX3u9L4gKXmbhSwPnIJ
+            </h1>
+            <h1 className="text-center text-sm">
+              K.Carbon: 5LxoXQBUoD5oftz6xQLv9y
+            </h1>
           </div>
           <input
             placeholder="User Id"
@@ -56,16 +57,18 @@ function Page() {
         <div className="mx-auto">
           <button
             className="bg-blue-600 text-white flex font-bold mx-auto p-2.5 rounded justify-center m-4 self-center text-center"
-            onClick={(() => handleSpotify(spotifyId!, 'followArtist'))}
+            onClick={() => handleSpotify(spotifyId!, 'followArtist')}
           >
             Follow User
           </button>
-        </div> 
-      
+        </div>
       </div>
-       <div className='relative mt-24 font-semibold'>
-        <Link href='https://developer.spotify.com/documentation/web-api' target='blank'>
-        Spotify Documentation 
+      <div className="relative mt-24 font-semibold">
+        <Link
+          href="https://developer.spotify.com/documentation/web-api"
+          target="blank"
+        >
+          Spotify Documentation
         </Link>
       </div>
     </div>

@@ -1,1 +1,1 @@
-export {default} from './DropsList'
+export { default } from './DropsList';

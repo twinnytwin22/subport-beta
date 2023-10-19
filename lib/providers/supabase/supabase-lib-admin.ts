@@ -2,29 +2,26 @@ import { toDateTime } from '@/lib/hooks/helpers';
 import { stripe } from '../stripe/stripe';
 import { createClient } from '@supabase/supabase-js';
 import Stripe from 'stripe';
-import { BrowserCookieAuthStorageAdapter } from "@supabase/auth-helpers-shared";
+import { BrowserCookieAuthStorageAdapter } from '@supabase/auth-helpers-shared';
 
-const authStorage = new BrowserCookieAuthStorageAdapter()
+const authStorage = new BrowserCookieAuthStorageAdapter();
 
-export const supabaseUrl = process.env.SUPABASE_URL 
-                        || process.env.NEXT_PUBLIC_SUPABASE_URL!
+export const supabaseUrl =
+  process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!;
 export const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-export const supabaseSRkey = process.env.SUPABASE_SERVICE_ROLE_KEY 
-                          || process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!
+export const supabaseSRkey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!;
 
-                          export const supabaseAdmin = createClient(
-                            supabaseUrl,
-                            supabaseSRkey,
-                              {
-                                auth: {
-                                //  flowType: 'pkce',
-                                  storage: authStorage,
-                                //  persistSession: true
-                                }
-                              }
-                          );
+export const supabaseAdmin = createClient(supabaseUrl, supabaseSRkey, {
+  auth: {
+    //  flowType: 'pkce',
+    storage: authStorage
+    //  persistSession: true
+  }
+});
 const upsertProductRecord = async (product: Stripe.Product) => {
-  const productData= {
+  const productData = {
     id: product.id,
     active: product.active,
     name: product.name,
@@ -133,40 +130,39 @@ const manageSubscriptionStatusChange = async (
     expand: ['default_payment_method']
   });
   // Upsert the latest status of the subscription object.
-  const subscriptionData =
-    {
-      id: subscription.id,
-      user_id: uuid,
-      metadata: subscription.metadata,
-      status: subscription.status,
-      price_id: subscription.items.data[0].price.id,
-      //TODO check quantity on subscription
-      // @ts-ignore
-      quantity: subscription.quantity,
-      cancel_at_period_end: subscription.cancel_at_period_end,
-      cancel_at: subscription.cancel_at
-        ? toDateTime(subscription.cancel_at).toISOString()
-        : null,
-      canceled_at: subscription.canceled_at
-        ? toDateTime(subscription.canceled_at).toISOString()
-        : null,
-      current_period_start: toDateTime(
-        subscription.current_period_start
-      ).toISOString(),
-      current_period_end: toDateTime(
-        subscription.current_period_end
-      ).toISOString(),
-      created: toDateTime(subscription.created).toISOString(),
-      ended_at: subscription.ended_at
-        ? toDateTime(subscription.ended_at).toISOString()
-        : null,
-      trial_start: subscription.trial_start
-        ? toDateTime(subscription.trial_start).toISOString()
-        : null,
-      trial_end: subscription.trial_end
-        ? toDateTime(subscription.trial_end).toISOString()
-        : null
-    };
+  const subscriptionData = {
+    id: subscription.id,
+    user_id: uuid,
+    metadata: subscription.metadata,
+    status: subscription.status,
+    price_id: subscription.items.data[0].price.id,
+    //TODO check quantity on subscription
+    // @ts-ignore
+    quantity: subscription.quantity,
+    cancel_at_period_end: subscription.cancel_at_period_end,
+    cancel_at: subscription.cancel_at
+      ? toDateTime(subscription.cancel_at).toISOString()
+      : null,
+    canceled_at: subscription.canceled_at
+      ? toDateTime(subscription.canceled_at).toISOString()
+      : null,
+    current_period_start: toDateTime(
+      subscription.current_period_start
+    ).toISOString(),
+    current_period_end: toDateTime(
+      subscription.current_period_end
+    ).toISOString(),
+    created: toDateTime(subscription.created).toISOString(),
+    ended_at: subscription.ended_at
+      ? toDateTime(subscription.ended_at).toISOString()
+      : null,
+    trial_start: subscription.trial_start
+      ? toDateTime(subscription.trial_start).toISOString()
+      : null,
+    trial_end: subscription.trial_end
+      ? toDateTime(subscription.trial_end).toISOString()
+      : null
+  };
 
   const { error } = await supabaseAdmin
     .from('subscriptions')

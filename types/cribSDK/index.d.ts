@@ -1,7 +1,7 @@
-import { Contract } from "ethers";
-import { Provider } from "@ethersproject/abstract-provider";
-import { Signer } from "@ethersproject/abstract-signer";
-import { Chain } from "./dist/chains";
+import { Contract } from 'ethers';
+import { Provider } from '@ethersproject/abstract-provider';
+import { Signer } from '@ethersproject/abstract-signer';
+import { Chain } from './dist/chains';
 export declare type SDK = {
   chain: Chain;
   signerOrProvider: Signer | Provider;

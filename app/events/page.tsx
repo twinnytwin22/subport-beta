@@ -1,21 +1,18 @@
-import React from 'react'
 import { headers } from 'next/headers';
-export const dynamic = 'force-dynamic'
-export const revalidate = 5
+export const dynamic = 'force-dynamic';
+export const revalidate = 5;
 async function page() {
-    const host = headers().get('host')
-    const protocol = process?.env.NODE_ENV === "development" ? "http" : "https"
-    const res = await fetch(`${protocol}://${host}/api/v1/getEvents`, {
-        method: "GET",
-        /// headers: { "Content-Type": "application/json" },
-        cache: 'no-store',
-    });
+  const host = headers().get('host');
+  const protocol = process?.env.NODE_ENV === 'development' ? 'http' : 'https';
+  const res = await fetch(`${protocol}://${host}/api/v1/getEvents`, {
+    method: 'GET',
+    /// headers: { "Content-Type": "application/json" },
+    cache: 'no-store'
+  });
 
-    const data = await res.json()
+  const data = await res.json();
 
-    return (
-        <div>{JSON.stringify(data)}</div>
-    )
+  return <div>{JSON.stringify(data)}</div>;
 }
 
-export default page
+export default page;

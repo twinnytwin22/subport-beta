@@ -1,23 +1,19 @@
-'use client'
+'use client';
 
-import { useAuthProvider } from "app/context/auth";
-import { useRouter } from "next/navigation";
+import { useAuthProvider } from 'app/context/auth';
+import { useRouter } from 'next/navigation';
 export default function SignOutButton() {
-  const router = useRouter()
-  const { user, signOut } = useAuthProvider()
+  const router = useRouter();
+  const { user, signOut } = useAuthProvider();
 
   const handleSignOut = async () => {
-  signOut();
-  }
-
-
+    signOut();
+  };
 
   return (
-    <div onClick={handleSignOut} className='w-full flex items-center'>
-      <div
-        className="flex text-zinc-900 items-center dark:text-white hover:bg-zinc-50 bg-zinc-100 focus:ring-4 dark:bg-zinc-900 border-zinc-700 border focus:ring-zinc-300 hover:scale-105 text-xs rounded-md lg:text-sm px-3 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-zinc-700 focus:outline-none dark:focus:ring-zinc-800  shadow-zinc-200 hover:shadow-sm"
-      >
-        <h4>  Sign Out</h4>
+    <div onClick={handleSignOut} className="w-full flex items-center">
+      <div className="flex text-zinc-900 items-center dark:text-white hover:bg-zinc-50 bg-zinc-100 focus:ring-4 dark:bg-zinc-900 border-zinc-700 border focus:ring-zinc-300 hover:scale-105 text-xs rounded-md lg:text-sm px-3 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-zinc-700 focus:outline-none dark:focus:ring-zinc-800  shadow-zinc-200 hover:shadow-sm">
+        <h4> Sign Out</h4>
         <div className="w-6 p-1">
           <svg
             fill="currentColor"
@@ -32,7 +28,6 @@ export default function SignOutButton() {
             />
           </svg>
         </div>
-
       </div>
     </div>
   );

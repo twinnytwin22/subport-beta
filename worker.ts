@@ -1,5 +1,5 @@
-import pi from './utils/pi'
+import pi from './utils/pi';
 
 addEventListener('message', (event: MessageEvent<number>) => {
-  postMessage(pi(event.data))
-})
+  postMessage(pi(event.data));
+});

@@ -1,53 +1,56 @@
-"use client";
-import React, { useState } from "react";
-import Collectible from "types/collectible";
-import { useForm } from "react-hook-form";
-import { Media } from "ui/Misc/Media";
-import { RenderMintStatus } from "ui/Cards/MintStatusCard";
-import { allGenres } from "lib/content/allGenres";
-import { Tooltip } from "ui/Misc/Tooltip";
-import { createFormMessage } from "../createFormMessages";
-import { deployCollectible } from "lib/deployFunctions/deployer";
-import { useAuthProvider } from "app/context/auth";
-import { uploadContractMediaToIpfs } from "lib/deployFunctions/uploadFileIpfs";
-import { useCreateFormStore } from "./CreateFormStore";
-import Link from "next/link";
-import { renderProgressBar } from "ui/Misc/ProgressBar";
-import { useStorageUpload } from "@thirdweb-dev/react";
-import Image from "next/image";
-import { toast } from 'react-toastify'
-import useSpotifyUrlId from "lib/hooks/useSpotifyUrlId";
-import { useQuery } from "@tanstack/react-query";
-import { generateSongData } from "./actions";
+'use client';
+import { useQuery } from '@tanstack/react-query';
+import { useStorageUpload } from '@thirdweb-dev/react';
+import { useAuthProvider } from 'app/context/auth';
+import { allGenres } from 'lib/content/allGenres';
+import { deployCollectible } from 'lib/deployFunctions/deployer';
+import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import Collectible from 'types/collectible';
+import { RenderMintStatus } from 'ui/Cards/MintStatusCard';
+import { Media } from 'ui/Misc/Media';
+import { renderProgressBar } from 'ui/Misc/ProgressBar';
+import { Tooltip } from 'ui/Misc/Tooltip';
+import { createFormMessage } from '../createFormMessages';
+import { useCreateFormStore } from './CreateFormStore';
+import { generateSongData } from './actions';
 export const CreateForm = () => {
   const { user, profile } = useAuthProvider();
   const [savedUser, setSavedUser] = useState<any>(null);
-  const spotify = useSpotifyUrlId()
-  const [spotifyUrl, setSpotifyUrl] = useState<string | null>(null)
+  const spotify = useSpotifyUrlId();
+  const [spotifyUrl, setSpotifyUrl] = useState<string | null>(null);
 
   const { data } = useQuery({
     queryKey: ['data', spotify, spotifyUrl],
     queryFn: () => generateSongData(spotify, spotifyUrl),
     enabled: !!spotifyUrl,
-    onSuccess: ((data: any) => { 
-      setValue('name', data?.album.name)
-      setValue('artist_name', data.artists.map((artist: any) => artist?.name).join(', ') || '');
-
-    })
-  })
-  console.log(data)
+    onSuccess: (data: any) => {
+      setValue('name', data?.album.name);
+      setValue(
+        'artist_name',
+        data.artists.map((artist: any) => artist?.name).join(', ') || ''
+      );
+    }
+  });
+  console.log(data);
   const handleAutoFillSongData = async (url: string) => {
     setSpotifyUrl(url);
   };
 
-  const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { value } = event.target;
     setSpotifyUrl(value);
 
     // Call the function to fetch and autofill song data when a valid URL is detected
     if (isValidSpotifyUrl(value)) {
-    await handleAutoFillSongData(value);
-    setStep(1)
+      await handleAutoFillSongData(value);
+      setStep(1);
     }
   };
 
@@ -63,7 +66,7 @@ export const CreateForm = () => {
     onProgress: (progress) => {
       setProgress(progress?.progress); // Update the progress state
       setTotal(progress?.total); // Update the progress state
-    },
+    }
   });
 
   const {
@@ -90,7 +93,7 @@ export const CreateForm = () => {
     logAudio,
     logImage,
     setInProgress,
-    inProgress,
+    inProgress
   } = useCreateFormStore();
 
   const handleNowChange = (event: any) => {
@@ -108,26 +111,26 @@ export const CreateForm = () => {
     reset,
     control,
     setValue,
-    formState: { errors },
+    formState: { errors }
   } = useForm<Collectible>({
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: {
-      name: "",
-      spotify_uri: "",
+      name: '',
+      spotify_uri: '',
       image: imageUrl || null,
       audio: audioUrl || null,
-      artist_name: "",
-      release_date: "",
-      genre: "house",
+      artist_name: '',
+      release_date: '',
+      genre: 'house',
       total_collectibles: 0,
-      description: "",
-      keywords: "",
+      description: '',
+      keywords: '',
       address: profile?.wallet_address,
-      user_id: "" || savedUser || user?.id || profile?.id || null,
-      start_date: "",
-      end_date: "",
-      website: "",
-    },
+      user_id: '' || savedUser || user?.id || profile?.id || null,
+      start_date: '',
+      end_date: '',
+      website: ''
+    }
   });
   const handleImageUpload = (event: any) => {
     const file = event.target.files[0];
@@ -140,11 +143,11 @@ export const CreateForm = () => {
       reader.readAsDataURL(file);
 
       // Update the "audio" field value in the form data
-      setValue("image", file);
+      setValue('image', file);
     } else {
       // Clear the preview and the "audio" field value if the file was removed
       setImagePreview(null);
-      setValue("image", null);
+      setValue('image', null);
     }
   };
 
@@ -159,14 +162,13 @@ export const CreateForm = () => {
       reader.readAsDataURL(file);
 
       // Update the "audio" field value in the form data
-      setValue("audio", file);
+      setValue('audio', file);
     } else {
       // Clear the preview and the "audio" field value if the file was removed
       setSongPreview(null);
-      setValue("audio", null);
+      setValue('audio', null);
     }
   };
-
 
   const onSubmit = async (formData: Collectible) => {
     setStep(4);
@@ -174,7 +176,7 @@ export const CreateForm = () => {
     try {
       // Upload the image and audio files to IPFS
       const user = savedUser!;
-      const keywordsArray = formData.keywords?.split(",");
+      const keywordsArray = formData.keywords?.split(',');
 
       // Update the form data with the generated URLs
       const collectibleData = {
@@ -182,25 +184,22 @@ export const CreateForm = () => {
         image: imageUrl!,
         audio: audioUrl,
         user_id: user?.id,
-        keywords: keywordsArray,
+        keywords: keywordsArray
       };
 
       // Call the deployCollectible function
       const deployPromise = deployCollectible(collectibleData);
 
-      toast.promise(
-        deployPromise,
-        {
-          pending: 'Creating Collectible...',
-          success: 'Collectible created successfully!',
-          error: 'Deployment failed! Please try again.',
-        }
-      );
+      toast.promise(deployPromise, {
+        pending: 'Creating Collectible...',
+        success: 'Collectible created successfully!',
+        error: 'Deployment failed! Please try again.'
+      });
 
       const deployResult = await deployPromise;
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      await fetch("/api/v1/getCollectibles?refreshCache");
+      await fetch('/api/v1/getCollectibles?refreshCache');
       if (deployResult) {
         setStep(5);
       } else {
@@ -210,7 +209,6 @@ export const CreateForm = () => {
       console.error(error);
     }
   };
-
 
   const handleResetClick = () => {
     reset();
@@ -226,31 +224,25 @@ export const CreateForm = () => {
     try {
       const uploadPromise = startUpload(data.image, data.audio);
 
-      toast.promise(
-        uploadPromise,
-        {
-          pending: 'Uploading...',
-          success: 'Upload successful! Prepping Preview...',
-          error: 'Upload failed! Please try again.',
-        }
-      );
+      toast.promise(uploadPromise, {
+        pending: 'Uploading...',
+        success: 'Upload successful! Prepping Preview...',
+        error: 'Upload failed! Please try again.'
+      });
 
       await uploadPromise;
 
       const previewPromise = new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve('Preview Ready')
+          resolve('Preview Ready');
         }, 2000);
       });
 
-      toast.promise(
-        previewPromise,
-        {
-          pending: 'Prepping Preview...',
-          success: 'Preview Ready!',
-          error: 'Preview Failed! Please try again.',
-        }
-      );
+      toast.promise(previewPromise, {
+        pending: 'Prepping Preview...',
+        success: 'Preview Ready!',
+        error: 'Preview Failed! Please try again.'
+      });
 
       await previewPromise;
       setUploading(false);
@@ -262,7 +254,6 @@ export const CreateForm = () => {
     }
   };
 
-
   const onBack = () => {
     // Move back to previous step
     setStep(step - 1);
@@ -272,23 +263,23 @@ export const CreateForm = () => {
     setUploading(true);
     try {
       if (image) {
-        setInProgress("image");
+        setInProgress('image');
         const imageUri = await upload({ data: [image] });
         await new Promise((resolve) => setTimeout(resolve, 2000));
         setImageUrl(imageUri[0]);
         logImage();
-        setInProgress("");
+        setInProgress('');
         setProgress(0);
         setTotal(0);
       }
 
       if (audio) {
-        setInProgress("audio");
+        setInProgress('audio');
         const audioUri = await upload({ data: [audio] });
         await new Promise((resolve) => setTimeout(resolve, 2000));
         setAudioUrl(audioUri[0]);
         logAudio();
-        setInProgress("");
+        setInProgress('');
         setProgress(100);
         setTotal(100);
       }
@@ -322,7 +313,7 @@ export const CreateForm = () => {
                 id="name"
                 className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Always"
-                {...register("name", { required: true })}
+                {...register('name', { required: true })}
               />
             </div>
             <div>
@@ -337,7 +328,7 @@ export const CreateForm = () => {
                 id="artist_name"
                 className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Twinny Twin"
-                {...register("artist_name", { required: true })}
+                {...register('artist_name', { required: true })}
               />
             </div>
             <div className="grid grid-cols-2 gap-6 place-items-center ">
@@ -349,8 +340,8 @@ export const CreateForm = () => {
                 <input
                   type="date"
                   disabled={nowChecked}
-                  {...register("start_date")}
-                  className={`bg-zinc-50 border mt-2 border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${nowChecked && "text-zinc-800 dark:text-zinc-500"
+                  {...register('start_date')}
+                  className={`bg-zinc-50 border mt-2 border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${nowChecked && 'text-zinc-800 dark:text-zinc-500'
                     }`}
                 />
               </label>
@@ -376,8 +367,8 @@ export const CreateForm = () => {
                 <input
                   type="date"
                   disabled={neverChecked}
-                  {...register("end_date")}
-                  className={`bg-zinc-50 border mt-2 border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${neverChecked && "text-zinc-800 dark:text-zinc-500"
+                  {...register('end_date')}
+                  className={`bg-zinc-50 border mt-2 border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${neverChecked && 'text-zinc-800 dark:text-zinc-500'
                     }`}
                 />
               </label>
@@ -427,7 +418,7 @@ export const CreateForm = () => {
                   id="release_date"
                   className="bg-zinc-50 border  border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="Flowbite"
-                  {...register("release_date", { required: true })}
+                  {...register('release_date', { required: true })}
                 />
               </div>
               <div>
@@ -444,10 +435,10 @@ export const CreateForm = () => {
                   max={1000}
                   id="total_collectibles"
                   className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  {...register("total_collectibles", {
+                  {...register('total_collectibles', {
                     required: true,
                     min: 1,
-                    max: 1000,
+                    max: 1000
                   })}
                 />
               </div>
@@ -462,7 +453,7 @@ export const CreateForm = () => {
               </label>
               <select
                 placeholder="Choose your genre"
-                {...register("genre", { required: true })}
+                {...register('genre', { required: true })}
                 id="genre"
                 className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
@@ -487,7 +478,7 @@ export const CreateForm = () => {
                 id="spotify_uri"
                 className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="https://open.spotify.com/track/7gaNyds0r0bJTRiOpCsKZT"
-                {...register("spotify_uri", { required: true })}
+                {...register('spotify_uri', { required: true })}
               />
             </div>
           </div>
@@ -503,7 +494,7 @@ export const CreateForm = () => {
               id="description"
               className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="I don't want to write you a love song, 'cause you asked for it, 'cause you need one. (You see)..."
-              {...register("description", { required: true })}
+              {...register('description', { required: true })}
             />
           </div>
           <div className="mb-6">
@@ -518,7 +509,7 @@ export const CreateForm = () => {
               id="keywords"
               className="bg-zinc-50 border border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Futuristic, Emotional, Synthwave"
-              {...register("keywords")}
+              {...register('keywords')}
             />
           </div>
 
@@ -582,7 +573,7 @@ export const CreateForm = () => {
                   id="file"
                   type="file"
                   className="hidden"
-                  {...register("image")}
+                  {...register('image')}
                   onChange={handleImageUpload}
                 />
               </label>
@@ -608,7 +599,7 @@ export const CreateForm = () => {
                     aria-describedby="file_input_help"
                     type="file"
                     id="audio"
-                    {...register("audio")}
+                    {...register('audio')}
                     onChange={handleSongChange}
                   />
                 </label>
@@ -670,7 +661,7 @@ export const CreateForm = () => {
                       >
                         Release Name:
                       </th>
-                      <td className="px-6 py-2 w-full">{watch("name")}</td>
+                      <td className="px-6 py-2 w-full">{watch('name')}</td>
                     </tr>
                     <tr className="border-b border-zinc-300 dark:border-zinc-600">
                       <th
@@ -679,7 +670,7 @@ export const CreateForm = () => {
                       >
                         Artist:
                       </th>
-                      <td className="px-6 py-2">{watch("artist_name")}</td>
+                      <td className="px-6 py-2">{watch('artist_name')}</td>
                     </tr>
                     <tr className="border-b border-zinc-300 dark:border-zinc-600">
                       <th
@@ -688,7 +679,7 @@ export const CreateForm = () => {
                       >
                         Release Date:
                       </th>
-                      <td className="px-6 py-2">{watch("release_date")}</td>
+                      <td className="px-6 py-2">{watch('release_date')}</td>
                     </tr>
                     <tr className="border-b border-zinc-300 dark:border-zinc-600">
                       <th
@@ -698,7 +689,7 @@ export const CreateForm = () => {
                         Total Collectibles:
                       </th>
                       <td className="px-6 py-2">
-                        {watch("total_collectibles")}
+                        {watch('total_collectibles')}
                       </td>
                     </tr>
                     <tr className="border-b border-zinc-300 dark:border-zinc-600">
@@ -708,7 +699,7 @@ export const CreateForm = () => {
                       >
                         Description:
                       </th>
-                      <td className="px-6 py-2">{watch("description")}</td>
+                      <td className="px-6 py-2">{watch('description')}</td>
                     </tr>
                     <tr className="border-b border-zinc-300 dark:border-zinc-600">
                       <th
@@ -717,21 +708,21 @@ export const CreateForm = () => {
                       >
                         Song URI:
                       </th>
-                      <td className="px-6 py-2"> {watch("spotify_uri")}</td>
+                      <td className="px-6 py-2"> {watch('spotify_uri')}</td>
                     </tr>
                     <tr className="border-b border-zinc-300 dark:border-zinc-600">
                       <th
                         scope="row"
                         className="px-6 py-2 border-r border-zinc-300 dark:border-zinc-800 whitespace-nowrap"
                       >
-                        Genre:{" "}
+                        Genre:{' '}
                       </th>
                       <td className="px-6 py-2">
                         {allGenres.map((genre: any) => (
                           <div key={genre}>
                             {watch(genre) === genre && genre}
                           </div>
-                        ))}{" "}
+                        ))}{' '}
                       </td>
                     </tr>
                     <tr className="">
@@ -741,7 +732,7 @@ export const CreateForm = () => {
                       >
                         Keywords:
                       </th>
-                      <td className="px-6 py-2">{watch("keywords")}</td>
+                      <td className="px-6 py-2">{watch('keywords')}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -788,15 +779,15 @@ export const CreateForm = () => {
   const total = useCreateFormStore((state) => state.total);
   return (
     <div className=" justify-center items-center mx-auto w-full sm:ml-4 lg:ml-0 p-4 mb-24 md:mb-0 relative">
-      {isUploading && inProgress === "image" ? (
+      {isUploading && inProgress === 'image' ? (
         <p className="text-center">Uploading your image.</p>
       ) : (
-        ""
+        ''
       )}
-      {isUploading && inProgress === "audio" ? (
+      {isUploading && inProgress === 'audio' ? (
         <p className="text-center">Uploading your audio.</p>
       ) : (
-        ""
+        ''
       )}
 
       {isUploading && renderProgressBar(progress, total)}
@@ -816,18 +807,21 @@ export const CreateForm = () => {
         </h1>
       )}
       {step === 4 && (
-        <h1 className="text-2xl font-bold text-center text-black dark:text-white ">Creating your collectible</h1>
+        <h1 className="text-2xl font-bold text-center text-black dark:text-white ">
+          Creating your collectible
+        </h1>
       )}
-     {step === 0 && <div className="w-full h-full place-items-center min-h-[20vh] flex">
-        <input
-          className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          type="text"
-          placeholder="Paste Spotify URL"
-          value={spotifyUrl || ''}
-          onChange={handleInputChange}
-        />
-      </div>
-      }
+      {step === 0 && (
+        <div className="w-full h-full place-items-center min-h-[20vh] flex">
+          <input
+            className="bg-zinc-50 border border-zinc-300  text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:border-zinc-700 dark:bg-zinc-900 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="text"
+            placeholder="Paste Spotify URL"
+            value={spotifyUrl || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+      )}
       {step === 1 && renderStep1()}
       {step === 2 && renderStep2()}
       {step === 3 && imageUrl && renderStep3()}
@@ -835,20 +829,20 @@ export const CreateForm = () => {
       {step === 5 && profile && (
         <div className="w-full mx-auto place-items-center dark:text-white text-black text-center space-y-3">
           <h1 className="text-lg">
-            {" "}
-            Your collectible will be available soon!{" "}
+            {' '}
+            Your collectible will be available soon!{' '}
           </h1>
           {imagePreview ? (
             <Image
               className="rounded-md mx-auto justify-center"
-              blurDataURL={"/images/stock/blur.png"}
+              blurDataURL={'/images/stock/blur.png'}
               alt="image"
-              src={imagePreview ? imagePreview : ""}
+              src={imagePreview ? imagePreview : ''}
               width={300}
               height={300}
             />
           ) : (
-            ""
+            ''
           )}
           <br />
           <Link className="" prefetch={true} href={`/${profile?.username}`}>

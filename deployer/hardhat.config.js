@@ -1,5 +1,5 @@
-require('dotenv').config()
-require("@nomicfoundation/hardhat-toolbox");
+require('dotenv').config();
+require('@nomicfoundation/hardhat-toolbox');
 
 const polygonVerifyKey = process.env.POLYGONSCAN_API;
 const mumbaiApiKey = process.env.STAGING_ALCHEMY_KEY;
@@ -8,27 +8,27 @@ const PK = process.env.PRIVATE_KEY;
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
   paths: {
-    sources: "./contracts",
-    artifacts: "./artifacts",
+    sources: './contracts',
+    artifacts: './artifacts'
   },
   solidity: {
-    version: "0.8.9",
+    version: '0.8.9'
   },
   etherscan: {
     apiKey: {
       polygonMumbai: polygonVerifyKey,
-      polygon: polygonVerifyKey,
-    },
+      polygon: polygonVerifyKey
+    }
   },
   networks: {
     mumbai: {
       url: mumbaiApiKey,
-      accounts: [PK],
+      accounts: [PK]
     },
     matic: {
       chainId: 137,
       url: maticApiKey,
-      accounts: [PK],
-    },
-  },
+      accounts: [PK]
+    }
+  }
 };

@@ -1,1 +1,1 @@
-export const SupbortLogo = "/images/icons/subport.png";
+export const SupbortLogo = '/images/icons/subport.png';

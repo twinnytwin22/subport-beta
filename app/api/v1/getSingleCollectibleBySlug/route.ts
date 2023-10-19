@@ -1,22 +1,22 @@
-import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
-import { supabaseApi } from "lib/constants";
-import { redisGet } from "lib/redis/redis";
-import { NextRequest, NextResponse } from "next/server";
+import { supabaseApi } from 'lib/constants';
+import { readSingleContractURI } from 'lib/hooks/readSingleContractURI';
+import { redisGet } from 'lib/redis/redis';
+import { NextRequest, NextResponse } from 'next/server';
 
 export const revalidate = 0;
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 // Promisify Redis get and set methods
 
-export async function GET(req: NextRequest){
+export async function GET(req: NextRequest) {
   try {
     if (req.method !== 'GET') {
       return NextResponse.json('error: Method Not Allowed', { status: 405 });
     }
     const { searchParams } = new URL(req.url);
-    const slug = searchParams.get("slug");
+    const slug = searchParams.get('slug');
 
-    const cacheKey = "drops_cache"; // Specify a cache key
+    const cacheKey = 'drops_cache'; // Specify a cache key
     let cachedData = undefined;
     // Check if the response is available in Redis cache
     const cachedResponse = await redisGet(cacheKey);
@@ -32,23 +32,26 @@ export async function GET(req: NextRequest){
       }
     } else {
       if (!slug) {
-        return NextResponse.json({ 'Error': 'Missing or empty slug', 'status': 400 });
+        return NextResponse.json({
+          Error: 'Missing or empty slug',
+          status: 400
+        });
       }
 
       const { data: drop, error } = await supabaseApi
-        .from("drops")
-        .select("*")
-        .eq("slug", slug);
+        .from('drops')
+        .select('*')
+        .eq('slug', slug);
 
       if (drop !== null && drop.length > 0) {
-        console.log(drop, "DROP___");
+        console.log(drop, 'DROP___');
         const metaData = await readSingleContractURI(
           drop[0]?.contract_address!
         );
         if (metaData) {
           const newDrop = {
             drop,
-            metaData,
+            metaData
           };
           return NextResponse.json(newDrop);
         }
@@ -57,9 +60,12 @@ export async function GET(req: NextRequest){
       }
     }
 
-    return NextResponse.json({ error: "Not Found", drop: null });
+    return NextResponse.json({ error: 'Not Found', drop: null });
   } catch (error) {
-    console.error("An error occurred:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error('An error occurred:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 }

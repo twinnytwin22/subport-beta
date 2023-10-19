@@ -1,21 +1,26 @@
-'use client'
-import SignInModal from "ui/Buttons/SignIn";
-import Link from "next/link";
-import { useAuthProvider } from "app/context/auth";
-import { SupbortLogo } from "lib/content/siteSettings";
-import { AdminRoutes, PublicRoutes, UserRoutes } from "../Routes";
-import SocialRow from "ui/Misc/SocialRow";
-import PlaylistCreator from "ui/Playlist/PlaylistCreator";
-import Image from "next/image";
+'use client';
+import { useAuthProvider } from 'app/context/auth';
+import { SupbortLogo } from 'lib/content/siteSettings';
+import Image from 'next/image';
+import Link from 'next/link';
+import SignInModal from 'ui/Buttons/SignIn';
+import SocialRow from 'ui/Misc/SocialRow';
+import PlaylistCreator from 'ui/Playlist/PlaylistCreator';
+import { AdminRoutes, PublicRoutes, UserRoutes } from '../Routes';
 function Sidebar() {
-  const { user, profile } = useAuthProvider()
+  const { user, profile } = useAuthProvider();
 
   return (
-
     <aside className="hidden  sm:block bg-gray-100 h-full z-50 max-h-screen w-[128px] lg:w-[256px] lg:pl-6 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-zinc-800 top-0 fixed float-left left-0">
       <div className="mb-16 mx-auto m-3">
         <Link href="/" className="flex items-center">
-          <Image src={SupbortLogo} className="lg:mx-3  w-9 items-center justify-center mx-auto " alt="Subport Logo" width={36} height={18} style={{ width: 'auto', height: 'auto' }}
+          <Image
+            src={SupbortLogo}
+            className="lg:mx-3  w-9 items-center justify-center mx-auto "
+            alt="Subport Logo"
+            width={36}
+            height={18}
+            style={{ width: 'auto', height: 'auto' }}
           />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white hidden lg:block">
             subport
@@ -31,7 +36,6 @@ function Sidebar() {
           <div className="hidden lg:block">
             <PlaylistCreator />
           </div>
-
         ) : (
           <div className="hidden lg:block">
             <SignInModal />
@@ -45,21 +49,25 @@ function Sidebar() {
         <SocialRow />
       </div>
     </aside>
-
   );
 }
 
 export default Sidebar;
 
 export function MobileSidebar() {
-  const { user } = useAuthProvider()
+  const { user } = useAuthProvider();
 
   return (
-
     <aside className="sm:hidden block bg-gray-100 h-full z-50  w-1/2  px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-blue-800 top-0 fixed float-left left-0">
       <div className="mb-16 mx-auto m-3">
         <Link href="/" className="flex items-center">
-          <Image src={SupbortLogo} className="lg:mx-3  w-9 items-center justify-center mx-auto " alt="Subport Logo" width={36} height={18} style={{ width: 'auto', height: 'auto' }}
+          <Image
+            src={SupbortLogo}
+            className="lg:mx-3  w-9 items-center justify-center mx-auto "
+            alt="Subport Logo"
+            width={36}
+            height={18}
+            style={{ width: 'auto', height: 'auto' }}
           />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-black dark:text-white ">
             subport
@@ -75,7 +83,6 @@ export function MobileSidebar() {
           <div className="hidden lg:block">
             <PlaylistCreator />
           </div>
-
         ) : (
           <div className="hidden lg:block">
             <SignInModal />
@@ -89,10 +96,8 @@ export function MobileSidebar() {
         <SocialRow />
       </div>
     </aside>
-
   );
 }
-
 
 const SidebarRoutes = ({ user, profile }: any) => {
   return (
@@ -118,52 +123,55 @@ const SidebarRoutes = ({ user, profile }: any) => {
               </svg>
             </div>
           </li>
-        </Link>))}
+        </Link>
+      ))}
 
-      {user && UserRoutes.map((link) => (
-        <Link key={link.name} href={link.route}>
-          <li className={`${(link.name === 'Create' && !profile.is_artist) && 'hidden' }`}>
-            <p className="hidden lg:block">{link.name}</p>
-            <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105 mb-3">
-              <svg
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  clipRule="evenodd"
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"
-                />
-              </svg>
-            </div>
-          </li>
-        </Link>)
-      )}
-      <>
-
-      </>
+      {user &&
+        UserRoutes.map((link) => (
+          <Link key={link.name} href={link.route}>
+            <li
+              className={`${link.name === 'Create' && !profile.is_artist && 'hidden'
+                }`}
+            >
+              <p className="hidden lg:block">{link.name}</p>
+              <div className="block lg:hidden group w-10 mx-auto rounded-full text-zinc-900 bg-zinc-200 hover:bg-zinc-100 p-2.5 shadow-zinc-200 hover:shadow-sm hover:scale-105 mb-3">
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path
+                    clipRule="evenodd"
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z"
+                  />
+                </svg>
+              </div>
+            </li>
+          </Link>
+        ))}
+      <></>
     </div>
-  )
-}
-
+  );
+};
 
 const AdminSidebarRoutes = ({ user }: any) => {
-  const emails = ['randal.herndon@gmail.com', 'djtwinnytwin@gmail.com']
-  const hasAccess = (emails).includes(user?.email)
+  const emails = ['randal.herndon@gmail.com', 'djtwinnytwin@gmail.com'];
+  const hasAccess = emails.includes(user?.email);
   return (
     <>
-      {hasAccess && AdminRoutes.map((link) => (
-        <div key={link.name} className="font-bold text-lg dark:text-zinc-200 text-zinc-900">
-          <Link href={link.route} target="blank">
-            <p>
-              {link.name}
-              </p>
-          </Link>
-
-        </div>))
-      }
-    </>)
-
-}
+      {hasAccess &&
+        AdminRoutes.map((link) => (
+          <div
+            key={link.name}
+            className="font-bold text-lg dark:text-zinc-200 text-zinc-900"
+          >
+            <Link href={link.route} target="blank">
+              <p>{link.name}</p>
+            </Link>
+          </div>
+        ))}
+    </>
+  );
+};

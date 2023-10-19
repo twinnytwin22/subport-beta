@@ -1,12 +1,12 @@
-"use client";
-import SignOutButton  from "ui/Buttons/SignOut";
-import Avatar from "ui/User/UploadWidget";
-import { toast } from "react-toastify";
-import { useAuthProvider } from "app/context/auth";
-import { useRouter } from "next/navigation";
-import useProfileStore from "./store"
-import { useEffect } from "react";
-import { supabaseAdmin } from "lib/constants";
+'use client';
+import { useAuthProvider } from 'app/context/auth';
+import { supabaseAdmin } from 'lib/constants';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import SignOutButton from 'ui/Buttons/SignOut';
+import Avatar from 'ui/User/UploadWidget';
+import useProfileStore from './store';
 
 export default function ProfileSettings() {
   const { user, profile, isLoading } = useAuthProvider();
@@ -29,11 +29,12 @@ export default function ProfileSettings() {
     state,
     setState
   } = useProfileStore();
-//console.log(profile)
+  //console.log(profile)
   useEffect(() => {
     // Load profile data and set it in the store when it's available
     if (profile) {
-      const { bio, username, avatar_url, city, country, state, display_name } = profile;
+      const { bio, username, avatar_url, city, country, state, display_name } =
+        profile;
       setBio(bio);
       setUsername(username);
       setAvatarUrl(avatar_url);
@@ -41,7 +42,7 @@ export default function ProfileSettings() {
       setCountry(country);
       setState(state);
     }
-  }, [profile]); // 
+  }, [profile]); //
 
   const router = useRouter();
 
@@ -51,7 +52,7 @@ export default function ProfileSettings() {
     city,
     country,
     state,
-    bio,
+    bio
   }: any) {
     if (profile && user) {
       try {
@@ -64,7 +65,10 @@ export default function ProfileSettings() {
         if (typeof username !== 'undefined' && username !== profile?.username) {
           updates.username = username;
         }
-        if (typeof avatar_url !== 'undefined' && avatar_url !== profile?.avatar_url) {
+        if (
+          typeof avatar_url !== 'undefined' &&
+          avatar_url !== profile?.avatar_url
+        ) {
           updates.avatar_url = avatar_url;
         }
         if (typeof city !== 'undefined' && city !== profile?.city) {
@@ -77,24 +81,23 @@ export default function ProfileSettings() {
           updates.state = state;
         }
         updates.updated_at = new Date().toISOString();
-        let {data, error } = await supabaseAdmin
-          .from("profiles")
+        let { data, error } = await supabaseAdmin
+          .from('profiles')
           .update(updates)
-          .eq("id", user?.id)
+          .eq('id', user?.id)
           .select();
 
+        if (data?.length !== undefined) {
+          setLoading(false);
+          toast.success('Profile updated!');
 
-          if (data?.length !== undefined){
-            setLoading(false);
-            toast.success("Profile updated!");
-
-            router.refresh();
-          }
+          router.refresh();
+        }
         if (error) throw error;
       } catch (error) {
         toast.error(error as any);
-        (error);
-      } 
+        error;
+      }
     }
   }
 
@@ -108,12 +111,12 @@ export default function ProfileSettings() {
       <>
         <div className="mx-auto content-start items-center h-fit flex-col md:justify-between mt-8">
           <Avatar
-            uid={user?.id || ""}
+            uid={user?.id || ''}
             url={profile?.avatar_url || avatar_url}
             size={200}
             onUpload={(url: any) => {
               setAvatarUrl(url);
-            //  updateProfile({ avatar_url: url });
+              //  updateProfile({ avatar_url: url });
             }}
           />
           <div className="mt-3">
@@ -220,7 +223,7 @@ export default function ProfileSettings() {
               className="bg-zinc-50 border  border-zinc-300 text-zinc-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-zinc-600 dark:placeholder-zinc-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               id="wallet"
               type="text"
-              value={profile?.wallet_address || ""}
+              value={profile?.wallet_address || ''}
               readOnly
             />
           </div>
@@ -234,12 +237,12 @@ export default function ProfileSettings() {
                   city,
                   country,
                   state,
-                  bio,
+                  bio
                 })
               }
               disabled={loading}
             >
-              {loading ? "Loading ..." : "Update"}
+              {loading ? 'Loading ...' : 'Update'}
             </button>
             <SignOutButton />
           </div>

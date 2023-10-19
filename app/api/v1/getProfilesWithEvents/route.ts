@@ -1,7 +1,7 @@
 // app/api/getProfilesWithDrops/route.js
 
-import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from 'lib/constants';
+import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) {
   if (req.method !== 'GET') {
     return NextResponse.json('error: Method Not Allowed', { status: 405 });
@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
   if (error) {
     console.error(error);
-    return NextResponse.json({'Error fetching data': 500});
+    return NextResponse.json({ 'Error fetching data': 500 });
   }
 
   const filteredEvents = users?.filter((user) => user.events.length > 1);

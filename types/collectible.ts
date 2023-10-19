@@ -22,7 +22,7 @@ type Collectible = {
   infinite?: boolean;
   end_time?: any;
   end_date?: any;
-  dropType: "save" | "standard";
+  dropType: 'save' | 'standard';
   royaltyFee?: any;
 };
 

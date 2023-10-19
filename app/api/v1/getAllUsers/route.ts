@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { redis, redisGet, redisSet } from "lib/redis/redis";
-import { supabaseApi } from "lib/constants";
+import { supabaseApi } from 'lib/constants';
+import { redis, redisGet, redisSet } from 'lib/redis/redis';
+import { NextResponse } from 'next/server';
 
 export const revalidate = 30;
 //export const dynamic = 'force-dynamic'
@@ -10,8 +10,8 @@ export async function GET(req: Request) {
     return NextResponse.json('error: Method Not Allowed', { status: 405 });
   }
   const { searchParams } = new URL(req.url);
-  const refreshCache = searchParams.get("refreshCache");
-  const cacheKey = "all_users_cache"; // Specify a cache key for all users' data
+  const refreshCache = searchParams.get('refreshCache');
+  const cacheKey = 'all_users_cache'; // Specify a cache key for all users' data
 
   try {
     // Check if the query parameter "refresh" is set to true
@@ -22,19 +22,19 @@ export async function GET(req: Request) {
     // Check if the response is available in Redis cache
     const cachedResponse = await redisGet(cacheKey);
     if (cachedResponse && !refreshCache) {
-      console.log("Cache Hit");
+      console.log('Cache Hit');
       return NextResponse.json(JSON.parse(cachedResponse));
     }
 
     let { data: users, error } = await supabaseApi
-      .from("profiles")
+      .from('profiles')
       .select(
-        "id, username, bio, website, avatar_url, wallet_address, city, state, country"
+        'id, username, bio, website, avatar_url, wallet_address, city, state, country'
       );
 
     if (error) {
-      console.error("Error fetching users:", error);
-      return new Response("Error fetching users");
+      console.error('Error fetching users:', error);
+      return new Response('Error fetching users');
     }
 
     // Store the response in Redis cache
@@ -42,7 +42,7 @@ export async function GET(req: Request) {
 
     return new Response(JSON.stringify(users));
   } catch (error) {
-    console.error("Error fetching users:", error);
-    return new Response("Error fetching users");
+    console.error('Error fetching users:', error);
+    return new Response('Error fetching users');
   }
 }

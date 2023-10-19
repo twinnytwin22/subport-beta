@@ -14,10 +14,8 @@
   z-index: 9999; /* Set the highest z-index */
 }
 
-
-
 .follow-button {
-  stroke-width: "2";
+  stroke-width: '2';
 }
 /* For modern browsers */
 .scrollbar-thin {
@@ -41,7 +39,6 @@
 body.modal-open {
   overflow: hidden;
 }
-
 
 /* styles.css */
 .scrolling-text-container {

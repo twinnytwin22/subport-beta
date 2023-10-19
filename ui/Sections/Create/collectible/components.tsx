@@ -1,8 +1,17 @@
-import React from 'react';
 
-const FormInput = ({ label, id, type, register, required = false, placeholder = '' }: any) => (
+const FormInput = ({
+  label,
+  id,
+  type,
+  register,
+  required = false,
+  placeholder = ''
+}: any) => (
   <div>
-    <label htmlFor={id} className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white">
+    <label
+      htmlFor={id}
+      className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+    >
       {label}
     </label>
     <input
@@ -17,7 +26,10 @@ const FormInput = ({ label, id, type, register, required = false, placeholder = 
 
 const FormSelect = ({ label, id, options, register }: any) => (
   <div>
-    <label htmlFor={id} className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white">
+    <label
+      htmlFor={id}
+      className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+    >
       {label}
     </label>
     <select
@@ -34,9 +46,18 @@ const FormSelect = ({ label, id, options, register }: any) => (
   </div>
 );
 
-const FormTextArea = ({ label, id, register, required = false, placeholder = '' }: any) => (
+const FormTextArea = ({
+  label,
+  id,
+  register,
+  required = false,
+  placeholder = ''
+}: any) => (
   <div>
-    <label htmlFor={id} className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white">
+    <label
+      htmlFor={id}
+      className="block mb-2 text-sm font-medium text-zinc-900 dark:text-white"
+    >
       {label}
     </label>
     <textarea
@@ -48,24 +69,22 @@ const FormTextArea = ({ label, id, register, required = false, placeholder = '' 
   </div>
 );
 
-const FormStep = ({ step, fields, onSubmit, onBack, handleResetClick }: any) => (
+const FormStep = ({
+  step,
+  fields,
+  onSubmit,
+  onBack,
+  handleResetClick
+}: any) => (
   <div>
     <form onSubmit={onSubmit}>
-      <h2 className="text-center w-full py-4 text-lg">
-        Step {step}
-      </h2>
+      <h2 className="text-center w-full py-4 text-lg">Step {step}</h2>
 
       {fields.map((fieldProps: any) => (
         <div key={fieldProps.id} className="mb-6">
-          {fieldProps.type === 'textarea' && (
-            <FormTextArea {...fieldProps} />
-          )}
-          {fieldProps.type === 'select' && (
-            <FormSelect {...fieldProps} />
-          )}
-          {fieldProps.type === 'input' && (
-            <FormInput {...fieldProps} />
-          )}
+          {fieldProps.type === 'textarea' && <FormTextArea {...fieldProps} />}
+          {fieldProps.type === 'select' && <FormSelect {...fieldProps} />}
+          {fieldProps.type === 'input' && <FormInput {...fieldProps} />}
         </div>
       ))}
 
@@ -95,4 +114,4 @@ const FormStep = ({ step, fields, onSubmit, onBack, handleResetClick }: any) => 
   </div>
 );
 
-export {FormInput, FormSelect, FormStep, FormTextArea}
+export { FormInput, FormSelect, FormStep, FormTextArea };

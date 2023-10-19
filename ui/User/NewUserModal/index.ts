@@ -1,1 +1,1 @@
-export {default} from './NewUserModal'
+export { default } from './NewUserModal';

@@ -1,8 +1,8 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { redisGet, redisSet } from "lib/redis/redis";
-import { Database } from "types/database.types";
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { redisGet, redisSet } from 'lib/redis/redis';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
+import { Database } from 'types/database.types';
 
 export async function POST(req: Request) {
   if (req.method !== 'POST') {
@@ -10,10 +10,10 @@ export async function POST(req: Request) {
   }
   const supabaseApi = createRouteHandlerClient<Database>({ cookies });
   const { eventData } = await req.json();
-  const cacheKey = "events_cache";
+  const cacheKey = 'events_cache';
 
   const { data: event, error: eventError } = await supabaseApi
-    .from("events")
+    .from('events')
     .insert([eventData])
     .select();
 
@@ -30,8 +30,8 @@ export async function POST(req: Request) {
     // Set the updated array back to the Redis cache
     await redisSet(cacheKey, JSON.stringify(existingData));
 
-    return NextResponse.json({ data: event, status: "success", error: null });
+    return NextResponse.json({ data: event, status: 'success', error: null });
   }
 
-  return NextResponse.json({ error: eventError, status: "error", data: null });
+  return NextResponse.json({ error: eventError, status: 'error', data: null });
 }

@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
-import { redisGet, redisSet } from "lib/redis/redis";
+import { redisGet } from 'lib/redis/redis';
+import { NextRequest, NextResponse } from 'next/server';
 
 // Define a cache key
-const cacheKey = "drops_cache";
+const cacheKey = 'drops_cache';
 
 // Define the route handler function
 export async function GET(req: NextRequest): Promise<NextResponse> {
@@ -24,7 +24,10 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     }
   } catch (error) {
     // Handle any errors that may occur
-    console.error("An error occurred:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error('An error occurred:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 }

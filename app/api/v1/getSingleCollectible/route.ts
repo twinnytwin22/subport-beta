@@ -1,18 +1,18 @@
-import { readSingleContractURI } from "lib/hooks/readSingleContractURI";
-import { supabaseApi } from "lib/constants";
-import { redis, redisGet, redisSet } from "lib/redis/redis";
-import { NextResponse } from "next/server";
+import { supabaseApi } from 'lib/constants';
+import { readSingleContractURI } from 'lib/hooks/readSingleContractURI';
+import { redisGet, redisSet } from 'lib/redis/redis';
+import { NextResponse } from 'next/server';
 
 export const revalidate = 0;
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 export async function GET(req: Request) {
   if (req.method !== 'GET') {
     return NextResponse.json('error: Method Not Allowed', { status: 405 });
   }
   const { searchParams } = new URL(req.url);
-  const contractAddress = searchParams.get("contractAddress");
+  const contractAddress = searchParams.get('contractAddress');
 
-  const cacheKey = "drops_cache"; // Specify a cache key
+  const cacheKey = 'drops_cache'; // Specify a cache key
   let cachedData = undefined;
   // Check if the response is available in Redis cache
   const cachedResponse = await redisGet(cacheKey);
@@ -28,26 +28,29 @@ export async function GET(req: Request) {
     }
   }
   if (!contractAddress) {
-    return NextResponse.json({ 'Error': 'Missing or empty contractAddress', 'status': 400 });
+    return NextResponse.json({
+      Error: 'Missing or empty contractAddress',
+      status: 400
+    });
   }
 
   try {
     const metaDataPromise = readSingleContractURI(contractAddress!);
     const supabasePromise = supabaseApi
-      .from("drops")
-      .select("*")
-      .eq("contract_address", contractAddress)
-     // .limit(1)
+      .from('drops')
+      .select('*')
+      .eq('contract_address', contractAddress)
+      // .limit(1)
       .single();
 
     // Wait for both promises to resolve or timeout
     const [metaData, { data: drop }] = await Promise.allSettled([
       metaDataPromise,
       supabasePromise,
-      new Promise((resolve) => setTimeout(resolve, 1000)), // Timeout of 1 second
+      new Promise((resolve) => setTimeout(resolve, 1000)) // Timeout of 1 second
     ]).then((results) =>
       results
-        .filter(({ status }) => status === "fulfilled")
+        .filter(({ status }) => status === 'fulfilled')
         .map(({ value }: any) => value)
     );
 
@@ -59,7 +62,7 @@ export async function GET(req: Request) {
         try {
           const dropWithMetaData = {
             drop,
-            metaData: newMeta,
+            metaData: newMeta
           };
 
           const updatedData = updateData(dropWithMetaData, cachedData);
@@ -68,20 +71,20 @@ export async function GET(req: Request) {
 
           return NextResponse.json({
             drop,
-            dropWithMetaData,
+            dropWithMetaData
           });
         } catch (error) {
-          console.error("Error fetching single contract URI:", error);
+          console.error('Error fetching single contract URI:', error);
         }
       } else {
-        return NextResponse.json({ error: "Not Found", drop: null });
+        return NextResponse.json({ error: 'Not Found', drop: null });
       }
     }
   } catch (error) {
-    console.error("Error fetching single collectible:", error);
+    console.error('Error fetching single collectible:', error);
   }
 
-  return NextResponse.json({ error: "Not Found", drop: null });
+  return NextResponse.json({ error: 'Not Found', drop: null });
 }
 
 function updateData(newData: any, cachedData: any) {
@@ -90,7 +93,7 @@ function updateData(newData: any, cachedData: any) {
     dropsWithMetaData: [...existingData, newData],
     drops: cachedData?.drops,
     contractAddresses: cachedData?.contractAddresses,
-    metaData: cachedData?.metaData,
+    metaData: cachedData?.metaData
   };
 
   return updatedData;

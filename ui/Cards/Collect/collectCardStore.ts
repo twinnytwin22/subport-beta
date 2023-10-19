@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface CollectCardStore {
   openComments: boolean;
@@ -7,5 +7,5 @@ interface CollectCardStore {
 
 export const useCollectCardStore = create<CollectCardStore>((set, get) => ({
   openComments: false,
-  setOpenComments: (openComments) => set({ openComments }),
+  setOpenComments: (openComments) => set({ openComments })
 }));
