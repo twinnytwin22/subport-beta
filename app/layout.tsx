@@ -12,24 +12,14 @@ export const preferredRegion = 'auto';
 export const revalidate = 0;
 export const dynamic = 'force-dynamic';
 
-const host =
-  process?.env.NODE_ENV === 'development'
-    ? 'localhost:3000'
-    : 'subport.vercel.app';
-const protocol = process?.env.NODE_ENV === 'development' ? 'http' : 'https';
-
 export default async function RootLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  const url = `${protocol}://${host}/`;
   const supabase = createServerClient();
   const { data: session } = await supabase.auth.getSession();
-  const { searchParams } = new URL(url);
-  const loginPage = searchParams.get('login');
 
-  console.log(loginPage, 'LOGIN PAGE CONSOLE');
 
   const ContentWrapper = () => (
     <div

@@ -10,9 +10,9 @@ import React, {
 } from 'react';
 import { getUserData, handleAuthChangeEvent } from './actions';
 
-export const refresh = () => {
-  window.location.reload();
-};
+// export const refresh = () => {
+//   window.location.reload();
+// };
 
 interface AuthState {
   profile: any;
@@ -42,7 +42,7 @@ export const AuthContextProvider = ({
     try {
       // Perform any necessary cleanup or log-out actions
       await supabaseAuth.auth.signOut();
-      refresh();
+      router.refresh();
     } catch (error) {
       console.error('Error signing out:', error);
     }

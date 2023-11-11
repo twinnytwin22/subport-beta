@@ -22,9 +22,11 @@ async function generateCodeChallenge(codeVerifier: string | undefined) {
       .replace(/=+$/, '');
   }
 
+
+
   const encoder = new TextEncoder();
   const data = encoder.encode(codeVerifier);
-  const digest = await window.crypto.subtle.digest('SHA-256', data);
+  const digest = typeof window !== "undefined" && await window.crypto.subtle.digest('SHA-256', data);
 
   return base64encode(digest);
 }
@@ -54,7 +56,10 @@ function ConnectToSpotifyButton() {
         code_challenge: codeChallenge
       });
 
-      window.location.href = 'https://accounts.spotify.com/authorize?' + args;
+      if (typeof window !== "undefined") {
+        window.location.href = 'https://accounts.spotify.com/authorize?' + args;
+      }
+
     });
   };
 

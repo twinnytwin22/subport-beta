@@ -31,6 +31,8 @@ const FooterPlayer = () => {
   };
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+
     // Update the screen width state when the component mounts
     updateScreenWidth();
 
@@ -41,6 +43,7 @@ const FooterPlayer = () => {
     return () => {
       window.removeEventListener('resize', updateScreenWidth);
     };
+  };
   }, []);
   const { user } = useAuthProvider();
   const {

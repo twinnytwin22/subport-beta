@@ -1,17 +1,14 @@
 import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
-import { NextResponse, NextRequest, NextFetchEvent } from 'next/server';
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 import countries from 'utils/countries.json';
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
-import refreshSpotifyToken from 'lib/providers/spotify/spotifyLogic';
 const cache = new Map();
-const ratelimit = new Ratelimit({
-  // ephemeralCache: cache,
-  redis: Redis.fromEnv(),
-  analytics: true,
-  // 5 requests from the same IP in 10 seconds
-  limiter: Ratelimit.slidingWindow(5, '10 s')
-});
+// const ratelimit = new Ratelimit({
+//   // ephemeralCache: cache,
+//   redis: Redis.fromEnv(),
+//   analytics: true,
+//   // 5 requests from the same IP in 10 seconds
+//   limiter: Ratelimit.slidingWindow(5, '10 s')
+// });
 
 export async function middleware(
   req: NextRequest,
