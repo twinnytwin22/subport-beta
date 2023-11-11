@@ -1,20 +1,20 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { supabase, useImagePath, useIpfsImage } from 'lib/constants';
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
-import { fetchProfilesForDrops } from 'utils/use-server';
-import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query'; // Importing from react-query
-import { toast } from 'react-toastify';
 import { useAuthProvider } from 'app/context/auth';
+import { supabase, useImagePath, useIpfsImage } from 'lib/constants';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { fetchProfilesForDrops } from 'utils/use-server';
 
 function EventCard({ event }: any) {
   const imagePath = event.image || event.data.image;
 
-  const { data: user } = useQuery(['user', event?.user_id], () =>
+  const { data: user } = useQuery({queryKey:['user', event?.user_id], queryFn:() =>
     fetchProfilesForDrops(event?.user_id)
-  );
+});
   const profileImagePath = useImagePath(user?.avatar_url);
 
   return (
