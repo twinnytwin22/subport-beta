@@ -31,9 +31,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <Suspense>
+        {/* <Suspense> */}
           <SubportPlayer>
-            <Suspense>
+            {/* <Suspense> */}
               <ThirdwebProvider
                 secretKey={secretKey!}
                 clientId={clientId!}
@@ -59,9 +59,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
                   </ThemeProvider>
                 </Suspense>
               </ThirdwebProvider>
-            </Suspense>
+            {/* </Suspense> */}
           </SubportPlayer>
-        </Suspense>
+        {/* </Suspense> */}
       </AuthContextProvider>
     </QueryClientProvider>
   );
