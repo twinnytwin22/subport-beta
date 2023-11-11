@@ -1,7 +1,5 @@
 'use client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Ethereum, Optimism, Polygon } from '@thirdweb-dev/chains';
-import { ThirdwebProvider } from '@thirdweb-dev/react';
 import { AuthContextProvider } from 'app/context/auth';
 import { GlobalUI } from 'app/context/global-ui';
 import { SubportPlayer } from 'app/context/subport-player';
@@ -10,7 +8,6 @@ import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import 'styles/globals.css';
-import { clientId, secretKey, storage } from './thirdweb/thirdweb';
 const GoogleMapWrap = dynamic(() => import('./google/maps'), {ssr: false})
 const ToastContainer = dynamic(
   () => import('react-toastify').then((module) => module.ToastContainer),
@@ -33,7 +30,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         {/* <Suspense> */}
           <SubportPlayer>
             {/* <Suspense> */}
-              <ThirdwebProvider
+              {/* <ThirdwebProvider
                 secretKey={secretKey!}
                 clientId={clientId!}
                 storageInterface={storage}
@@ -44,20 +41,18 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
                 sdkOptions={{
                   alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID
                 }}
-              >
+              > */}
                 <Suspense>
                   <ThemeProvider attribute="class" defaultTheme="dark">
-                    <Suspense>
                       <GoogleMapWrap>
                         <GlobalUI>
                           {children}
                           <ToastContainer theme="dark" />
                         </GlobalUI>
                       </GoogleMapWrap>
-                    </Suspense>
                   </ThemeProvider>
                 </Suspense>
-              </ThirdwebProvider>
+              {/* </ThirdwebProvider> */}
             {/* </Suspense> */}
           </SubportPlayer>
         {/* </Suspense> */}
