@@ -34,8 +34,8 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           <SubportPlayer>
             {/* <Suspense> */}
               <ThirdwebProvider
-                secretKey={secretKey!}
-                clientId={clientId!}
+                secretKey={secretKey! || ''}
+                clientId={clientId!  || ''}
                 storageInterface={storage}
                 activeChain={Polygon}
               //  queryClient={queryClient}
