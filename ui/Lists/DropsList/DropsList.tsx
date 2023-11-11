@@ -34,15 +34,19 @@ import CollectCard from '../../Cards/Collect/CollectCard';
 const DropsList = ({ drops }: { drops: any }) => {
   return (
     <div className="flex w-full overflow-x-scroll  mx-auto h-fit items-center scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent ">
-      {drops.map((drop: any) => (
+      {drops.map((d: any) => 
+      {
+        const drop = d.drop
+        const metaData = d.metaData
+        return (
         <div className=" min-w-[284px] max-w-sm w-fit overflow-hidden  m-4 bg-white border border-zinc-200 rounded-md dark:bg-black dark:border-zinc-700 shadow-md shadow-zinc-200 dark:shadow-zinc-900 relative">
           <CollectCard
-            key={drop.drop.id}
-            metaData={drop.metaData}
-            drop={drop.drop}
+            key={drop.id}
+            metaData={metaData}
+            drop={drop}
           />
         </div>
-      ))}
+      )})}
     </div>
   );
 };
