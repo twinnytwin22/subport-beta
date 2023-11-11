@@ -26,7 +26,7 @@ function SubscriptionForm() {
   const onSubmit = async (data: any) => {
     await createSubscription(data, profile?.id);
     setSuccessModalOpen(true);
-    queryClient.invalidateQueries(['subscriptionTiers']);
+    queryClient.invalidateQueries({queryKey:['subscriptionTiers']});
   };
 
   const subscriptionTiers = [
