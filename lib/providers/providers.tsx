@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Ethereum, Optimism, Polygon } from '@thirdweb-dev/chains';
 import { ThirdwebProvider } from '@thirdweb-dev/react';
@@ -10,9 +10,8 @@ import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import 'styles/globals.css';
-import GoogleMapWrap from './google/maps';
 import { clientId, secretKey, storage } from './thirdweb/thirdweb';
-
+const GoogleMapWrap = dynamic(() => import('./google/maps'), {ssr: false})
 const ToastContainer = dynamic(
   () => import('react-toastify').then((module) => module.ToastContainer),
   {
