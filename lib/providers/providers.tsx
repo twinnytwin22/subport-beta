@@ -41,9 +41,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
               //  queryClient={queryClient}
                 supportedChains={[Ethereum, Polygon, Optimism]}
                // queryClient={queryClient}
-                sdkOptions={{
-                  alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID
-                }}
+                // sdkOptions={{
+                //   alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID
+                // }}
               >
                 <Suspense>
                   <ThemeProvider attribute="class" defaultTheme="dark">
