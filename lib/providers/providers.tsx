@@ -39,8 +39,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
                 clientId={clientId!}
                 storageInterface={storage}
                 activeChain={Polygon}
+              //  queryClient={queryClient}
                 supportedChains={[Ethereum, Polygon, Optimism]}
-                queryClient={queryClient}
+               // queryClient={queryClient}
                 sdkOptions={{
                   alchemyApiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID
                 }}

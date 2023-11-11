@@ -44,18 +44,18 @@ export default function ArtistSettings() {
     queryKey: ['data', profile.id],
     queryFn: () => getArtistSettings(profile.id),
     enabled: !!profile.id,
-    onSuccess: (artistData) => {
-      setAmazonUrl(artistData?.amazon_url || null);
-      setAppleUrl(artistData?.apple_url || null);
-      setArtistName(artistData?.artist_name || null);
-      setTidalUrl(artistData?.tidal_url || null);
-      setAvatarUrl(artistData?.avatar_url || null);
-      setDeezerUrl(artistData?.deezer_url || null);
-      setSoundcloudUrl(artistData?.soundcloud_url || null);
-      setSpotifyUrl(artistData?.spotify_url || null);
-    }
   });
-  useEffect(() => { }, [artistData]);
+  useEffect(() => {
+    setAmazonUrl(artistData?.amazon_url || null);
+    setAppleUrl(artistData?.apple_url || null);
+    setArtistName(artistData?.artist_name || null);
+    setTidalUrl(artistData?.tidal_url || null);
+    setAvatarUrl(artistData?.avatar_url || null);
+    setDeezerUrl(artistData?.deezer_url || null);
+    setSoundcloudUrl(artistData?.soundcloud_url || null);
+    setSpotifyUrl(artistData?.spotify_url || null);
+
+   }, [artistData]);
 
   //console.log(artistData)
 

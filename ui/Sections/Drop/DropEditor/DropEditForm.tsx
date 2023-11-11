@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useAuthProvider } from 'app/context/auth';
 import { supabase } from 'lib/constants';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaAmazon, FaApple, FaDeezer, FaSoundcloud } from 'react-icons/fa';
 import { SiTidal } from 'react-icons/si';
 import { toast } from 'react-toastify';
@@ -34,19 +34,20 @@ function DropEditForm({ drop }: any) {
     setTidalUrl
   } = useDropSettings();
 
-  const { data: dropLinks, isLoading: dropLinksLoading } = useQuery({
+  const { data: dropLinks, isLoading: dropLinksLoading }: any = useQuery({
     queryKey: ['dropLinks', drop.id],
     queryFn: () => getDropLinks(drop.id),
     enabled: !!drop.id,
-    onSuccess: (dropLinks: any) => {
-      setAmazonUrl(dropLinks?.amazon_url);
+
+  });
+  useEffect(() => {
+    if(dropLinks){
+   setAmazonUrl(dropLinks?.amazon_url);
       setAppleUrl(dropLinks?.apple_url!);
       setDeezerUrl(dropLinks?.deezer_url);
       setSoundcloudUrl(dropLinks?.soundcloud_url);
       setTidalUrl(dropLinks?.tidal_url);
-    }
-  });
-
+  }},[dropLinks])
   //  console.log(dropLinks)
 
   // console.log(data, "DATA")

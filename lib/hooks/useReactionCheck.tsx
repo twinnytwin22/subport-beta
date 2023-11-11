@@ -8,9 +8,8 @@ export const useReactionCheck = (dropId: string, userId: string) => {
     return existingReaction.length > 0 ? existingReaction[0].reaction_type : '';
   };
   const { data: reactionType, error } = useQuery(
-    ['reaction', dropId, userId],
-    fetchReactionType,
-    {
+    {queryKey: ['reaction', dropId, userId],
+    queryFn: fetchReactionType,
       enabled: !!userId
     }
   );

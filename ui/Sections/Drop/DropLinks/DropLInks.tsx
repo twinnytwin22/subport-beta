@@ -5,7 +5,7 @@ import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
 import { handleSpotifyAction } from 'lib/providers/spotify/spotifyLogic';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaAmazon, FaMusic, FaSpotify } from 'react-icons/fa';
 import { SiDeezer, SiTidal } from 'react-icons/si';
 import { getDropLinks } from 'utils/database';
@@ -32,19 +32,19 @@ function DropLinksTo({ drop }: any) {
     setTidalUrl
   } = useDropSettings();
 
-  const { data: dropLinks, isLoading: dropLinksLoading } = useQuery({
+  const { data: dropLinks, isLoading: dropLinksLoading }: any = useQuery({
     queryKey: ['dropLinks', drop.id],
     queryFn: () => getDropLinks(drop.id),
     enabled: !!drop.id,
-    onSuccess: (dropLinks: any) => {
-      setAmazonUrl(dropLinks?.amazon_url);
-      setAppleUrl(dropLinks?.apple_url!);
-      setDeezerUrl(dropLinks?.deezer_url);
-      setSoundcloudUrl(dropLinks?.soundcloud_url);
-      setTidalUrl(dropLinks?.tidal_url);
-    }
-  });
 
+  });
+useEffect(() => {
+  setAmazonUrl(dropLinks?.amazon_url);
+  setAppleUrl(dropLinks?.apple_url!);
+  setDeezerUrl(dropLinks?.deezer_url);
+  setSoundcloudUrl(dropLinks?.soundcloud_url);
+  setTidalUrl(dropLinks?.tidal_url);
+},[dropLinks])
   async function checkSavedTracks(spotifyUrl: string) {
     try {
       if (spotifyUrl && user) {

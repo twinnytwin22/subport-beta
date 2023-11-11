@@ -7,7 +7,7 @@ import { deployCollectible } from 'lib/deployFunctions/deployer';
 import useSpotifyUrlId from 'lib/hooks/useSpotifyUrlId';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import Collectible from 'types/collectible';
@@ -24,18 +24,20 @@ export const CreateForm = () => {
   const spotify = useSpotifyUrlId();
   const [spotifyUrl, setSpotifyUrl] = useState<string | null>(null);
 
-  const { data } = useQuery({
+  const { data }: any = useQuery({
     queryKey: ['data', spotify, spotifyUrl],
     queryFn: () => generateSongData(spotify, spotifyUrl),
     enabled: !!spotifyUrl,
-    onSuccess: (data: any) => {
-      setValue('name', data?.album.name);
-      setValue(
-        'artist_name',
-        data.artists.map((artist: any) => artist?.name).join(', ') || ''
-      );
-    }
+ 
   });
+
+  useEffect(() => {
+    setValue('name', data?.album.name);
+    setValue(
+      'artist_name',
+      data.artists.map((artist: any) => artist?.name).join(', ') || ''
+    );
+  }, [data])
   console.log(data);
   const handleAutoFillSongData = async (url: string) => {
     setSpotifyUrl(url);

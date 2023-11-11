@@ -13,12 +13,12 @@ import CollectCardMenu from './CollectCardMenu';
 import PlayButton from './PlayButton';
 
 function CollectCard({ metaData, drop }: any) {
-  const { data: user } = useQuery(['user', drop?.user_id], () =>
+  const { data: user } = useQuery({queryKey: ['user', drop?.user_id],queryFn: () =>
     fetchProfilesForDrops(drop?.user_id)
-  );
-  const { data: reactionCount } = useQuery(['reactionCount', drop?.id], () =>
+});
+  const { data: reactionCount } = useQuery({queryKey:['reactionCount', drop?.id], queryFn:() =>
     getTotalReactions(drop?.id)
-  );
+});
 
   const props = {
     metaData,

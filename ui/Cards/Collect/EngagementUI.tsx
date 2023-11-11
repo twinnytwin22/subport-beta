@@ -10,8 +10,8 @@ const HeartIcon = ({ className, dropId, userId }: any) => {
   const [reactionRowOpen, setReactionRowOpen] = useState(false);
   const reactionType = useReactionCheck(dropId, userId);
 
-  const { mutate: addReactionMutation } = useMutation(addReaction);
-  const { mutate: deleteReactionMutation } = useMutation(deleteReaction);
+  const { mutate: addReactionMutation } = useMutation({mutationFn: addReaction});
+  const { mutate: deleteReactionMutation } = useMutation({mutationFn: deleteReaction});
 
   const handleOpenReactionRow = () => {
     setReactionRowOpen(!reactionRowOpen);
