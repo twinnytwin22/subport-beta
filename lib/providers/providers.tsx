@@ -1,7 +1,6 @@
 'use client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Ethereum, Optimism, Polygon } from '@thirdweb-dev/chains';
-import { ThirdwebProvider } from '@thirdweb-dev/react';
 import { AuthContextProvider } from 'app/context/auth';
 import { GlobalUI } from 'app/context/global-ui';
 import { SubportPlayer } from 'app/context/subport-player';
@@ -18,6 +17,7 @@ const ToastContainer = dynamic(
     ssr: false
   }
 );
+const ThirdwebProvider = dynamic(() => import('@thirdweb-dev/react').then((module) => module.ThirdwebProvider), {ssr: false})
 const queryClient = new QueryClient();
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
