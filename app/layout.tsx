@@ -1,5 +1,5 @@
 import Providers from 'lib/providers/providers';
-import { createServerClient } from 'lib/providers/supabase/supabase-server';
+import { createClient } from 'lib/providers/supabase/supabase-server';
 import React, { Suspense } from 'react';
 import { LoadingContainer } from 'ui/LoadingContainer';
 import MobileMenu from 'ui/Navigation/MobileMenu';
@@ -17,8 +17,9 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createServerClient();
+  const supabase = await createClient();
   const { data: session } = await supabase.auth.getSession();
+  console.log(session)
 
 
   const ContentWrapper = () => (
@@ -38,7 +39,7 @@ export default async function RootLayout({
         <Providers>
           {session.session ? (
             <>
-              <div className="mb-16" />
+              <div className="mb-0" />
               <div className="flex flex-wrap relative flex-col mx-auto top-0 right-0 left-0 overflow-hidden w-full">
                 <Sidebar />
                 <div className="w-full mx-auto flex justify-center relative right-0 isolate inset-1 overflow-hidden">

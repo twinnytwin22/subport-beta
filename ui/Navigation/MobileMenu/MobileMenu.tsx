@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import UserAvatar from 'ui/User/UserAvatar';
 import NotificationIcon from '../NotificationIcon';
-import { PublicRoutes, UserRoutes } from '../Routes';
+import { PublicRoutes, getUserRoutes } from '../Routes';
 
 function MobileMenu() {
   const [isOpen, setOpen] = useState(false);
@@ -108,7 +108,8 @@ function MobileMenu() {
 export default MobileMenu;
 
 const MobileSidebarArea = ({ isOpen }: any) => {
-  const { user } = useAuthProvider();
+  const { user, profile } = useAuthProvider();
+  const UserRoutes = getUserRoutes(profile?.username);
 
   if (isOpen) {
     return (

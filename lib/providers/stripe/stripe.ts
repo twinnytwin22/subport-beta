@@ -1,15 +1,19 @@
 import Stripe from 'stripe';
 
-export const stripe = new Stripe(
-  process.env.STRIPE_SECRET_KEY_LIVE ?? process.env.STRIPE_SECRET_KEY ?? '',
-  {
-    // https://github.com/stripe/stripe-node#configuration
-    apiVersion: '2023-10-16',
-    // Register this as an official Stripe plugin.
-    // https://stripe.com/docs/building-plugins#setappinfo
-    appInfo: {
-      name: 'Next.js Subscription Starter',
-      version: '0.1.0'
-    }
-  }
-);
+const x = process.env.STRIPE_SECRET_KEY_LIVE! ?? process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY! ?? process.env.STRIPE_SECRET_KEY! ??''
+
+
+// Ensure the environment variables are loaded
+const getStripeSecretKey = () => { 
+
+  if (x as string) {
+return x as string }
+
+  throw new Error('Stripe secret key is not defined. Please check your environment variables.');
+
+
+}
+
+
+
+export const stripe = new Stripe(getStripeSecretKey());

@@ -2,29 +2,28 @@ import { getSession } from 'lib/providers/supabase/supabase-server';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
-import ArtistList from 'ui/Lists/ArtistList';
-import DropsList from 'ui/Lists/DropsList';
 import EventsList from 'ui/Lists/EventsList';
 import { LoadingContainer } from 'ui/LoadingContainer';
 import {
-  fetchAllCollectibles,
   fetchAllEvents,
   fetchCreators
 } from 'utils/use-server';
+import { ClientTester } from './test/clientTester';
 export const fetchCache = 'force-no-store';
 export const dynamic = 'force-dynamic';
 
 async function Main() {
-  const [session, drops, events, artists] = await Promise.all([
+  const [session, events, artists] = await Promise.all([
     getSession(),
-    fetchAllCollectibles(),
+   // fetchAllCollectibles(),
     fetchAllEvents(),
     fetchCreators()
   ]);
-  const dropsWithMetaData = drops?.dropsWithMetaData;
+  console.log(session, "SESSION FROM HOME")
+  //const dropsWithMetaData = drops?.dropsWithMetaData;
 
   if (!session) {
-    return null;
+    return <ClientTester testString={session}/>;
   }
 
   // console.log(JSON.stringify(myCookies), "MY COOKIES")
@@ -48,7 +47,7 @@ async function Main() {
               <p className=" underline text-sm">View All</p>
             </Link>
           </div>
-          <ArtistList artists={artists} />
+          {/* <ArtistList artists={artists} /> */}
         </div>
         <div className=" max-w-screen mx-auto md:mx-10 my-8 ">
           <div className="flex justify-between items-end">
@@ -66,7 +65,7 @@ async function Main() {
               <p className=" underline text-sm">View All</p>
             </Link>
           </div>
-          <DropsList drops={dropsWithMetaData} />
+          {/* <DropsList drops={dropsWithMetaData} /> */}
         </div>
       </Suspense>
       {/*<HomePage drops={dropsWithMetaData} />*/}

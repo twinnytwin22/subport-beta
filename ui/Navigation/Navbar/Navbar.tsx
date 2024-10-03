@@ -6,9 +6,10 @@ import UserAvatar from 'ui/User/UserAvatar';
 import NotificationIcon from '../NotificationIcon';
 function Navbar() {
   const { user } = useAuthProvider();
+ // console.log(useAuthProvider())
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 pl-6 py-2.5 border-b w-full bg-zinc-100 dark:bg-black">
+    <div className="hidden fixed top-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 pl-6 py-2.5 border-b w-full bg-zinc-100 dark:bg-black">
       <div className="z-[300] w-full px-6 py-2.5  mx-auto relative sm:pl-32 lg:pl-64">
         {user ? (
           <div className="flex w-full items-center justify-center max-w-screen-xl mx-auto space-x-2">

@@ -34,7 +34,7 @@ export default function LoginCard({
       provider: 'spotify',
       options: {
         scopes: scopes,
-        redirectTo: redirectUrl(location)
+        redirectTo: 'http://localhost:3000/api/auth/callback'
         //skipBrowserRedirect: true,
       }
     });
@@ -95,7 +95,7 @@ export default function LoginCard({
             </div>
           </li>
           <li
-            className={`${signinIn ? 'cursor-wait' : 'cursor-pointer'} hidden`}
+            className={`${signinIn ? 'cursor-wait' : 'cursor-pointer'}`}
             onClick={handleSignInWithGoogle}
           >
             <div

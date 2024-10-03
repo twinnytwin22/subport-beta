@@ -1,10 +1,9 @@
-'use server';
-import { supabaseAuth } from 'lib/constants';
-import { createServerClient } from './supabase-server';
+import { createBrowserClient } from '@supabase/ssr'
 
-const supabase = createServerClient();
-export const getSession = async () => {
-  const { data: session } = await supabase.auth.getSession();
-  console.log(session);
-  return session.session;
-};
+export function createClient() {
+  // Create a supabase client on the browser with project's credentials
+  return createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}

@@ -1,19 +1,18 @@
-import { combineAndSortData } from 'lib/hooks/combineAndSortData';
 import Feed from 'ui/Sections/Explore/Feed';
-import { fetchAllCollectibles, fetchAllEvents } from 'utils/use-server';
+import { fetchAllEvents } from 'utils/use-server';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 5;
 
 async function page() {
   // const session = await supabaseAdmin.auth.getSession()
-  const [drops, events] = await Promise.all([
-    fetchAllCollectibles(),
+  const [ events] = await Promise.all([
+   // fetchAllCollectibles(),
     fetchAllEvents()
   ]);
-  const dropsWithMetaData = drops?.dropsWithMetaData;
+  //const dropsWithMetaData = drops?.dropsWithMetaData;
   // const userId = session?.data.session?.user.id
-  const sortedData = combineAndSortData(dropsWithMetaData!, events!);
+  const sortedData = events
 
   if (sortedData) {
     return (

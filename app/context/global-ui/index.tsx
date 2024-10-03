@@ -68,6 +68,8 @@ export const GlobalUI = ({ children }: { children: React.ReactNode }) => {
     queryFn: () => getSession()
   });
 
+  console.log(activeSession, 'activeSession')
+
   const path = usePathname();
   const dropPage = path.startsWith('/drop');
   console.log(path);

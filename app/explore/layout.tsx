@@ -51,7 +51,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                       Feed
                     </Link>
                   </div>
-                  <div className="md:mr-2">
+                  {/* <div className="md:mr-2">
                     <Link
                       href={`/explore/drops?view=${searchParams}`}
                       className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300 ${pathName == '/explore/drops' && 'text-blue-500'
@@ -59,7 +59,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                     >
                       Drops
                     </Link>
-                  </div>
+                  </div> */}
                   <div className="md:mr-2">
                     <Link
                       href={`/explore/artists?view=${searchParams}`}
@@ -69,7 +69,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                       Artists
                     </Link>
                   </div>
-                  <div>
+                  {/* <div>
                     <Link
                       href={`/explore/events?view=${searchParams}`}
                       className={`inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-zinc-600 hover:border-zinc-300 dark:hover:text-zinc-300 ${pathName == '/explore/events' && 'text-blue-500'
@@ -77,7 +77,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                     >
                       Events
                     </Link>
-                  </div>
+                  </div> */}
                   <div
                     className="right-sidebar block lg:hidden"
                     onClick={handleRightSideBar}

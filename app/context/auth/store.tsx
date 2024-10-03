@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/constants";
+import { supabase, supabaseAdmin } from "@/lib/constants";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 export interface AuthState {
@@ -59,7 +59,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         "user-follow-modify",
       ].join(",");
 
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabaseAdmin.auth.signInWithOAuth({
         provider: "spotify",
         options: { scopes: scopes },
       });

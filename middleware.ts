@@ -1,7 +1,6 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
-import countries from 'utils/countries.json';
-const cache = new Map();
+import { NextFetchEvent, NextRequest } from 'next/server';
+import { updateSession } from './lib/providers/supabase/middleware';
+//const cache = new Map();
 // const ratelimit = new Ratelimit({
 //   // ephemeralCache: cache,
 //   redis: Redis.fromEnv(),
@@ -14,42 +13,19 @@ export async function middleware(
   req: NextRequest,
   event: NextFetchEvent
 ): Promise<Response | undefined> {
-  const ip = req.ip ?? '127.0.0.1';
+ // const ip = req.ip ?? '127.0.0.1';
 
-  const { pathname, host, hostname, basePath, protocol } = req.nextUrl;
+ // const { pathname, host, hostname, basePath, protocol } = req.nextUrl;
   //console.log(`${req.nextUrl.protocol}//${req.nextUrl.host}/`);
 
-  if (req.nextUrl.pathname === `/`) {
-    const { nextUrl: url, geo } = req;
-    const country: string = geo?.country || 'US';
-    const city: string = geo?.city || 'Phoenix';
-    const region: string = geo?.region || 'AZ';
-    const countryInfo: any = countries.find((x) => x.cca2 === country);
-    const currencyCode = Object.keys(countryInfo?.currencies)[0];
-    const currency = countryInfo.currencies[currencyCode];
-    const languages = Object.values(countryInfo.languages).join(', ');
-
-    url.searchParams.set('country', country);
-    url.searchParams.set('city', city);
-    url.searchParams.set('region', region);
-    url.searchParams.set('currencyCode', currencyCode);
-    url.searchParams.set('currencySymbol', currency.symbol);
-    url.searchParams.set('name', currency.name);
-    url.searchParams.set('languages', languages);
-
-    return NextResponse.rewrite(url);
-  }
   // const { success, limit, remaining, reset } = await ratelimit.blockUntilReady(ip, 30_000);
 
   // if (!success) {
   //   return NextResponse.json("Unable to process at this time");
   // }
 
-  const res = NextResponse.next();
-  const supabase = createMiddlewareClient({ req, res });
-  const {
-    data: { session }
-  } = await supabase.auth.getSession();
+  //const res = NextResponse.next();
+
 
   //console.log(session);
   if (
@@ -57,14 +33,14 @@ export async function middleware(
     req.nextUrl.pathname.startsWith('/settings') ||
     req.nextUrl.pathname.startsWith('/explore')
   ) {
-    if (!session) {
-      return NextResponse.redirect(`${protocol}//${host}/`);
-    }
+    // if (!session) {
+    //   return NextResponse.redirect(`${protocol}//${host}/`);
+    // }
   }
 
   // res.headers.set("X-RateLimit-Limit", limit.toString());
   // res.headers.set("X-RateLimit-Remaining", remaining.toString());
   //  res.headers.set("X-RateLimit-Reset", reset.toString());
 
-  return res;
+  return await updateSession(req)
 }

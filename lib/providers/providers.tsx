@@ -15,7 +15,7 @@ const ToastContainer = dynamic(
     ssr: false
   }
 );
-const ThirdwebProvider = dynamic(() => import('@thirdweb-dev/react').then((module) => module.ThirdwebProvider), {ssr: false})
+//const ThirdwebProvider = dynamic(() => import('@thirdweb-dev/react').then((module) => module.ThirdwebProvider), {ssr: false})
 const queryClient = new QueryClient();
 
 const Providers = ({ children }: { children: React.ReactNode }) => {

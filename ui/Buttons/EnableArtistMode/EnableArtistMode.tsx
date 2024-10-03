@@ -5,7 +5,7 @@ function EnableArtistMode({ profile }: { profile: any }) {
   const isChecked = profile.is_artist;
   const checkedMessage = 'Disable Artist Mode';
   const uncheckedMessage = 'Enable Artist Mode';
-
+ 
   const handleEnable = async () => {
     if (!isChecked) {
       const { data, error } = await supabase

@@ -45,8 +45,8 @@ CREATE OR REPLACE FUNCTION "public"."delete_storage_object"("bucket" "text", "ob
     LANGUAGE "plpgsql" SECURITY DEFINER
     AS $$
 declare
-  project_url text := 'https://qjfdpaecmjljkboepipm.supabase.co';
-  service_role_key text := 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFqZmRwYWVjbWpsamtib2VwaXBtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY4NjE3NzkyMywiZXhwIjoyMDAxNzUzOTIzfQ.ni4Q1YlCe8DvuFQbvPU1BProQ_NrVxcO1mAWhuk-NUo
+  project_url text := 'https://vmyqkspfxrzxteohsrbk.supabase.co';
+  service_role_key text := 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBvZW56aHNtbG1jbm15bm5qY2pzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyNzg0MTE1MywiZXhwIjoyMDQzNDE3MTUzfQ.FcEaQ_UPj6Q7TXawtuy78hAYOwD_CHMMowfkDcKWoJg
 '; --  full access needed
   url text := project_url||'/storage/v1/object/'||bucket||'/'||object;
 begin
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS "public"."profiles" (
 ALTER TABLE "public"."profiles" OWNER TO "postgres";
 
 SECURITY LABEL FOR "pgsodium" ON COLUMN "public"."profiles"."access_key" IS 'ENCRYPT WITH KEY ID 91e2347d-7b6c-498b-a307-1adbc72a2162';
-
+ƒ
 CREATE OR REPLACE VIEW "public"."decrypted_profiles" AS
  SELECT "profiles"."id",
     "profiles"."username",

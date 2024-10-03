@@ -1,6 +1,6 @@
 'use client';
 import { useAuthProvider } from 'app/context/auth';
-import { supabase } from 'lib/constants';
+import { supabaseClient } from 'lib/constants';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -9,6 +9,8 @@ export const NewUserModal = () => {
   const [showModal, setShowModal] = useState(true);
   const [termsChecked, setTermsChecked] = useState(false);
   const { profile } = useAuthProvider();
+
+  console.log(profile, "profile from NUM")
   const [username, setUsername] = useState<string | null>(null);
   const handle = profile?.username;
 const router = useRouter()
@@ -16,13 +18,13 @@ const router = useRouter()
   const handleOnSubmit = async () => {
     if (profile && username) {
       try {
-        const { data: newProfile, error } = await supabase
+        const { data: newProfile, error } : any = await supabaseClient
           .from('profiles')
           .update({ username: username })
           .eq('id', profile.id!)
           .select();
 
-        if (newProfile) {
+        if (newProfile && newProfile?.username) {
           //  console.log(JSON.stringify(newProfile))
           toast.success(`Profile updated with username`);
           setUsername(null); // Clear the input field after successful insertion

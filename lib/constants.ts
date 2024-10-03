@@ -1,16 +1,21 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { BrowserCookieAuthStorageAdapter } from '@supabase/auth-helpers-shared';
-import { createClient } from '@supabase/supabase-js';
-import { Database } from 'types/Database';
-import { SupabaseImage } from './hooks/downloadImage';
+import { createClient } from './providers/supabase/supabase-client-server';
 
-export function useImagePath(url: SupabaseImage) {
-  const imagePath = `https://qjfdpaecmjljkboepipm.supabase.co/storage/v1/object/public/avatars/${url}`;
+export function useImagePath(url: string) {
+  if(url.startsWith('https')){
+    return url
+      }
+  const imagePath = `https://vmyqkspfxrzxteohsrbk.supabase.co/storage/v1/object/public/avatars/${url}`;
   return imagePath;
 }
 
-export function useBgImagePath(url: SupabaseImage) {
-  const imagePath = `https://qjfdpaecmjljkboepipm.supabase.co/storage/v1/object/public/profile_backgrounds/${url}`;
+export function useBgImagePath(url: string) {''
+
+  if(url.startsWith('https')){
+return url
+  }
+  
+  const imagePath = `https://vmyqkspfxrzxteohsrbk.supabase.co/storage/v1/object/public/profile_backgrounds/${url}`;
   return imagePath;
 }
 
@@ -37,51 +42,18 @@ export const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 export const supabaseSRkey =
   process.env.SUPABASE_SERVICE_ROLE_KEY ||
   process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!;
-export const supabase = createClientComponentClient<Database>({
+export const supabase = createClientComponentClient({
   supabaseUrl,
   supabaseKey,
   isSingleton: false
 });
 
-export const supabaseAuth = createClient<Database>(supabaseUrl, supabaseSRkey, {
-  auth: {
-    flowType: 'pkce',
-    storage: new BrowserCookieAuthStorageAdapter()
-    // storageKey: 'auth',
+export const supabaseAuth = createClient();
 
-    //  persistSession: true,
-    //detectSessionInUrl: true,
-    //  autoRefreshToken: true
-  }
-});
+export const supabaseApi = createClient();
 
-export const supabaseApi = createClient<Database>(supabaseUrl, supabaseKey, {
-  auth: {
-    storage: new BrowserCookieAuthStorageAdapter()
-    // storageKey:'api'
-  }
-});
-
-export const supabaseClient = createClient<Database>(supabaseUrl, supabaseKey, {
-  auth: {
-    //   flowType: 'pkce',
-    storage: new BrowserCookieAuthStorageAdapter()
-    //  storageKey: 'client'
-    //  persistSession: false
-  }
-});
-export const supabaseAdmin = createClient<Database>(
-  supabaseUrl,
-  supabaseSRkey,
-  {
-    auth: {
-      //  flowType: 'pkce',
-      storage: new BrowserCookieAuthStorageAdapter()
-      //  storageKey: 'admin',
-      //  persistSession: true
-    }
-  }
-);
+export const supabaseClient = createClient();
+export const supabaseAdmin = createClient();
 
 export const redirectUrl = (location: Location) =>
   `${location.origin}/api/auth/callback`;

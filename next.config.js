@@ -58,11 +58,15 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'i.scdn.co'
+      },
+      {
+        protocol: 'https',
         hostname: 'ipfs.thirdwebcdn.com'
       },
       {
         protocol: 'https',
-        hostname: 'qjfdpaecmjljkboepipm.supabase.co'
+        hostname: 'vmyqkspfxrzxteohsrbk.supabase.co'
       },
       {
         protocol: 'https',
@@ -72,15 +76,15 @@ const nextConfig = {
   },
   async headers() {
     return [
-      {
-        source: '/(.*)',
-        headers: securityHeaders
-      },
-      {
-        source:
-          '/(https://cdn.sanity.io|https://unpkg.com/@ffmpeg/core@0.12.2/dist/umd|https://unpkg.com)',
-        headers: mediaSecurityHeaders
-      }
+      // {
+      //   source: '/(.*)',
+      //   headers: securityHeaders
+      // },
+      // {
+      //   source:
+      //     '/(https://cdn.sanity.io|https://unpkg.com/@ffmpeg/core@0.12.2/dist/umd|https://unpkg.com)',
+      //   headers: mediaSecurityHeaders
+      // }
     ];
   },
   env: {

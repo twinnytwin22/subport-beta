@@ -57,6 +57,7 @@ export const AuthContextProvider = ({
       supabase.auth.getSession(),
       supabaseAdmin.auth.onAuthStateChange(
         async (event: AuthChangeEvent, currentSession: Session | null) => {
+          console.log(currentSession, 'currentSession')
           if (currentSession && event === "SIGNED_IN") {
             const profile = await fetchProfile(currentSession?.user.id);
             useAuthStore.setState({ user: currentSession?.user, profile });
@@ -82,8 +83,7 @@ export const AuthContextProvider = ({
     ]);
 
     if (userSessionData && userSessionData.session) {
-      const { data: authUser } = await supabase.auth.getUser();
-
+      const { data: authUser } = await supabaseAdmin.auth.getUser();
       if (authUser?.user) {
         const profile = await fetchProfile(authUser.user.id);
         useAuthStore.setState({ profile });

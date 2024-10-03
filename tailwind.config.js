@@ -10,6 +10,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'work-sans': ['Work Sans', 'sans-serif'],
+        'rubik': ['Rubik', 'sans-serif'],
+
+
+      },
       // ...other extended classes...
 
       // Define your custom class within a @layer directive

@@ -20,7 +20,7 @@ function ProfileBackgroundImage({
   const [bgUrl, setBgUrl] = useState<any>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const { profile } = useAuthProvider();
-  const getImage = async (url: SupabaseImage) => {
+  const getImage = async (url: string) => {
     const path = useBgImagePath(url);
     setBgUrl(path);
   };
