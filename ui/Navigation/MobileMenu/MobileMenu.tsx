@@ -5,7 +5,7 @@ import { useHandleOutsideClick } from 'lib/hooks/handleOutsideClick';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { AiOutlineMenu } from 'react-icons/ai';
+import { FaLayerGroup } from 'react-icons/fa6';
 import UserAvatar from 'ui/User/UserAvatar';
 import NotificationIcon from '../NotificationIcon';
 import { PublicRoutes, getUserRoutes } from '../Routes';
@@ -27,13 +27,15 @@ function MobileMenu() {
               } text-zinc-800 dark:text-zinc-400 justify-items-center pt-3`}
           >
             <div className="flex group">
-              <div className="flex items-end justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
-                <div
+              <div className="flex items-center justify-center text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
+                {/* <div
                   className="px-1 flex flex-col items-center mobile-sidebar"
                   onClick={handleOpenMenu}
                 >
                   <AiOutlineMenu className="w-10 h-10 pb-2" />
-                </div>
+                </div> */}
+                <FaLayerGroup className=' text-3xl' />
+
               </div>
             </div>
             <div className="flex group">

@@ -1,26 +1,37 @@
 'use client';
 import { useAuthProvider } from 'app/context/auth';
+import { SupbortLogo } from 'lib/content/siteSettings';
+import Image from 'next/image';
+import Link from 'next/link';
 import SignInModal from 'ui/Buttons/SignIn';
-import SearchBar from 'ui/Misc/SearchBar';
 import UserAvatar from 'ui/User/UserAvatar';
 import NotificationIcon from '../NotificationIcon';
+
 function Navbar() {
   const { user } = useAuthProvider();
- // console.log(useAuthProvider())
+  // console.log(useAuthProvider())
 
   return (
-    <div className="hidden fixed top-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 pl-6 py-2.5 border-b w-full bg-zinc-100 dark:bg-black">
-      <div className="z-[300] w-full px-6 py-2.5  mx-auto relative sm:pl-32 lg:pl-64">
+    <div className="fixed md:hidden top-0 left-0 right-0 z-[250] border-zinc-200 dark:border-zinc-800 pl-6 py-2.5 border-b w-full bg-zinc-100 dark:bg-black">
+      <div className="z-[300] w-full  mx-auto relative  items-center flex justify-start">
+        <Link href="/" className="flex items-center">
+          <Image
+            src={SupbortLogo}
+            className="lg:mx-3  w-6 items-center justify-center mx-auto "
+            alt="Subport Logo"
+            width={36}
+            height={18}
+            style={{ width: 'auto', height: 'auto' }}
+          />
+          <span className="self-center text-xl font-seminormal whitespace-nowrap text-black dark:text-white ">
+            subport
+          </span>
+        </Link>
         {user ? (
-          <div className="flex w-full items-center justify-center max-w-screen-xl mx-auto space-x-2">
-            <SearchBar />
-            <div className="sm:flex items-center space-x-6 hidden ">
-              <NotificationIcon />
-              <div className="hidden sm:block">
-                {' '}
-                <UserAvatar />
-              </div>
-            </div>
+          <div className="flex w-full items-center justify-end max-w-screen-xl mx-auto space-x-2">
+            <NotificationIcon />
+
+            <UserAvatar />
           </div>
         ) : (
           <div className="flex items-center justify-end max-w-screen-xl mx-auto h-6 lg:hidden">

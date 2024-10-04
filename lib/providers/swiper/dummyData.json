@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "display_name": "Twinny Twin",
+    "username": "djtwinnytwin",
+    "genres": ["House","Hip-Hop","Pop"],
+    "images": ["/avatar.jpg", "/profile2-.jpg"], 
+    "city": "St. Louis",
+    "country": "USA"
+  },
+  {
+    "id": 2,
+    "display_name": "Artist B",
+    "username": "user2",
+    "genres": ["Hip-hop"],
+    "images": ["/profile2-.jpg"], 
+    "city": "St. Louis",
+    "country": "USA"
+    
+  },
+  {
+    "id": 3,
+    "display_name": "Artist C",
+    "username": "user3 ",
+    "genres": ["Rock"],
+    "images": ["/profile3-.jpg"], 
+    "city": "St. Louis",
+    "country": "USA"
+  }
+]

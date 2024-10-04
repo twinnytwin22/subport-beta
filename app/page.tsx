@@ -1,76 +1,41 @@
-import { getSession } from 'lib/providers/supabase/supabase-server';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Suspense } from 'react';
-import EventsList from 'ui/Lists/EventsList';
-import { LoadingContainer } from 'ui/LoadingContainer';
-import {
-  fetchAllEvents,
-  fetchCreators
-} from 'utils/use-server';
-import { ClientTester } from './test/clientTester';
-export const fetchCache = 'force-no-store';
-export const dynamic = 'force-dynamic';
+'use client'
+import { useStore } from '@/lib/providers/swiper/swiperStore';
+import { useEffect } from 'react';
+import ProfileCard from 'ui/Cards/ProfileCard';
+import dummyData from '../lib/providers/swiper/dummyData.json';
+//import Counter from '@/ui/Counter';
 
-async function Main() {
-  const [session, events, artists] = await Promise.all([
-    getSession(),
-   // fetchAllCollectibles(),
-    fetchAllEvents(),
-    fetchCreators()
-  ]);
-  console.log(session, "SESSION FROM HOME")
-  //const dropsWithMetaData = drops?.dropsWithMetaData;
+export default function Home() {
+  const { profiles, fetchProfiles, likedProfiles, dislikedProfiles } = useStore();
 
-  if (!session) {
-    return <ClientTester testString={session}/>;
-  }
+  const data: any = dummyData;
 
-  // console.log(JSON.stringify(myCookies), "MY COOKIES")
+  const decisions = [
+    likedProfiles, 
+    dislikedProfiles
+  ]
+
+  const results = new Set(decisions)
+  const count = results.size
+  useEffect(() => {
+    if (data) {
+      fetchProfiles(data); // Store profiles in Zustand
+    }
+  }, [data, fetchProfiles]);
+
+  if (!profiles.length) return <p>Loading...</p>;
+
   return (
-    <div className="bg-zinc-100 dark:bg-black  w-full mx-auto justify-center h-full mb-24">
-      <div className="hidden relative rounded-md overflow-hidden border border-zinc-300 dark:border-zinc-800 max-w-screen mx-auto md:mx-10 ">
-        <Image
-          className="relative h-60 md:h-80 lg:h-96 bg-cover z-0 bg-center bg-no-repeat rounded-md overflow-hidden"
-          width={2000}
-          height={300}
-          src={'/images/stock/coverBanner.jpg'}
-          alt="bg-image"
-          style={{ objectFit: 'cover' /* filter: 'blur(1.5rem)' */ }}
-        />
-      </div>
-      <Suspense fallback={<LoadingContainer />}>
-        <div className=" max-w-screen mx-auto md:mx-10 my-8 ">
-          <div className="flex justify-between items-end">
-            <h1 className="text-lg font-bold">Artists Near You</h1>
-            <Link href={'/explore/artists'}>
-              <p className=" underline text-sm">View All</p>
-            </Link>
-          </div>
-          {/* <ArtistList artists={artists} /> */}
-        </div>
-        <div className=" max-w-screen mx-auto md:mx-10 my-8 ">
-          <div className="flex justify-between items-end">
-            <h1 className="text-lg font-bold">Events Near You</h1>
-            <Link href={'/explore/events'}>
-              <p className=" underline text-sm">View All</p>
-            </Link>
-          </div>
-          <EventsList events={events} />
-        </div>
-        <div className=" max-w-screen mx-auto md:mx-10 my-8 ">
-          <div className="flex justify-between items-end">
-            <h1 className="text-lg font-bold">Drops Near You</h1>
-            <Link href={'/explore/drops'}>
-              <p className=" underline text-sm">View All</p>
-            </Link>
-          </div>
-          {/* <DropsList drops={dropsWithMetaData} /> */}
-        </div>
-      </Suspense>
-      {/*<HomePage drops={dropsWithMetaData} />*/}
+    <div className="flex flex-col justify-start items-center h-screen relative mt-20">
+      {profiles.map((profile: any, index: number) => (
+        <ProfileCard key={profile.id} profile={profile} index={index} />
+      ))}
+      {decisions.map((result:any, index: any) => {
+        return (
+        <div key={index}>
+      {/* <Counter count={count} testid={index} label='label' /> */}
+      </div>)})}
     </div>
   );
 }
 
-export default Main;
