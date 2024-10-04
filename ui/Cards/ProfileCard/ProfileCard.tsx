@@ -44,7 +44,7 @@ function ProfileCard({ profile, index }: any) {
 
   return (
     <motion.div
-      className="absolute z-0 bg-white dark:bg-zinc-950 text-black shadow-lg rounded-xl flex flex-col justify-center items-center border border-zinc-300 dark:border-zinc-800"
+      className="absolute z-0 bg-white dark:bg-zinc-950 text-black shadow-lg rounded-xl flex flex-col justify-center items-center border border-zinc-300 dark:border-zinc-800 max-w-sm md:max-w-md w-full"
       initial={{ scale: 0.9 }}
       animate={{ scale: 1 }}
       drag={!isSwiperActive} // Disable card drag if Swiper is active
@@ -64,8 +64,8 @@ function ProfileCard({ profile, index }: any) {
             swipeDirection === "right" ? "bg-blue-600" : "bg-black"
           }`}
         >
-          <h1 className="text-6xl font-bold text-white">
-            {swipeDirection === "right" ? <FaCheck/> : <FaXmark/>}
+          <h1 className="text-7xl font-bold text-white scale-150">
+            {swipeDirection === "right" ? <FaCheck /> : <FaXmark />}
           </h1>
         </motion.div>
       )}
@@ -81,7 +81,7 @@ function ProfileCard({ profile, index }: any) {
         </div> */}
         <div className="relative aspect-square object-cover min-w-full">
           <Swiper
-            className="max-w-sm md:max-w-md min-w-full"
+            className="max-w-sm md:max-w-md min-w-full rounded-t-xl"
             modules={[Navigation, Pagination, Scrollbar, A11y]}
             slidesPerView={1}
             navigation
@@ -98,7 +98,7 @@ function ProfileCard({ profile, index }: any) {
                   priority={false}
                   width={500}
                   height={500}
-                  className="min-w-full aspect-square object-cover rounded-t-xl"
+                  className="min-w-full aspect-square object-cover"
                   src={image}
                   style={{ objectFit: "cover" }}
                   alt="Song-cover"

@@ -2,6 +2,7 @@
 import { useStore } from '@/lib/providers/swiper/swiperStore';
 import { useEffect } from 'react';
 import ProfileCard from 'ui/Cards/ProfileCard';
+import { LoadingContainer } from 'ui/LoadingContainer';
 import dummyData from '../lib/providers/swiper/dummyData.json';
 //import Counter from '@/ui/Counter';
 
@@ -23,7 +24,7 @@ export default function Home() {
     }
   }, [data, fetchProfiles]);
 
-  if (!profiles.length) return <p>Loading...</p>;
+  if (!profiles.length) return <LoadingContainer/>;
 
   return (
     <div className="flex flex-col justify-start items-center h-screen relative mt-20">

@@ -13,7 +13,7 @@ function Sidebar() {
  // console.log(user)
 
   return (
-    <aside className="hidden  sm:block bg-gray-100 h-full z-50 max-h-screen w-[128px] lg:w-[256px] lg:pl-6 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-zinc-800 top-0 fixed float-left left-0">
+    <aside className="hidden  md:block bg-gray-100 h-full z-50 max-h-screen w-[128px] lg:w-[256px] lg:pl-6 px-4 py-4 dark:bg-black border border-r-1 text-white border-b border-zinc-200 dark:border-zinc-800 top-0 fixed float-left left-0">
       <div className="mb-16 mx-auto m-3">
         <Link href="/" className="flex items-center">
           <Image

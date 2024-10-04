@@ -21,7 +21,7 @@ function MobileMenu() {
   if (user) {
     return (
       <>
-        <div className="block sm:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0 z-10">
+        <div className="block md:hidden h-16 px-5 bg-white dark:bg-black pb-2 w-[100vw] fixed bottom-0 inset-x-0 z-10">
           <div>
             <div className="flex items-center text-3xl justify-between text-center mx-auto px-4 w-full group-hover:text-white border-b-2 border-transparent group-hover:border-white">
               {/* <div
