@@ -7,8 +7,8 @@
   "formatAll.excludeFolders":  ["node_modules", ".history", ".vscode", ".next", "supabase"],
   "solidity.packageDefaultDependenciesContractsDirectory": "contracts",
   "editor.codeActionsOnSave": {
-    "source.organizeImports": true
-},
+    "source.organizeImports": "explicit"
+  },
   "solidity.packageDefaultDependenciesDirectory": "node_modules",
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,

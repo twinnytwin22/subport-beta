@@ -6,7 +6,10 @@
     "genres": ["House","Hip-Hop","Pop"],
     "images": ["/avatar.jpg", "/profile2-.jpg"], 
     "city": "St. Louis",
-    "country": "USA"
+    "country": "USA", 
+    "occupation": "DJ, Music Producer",
+    "gender": "Male",
+    "eduction": "Masters, Media Communications"
   },
   {
     "id": 2,
@@ -15,9 +18,13 @@
     "genres": ["Hip-hop"],
     "images": ["/profile2-.jpg"], 
     "city": "St. Louis",
-    "country": "USA"
-    
+    "country": "USA",    
+    "occupation": "DJ, Music Producer",
+    "gender": "Male",
+    "eduction": "Masters, Media Communications"
   },
+    
+
   {
     "id": 3,
     "display_name": "Artist C",
@@ -25,6 +32,9 @@
     "genres": ["Rock"],
     "images": ["/profile3-.jpg"], 
     "city": "St. Louis",
-    "country": "USA"
+    "country": "USA",
+    "occupation": "DJ, Music Producer",
+    "gender": "Male",
+    "eduction": "Masters, Media Communications"
   }
 ]

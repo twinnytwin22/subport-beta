@@ -1,7 +1,5 @@
 import { getProfileData } from 'lib/hooks/getProfileDrops';
 import React, { Suspense } from 'react';
-import Profile from 'ui/User/Profile/Profile';
-import ProfileEventsRow from 'ui/User/Profile/ProfileEventsRow';
 import { checkUser } from 'utils/database';
 
 async function ProfileLayout(props: {
@@ -20,14 +18,16 @@ async function ProfileLayout(props: {
     return (
       <div className="relative overflow-y-hidden w-full max-w-7xl">
         <Suspense>
-          <Profile profile={res.profile} username={user} data={data} />
+
+          <div></div>
+          {/* <Profile profile={res.profile} username={user} data={data} /> */}
         </Suspense>
         <Suspense
           fallback={
             <div className="p-16 rounded-md animate-pulse duration-200 ease-in-out bg-zinc-800" />
           }
         >
-          <ProfileEventsRow profile={res.profile} />
+          {/* <ProfileEventsRow profile={res.profile} /> */}
         </Suspense>
         {props.children}
       </div>

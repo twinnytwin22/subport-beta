@@ -11,6 +11,7 @@ import {
   SwiperSlide,
 } from "lib/providers/swiper/swiper";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaCheck, FaHandFist, FaLocationPin, FaXmark } from "react-icons/fa6";
 import "swiper/css";
@@ -22,7 +23,8 @@ function ProfileCard({ profile, index }: any) {
   const { likeProfile, dislikeProfile }: any = useStore();
   const [isSwiperActive, setIsSwiperActive] = useState(false); // Track if Swiper is being used
   const [swipeDirection, setSwipeDirection] = useState<null | string>(null); // Track swipe direction
-
+  const router = useRouter()
+  const path = usePathname()
   const handleDrag = (e: any, info: any) => {
     if (info.offset.x > 100) {
       setSwipeDirection("right");
@@ -95,6 +97,7 @@ function ProfileCard({ profile, index }: any) {
             {profile.images.map((image: string, index: number) => (
               <SwiperSlide key={index} className="object-cover aspect-square min-w-full">
                 <Image
+                 onClick={() => router.push(location + '/' + profile?.username)}
                   priority={false}
                   width={500}
                   height={500}

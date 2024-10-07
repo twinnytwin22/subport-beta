@@ -30,7 +30,9 @@ function MobileMenu() {
                 >
                   <AiOutlineMenu className="w-10 h-10 pb-2" />
                 </div> */}
+                <Link href='/'>
               <FaLayerGroup className="" />
+              </Link>
               <BsViewList />
 
               <Image className='w-fit invert dark:invert-0' alt='subport logo' width={35} height={35} src="/subport-s-white.png"/>

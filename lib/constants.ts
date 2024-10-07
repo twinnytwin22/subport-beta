@@ -2,7 +2,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { createClient } from './providers/supabase/supabase-client-server';
 
 export function useImagePath(url: string) {
-  if(url.startsWith('https')){
+  if(url &&url.startsWith('https')){
     return url
       }
   const imagePath = `https://vmyqkspfxrzxteohsrbk.supabase.co/storage/v1/object/public/avatars/${url}`;
@@ -11,7 +11,7 @@ export function useImagePath(url: string) {
 
 export function useBgImagePath(url: string) {''
 
-  if(url.startsWith('https')){
+  if(url && url.startsWith('https')){
 return url
   }
   
